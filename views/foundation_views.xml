@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Foundation Estacas -->
+        <record id="view_foundation_estacas_tree" model="ir.ui.view">
+            <field name="name">foundation.estacas.tree</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Estacas List">
+                    <field name="nome_estaca"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Estacas -->
+        <record id="view_foundation_estacas_form" model="ir.ui.view">
+            <field name="name">foundation.estacas.form</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Estacas">
+                    <sheet>
+                        <group>
+                            <field name="nome_estaca"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Estacas Medicao Rel -->
+        <record id="view_foundation_estacas_medicao_rel_tree" model="ir.ui.view">
+            <field name="name">foundation.estacas.medicao.rel.tree</field>
+            <field name="model">foundation.estacas.medicao.rel</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Estacas Medicao Rel List">
+                    <field name="foundation_estacas_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Estacas Medicao Rel -->
+        <record id="view_foundation_estacas_medicao_rel_form" model="ir.ui.view">
+            <field name="name">foundation.estacas.medicao.rel.form</field>
+            <field name="model">foundation.estacas.medicao.rel</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Estacas Medicao Rel">
+                    <sheet>
+                        <group>
+                            <field name="foundation_estacas_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Maquina -->
+        <record id="view_foundation_maquina_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.tree</field>
+            <field name="model">foundation.maquina</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Maquina List">
+                    <field name="observacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Maquina -->
+        <record id="view_foundation_maquina_form" model="ir.ui.view">
+            <field name="name">foundation.maquina.form</field>
+            <field name="model">foundation.maquina</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Maquina">
+                    <sheet>
+                        <group>
+                            <field name="observacao"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Medicao -->
+        <record id="view_foundation_medicao_tree" model="ir.ui.view">
+            <field name="name">foundation.medicao.tree</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Medicao List">
+                    <field name="nome"/>
+                    <field name="data"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Medicao -->
+        <record id="view_foundation_medicao_form" model="ir.ui.view">
+            <field name="name">foundation.medicao.form</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Medicao">
+                    <sheet>
+                        <group>
+                            <field name="nome"/>
+                            <field name="data"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Obra -->
+        <record id="view_foundation_obra_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.tree</field>
+            <field name="model">foundation.obra</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Obra List">
+                    <field name="nome_obra"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Obra -->
+        <record id="view_foundation_obra_form" model="ir.ui.view">
+            <field name="name">foundation.obra.form</field>
+            <field name="model">foundation.obra</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Obra">
+                    <sheet>
+                        <group>
+                            <field name="nome_obra"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Obra Service -->
+        <record id="view_foundation_obra_service_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service.tree</field>
+            <field name="model">foundation.obra.service</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Obra Service List">
+                    <field name="service_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Obra Service -->
+        <record id="view_foundation_obra_service_form" model="ir.ui.view">
+            <field name="name">foundation.obra.service.form</field>
+            <field name="model">foundation.obra.service</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Obra Service">
+                    <sheet>
+                        <group>
+                            <field name="service_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
