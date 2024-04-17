@@ -29,31 +29,7 @@
             </field>
         </record>
 
-        <!-- Tree View for Foundation Estacas Medicao Rel -->
-        <record id="view_foundation_estacas_medicao_rel_tree" model="ir.ui.view">
-            <field name="name">foundation.estacas.medicao.rel.tree</field>
-            <field name="model">foundation.estacas.medicao.rel</field>
-            <field name="arch" type="xml">
-                <tree string="Foundation Estacas Medicao Rel List">
-                    <field name="foundation_estacas_id"/>
-                </tree>
-            </field>
-        </record>
 
-        <!-- Form View for Foundation Estacas Medicao Rel -->
-        <record id="view_foundation_estacas_medicao_rel_form" model="ir.ui.view">
-            <field name="name">foundation.estacas.medicao.rel.form</field>
-            <field name="model">foundation.estacas.medicao.rel</field>
-            <field name="arch" type="xml">
-                <form string="Foundation Estacas Medicao Rel">
-                    <sheet>
-                        <group>
-                            <field name="foundation_estacas_id"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
 
         <!-- Tree View for Foundation Maquina -->
         <record id="view_foundation_maquina_tree" model="ir.ui.view">
