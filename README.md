@@ -18,9 +18,10 @@ Para instalar este módulo, você precisa:
    git clone https://github.com/brainess-company/foundation_management.git
 
 ## issues
-- [ ] teste
-- [ ] teste 2
-- [ ] Definir o metodo que atualiza a lista de obras com base nas sale_order 
-- [ ] Definir vicualização xml para operador clicar na foundation_obra e inserir estaca produzida
+- [x] Definir o metodo que atualiza a lista de obras com base nas sale_order 
+- [x] Definir vicualização xml para operador clicar na foundation_obra e inserir estaca produzida
+- [ ] O campo diâmtro na estca não pode ser um campo aberto deve ser uma lista da descrição da variavel de produto (string) do produto em questão
+- [ ] Retornar o campo de preço unitario relacionado ao diâmtro selecionado
+- [ ] Calcular o valor da estaca multiplicando a profundidade pelo preço unitário
 - [ ] Definir permissões de segurança
 
