@@ -4,3 +4,5 @@ access_foundation_maquina,foundation_maquina_user,model_foundation_maquina,,1,1,
 access_foundation_obra_service,foundation_obra_service_user,model_foundation_obra_service,,1,1,1,1
 access_foundation_estacas,foundation_estacas_user,model_foundation_estacas,,1,1,1,1
 access_foundation_medicao,foundation_medicao_user,model_foundation_medicao,,1,1,1,1
+access_foundation_estacas_medicao_rel,foundation_estacas_medicao_rel_user,model_foundation_estacas_medicao_rel,,1,1,1,1
+

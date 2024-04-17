@@ -48,7 +48,7 @@
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
         </record>
-        
+
         <!-- Action to open the view with estacas -->
 
 
@@ -59,6 +59,18 @@
             <field name="view_ids" eval="[(5, 0, 0),
                                            (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
                                            (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
+        </record>
+
+        <record model="ir.actions.server" id="action_generate_medicao_server">
+            <field name="name">Gerar Medição</field>
+            <field name="model_id" ref="model_foundation_estacas"/>
+            <field name="binding_model_id" ref="model_foundation_estacas"/>
+            <field name="state">code</field>
+            <field name="type">ir.actions.server</field>
+            <field name="code">
+                action = records.action_generate_medicao()
+            </field>
+            <field name="binding_type">action</field>
         </record>
 
 

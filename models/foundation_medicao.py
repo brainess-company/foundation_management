@@ -11,3 +11,4 @@ class FoundationMedicao(models.Model):
         ('aguardando', 'Aguardando Conferência'),
         ('emissao', 'Aguardando Emissão de Nota')
     ], string="Situação", default='aguardando')
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada")

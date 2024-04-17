@@ -1,4 +1,5 @@
 from odoo import models, fields
+from odoo.exceptions import UserError
 
 
 class FoundationEstacas(models.Model):
@@ -12,6 +13,52 @@ class FoundationEstacas(models.Model):
     profundidade = fields.Float("Profundidade (m)", required=True)
     data = fields.Date("Data")
     observacao = fields.Char("Observação")
+
+    def action_generate_medicao(self):
+        Medicao = self.env['foundation.medicao']
+        MedicaoRel = self.env['foundation.estacas.medicao.rel']
+
+        if not self:
+            return {'type': 'ir.actions.act_window_close'}
+
+        # Supõe que todas as estacas selecionadas são da mesma sale_order
+        sale_order = self.mapped('foundation_obra_service_id.sale_order_id')
+        if not sale_order:
+            return {'type': 'ir.actions.act_window_close'}
+        sale_order = sale_order[0]
+
+        # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
+        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+        nome_medicao = "Medição 1" if not last_medicao else f"Medição {int(last_medicao.nome.split(' ')[-1]) + 1}"
+
+        # Criar uma nova medição
+        new_medicao = Medicao.create({
+            'nome': nome_medicao,
+            'sale_order_id': sale_order.id,
+            'data': fields.Date.today(),
+            'situacao': 'aguardando',
+        })
+
+        # Associar cada estaca à nova medição, apenas se não foi previamente medida
+        for estaca in self:
+            if not MedicaoRel.search_count([('foundation_estacas_id', '=', estaca.id)]):
+                MedicaoRel.create({
+                    'foundation_estacas_id': estaca.id,
+                    'foundation_medicao_id': new_medicao.id
+                })
+            else:
+                raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Medições',
+            'view_mode': 'form',
+            'res_model': 'foundation.medicao',
+            'res_id': new_medicao.id,
+            'target': 'current'
+        }
+
+
 
 
 
