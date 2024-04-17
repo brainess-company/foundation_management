@@ -166,6 +166,7 @@
                             <field name="sale_order_id"/>
                             <field name="service_name"/>
                             <field name="nome_obra"/>
+                            <field name="foundation_maquina_id"/>
                             <field name="nome_maquina"/>
                             <field name="endereco"/>
                             <field name="operador_id"/>
@@ -183,6 +184,7 @@
                     <field name="sale_order_id"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
+                    <field name="foundation_maquina_id"/>
                     <field name="nome_maquina"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
@@ -241,44 +243,5 @@
                 </form>
             </field>
         </record>
-
-
-
-         <!-- Form View for Foundation Measurement >
-        <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
-            <field name="name">foundation.obra.service.with.estacas.form</field>
-            <field name="model">foundation.obra.service</field>
-            <field name="arch" type="xml">
-                <form string="Foundation Measurement">
-                    <sheet>
-                        <group>
-                            <field name="sale_order_id"/>
-                            <field name="service_name"/>
-                            <field name="nome_obra"/>
-                            <field name="nome_maquina"/>
-                            <field name="endereco"/>
-                            <field name="operador_id"/>
-                        </group>
-                        <notebook>
-                            <page string="Piles Included">
-                                <field name="estacas_ids">
-                                    <tree>
-                                        <field name="nome_estaca"/>
-                                        <field name="diametro"/>
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="nome_estaca"/>
-                                            <field name="diametro"/>
-                                        </group>
-                                    </form>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record-->
-
     </data>
 </odoo>
