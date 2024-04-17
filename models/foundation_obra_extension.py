@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, api
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -39,3 +39,5 @@ class SaleOrder(models.Model):
         if 'state' in vals and vals['state'] == 'sale':
             self.filtered(lambda x: x.state == 'sale')._create_foundation_obra_and_services()
         return res
+
+# todo: está criando novamente mesmo ja existindo algum registro

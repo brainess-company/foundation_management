@@ -147,7 +147,7 @@
                     <field name="service_name"/>
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
-                    <field name="endereco"/>
+                    <field name="operador_id"/>
                 </tree>
             </field>
         </record>
@@ -167,6 +167,7 @@
                             <field name="sale_order_id"/>
                             <field name="nome_obra"/>
                             <field name="endereco"/>
+                            <field name="operador_id"/>
                         </group>
                     </sheet>
                 </form>
