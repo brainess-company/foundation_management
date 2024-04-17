@@ -189,31 +189,51 @@
                 </tree>
             </field>
         </record>
-        <!-- Form View for Foundation Obra Service with Estacas-->
+        <!-- Tree View for foundation  obra service with estacas -->
+        <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service.tree</field>
+            <field name="model">foundation.obra.service</field>
+            <field name="arch" type="xml">
+                <tree string="Serviços na Obra">
+                    <field name="service_name"/>
+                    <field name="nome_maquina"/>
+                    <field name="nome_obra"/>
+                    <field name="operador_id"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Form View for FoundationObraService with Notebook for Estacas -->
         <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.with.estacas.form</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <form string="Foundation Obra Service">
+                <form string="Serviço na Obra com Estacas">
                     <sheet>
                         <group>
-                            <field name="sale_order_id"/>
-                            <field name="service_name"/>
-                            <field name="nome_obra"/>
-                            <field name="nome_maquina"/>
-                            <field name="endereco"/>
-                            <field name="operador_id"/>
+                            <field name="service_id" readonly="1"/>
+                            <field name="nome_obra" readonly="1"/>
+                            <!-- Defina outros campos como readonly conforme necessário -->
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids">
+                                <!-- Permita adicionar e editar estacas -->
+                                <field name="estacas_ids" context="{'default_foundation_obra_service_id': active_id}">
                                     <tree editable="bottom">
+                                        <!-- Campos da lista de estacas -->
                                         <field name="nome_estaca"/>
                                         <field name="diametro"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
                                         <field name="observacao"/>
                                     </tree>
+                                    <form>
+                                        <!-- Campos do formulário de estacas -->
+                                        <field name="nome_estaca"/>
+                                        <field name="diametro"/>
+                                        <field name="profundidade"/>
+                                        <field name="data"/>
+                                        <field name="observacao"/>
+                                    </form>
                                 </field>
                             </page>
                         </notebook>
@@ -221,6 +241,9 @@
                 </form>
             </field>
         </record>
+
+
+
          <!-- Form View for Foundation Measurement >
         <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.with.estacas.form</field>
