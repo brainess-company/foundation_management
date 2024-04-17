@@ -49,6 +49,14 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-
+        Action to open the view with estacas -->
+        <!-- Action to open the view with estacas -->
+        <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
+            <field name="name">Foundation Obra Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.obra.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="views" eval="[(ref('view_foundation_obra_service_tree'), 'tree'), (ref('view_foundation_obra_service_with_estacas_form'), 'form')]"/>
+        </record>
     </data>
 </odoo>

@@ -17,3 +17,4 @@ class FoundationObraService(models.Model):
                                   readonly=True, store=True)
     nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,
                                store=True)
+    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
