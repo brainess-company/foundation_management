@@ -3,6 +3,7 @@ from odoo import models, fields
 class FoundationMedicao(models.Model):
     _name = 'foundation.medicao'
     _description = 'Medições das Estacas'
+    _rec_name = 'nome'
 
     nome = fields.Char("Nome da Medição", required=True)
     valor_total = fields.Float("Valor Total", compute="_compute_valor_total", store=True)
@@ -12,3 +13,4 @@ class FoundationMedicao(models.Model):
         ('emissao', 'Aguardando Emissão de Nota')
     ], string="Situação", default='aguardando')
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada")
+    estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas")

@@ -7,4 +7,6 @@ class FoundationEstacasMedicaoRel(models.Model):
 
     foundation_estacas_id = fields.Many2one('foundation.estacas', string="Estaca", required=True)
     foundation_medicao_id = fields.Many2one('foundation.medicao', string="Medição", required=True)
-    valor = fields.Float("Valor Calculado", compute="_compute_valor")
+    valor = fields.Char("Valor")
+    #valor = fields.Float("Valor Calculado", compute="_compute_valor")
+
