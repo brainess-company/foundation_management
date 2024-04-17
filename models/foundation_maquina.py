@@ -4,5 +4,6 @@ class FoundationMaquina(models.Model):
     _name = 'foundation.maquina'
     _description = 'Cadastro de Máquinas'
 
+    nome_maquina = fields.Char("Máquina")
     operador = fields.Many2one('res.partner', string="Operador")
     observacao = fields.Char("Observação")

@@ -59,6 +59,8 @@
             <field name="model">foundation.maquina</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Maquina List">
+                    <field name="nome_maquina"/>
+                    <field name="operador"/>
                     <field name="observacao"/>
                 </tree>
             </field>
@@ -72,6 +74,8 @@
                 <form string="Foundation Maquina">
                     <sheet>
                         <group>
+                            <field name="nome_maquina"/>
+                            <field name="operador"/>
                             <field name="observacao"/>
                         </group>
                     </sheet>
@@ -141,12 +145,11 @@
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Obra Service List">
-                    <field name="service_id"/>
-                    <field name="obra_id"/>
-                    <field name="foundation_maquina_id"/>
-                    <field name="service_name"/>
                     <field name="sale_order_id"/>
+                    <field name="service_name"/>
                     <field name="nome_obra"/>
+                    <field name="nome_maquina"/>
+                    <field name="endereco"/>
                     <field name="operador_id"/>
                 </tree>
             </field>
@@ -160,12 +163,10 @@
                 <form string="Foundation Obra Service">
                     <sheet>
                         <group>
-                            <field name="service_id"/>
-                            <field name="obra_id"/>
-                            <field name="foundation_maquina_id"/>
-                            <field name="service_name"/>
                             <field name="sale_order_id"/>
+                            <field name="service_name"/>
                             <field name="nome_obra"/>
+                            <field name="nome_maquina"/>
                             <field name="endereco"/>
                             <field name="operador_id"/>
                         </group>
