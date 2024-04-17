@@ -15,9 +15,12 @@ Para instalar este módulo, você precisa:
 
 1. Clonar o repositório no diretório de addons do seu Odoo:
    ```bash
-   git clone https://example.com/foundation_management.git
+   git clone https://github.com/brainess-company/foundation_management.git
 
 ## issues
 - [ ] teste
 - [ ] teste 2
+- [ ] Definir o metodo que atualiza a lista de obras com base nas sale_order 
+- [ ] Definir vicualização xml para operador clicar na foundation_obra e inserir estaca produzida
+- [ ] Definir permissões de segurança
 

@@ -113,6 +113,7 @@
             <field name="model">foundation.obra</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Obra List">
+                    <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                 </tree>
             </field>
@@ -126,6 +127,7 @@
                 <form string="Foundation Obra">
                     <sheet>
                         <group>
+                            <field name="sale_order_id"/>
                             <field name="nome_obra"/>
                         </group>
                     </sheet>
@@ -140,6 +142,12 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Obra Service List">
                     <field name="service_id"/>
+                    <field name="obra_id"/>
+                    <field name="foundation_maquina_id"/>
+                    <field name="service_name"/>
+                    <field name="sale_order_id"/>
+                    <field name="nome_obra"/>
+                    <field name="endereco"/>
                 </tree>
             </field>
         </record>
@@ -153,6 +161,12 @@
                     <sheet>
                         <group>
                             <field name="service_id"/>
+                            <field name="obra_id"/>
+                            <field name="foundation_maquina_id"/>
+                            <field name="service_name"/>
+                            <field name="sale_order_id"/>
+                            <field name="nome_obra"/>
+                            <field name="endereco"/>
                         </group>
                     </sheet>
                 </form>

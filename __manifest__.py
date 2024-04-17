@@ -10,6 +10,7 @@
     'depends': [
         'base',
         'sale',
+        'mail',
         'product',
     ],
     'data': [
