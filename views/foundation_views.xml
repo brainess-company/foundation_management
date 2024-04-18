@@ -9,6 +9,12 @@
                 <tree string="Foundation Estacas List">
                     <field name="nome_estaca"/>
                     <field name="medicao_id"/>
+                    <field name="foundation_obra_service_id"/>
+                    <field name="diametro"/>
+                    <field name="profundidade"/>
+                    <field name="data"/>
+                    <field name="observacao"/>
+                    <field name="sale_order_id"/>
                 </tree>
             </field>
         </record>
@@ -22,13 +28,12 @@
                     <sheet>
                         <group>
                             <field name="nome_estaca"/>
-                            <field name="medicao_id"/>
+                            <field name="medicao_id" readonly="1"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-
 
 
         <!-- Tree View for Foundation Maquina -->
@@ -81,8 +86,8 @@
                 <form string="Foundation Medicao">
                     <sheet>
                         <group>
-                            <field name="nome"/>
-                            <field name="data"/>
+                            <field name="nome" readonly="1"/>
+                            <field name="data" readonly="1"/>
                         </group>
                     </sheet>
                 </form>

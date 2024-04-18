@@ -3,6 +3,7 @@ from odoo import models, fields
 class FoundationObraService(models.Model):
     _name = 'foundation.obra.service'
     _description = 'Serviços em uma obra'
+    _rec_name = 'service_name'
     #ESSa tela spo serve para a adriana relacionar um serviço a uma máquina
 
     service_name = fields.Char("Nome do Serviço", related='service_id.name', store=True)

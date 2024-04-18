@@ -15,7 +15,9 @@ class FoundationEstacas(models.Model):
     observacao = fields.Char("Observação")
 
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
-
+    # Adicionando o campo relacionado para Sale Order ID
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda",
+                                    related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
 
 
     def action_generate_medicao(self):
