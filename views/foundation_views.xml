@@ -21,6 +21,7 @@
         </record>
 
         <!-- Form View for Foundation Medicao -->
+        <!-- Form View for Foundation Medicao -->
         <record id="view_foundation_medicao_form" model="ir.ui.view">
             <field name="name">foundation.medicao.form</field>
             <field name="model">foundation.medicao</field>
@@ -36,12 +37,12 @@
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids">
-                                    <tree>
-                                        <field name="nome_estaca"/>
-                                        <field name="profundidade"/>
-                                        <field name="unit_price"/>
-                                        <field name="sale_order_line_id"/>
+                                <field name="estacas_ids" readonly="1">
+                                    <tree editable="false">
+                                        <field name="nome_estaca" readonly="1"/>
+                                        <field name="profundidade" readonly="1"/>
+                                        <field name="unit_price" readonly="1"/>
+                                        <field name="sale_order_line_id" readonly="1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -50,6 +51,7 @@
                 </form>
             </field>
         </record>
+
 
         <!-- Kanban View for Foundation Medicao -->
         <record id="view_foundation_medicao_kanban" model="ir.ui.view">
