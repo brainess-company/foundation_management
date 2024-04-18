@@ -50,10 +50,9 @@
             <field name="name">Serviços na Obra com Estacas</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
-                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
+            <field name="views" eval="[(ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form'), 'form')]"/>
         </record>
+
 
         <record model="ir.actions.server" id="action_generate_medicao_server">
             <field name="name">Gerar Medição</field>
