@@ -14,7 +14,8 @@
                     <field name="profundidade"/>
                     <field name="data"/>
                     <field name="observacao"/>
-                    <field name="sale_order_id"/>
+                    <field name="sale_order_id" readonly="1"/>
+                    <field name="sale_order_line_id"/>
                 </tree>
             </field>
         </record>
@@ -29,12 +30,13 @@
                         <group>
                             <field name="nome_estaca"/>
                             <field name="medicao_id" readonly="1"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="sale_order_line_id"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-
 
         <!-- Tree View for Foundation Maquina -->
         <record id="view_foundation_maquina_tree" model="ir.ui.view">
