@@ -177,19 +177,6 @@
             </field>
         </record>
         <!-- Tree View for foundation  obra service with estacas -->
-        <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
-            <field name="name">foundation.obra.service.tree</field>
-            <field name="model">foundation.obra.service</field>
-            <field name="arch" type="xml">
-                <tree string="Serviços na Obra">
-                    <field name="service_name"/>
-                    <field name="nome_maquina"/>
-                    <field name="nome_obra"/>
-                    <field name="operador_id"/>
-                </tree>
-            </field>
-        </record>
-        <!-- Form View for FoundationObraService with Notebook for Estacas -->
         <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.with.estacas.form</field>
             <field name="model">foundation.obra.service</field>
@@ -199,27 +186,30 @@
                         <group>
                             <field name="service_id" readonly="1"/>
                             <field name="nome_obra" readonly="1"/>
-                            <!-- Defina outros campos como readonly conforme necessário -->
+                            <field name="sale_order_id" invisible="1"/>
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <!-- Permita adicionar e editar estacas -->
-                                <field name="estacas_ids" context="{'default_foundation_obra_service_id': active_id}">
+                                <field name="estacas_ids" context="{'default_foundation_obra_service_id': active_id, 'default_sale_order_id': sale_order_id}">
                                     <tree editable="bottom">
-                                        <!-- Campos da lista de estacas -->
                                         <field name="nome_estaca"/>
                                         <field name="diametro"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
                                         <field name="observacao"/>
+                                        <field name="sale_order_id" invisible="1"/>
+                                        <field name="sale_order_line_id" widget="many2one" options="{'no_create': True, 'no_open': True}"
+                                               domain="[('order_id', '=', sale_order_id)]"/>
                                     </tree>
                                     <form>
-                                        <!-- Campos do formulário de estacas -->
                                         <field name="nome_estaca"/>
                                         <field name="diametro"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
                                         <field name="observacao"/>
+                                        <field name="sale_order_id" invisible="1"/>
+                                        <field name="sale_order_line_id" widget="many2one" options="{'no_create': True, 'no_open': True}"
+                                               domain="[('order_id', '=', sale_order_id)]"/>
                                     </form>
                                 </field>
                             </page>
@@ -228,5 +218,8 @@
                 </form>
             </field>
         </record>
+
+
+
     </data>
 </odoo>
