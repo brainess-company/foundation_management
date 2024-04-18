@@ -13,14 +13,24 @@ class FoundationEstacas(models.Model):
     profundidade = fields.Float("Profundidade (m)", required=True)
     data = fields.Date("Data")
     observacao = fields.Char("Observação")
-
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
     # Adicionando o campo relacionado para Sale Order ID
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda",
                                     related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
     # Novo campo para relacionar diretamente com uma linha de pedido de venda
     sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",
-                                         domain="[('order_id', '=', sale_order_id)]", required=False)
+                                         domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",
+                                         required=False)
+    # Related field to access service_id from FoundationObraService #vaeiante de produto
+    service_id = fields.Many2one(
+        'product.product', string="Variante",
+        related='foundation_obra_service_id.service_id', readonly=True, store=True
+    )
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço",
+                                          related='foundation_obra_service_id.service_template_id', readonly=True,
+                                          store=True)
+
+
 
     def action_generate_medicao(self):
         Medicao = self.env['foundation.medicao']
