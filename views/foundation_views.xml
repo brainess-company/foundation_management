@@ -17,7 +17,8 @@
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>
                     <field name="service_template_id"/>
-
+                    <field name="unit_price"/>
+                    <field name="total_quantity"/>
                 </tree>
             </field>
         </record>

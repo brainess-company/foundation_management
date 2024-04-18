@@ -25,11 +25,11 @@ class SaleOrder(models.Model):
 
             for template, line in template_lines.items():
                 if not FoundationObraService.search([
-                    ('service_id', '=', line.product_id.id),
+                    ('variante_id', '=', line.product_id.id),
                     ('obra_id', '=', obra.id)
                 ], limit=1):
                     FoundationObraService.create({
-                        'service_id': line.product_id.id,
+                        'variante_id': line.product_id.id,
                         'obra_id': obra.id
                     })
 

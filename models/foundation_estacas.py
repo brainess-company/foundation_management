@@ -29,7 +29,18 @@ class FoundationEstacas(models.Model):
     service_template_id = fields.Many2one('product.template', string="Template do Serviço",
                                           related='foundation_obra_service_id.service_template_id', readonly=True,
                                           store=True)
+    unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
+    total_quantity = fields.Float("Quantidade Total", compute="_compute_line_values", store=True)
 
+    @api.depends('sale_order_line_id.price_unit', 'sale_order_line_id.product_uom_qty')
+    def _compute_line_values(self):
+        for record in self:
+            if record.sale_order_line_id:
+                record.unit_price = record.sale_order_line_id.price_unit
+                record.total_quantity = record.sale_order_line_id.product_uom_qty
+            else:
+                record.unit_price = 0.0
+                record.total_quantity = 0.0
 
 
     def action_generate_medicao(self):
