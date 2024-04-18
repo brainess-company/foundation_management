@@ -236,6 +236,7 @@
                                                        domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
                                                        context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
                                                        options="{'no_create': True, 'no_open': True}"/>
+                                                <field name="signature" widget="signature"/>
                                             </group>
                                         </sheet>
                                     </form>

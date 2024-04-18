@@ -23,8 +23,9 @@ Para instalar este módulo, você precisa:
 - [x] O campo diâmtro na estca não pode ser um campo aberto deve ser uma lista da descrição da variavel de produto (string) do produto em questão
 - [x] Retornar o campo de preço unitario relacionado ao diâmtro selecionado
 - [x] Calcular o valor da estaca multiplicando a profundidade pelo preço unitário
-- [ ] Inserir um filtro no notebook que o funcionario vai usar para inserir estaca só aparecer as que estão relacionadas com o serviço que ele está alocado, na tela de estacas já está assim automaticamente.
+- [x] Inserir um filtro no notebook que o funcionario vai usar para inserir estaca só aparecer as que estão relacionadas com o serviço que ele está alocado, na tela de estacas já está assim automaticamente.
 - [ ] Melhorar kanban
+- [ ] Baixar medição em pdf para enviar ao cliente
 - [ ] Enviar medição para conferência de terceiros igual a sale_order
 - [ ] Inserir assinatura
 - [ ] Definir permissões de segurança

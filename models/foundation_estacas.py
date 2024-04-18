@@ -32,6 +32,9 @@ class FoundationEstacas(models.Model):
     unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
     total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
 
+    # Novo campo de assinatura
+    signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
+
     @api.depends('sale_order_line_id.price_unit', 'medicao_id', 'profundidade')
     def _compute_line_values(self):
         for record in self:
