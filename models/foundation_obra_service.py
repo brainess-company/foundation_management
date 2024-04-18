@@ -6,10 +6,10 @@ class FoundationObraService(models.Model):
     _rec_name = 'service_name'
     #ESSa tela spo serve para a adriana relacionar um serviço a uma máquina
 
-    service_name = fields.Char("Nome do Serviço", related='service_id.name', store=True) #variante
+    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True) #variante
     service_template_id = fields.Many2one('product.template', string="Template do Serviço",
-                                          related='service_id.product_tmpl_id', readonly=True, store=True) #produto
-    service_id = fields.Many2one('product.product', string="Variante")
+                                          related='variante_id.product_tmpl_id', readonly=True, store=True) #produto
+    variante_id = fields.Many2one('product.product', string="Variante")
     foundation_maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada", required=False)
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='obra_id.sale_order_id', readonly=True, store=True)

@@ -22,9 +22,9 @@ class FoundationEstacas(models.Model):
                                          domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",
                                          required=False)
     # Related field to access service_id from FoundationObraService #vaeiante de produto
-    service_id = fields.Many2one(
+    variante_id = fields.Many2one(
         'product.product', string="Variante",
-        related='foundation_obra_service_id.service_id', readonly=True, store=True
+        related='foundation_obra_service_id.variante_id', readonly=True, store=True
     )
     service_template_id = fields.Many2one('product.template', string="Template do Serviço",
                                           related='foundation_obra_service_id.service_template_id', readonly=True,

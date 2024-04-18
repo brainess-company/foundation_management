@@ -34,7 +34,7 @@
                             <field name="medicao_id" readonly="1"/>
                             <field name="sale_order_id" readonly="1"/>
                             <field name="sale_order_line_id"/>
-                            <field name="service_id"/>
+                            <field name="variante_id"/>
                             <field name="service_template_id"/>
                         </group>
                     </sheet>
@@ -188,7 +188,7 @@
                 <form string="Serviço na Obra com Estacas">
                     <sheet>
                         <group>
-                            <field name="service_id" invisible="1"/>
+                            <field name="variante_id" invisible="1"/>
                             <field name="nome_obra" readonly="1"/>
                             <field name="sale_order_id" invisible="1"/>
                         </group>
@@ -200,29 +200,31 @@
                                         <field name="diametro"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
-                                        <field name="service_id"/>
-                                        <field name="service_id" invisible="1"/>  <!-- Ensure this field is declared -->
                                         <field name="observacao"/>
                                         <field name="sale_order_id" invisible="1"/>
-                                        <field name="service_template_id"/>
-                                        <field name="sale_order_line_id" widget="many2one" options="{'no_create': True, 'no_open': True}"
-                                               domain="[('order_id', '=', sale_order_id)]"/>
+                                        <field name="service_template_id" invisible="1"/>
+                                        <field name="sale_order_line_id"
+                                            domain="[('order_id', '=', sale_order_id)]"
+                                            context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_form'}"
+                                            options="{'no_create': True, 'no_open': True}"/>
                                     </tree>
                                     <form>
                                         <field name="nome_estaca"/>
                                         <field name="diametro"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
-                                        <field name="service_id"/>
-                                        <field name="service_id" invisible="1"/>  <!-- Ensure this field is declared -->
                                         <field name="observacao"/>
                                         <field name="sale_order_id" invisible="1"/>
-                                        <field name="sale_order_id" readonly="1"/>
-                                        <field name="sale_order_line_id"/>
-                                        <field name="service_template_id"/>
-
-                                        <field name="sale_order_line_id" widget="many2one" options="{'no_create': True, 'no_open': True}"
-                                               domain="[('order_id', '=', sale_order_id)]"/>
+                                        <field name="service_template_id" invisible="1"/>
+                                        <field name="sale_order_line_id"
+                                            domain="[('order_id', '=', sale_order_id)]"
+                                            context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
+                                            options="{'no_create': True, 'no_open': True}"/>
+                                        <!-- Tree View for foundation  obra service with estacas
+                                        <field name="sale_order_line_id"
+                                            domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
+                                            context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
+                                            options="{'no_create': True, 'no_open': True}"/> -->
                                     </form>
                                 </field>
                             </page>
@@ -231,7 +233,6 @@
                 </form>
             </field>
         </record>
-
 
     </data>
 </odoo>
