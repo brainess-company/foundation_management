@@ -30,17 +30,19 @@ class FoundationEstacas(models.Model):
                                           related='foundation_obra_service_id.service_template_id', readonly=True,
                                           store=True)
     unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
+    total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
 
-    @api.depends('sale_order_line_id.price_unit', 'medicao_id')
+    @api.depends('sale_order_line_id.price_unit', 'medicao_id', 'profundidade')
     def _compute_line_values(self):
         for record in self:
-            if record.medicao_id:
-                # Se 'medicao_id' estiver definido, mantém o preço unitário atual (não atualiza)
-                if record.unit_price == 0:  # Apenas inicializa se ainda não foi definido
-                    record.unit_price = record.sale_order_line_id.price_unit
+            if record.medicao_id and record.unit_price != 0:
+                # Se 'medicao_id' estiver definido e 'unit_price' já estiver inicializado, não atualiza
+                pass
             else:
                 # Atualiza o preço unitário sempre que a linha de pedido de venda for alterada
                 record.unit_price = record.sale_order_line_id.price_unit if record.sale_order_line_id else 0
+            # Calcula o preço total
+            record.total_price = record.unit_price * record.profundidade if record.unit_price and record.profundidade else 0
 
     def action_generate_medicao(self):
         Medicao = self.env['foundation.medicao']

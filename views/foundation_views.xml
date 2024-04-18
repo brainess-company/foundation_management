@@ -13,6 +13,7 @@
                     <field name="medicao_id"/>
                     <field name="profundidade"/>
                     <field name="unit_price"/>
+                    <field name="total_price" readonly="1"/>
                     <field name="observacao"/>
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>

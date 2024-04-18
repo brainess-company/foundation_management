@@ -17,10 +17,10 @@ class FoundationMedicao(models.Model):
     # Campo computado para calcular o valor total
     valor_total = fields.Float("Valor Total", compute="_compute_valor_total", store=True)
 
-    @api.depends('estacas_ids.profundidade', 'estacas_ids.unit_price')
+    @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
         for record in self:
             total = 0.0
             for estaca in record.estacas_ids:
-                total += estaca.profundidade * estaca.unit_price
+                total += estaca.total_price
             record.valor_total = total
