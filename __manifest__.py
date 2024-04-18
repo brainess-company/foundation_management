@@ -15,9 +15,10 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/foundation_views.xml',
         'views/foundation_actions.xml',
         'views/foundation_menus.xml',
-        'views/foundation_views.xml',
+
         #'views/foundation_obra_views.xml',
         #'views/foundation_maquina_views.xml',
         #'views/foundation_obra_service_views.xml',

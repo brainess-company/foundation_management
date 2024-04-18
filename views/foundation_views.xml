@@ -7,38 +7,73 @@
             <field name="model">foundation.estacas</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Estacas List">
-                    <field name="nome_estaca"/>
-                    <field name="medicao_id"/>
-                    <field name="foundation_obra_service_id"/>
-                    <field name="diametro"/>
-                    <field name="profundidade"/>
                     <field name="data"/>
+                    <field name="nome_estaca"/>
+                    <field name="service_template_id"/>
+                    <field name="medicao_id"/>
+                    <field name="profundidade"/>
+                    <field name="unit_price"/>
                     <field name="observacao"/>
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>
-                    <field name="service_template_id"/>
-                    <field name="unit_price"/>
                 </tree>
             </field>
         </record>
 
-        <!-- Form View for Foundation Estacas -->
-        <record id="view_foundation_estacas_form" model="ir.ui.view">
-            <field name="name">foundation.estacas.form</field>
-            <field name="model">foundation.estacas</field>
+        <!-- Form View for Foundation Medicao -->
+        <record id="view_foundation_medicao_form" model="ir.ui.view">
+            <field name="name">foundation.medicao.form</field>
+            <field name="model">foundation.medicao</field>
             <field name="arch" type="xml">
-                <form string="Foundation Estacas">
+                <form string="Foundation Medicao">
                     <sheet>
                         <group>
-                            <field name="nome_estaca"/>
-                            <field name="medicao_id" readonly="1"/>
-                            <field name="sale_order_id" readonly="1"/>
-                            <field name="sale_order_line_id"/>
-                            <field name="variante_id"/>
-                            <field name="service_template_id"/>
+                            <field name="nome" readonly="1"/>
+                            <field name="data" readonly="1"/>
+                            <field name="situacao"/>
+                            <field name="sale_order_id"/>
+                            <field name="valor_total"/>
                         </group>
+                        <notebook>
+                            <page string="Estacas">
+                                <field name="estacas_ids">
+                                    <tree>
+                                        <field name="nome_estaca"/>
+                                        <field name="profundidade"/>
+                                        <field name="unit_price"/>
+                                        <field name="sale_order_line_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <!-- Kanban View for Foundation Medicao -->
+        <record id="view_foundation_medicao_kanban" model="ir.ui.view">
+            <field name="name">foundation.medicao.kanban</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="nome"/>
+                    <field name="situacao"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong><field name="nome"/></strong>
+                                    <div><field name="data"/></div>
+                                    <div>$<field name="valor_total"/></div>
+                                    <div class="text-muted">
+                                        Situação: <field name="situacao"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -78,11 +113,18 @@
             <field name="model">foundation.medicao</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Medicao List">
-                    <field name="nome"/>
+                    <header>
+                        <button string="Kanban View" type="action" name="%(action_foundation_medicao)d" icon="fa-th-large"/>
+                    </header>
+                    <field name="sale_order_id"/>
                     <field name="data"/>
+                    <field name="nome"/>
+                    <field name="situacao"/>
+                    <field name="valor_total"/>
                 </tree>
             </field>
         </record>
+
 
         <!-- Form View for Foundation Medicao -->
         <record id="view_foundation_medicao_form" model="ir.ui.view">
@@ -94,6 +136,7 @@
                         <group>
                             <field name="nome" readonly="1"/>
                             <field name="data" readonly="1"/>
+                            <field name="situacao"/>
                         </group>
                     </sheet>
                 </form>
@@ -137,7 +180,6 @@
                     <field name="sale_order_id"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
-                    <field name="nome_maquina"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
                 </tree>
@@ -156,7 +198,6 @@
                             <field name="service_name"/>
                             <field name="nome_obra"/>
                             <field name="foundation_maquina_id"/>
-                            <field name="nome_maquina"/>
                             <field name="endereco"/>
                             <field name="operador_id"/>
                         </group>
@@ -174,7 +215,6 @@
                     <field name="service_name"/>
                     <field name="nome_obra"/>
                     <field name="foundation_maquina_id"/>
-                    <field name="nome_maquina"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
                 </tree>
