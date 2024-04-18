@@ -34,6 +34,7 @@ class FoundationEstacas(models.Model):
 
     # Novo campo de assinatura
     signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
+    image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
 
     @api.depends('sale_order_line_id.price_unit', 'medicao_id', 'profundidade')
     def _compute_line_values(self):

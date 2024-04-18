@@ -21,7 +21,33 @@
             </field>
         </record>
 
-        <!-- Form View for Foundation Medicao -->
+        <!-- Form View for Foundation Estacas -->
+        <record id="view_foundation_estacas_form" model="ir.ui.view">
+            <field name="name">foundation.estacas.form</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <form string="Estaca Detalhes">
+                    <sheet>
+                        <group>
+                            <field name="nome_estaca"/>
+                            <field name="diametro"/>
+                            <field name="profundidade"/>
+                            <field name="data"/>
+                            <field name="observacao"/>
+                            <field name="medicao_id"/>
+                            <field name="service_template_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="sale_order_line_id"/>
+                            <field name="unit_price"/>
+                            <field name="total_price"/>
+                            <field name="signature" widget="signature" readonly="1"/>
+                            <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <!-- Form View for Foundation Medicao -->
         <record id="view_foundation_medicao_form" model="ir.ui.view">
             <field name="name">foundation.medicao.form</field>
@@ -204,6 +230,7 @@
                     <field name="foundation_maquina_id"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
+
                 </tree>
             </field>
         </record>
@@ -237,6 +264,8 @@
                                                        context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
                                                        options="{'no_create': True, 'no_open': True}"/>
                                                 <field name="signature" widget="signature"/>
+                                                <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [500, 500]}"/>
+                                                <!-- field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [90, 90]}"/-->
                                             </group>
                                         </sheet>
                                     </form>
@@ -247,7 +276,6 @@
                 </form>
             </field>
         </record>
-
 
     </data>
 </odoo>
