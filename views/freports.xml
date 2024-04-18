@@ -34,11 +34,29 @@
                             <h2>Relatório de Medição: <span t-esc="doc.nome"/></h2>
                             <p>Data: <span t-esc="doc.data"/></p>
                             <p>Total Valor: <span t-esc="doc.valor_total" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/></p>
-                            <!-- Additional fields and styles as necessary -->
+
+                            <h3>Estacas Relacionadas:</h3>
+                            <table style="width:100%;">
+                                <tr>
+                                    <th>Nome da Estaca</th>
+                                    <th>Profundidade (m)</th>
+                                    <th>Preço Unitário</th>
+                                    <th>Preço Total</th>
+                                </tr>
+                                <t t-foreach="doc.estacas_ids" t-as="estaca">
+                                    <tr>
+                                        <td><span t-esc="estaca.nome_estaca"/></td>
+                                        <td><span t-esc="estaca.profundidade"/></td>
+                                        <td><span t-esc="estaca.unit_price" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/></td>
+                                        <td><span t-esc="estaca.total_price" t-esc-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/></td>
+                                    </tr>
+                                </t>
+                            </table>
                         </div>
                     </t>
                 </t>
             </t>
         </template>
+
     </data>
 </odoo>
