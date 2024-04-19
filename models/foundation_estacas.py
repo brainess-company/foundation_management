@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class FoundationEstacas(models.Model):
     _name = 'foundation.estacas'
     _description = 'Estacas utilizadas na obra'
+    _rec_name = 'nome_estaca'
 
     foundation_obra_service_id = fields.Many2one(
         'foundation.obra.service', string="Serviço na Obra", required=True)
