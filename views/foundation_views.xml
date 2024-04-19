@@ -102,6 +102,8 @@
                             <field name="situacao"/>
                             <field name="sale_order_id"/>
                             <field name="valor_total"/>
+                            <field name="invoice_id"/>
+                            <!-- field name="invoice_id"/-->
                         </group>
                         <notebook>
                             <page string="Estacas">
@@ -111,6 +113,7 @@
                                         <field name="profundidade" readonly="1"/>
                                         <field name="unit_price" readonly="1"/>
                                         <field name="sale_order_line_id" readonly="1"/>
+                                        <!-- field name="invoice_id"/-->
                                     </tree>
                                 </field>
                             </page>
@@ -201,6 +204,8 @@
                     <field name="nome"/>
                     <field name="situacao"/>
                     <field name="valor_total"/>
+                    <field name="invoice_id"/>
+
                 </tree>
             </field>
         </record>
