@@ -38,6 +38,22 @@ class FoundationMedicao(models.Model):
                 record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
             else:
                 record.invoice_id = False
+    """def _compute_invoice_id(self):
+        for record in self:
+            # Esta lista guardará todos os ids de faturas postadas que estão diretamente relacionadas às estacas da medição atual
+            related_invoice_ids = set()
+
+            for estaca in record.estacas_ids:
+                # Obter todas as faturas postadas das linhas de pedido vinculadas à estaca
+                for invoice_line in estaca.sale_order_line_id.invoice_lines:
+                    if invoice_line.move_id.move_type == 'out_invoice' and invoice_line.move_id.state == 'posted':
+                        related_invoice_ids.add(invoice_line.move_id.id)
+
+            # Se houver exatamente um id de fatura relacionado e postado, atribua-o ao invoice_id, senão deixe como False
+            if len(related_invoice_ids) == 1:
+                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
+            else:
+                record.invoice_id = False"""
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
