@@ -34,6 +34,9 @@
                     <field name="medicao_id"/>
                     <field name="observacao"/>
                     <field name="sale_order_line_id"/>
+                    <field name="nome_maquina"/>
+                    <field name="nome_operador"/>
+                    <field name="nome_obra"/>
                 </calendar>
             </field>
         </record>

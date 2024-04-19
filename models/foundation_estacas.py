@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 
 class FoundationEstacas(models.Model):
@@ -36,6 +36,12 @@ class FoundationEstacas(models.Model):
     # Novo campo de assinatura
     signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
     image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
+    # Campos relacionados para mostrar no calendário
+    nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",
+                               readonly=True)
+    nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",
+                                readonly=True)
+    nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
 
 
     @api.model

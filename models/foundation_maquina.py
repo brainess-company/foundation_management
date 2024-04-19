@@ -8,4 +8,4 @@ class FoundationMaquina(models.Model):
 
     nome_maquina = fields.Char("Máquina", track_visibility='onchange')
     operador = fields.Many2one('res.partner', string="Operador", track_visibility='onchange')
-    observacao = fields.Char("Observação", track_visibility='onchange')
+    observacao = fields.Char("Observação")
