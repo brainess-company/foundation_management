@@ -21,6 +21,37 @@
             </field>
         </record>
 
+        <record id="view_foundation_estacas_calendar" model="ir.ui.view">
+            <field name="name">foundation.estacas.calendar</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View for Estacas" date_start="data" color="medicao_id">
+                    <field name="nome_estaca"/>
+                    <field name="profundidade"/>
+                    <field name="unit_price"/>
+                    <field name="total_price"/>
+                    <field name="service_template_id"/>
+                    <field name="medicao_id"/>
+                    <field name="observacao"/>
+                    <field name="sale_order_line_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_foundation_estacas_graph" model="ir.ui.view">
+            <field name="name">foundation.estacas.graph</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <graph string="Graph View for Estacas" type="bar">
+                    <field name="medicao_id" type="row"/>
+                    <field name="total_price" type="measure"/>
+                    <field name="profundidade" type="measure"/>
+                </graph>
+            </field>
+        </record>'
+
+
+
         <!-- Form View for Foundation Estacas -->
         <record id="view_foundation_estacas_form" model="ir.ui.view">
             <field name="name">foundation.estacas.form</field>
