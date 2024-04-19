@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class FoundationEstacas(models.Model):
@@ -36,19 +36,32 @@ class FoundationEstacas(models.Model):
     signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
     image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
 
-    @api.depends('sale_order_line_id.price_unit', 'medicao_id', 'profundidade')
+
+    @api.model
+    def create(self, vals):
+        record = super(FoundationEstacas, self).create(vals)
+        if record.sale_order_line_id:
+            record.sale_order_line_id.qty_delivered += record.profundidade
+        return record
+
+    def write(self, vals):
+        res = super(FoundationEstacas, self).write(vals)
+        for record in self:
+            if record.sale_order_line_id:
+                # Atualiza o delivered_qty somente se a profundidade foi alterada,
+                # ou uma linha de pedido de venda foi associada após a criação da estaca
+                if 'profundidade' in vals or 'sale_order_line_id' in vals:
+                    record.sale_order_line_id.qty_delivered += vals.get('profundidade', record.profundidade)
+        return res
+
+    @api.depends('sale_order_line_id.price_unit', 'profundidade')
     def _compute_line_values(self):
         for record in self:
-            if record.medicao_id and record.unit_price != 0:
-                # Se 'medicao_id' estiver definido e 'unit_price' já estiver inicializado, não atualiza
-                pass
-            else:
-                # Atualiza o preço unitário sempre que a linha de pedido de venda for alterada
-                record.unit_price = record.sale_order_line_id.price_unit if record.sale_order_line_id else 0
-            # Calcula o preço total
-            record.total_price = record.unit_price * record.profundidade if record.unit_price and record.profundidade else 0
+            record.unit_price = record.sale_order_line_id.price_unit if record.sale_order_line_id else 0
+            record.total_price = record.unit_price * record.profundidade
 
-    def action_generate_medicao(self):
+
+def action_generate_medicao(self):
         Medicao = self.env['foundation.medicao']
 
         if not self:
