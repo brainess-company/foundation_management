@@ -3,6 +3,7 @@ from odoo import models, fields
 class FoundationObraService(models.Model):
     _name = 'foundation.obra.service'
     _description = 'Serviços em uma obra'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     _rec_name = 'service_name'
     #ESSa tela spo serve para a adriana relacionar um serviço a uma máquina
 
@@ -18,5 +19,5 @@ class FoundationObraService(models.Model):
     operador_id = fields.Many2one('res.partner', string="Operador", related='foundation_maquina_id.operador',
                                   readonly=True, store=True)
     nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,
-                               store=True)
-    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
+                               store=True, tracking=True)
+    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas") # tracking=True

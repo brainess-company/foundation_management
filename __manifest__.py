@@ -30,4 +30,5 @@
     'installable': True,
     'application': True,
     'auto_install': False,
+    'license': 'LGPL-3',  # This is the line you need to add
 }
