@@ -92,16 +92,18 @@
             <field name="name">foundation.medicao.kanban</field>
             <field name="model">foundation.medicao</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_small_column">
+                <kanban default_group_by="situacao" class="o_kanban_small_column">
                     <field name="nome"/>
                     <field name="situacao"/>
+                    <field name="data"/>
+                    <field name="valor_total"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
                                 <div class="oe_kanban_details">
                                     <strong><field name="nome"/></strong>
                                     <div><field name="data"/></div>
-                                    <div>$<field name="valor_total"/></div>
+                                    <div><span class="oe_currency_value">$</span><field name="valor_total"/></div>
                                     <div class="text-muted">
                                         Situação: <field name="situacao"/>
                                     </div>
@@ -112,6 +114,7 @@
                 </kanban>
             </field>
         </record>
+
 
         <!-- Tree View for Foundation Maquina -->
         <record id="view_foundation_maquina_tree" model="ir.ui.view">
@@ -287,6 +290,5 @@
                 </form>
             </field>
         </record>
-
     </data>
 </odoo>
