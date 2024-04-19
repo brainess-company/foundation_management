@@ -50,6 +50,7 @@ class FoundationMedicao(models.Model):
                 'price_unit': price_unit,
                 'name': f'Estaca {estaca.nome_estaca}: {product.display_name}',
                 'account_id': product.categ_id.property_account_income_categ_id.id or product.categ_id.property_account_expense_categ_id.id,
+                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]  # Linking to the sale order line
             }
             invoice_lines.append((0, 0, line_vals))
 
@@ -57,10 +58,11 @@ class FoundationMedicao(models.Model):
             'partner_id': self.sale_order_id.partner_id.id,
             'move_type': 'out_invoice',
             'invoice_origin': self.sale_order_id.name,
-            'invoice_line_ids': invoice_lines,
-            'state': 'draft',
+            'state': 'draft',  # The invoice will be created in the draft state
             'invoice_payment_term_id': self.sale_order_id.payment_term_id.id,
             'currency_id': self.sale_order_id.currency_id.id,
+            'invoice_line_ids': invoice_lines,
+            # This should correctly link each line to its corresponding sale order line
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
@@ -73,6 +75,7 @@ class FoundationMedicao(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
 
 
 
