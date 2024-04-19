@@ -30,32 +30,36 @@ class FoundationMedicao(models.Model):
 
 
     def action_create_invoice(self):
-        if len(self) != 1:
-            raise ValidationError("Please select exactly one measurement to process.")
+        self.ensure_one()  # Garantir que a função é chamada para apenas uma medição por vez.
 
-        record = self[0]  # Trabalha com o único registro selecionado
+        if not self.sale_order_id:
+            raise ValidationError("There is no sale order related to this measurement.")
+
         invoice_lines = []
-        for estaca in record.estacas_ids:
+        for estaca in self.estacas_ids:
             if not estaca.sale_order_line_id:
                 raise ValidationError(f"Estaca {estaca.nome_estaca} does not have a related sale order line.")
 
             line_vals = {
                 'product_id': estaca.sale_order_line_id.product_id.id,
-                'quantity': estaca.sale_order_line_id.product_uom_qty,
+                'quantity': estaca.profundidade,  # assumindo que a quantidade é baseada na profundidade
                 'price_unit': estaca.sale_order_line_id.price_unit,
-                'name': f'{estaca.nome_estaca} - {estaca.sale_order_line_id.product_id.display_name}',
+                'name': f'Estaca {estaca.nome_estaca}: {estaca.sale_order_line_id.product_id.display_name}',
                 'account_id': estaca.sale_order_line_id.order_id.partner_id.property_account_receivable_id.id,
+                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]
+                # link this invoice line to the specific sale order line
             }
             invoice_lines.append((0, 0, line_vals))
 
         invoice_vals = {
-            'partner_id': record.sale_order_id.partner_id.id,
+            'partner_id': self.sale_order_id.partner_id.id,
             'move_type': 'out_invoice',
+            'invoice_origin': self.sale_order_id.name,
             'invoice_line_ids': invoice_lines,
+            'state': 'draft',  # create the invoice in the draft state
         }
-        invoice = self.env['account.move'].create(invoice_vals)
-        invoice.action_post()  # Confirmar a fatura
 
+        invoice = self.env['account.move'].create(invoice_vals)
         return {
             'type': 'ir.actions.act_window',
             'name': 'Invoice',
