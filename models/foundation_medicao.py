@@ -24,18 +24,20 @@ class FoundationMedicao(models.Model):
     @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
     def _compute_invoice_id(self):
         for record in self:
-            # Inicializar uma lista para armazenar os IDs das faturas candidatas
-            invoice_ids = []
-            for estaca in record.estacas_ids:
-                # Iterar sobre as linhas de fatura associadas às linhas de pedido de venda da estaca
-                invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
-                    lambda l: l.move_id.move_type == 'out_invoice')
-                # Adicionar os IDs das faturas encontradas na lista
-                invoice_ids.extend(invoice_lines.mapped('move_id').ids)
+            # Esta lista guardará todos os ids de faturas postadas que estão diretamente relacionadas às estacas da medição atual
+            related_invoice_ids = set()
 
-            # Definir o invoice_id para o primeiro ID de fatura único encontrado, ou False se nenhum for encontrado
-            # Utiliza set para remover duplicatas, garantindo que a fatura capturada é única
-            record.invoice_id = self.env['account.move'].browse(list(set(invoice_ids))[:1]).id if invoice_ids else False
+            for estaca in record.estacas_ids:
+                # Obter todas as faturas postadas das linhas de pedido vinculadas à estaca
+                for invoice_line in estaca.sale_order_line_id.invoice_lines:
+                    if invoice_line.move_id.move_type == 'out_invoice' and invoice_line.move_id.state == 'posted':
+                        related_invoice_ids.add(invoice_line.move_id.id)
+
+            # Se houver exatamente um id de fatura relacionado e postado, atribua-o ao invoice_id, senão deixe como False
+            if len(related_invoice_ids) == 1:
+                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
+            else:
+                record.invoice_id = False
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):

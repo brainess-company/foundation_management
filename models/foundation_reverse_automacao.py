@@ -1,13 +1,13 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError, UserError
-
+from odoo.exceptions import ValidationError
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _create_invoices(self, grouped=False, final=False, **kwargs):
         """
-        Override to include related stakes without measurement in invoice lines and create a new measurement.
+        Override to include related stakes without measurement in invoice lines, create a new measurement,
+        and link the measurement to the created invoice.
         """
         # Creating invoices using the original logic from super
         invoice_vals_list = super(SaleOrder, self)._create_invoices(grouped=grouped, final=final, **kwargs)
@@ -30,8 +30,7 @@ class SaleOrder(models.Model):
 
             if estacas:
                 # Create a measurement if there are stakes to measure
-                last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc',
-                                              limit=1)
+                last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
                 nome_medicao = "Medição {}".format(int(last_medicao.nome.split(' ')[-1]) + 1 if last_medicao else 1)
 
                 new_medicao = Medicao.create({
@@ -40,6 +39,8 @@ class SaleOrder(models.Model):
                     'data': fields.Date.today(),
                     'situacao': 'aguardando',
                 })
+
+                new_medicao.invoice_id = invoice.id  # Link the newly created invoice to the measurement
 
                 # Add each stake as an invoice line
                 for estaca in estacas:
@@ -50,8 +51,7 @@ class SaleOrder(models.Model):
                         'price_unit': estaca.unit_price,
                         'name': f'Estaca: {estaca.nome_estaca} - Profundidade: {estaca.profundidade}m'
                     }
-                    invoice_line = self.env['account.move.line'].with_context(check_move_validity=False).create(
-                        line_vals)
-                    estaca.medicao_id = new_medicao.id
+                    invoice_line = self.env['account.move.line'].with_context(check_move_validity=False).create(line_vals)
+                    estaca.medicao_id = new_medicao.id  # Link the stake to the measurement
 
         return invoice_vals_list

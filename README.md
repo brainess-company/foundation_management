@@ -30,5 +30,6 @@ Para instalar este módulo, você precisa:
 - [x] Inserir assinatura
 - [ ] Definir permissões de segurança
 - [ ] Uma medição só pode gerar uma unica fatura
-- [ ] quando uma fatura for ferada direto da sale order incluir as estacas e acionar o metodo que ceia medição para as estacas
+- [x] quando uma fatura for ferada direto da sale order incluir as estacas e acionar o metodo que ceia medição para as estacas
+- [ ] 
 
