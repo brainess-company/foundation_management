@@ -67,49 +67,49 @@ class FoundationEstacas(models.Model):
             record.unit_price = record.sale_order_line_id.price_unit if record.sale_order_line_id else 0
             record.total_price = record.unit_price * record.profundidade
 
+    @api.model
+    def action_generate_medicao(self):
+            Medicao = self.env['foundation.medicao']
 
-def action_generate_medicao(self):
-        Medicao = self.env['foundation.medicao']
+            if not self:
+                return {'type': 'ir.actions.act_window_close'}
 
-        if not self:
-            return {'type': 'ir.actions.act_window_close'}
+            # Verifica se todas as estacas selecionadas são da mesma sale_order
+            sale_orders = self.mapped('foundation_obra_service_id.sale_order_id')
+            if len(sale_orders) > 1:
+                raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
-        # Verifica se todas as estacas selecionadas são da mesma sale_order
-        sale_orders = self.mapped('foundation_obra_service_id.sale_order_id')
-        if len(sale_orders) > 1:
-            raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
+            sale_order = sale_orders[0]
+            if not sale_order:
+                return {'type': 'ir.actions.act_window_close'}
 
-        sale_order = sale_orders[0]
-        if not sale_order:
-            return {'type': 'ir.actions.act_window_close'}
+            # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
+            last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+            nome_medicao = "Medição 1" if not last_medicao else f"Medição {int(last_medicao.nome.split(' ')[-1]) + 1}"
 
-        # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
-        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
-        nome_medicao = "Medição 1" if not last_medicao else f"Medição {int(last_medicao.nome.split(' ')[-1]) + 1}"
+            # Criar uma nova medição
+            new_medicao = Medicao.create({
+                'nome': nome_medicao,
+                'sale_order_id': sale_order.id,
+                'data': fields.Date.today(),
+                'situacao': 'aguardando',
+            })
 
-        # Criar uma nova medição
-        new_medicao = Medicao.create({
-            'nome': nome_medicao,
-            'sale_order_id': sale_order.id,
-            'data': fields.Date.today(),
-            'situacao': 'aguardando',
-        })
+            # Associar cada estaca à nova medição, apenas se não foi previamente medida
+            for estaca in self:
+                if not estaca.medicao_id:
+                    estaca.medicao_id = new_medicao.id
+                else:
+                    raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
 
-        # Associar cada estaca à nova medição, apenas se não foi previamente medida
-        for estaca in self:
-            if not estaca.medicao_id:
-                estaca.medicao_id = new_medicao.id
-            else:
-                raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
-
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Medições',
-            'view_mode': 'form',
-            'res_model': 'foundation.medicao',
-            'res_id': new_medicao.id,
-            'target': 'current'
-        }
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Medições',
+                'view_mode': 'form',
+                'res_model': 'foundation.medicao',
+                'res_id': new_medicao.id,
+                'target': 'current'
+            }
 
 
 
