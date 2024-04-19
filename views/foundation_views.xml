@@ -54,6 +54,13 @@
             <field name="model">foundation.medicao</field>
             <field name="arch" type="xml">
                 <form string="Foundation Medicao">
+                    <header>
+                        <button name="action_create_invoice"
+                                string="Faturar"
+                                type="object"
+                                class="oe_highlight"/>
+                        <field name="nome" widget="statusbar" statusbar_visible="aguardando,emissao"/>
+                    </header>
                     <sheet>
                         <group>
                             <field name="nome" readonly="1"/>
@@ -145,10 +152,9 @@
                     <header>
                         <button string="Kanban View" type="action" name="%(action_foundation_medicao)d" icon="fa-th-large"/>
                         <!-- button string="Faturar" type="object" name="action_create_invoice" icon="fa-money"/ -->
-                        <button name="%(tiago_fundacao.action_create_invoice)d"
-                        string="Faturar"
-                        type="action"
-                        class="oe_highlight"/>
+
+
+
                     </header>
                     <field name="sale_order_id"/>
                     <field name="data"/>
