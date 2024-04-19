@@ -215,6 +215,9 @@
                 <tree string="Foundation Obra List">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
+                    <field name="cliente_id"/>
+                    <field name="valor_total"/>
+                    <field name="currency_id"/>
                 </tree>
             </field>
         </record>
@@ -227,8 +230,11 @@
                 <form string="Foundation Obra">
                     <sheet>
                         <group>
-                            <field name="sale_order_id"/>
+                            <field name="sale_order_id" readonly="1"/>
                             <field name="nome_obra"/>
+                            <field name="cliente_id" readonly="1"/>
+                            <field name="valor_total" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
                         </group>
                     </sheet>
                 </form>

@@ -26,7 +26,8 @@ Para instalar este módulo, você precisa:
 - [x] Inserir um filtro no notebook que o funcionario vai usar para inserir estaca só aparecer as que estão relacionadas com o serviço que ele está alocado, na tela de estacas já está assim automaticamente.
 - [ ] Melhorar kanban
 - [ ] Baixar medição em pdf para enviar ao cliente
-- [ ] Enviar medição para conferência de terceiros igual a sale_order
-- [ ] Inserir assinatura
+- [x] Enviar medição para conferência de terceiros igual a sale_order
+- [x] Inserir assinatura
 - [ ] Definir permissões de segurança
+- [ ] Uma medição só pode gerar uma unica fatura
 
