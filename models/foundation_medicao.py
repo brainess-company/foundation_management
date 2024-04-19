@@ -30,7 +30,7 @@ class FoundationMedicao(models.Model):
 
 
     def action_create_invoice(self):
-        self.ensure_one()  # Garantir que a função é chamada para apenas uma medição por vez.
+        self.ensure_one()  # Garante que apenas um registro seja processado
 
         if not self.sale_order_id:
             raise ValidationError("There is no sale order related to this measurement.")
@@ -40,14 +40,16 @@ class FoundationMedicao(models.Model):
             if not estaca.sale_order_line_id:
                 raise ValidationError(f"Estaca {estaca.nome_estaca} does not have a related sale order line.")
 
+            product = estaca.sale_order_line_id.product_id
+            quantity = estaca.profundidade  # A quantidade pode ser baseada na profundidade
+            price_unit = estaca.sale_order_line_id.price_unit
+
             line_vals = {
-                'product_id': estaca.sale_order_line_id.product_id.id,
-                'quantity': estaca.profundidade,  # assumindo que a quantidade é baseada na profundidade
-                'price_unit': estaca.sale_order_line_id.price_unit,
-                'name': f'Estaca {estaca.nome_estaca}: {estaca.sale_order_line_id.product_id.display_name}',
-                'account_id': estaca.sale_order_line_id.order_id.partner_id.property_account_receivable_id.id,
-                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]
-                # link this invoice line to the specific sale order line
+                'product_id': product.id,
+                'quantity': quantity,
+                'price_unit': price_unit,
+                'name': f'Estaca {estaca.nome_estaca}: {product.display_name}',
+                'account_id': product.categ_id.property_account_income_categ_id.id or product.categ_id.property_account_expense_categ_id.id,
             }
             invoice_lines.append((0, 0, line_vals))
 
@@ -56,7 +58,9 @@ class FoundationMedicao(models.Model):
             'move_type': 'out_invoice',
             'invoice_origin': self.sale_order_id.name,
             'invoice_line_ids': invoice_lines,
-            'state': 'draft',  # create the invoice in the draft state
+            'state': 'draft',
+            'invoice_payment_term_id': self.sale_order_id.payment_term_id.id,
+            'currency_id': self.sale_order_id.currency_id.id,
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
@@ -69,4 +73,6 @@ class FoundationMedicao(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
+
 
