@@ -99,7 +99,7 @@ class FoundationMedicao(models.Model):
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
-        invoice.action_post()  # Postar a fatura imediatamente após a criação, se desejado
+        #invoice.action_post()  # Postar a fatura imediatamente após a criação, se desejado
         self.invoice_id = invoice.id  # Associar a fatura criada com esta medição corretamente
 
         return {
