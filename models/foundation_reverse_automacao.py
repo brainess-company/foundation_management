@@ -1,5 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+import logging
+
+_logger = logging.getLogger(__name__)  # Configuração do logger
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -18,6 +21,9 @@ class SaleOrder(models.Model):
         for invoice in invoices:
             # Apenas processar a Sale Order correspondente
             sale_order = invoice.mapped('invoice_line_ids.sale_line_ids.order_id')[0]
+            # Log dos IDs das linhas de fatura antes de adicionar novas
+            initial_line_ids = [line.id for line in invoice.invoice_line_ids]
+            _logger.info(f'Initial invoice line IDs for invoice {invoice.id}: {initial_line_ids}')
 
             # Procurar por estacas relacionadas a esta Sale Order que ainda não foram medidas
             estacas = Estacas.search([
@@ -53,5 +59,8 @@ class SaleOrder(models.Model):
 
                 # Associar a nova medição com a fatura
                 new_medicao.invoice_id = invoice.id
+            # Log dos IDs das linhas de fatura após adicionar novas
+            final_line_ids = [line.id for line in invoice.invoice_line_ids]
+            _logger.info(f'Final invoice line IDs for invoice {invoice.id}: {final_line_ids}')
 
         return invoices
