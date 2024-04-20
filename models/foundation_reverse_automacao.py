@@ -75,8 +75,10 @@ class SaleOrder(models.Model):
 
             _logger.info(f'Linhas que estão na fatura final {invoice.id}: {final_line_ids}')
 
-            # Removendo linhas indesejadas após todas as adições
-            self.env['account.move.line'].browse(linhas_a_remover).unlink()
             _logger.info(f'Linhas a remover: {linhas_a_remover}')
+            # Removendo linhas indesejadas após todas as adições
+            linhas = self.env['account.move.line'].browse(linhas_a_remover)#.unlink()
+            _logger.info(f'Linhas que estão com unlink: {linhas}')
+
 
         return invoices
