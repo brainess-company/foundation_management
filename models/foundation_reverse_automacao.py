@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
 import logging
 
 _logger = logging.getLogger(__name__)  # Configuração do logger
@@ -9,66 +8,54 @@ class SaleOrder(models.Model):
 
     def _create_invoices(self, grouped=False, final=False, **kwargs):
         """
-        Sobrescreve para criar uma nova medição para estacas relacionadas sem medição,
-        vincular a medição à fatura criada e incluir cada estaca na nova linha da fatura.
+        Sobrescreve para verificar estacas relacionadas sem medição, criar uma nova medição,
+        vinculá-la à fatura, mas não incluir as estacas nas linhas da fatura.
         """
-        # Chamando o método original usando super() para criar faturas
+        # Criando faturas usando o método original da 'sale.order'
         invoices = super(SaleOrder, self)._create_invoices(grouped=grouped, final=final, **kwargs)
 
         Medicao = self.env['foundation.medicao']
         Estacas = self.env['foundation.estacas']
 
         for invoice in invoices:
-            # Apenas processar a Sale Order correspondente
+            # Processando a Sale Order correspondente
             sale_order = invoice.mapped('invoice_line_ids.sale_line_ids.order_id')[0]
-            # Log dos IDs das linhas de fatura antes de adicionar novas
-            initial_line_ids = [line.id for line in invoice.invoice_line_ids]
+
+            # Logging initial invoice lines
+            initial_line_ids = invoice.invoice_line_ids.ids
             _logger.info(f'Initial invoice line IDs for invoice {invoice.id}: {initial_line_ids}')
 
-            # Procurar por estacas relacionadas a esta Sale Order que ainda não foram medidas
+            # Procurando por estacas não medidas
             estacas = Estacas.search([
                 ('sale_order_id', '=', sale_order.id),
                 ('medicao_id', '=', False)
             ])
+            _logger.info(f'Found {len(estacas)} unmeasured stakes for sale order ID {self.id}')
 
             if estacas:
-                # Criar uma medição se existem estacas a serem medidas
+                # Criando uma nova medição
                 last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
-                nome_medicao = "Medição {}".format(int(last_medicao.nome.split(' ')[-1]) + 1 if last_medicao else 1)
+                next_number = int(last_medicao.nome.split(' ')[-1]) + 1 if last_medicao else 1
+                nome_medicao = f"Medição {next_number}"
 
                 new_medicao = Medicao.create({
                     'nome': nome_medicao,
                     'sale_order_id': sale_order.id,
                     'data': fields.Date.today(),
-                    'situacao': 'aguardando',
+                    'situacao': 'aguardando'
                 })
+                _logger.info(f'New measurement {nome_medicao} (ID: {new_medicao.id}) created and linked to invoice ID {invoice.id}')
 
-                created_lines_ids = []
+                # Vinculando estacas à nova medição
+                estacas.write({'medicao_id': new_medicao.id})
+                _logger.info(f'All unmeasured stakes now linked to new measurement ID {new_medicao.id}')
 
-                # Vincular todas as estacas à nova medição criada
-                for estaca in estacas:
-                    estaca.medicao_id = new_medicao.id
-
-                    # Adicionar cada estaca como uma linha da fatura
-                    line_vals = {
-                        'move_id': invoice.id,
-                        'product_id': estaca.variante_id.id if estaca.variante_id else False,
-                        'quantity': estaca.profundidade,
-                        'price_unit': estaca.unit_price,
-                        'name': f'Estaca {estaca.nome_estaca}: Profundidade {estaca.profundidade}m'
-                    }
-                    line = self.env['account.move.line'].create(line_vals)
-                    created_lines_ids.append(line.id)
-
-                # Associar a nova medição com a fatura
+                # Associando a medição à fatura
                 new_medicao.invoice_id = invoice.id
-                # Remover as linhas de fatura indesejadas que não correspondem às estacas adicionadas
-                all_lines = invoice.invoice_line_ids.filtered(lambda l: l.id not in created_lines_ids)
-                _logger.info(
-                    f'All lines to potentially remove (excluding created ones): {[line.id for line in all_lines]}')  # Log das linhas a remover
+                _logger.info(f'Measurement ID {new_medicao.id} linked to Invoice ID {invoice.id}')
 
-            # Log dos IDs das linhas de fatura após adicionar novas
-            final_line_ids = [line.id for line in invoice.invoice_line_ids]
+            # Logging final state of invoice lines
+            final_line_ids = invoice.invoice_line_ids.ids
             _logger.info(f'Final invoice line IDs for invoice {invoice.id}: {final_line_ids}')
 
         return invoices
