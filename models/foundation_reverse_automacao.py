@@ -43,6 +43,8 @@ class SaleOrder(models.Model):
                     'situacao': 'aguardando',
                 })
 
+                created_lines_ids = []
+
                 # Vincular todas as estacas à nova medição criada
                 for estaca in estacas:
                     estaca.medicao_id = new_medicao.id
@@ -55,10 +57,16 @@ class SaleOrder(models.Model):
                         'price_unit': estaca.unit_price,
                         'name': f'Estaca {estaca.nome_estaca}: Profundidade {estaca.profundidade}m'
                     }
-                    self.env['account.move.line'].create(line_vals)
+                    line = self.env['account.move.line'].create(line_vals)
+                    created_lines_ids.append(line.id)
 
                 # Associar a nova medição com a fatura
                 new_medicao.invoice_id = invoice.id
+                # Remover as linhas de fatura indesejadas que não correspondem às estacas adicionadas
+                all_lines = invoice.invoice_line_ids.filtered(lambda l: l.id not in created_lines_ids)
+                _logger.info(
+                    f'All lines to potentially remove (excluding created ones): {[line.id for line in all_lines]}')  # Log das linhas a remover
+
             # Log dos IDs das linhas de fatura após adicionar novas
             final_line_ids = [line.id for line in invoice.invoice_line_ids]
             _logger.info(f'Final invoice line IDs for invoice {invoice.id}: {final_line_ids}')
