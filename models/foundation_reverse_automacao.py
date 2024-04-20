@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -7,7 +7,7 @@ class SaleOrder(models.Model):
     def _create_invoices(self, grouped=False, final=False, **kwargs):
         """
         Sobrescreve para criar uma nova medição para estacas relacionadas sem medição,
-        vincular a medição à fatura criada e não incluir novas linhas de fatura para estacas.
+        vincular a medição à fatura criada e incluir cada estaca na nova linha da fatura.
         """
         # Chamando o método original usando super() para criar faturas
         invoices = super(SaleOrder, self)._create_invoices(grouped=grouped, final=final, **kwargs)
@@ -41,7 +41,17 @@ class SaleOrder(models.Model):
                 for estaca in estacas:
                     estaca.medicao_id = new_medicao.id
 
-                # Associar a nova medição com a fatura, garantindo que o _compute_invoice_id seja acionado corretamente
+                    # Adicionar cada estaca como uma linha da fatura
+                    line_vals = {
+                        'move_id': invoice.id,
+                        'product_id': estaca.variante_id.id if estaca.variante_id else False,
+                        'quantity': estaca.profundidade,
+                        'price_unit': estaca.unit_price,
+                        'name': f'Estaca {estaca.nome_estaca}: Profundidade {estaca.profundidade}m'
+                    }
+                    self.env['account.move.line'].create(line_vals)
+
+                # Associar a nova medição com a fatura
                 new_medicao.invoice_id = invoice.id
 
         return invoices
