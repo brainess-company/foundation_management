@@ -17,13 +17,15 @@ class SaleOrder(models.Model):
 
         Medicao = self.env['foundation.medicao']
         Estacas = self.env['foundation.estacas']
+        linhas_a_remover = []
 
         for invoice in invoices:
             # Apenas processar a Sale Order correspondente
             sale_order = invoice.mapped('invoice_line_ids.sale_line_ids.order_id')[0]
             # Log dos IDs das linhas de fatura antes de adicionar novas
             initial_line_ids = [line.id for line in invoice.invoice_line_ids]
-            _logger.info(f'Initial invoice line IDs for invoice {invoice.id}: {initial_line_ids}')
+            linhas_a_remover.extend(initial_line_ids)
+            _logger.info(f'Linhas que ja estavam na fatura {invoice.id}: {initial_line_ids}')
 
             # Procurar por estacas relacionadas a esta Sale Order que ainda não foram medidas
             estacas = Estacas.search([
@@ -65,10 +67,16 @@ class SaleOrder(models.Model):
                 # Remover as linhas de fatura indesejadas que não correspondem às estacas adicionadas
                 all_lines = invoice.invoice_line_ids.filtered(lambda l: l.id not in created_lines_ids)
                 _logger.info(
-                    f'All lines to potentially remove (excluding created ones): {[line.id for line in all_lines]}')  # Log das linhas a remover
+                    f'Linhas que devem ser removidas: {[line.id for line in all_lines]}')  # Log das linhas a remover
+
 
             # Log dos IDs das linhas de fatura após adicionar novas
             final_line_ids = [line.id for line in invoice.invoice_line_ids]
-            _logger.info(f'Final invoice line IDs for invoice {invoice.id}: {final_line_ids}')
+
+            _logger.info(f'Linhas que estão na fatura final {invoice.id}: {final_line_ids}')
+
+            # Removendo linhas indesejadas após todas as adições
+            self.env['account.move.line'].browse(linhas_a_remover).unlink()
+            _logger.info(f'Linhas a remover: {linhas_a_remover}')
 
         return invoices
