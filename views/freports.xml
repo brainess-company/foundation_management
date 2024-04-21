@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
         <!-- Paper Format Definition (Ensure this ID is unique and correct) -->
@@ -57,6 +58,5 @@
                 </t>
             </t>
         </template>
-
     </data>
 </odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <!-- Tree View for Foundation Estacas -->
+        <record id="view_foundation_estacas_tree" model="ir.ui.view">
+            <field name="name">foundation.estacas.tree</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Estacas List">
+                    <field name="data"/>
+                    <field name="nome_estaca"/>
+                    <field name="service_template_id"/>
+                    <field name="medicao_id"/>
+                    <field name="profundidade"/>
+                    <field name="unit_price"/>
+                    <field name="total_price" readonly="1"/>
+                    <field name="observacao"/>
+                    <field name="sale_order_id" readonly="1"/>
+                    <field name="sale_order_line_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_foundation_estacas_calendar" model="ir.ui.view">
+            <field name="name">foundation.estacas.calendar</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View for Estacas" date_start="data" color="medicao_id">
+                    <field name="nome_estaca"/>
+                    <field name="profundidade"/>
+                    <field name="unit_price"/>
+                    <field name="total_price"/>
+                    <field name="service_template_id"/>
+                    <field name="medicao_id"/>
+                    <field name="observacao"/>
+                    <field name="sale_order_line_id"/>
+                    <field name="nome_maquina"/>
+                    <field name="nome_operador"/>
+                    <field name="nome_obra"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_foundation_estacas_graph" model="ir.ui.view">
+            <field name="name">foundation.estacas.graph</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <graph string="Graph View for Estacas" type="bar">
+                    <field name="medicao_id" type="row"/>
+                    <field name="total_price" type="measure"/>
+                    <field name="profundidade" type="measure"/>
+                </graph>
+            </field>
+        </record>'
+
+
+
+        <!-- Form View for Foundation Estacas -->
+        <record id="view_foundation_estacas_form" model="ir.ui.view">
+            <field name="name">foundation.estacas.form</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <form string="Estaca Detalhes">
+                    <sheet>
+                        <group>
+                            <field name="nome_estaca"/>
+                            <field name="diametro"/>
+                            <field name="profundidade"/>
+                            <field name="data"/>
+                            <field name="observacao"/>
+                            <field name="medicao_id"/>
+                            <field name="service_template_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="sale_order_line_id"/>
+                            <field name="unit_price"/>
+                            <field name="total_price"/>
+                            <field name="signature" widget="signature" readonly="1"/>
+                            <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

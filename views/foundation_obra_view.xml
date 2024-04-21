@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Foundation Obra -->
+        <record id="view_foundation_obra_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.tree</field>
+            <field name="model">foundation.obra</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Obra List">
+                    <field name="sale_order_id"/>
+                    <field name="nome_obra"/>
+                    <field name="cliente_id"/>
+                    <field name="valor_total"/>
+                    <field name="currency_id"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Form View for Foundation Obra -->
+        <record id="view_foundation_obra_form" model="ir.ui.view">
+            <field name="name">foundation.obra.form</field>
+            <field name="model">foundation.obra</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Obra">
+                    <sheet>
+                        <group>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="nome_obra"/>
+                            <field name="cliente_id" readonly="1"/>
+                            <field name="valor_total" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

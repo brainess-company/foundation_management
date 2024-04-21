@@ -15,16 +15,19 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/foundation_views.xml',
+        # 'views/foundation_views.xml',
+        'views/foundation_estacas_view.xml',
+        'views/foundation_maquina_view.xml',
+        'views/foundation_medicao_view.xml',
+        'views/foundation_obra_service_view.xml',
+        'views/foundation_obra_view.xml',
         'views/freports.xml',
         'views/foundation_actions.xml',
         'views/foundation_menus.xml',
-        #'views/reports.xml'  # Onde você define seus paperformats, se necessário
-
-
-        #'views/foundation_obra_service_views.xml',
-        #'views/foundation_estacas_views.xml',
-        #'views/foundation_medicao_views.xml',
+        # 'views/reports.xml'  # Onde você define seus paperformats, se necessário
+        # 'views/foundation_obra_service_views.xml',
+        # 'views/foundation_estacas_views.xml',
+        # 'views/foundation_medicao_views.xml',
     ],
     'demo': [],
     'installable': True,

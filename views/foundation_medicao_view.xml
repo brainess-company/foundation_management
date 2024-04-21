@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Foundation Medicao -->
+        <record id="view_foundation_medicao_tree" model="ir.ui.view">
+            <field name="name">foundation.medicao.tree</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Medicao List">
+                    <header>
+                        <button string="Kanban View" type="action" name="%(action_foundation_medicao)d" icon="fa-th-large"/>
+                        <!-- button string="Faturar" type="object" name="action_create_invoice" icon="fa-money"/ -->
+
+                    </header>
+                    <field name="sale_order_id"/>
+                    <field name="data"/>
+                    <field name="nome"/>
+                    <field name="situacao"/>
+                    <field name="valor_total"/>
+                    <field name="invoice_id"/>
+
+                </tree>
+            </field>
+        </record>
+        <!-- Form View for Foundation Medicao -->
+        <record id="view_foundation_medicao_form" model="ir.ui.view">
+            <field name="name">foundation.medicao.form</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Medicao">
+                    <header>
+                        <button name="action_create_invoice"
+                                string="Faturar"
+                                type="object"
+                                class="oe_highlight"/>
+                        <field name="nome" widget="statusbar" statusbar_visible="aguardando,emissao"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="nome" readonly="1"/>
+                            <field name="data" readonly="1"/>
+                            <field name="situacao"/>
+                            <field name="sale_order_id"/>
+                            <field name="valor_total"/>
+                            <field name="invoice_id"/>
+                            <!-- field name="invoice_id"/-->
+                        </group>
+                        <notebook>
+                            <page string="Estacas">
+                                <field name="estacas_ids" readonly="1">
+                                    <tree editable="false">
+                                        <field name="nome_estaca" readonly="1"/>
+                                        <field name="profundidade" readonly="1"/>
+                                        <field name="unit_price" readonly="1"/>
+                                        <field name="sale_order_line_id" readonly="1"/>
+                                        <!-- field name="invoice_id"/-->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Kanban View for Foundation Medicao -->
+        <record id="view_foundation_medicao_kanban" model="ir.ui.view">
+            <field name="name">foundation.medicao.kanban</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="situacao" class="o_kanban_small_column">
+                    <field name="nome"/>
+                    <field name="situacao"/>
+                    <field name="data"/>
+                    <field name="valor_total"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong><field name="nome"/></strong>
+                                    <div><field name="data"/></div>
+                                    <div><span class="oe_currency_value">$</span><field name="valor_total"/></div>
+                                    <div class="text-muted">
+                                        Situação: <field name="situacao"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

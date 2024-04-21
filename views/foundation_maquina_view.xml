@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Foundation Maquina -->
+        <record id="view_foundation_maquina_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.tree</field>
+            <field name="model">foundation.maquina</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Maquina List">
+                    <field name="nome_maquina"/>
+                    <field name="operador"/>
+                    <field name="observacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Foundation Maquina -->
+        <record id="view_foundation_maquina_form" model="ir.ui.view">
+            <field name="name">foundation.maquina.form</field>
+            <field name="model">foundation.maquina</field>
+            <field name="arch" type="xml">
+                <form string="Foundation Maquina">
+                    <sheet>
+                        <group>
+                            <field name="nome_maquina"/>
+                            <field name="operador"/>
+                            <field name="observacao"/>
+                        </group>
+                    </sheet>
+                    <!-- Inserir Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
