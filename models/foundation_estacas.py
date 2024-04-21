@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class FoundationEstacas(models.Model):
@@ -7,12 +7,12 @@ class FoundationEstacas(models.Model):
     _description = 'Estacas utilizadas na obra'
     _rec_name = 'nome_estaca'
 
-    foundation_obra_service_id = fields.Many2one(
-        'foundation.obra.service', string="Serviço na Obra", required=True)
+    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
     nome_estaca = fields.Char("Nome da Estaca", required=True)
-    diametro = fields.Float("Diâmetro (cm)")
-    profundidade = fields.Float("Profundidade (m)", required=True)
-    data = fields.Date("Data")
+
+    profundidade = fields.Float("Profundidade (m)", required=True, help="o numero deve estar entre 1 e 40", default=1.0)
+    # Setting the default value to today's date
+    data = fields.Date("Data", default=lambda self: fields.Date.context_today(self), required=True)
     observacao = fields.Char("Observação")
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
     # Adicionando o campo relacionado para Sale Order ID
@@ -21,7 +21,7 @@ class FoundationEstacas(models.Model):
     # Novo campo para relacionar diretamente com uma linha de pedido de venda
     sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",
                                          domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",
-                                         required=False)
+                                         required=True)
     # Related field to access service_id from FoundationObraService #vaeiante de produto
     variante_id = fields.Many2one(
         'product.product', string="Variante",
@@ -110,6 +110,14 @@ class FoundationEstacas(models.Model):
                 'res_id': new_medicao.id,
                 'target': 'current'
             }
+
+    @api.constrains('profundidade')
+    def _check_profundidade(self):
+        for record in self:
+            if not (1 <= record.profundidade <= 40):
+                raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
+            #_logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")
+
 
 
 

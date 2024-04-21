@@ -63,12 +63,13 @@
                 <form string="Estaca Detalhes">
                     <sheet>
                         <group>
-                            <field name="nome_estaca"/>
-                            <field name="diametro"/>
-                            <field name="profundidade"/>
                             <field name="data"/>
-                            <field name="observacao"/>
                             <field name="medicao_id"/>
+                            <field name="nome_estaca"/>
+                            <field name="profundidade"/>
+
+                            <field name="observacao"/>
+
                             <field name="service_template_id"/>
                             <field name="sale_order_id"/>
                             <field name="sale_order_line_id"/>

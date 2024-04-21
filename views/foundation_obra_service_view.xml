@@ -75,7 +75,6 @@
                                         <sheet>
                                             <group>
                                                 <field name="nome_estaca"/>
-                                                <field name="diametro"/>
                                                 <field name="profundidade"/>
                                                 <field name="data"/>
                                                 <field name="observacao"/>
