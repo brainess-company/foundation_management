@@ -16,40 +16,35 @@ class FoundationMedicao(models.Model):
     ], string="Situação", default='aguardando')
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
     estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)
-
-    # Campo computado para calcular o valor total
-    valor_total = fields.Float("Valor Total", compute="_compute_valor_total", store=True)
+    valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
     # foundation_estacas.sale_order_line_id
-    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True,  tracking=True)
-
-    @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
-    def _compute_invoice_id(self):
-        for record in self:
-            # Resetando o invoice_id para evitar associações erradas
-            record.invoice_id = False
-            related_invoice_ids = set()
-
-            # Agora verificaremos todas as linhas de fatura para garantir que apenas as criadas corretamente sejam consideradas
-            for estaca in record.estacas_ids:
-                invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
-                    lambda l: l.move_id.state == 'draft' and l.product_id == estaca.sale_order_line_id.product_id)
-                for invoice_line in invoice_lines:
-                    # Adicionar apenas faturas em rascunho que estão corretamente relacionadas pela linha de pedido
-                    if invoice_line.move_id.invoice_origin == record.sale_order_id.name:
-                        related_invoice_ids.add(invoice_line.move_id.id)
-
-            # Associar a fatura somente se houver uma única fatura rascunho relacionada corretamente
-            if len(related_invoice_ids) == 1:
-                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
+    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True,
+                                 tracking=True)
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
         for record in self:
-            total = 0.0
-            for estaca in record.estacas_ids:
-                total += estaca.total_price
-            record.valor_total = total
+            record.valor_total = sum(estaca.total_price for estaca in record.estacas_ids)
 
+    @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
+    def _compute_invoice_id(self):
+        for record in self:
+            record.invoice_id = False  # Resetando o invoice_id para evitar associações erradas
+            related_invoice_ids = set()
+
+            for estaca in record.estacas_ids:
+                invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
+                    lambda l: l.move_id.state == 'draft' and
+                              l.product_id == estaca.sale_order_line_id.product_id and
+                              l.move_id.invoice_origin == record.sale_order_id.name)
+                for invoice_line in invoice_lines:
+                    related_invoice_ids.add(invoice_line.move_id.id)
+
+            # Associar a fatura somente se houver uma única fatura em rascunho relacionada corretamente
+            if len(related_invoice_ids) == 1:
+                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
+
+    @api.depends('estacas_ids.total_price')
     def action_create_invoice(self):
         self.ensure_one()  # Garante que apenas um registro seja processado
 
@@ -63,7 +58,7 @@ class FoundationMedicao(models.Model):
                     f"Estaca {estaca.nome_estaca} não possui uma linha de pedido de venda relacionada.")
 
             product = estaca.sale_order_line_id.product_id
-            quantity = estaca.profundidade  # A quantidade é baseada na profundidade
+            quantity = estaca.profundidade
             price_unit = estaca.sale_order_line_id.price_unit
 
             line_vals = {
@@ -72,7 +67,7 @@ class FoundationMedicao(models.Model):
                 'price_unit': price_unit,
                 'name': f'Estaca {estaca.nome_estaca}: {product.display_name}',
                 'account_id': product.categ_id.property_account_income_categ_id.id or product.categ_id.property_account_expense_categ_id.id,
-                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]  # Vinculando à linha de pedido de venda
+                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]
             }
             invoice_lines.append((0, 0, line_vals))
 
@@ -86,7 +81,6 @@ class FoundationMedicao(models.Model):
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
-        #invoice.action_post()  # Postar a fatura imediatamente após a criação, se desejado
         self.invoice_id = invoice.id  # Associar a fatura criada com esta medição corretamente
 
         return {
@@ -98,6 +92,7 @@ class FoundationMedicao(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
 
 
 
