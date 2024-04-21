@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 class FoundationMedicao(models.Model):
     _name = 'foundation.medicao'
     _description = 'Medições das Estacas'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     _rec_name = 'nome'
 
     nome = fields.Char("Nome da Medição", required=True)
@@ -13,47 +14,33 @@ class FoundationMedicao(models.Model):
         ('aguardando', 'Aguardando Conferência'),
         ('emissao', 'Aguardando Emissão de Nota')
     ], string="Situação", default='aguardando')
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada")
-    estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas")
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
+    estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)
 
     # Campo computado para calcular o valor total
     valor_total = fields.Float("Valor Total", compute="_compute_valor_total", store=True)
     # foundation_estacas.sale_order_line_id
-    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True)
+    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True,  tracking=True)
 
     @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
     def _compute_invoice_id(self):
         for record in self:
-            # Esta lista guardará todos os ids de faturas postadas que estão diretamente relacionadas às estacas da medição atual
+            # Resetando o invoice_id para evitar associações erradas
+            record.invoice_id = False
             related_invoice_ids = set()
 
+            # Agora verificaremos todas as linhas de fatura para garantir que apenas as criadas corretamente sejam consideradas
             for estaca in record.estacas_ids:
-                # Obter todas as faturas postadas das linhas de pedido vinculadas à estaca
-                for invoice_line in estaca.sale_order_line_id.invoice_lines:
-                    if invoice_line.move_id.move_type == 'out_invoice' and invoice_line.move_id.state == 'posted':
+                invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
+                    lambda l: l.move_id.state == 'draft' and l.product_id == estaca.sale_order_line_id.product_id)
+                for invoice_line in invoice_lines:
+                    # Adicionar apenas faturas em rascunho que estão corretamente relacionadas pela linha de pedido
+                    if invoice_line.move_id.invoice_origin == record.sale_order_id.name:
                         related_invoice_ids.add(invoice_line.move_id.id)
 
-            # Se houver exatamente um id de fatura relacionado e postado, atribua-o ao invoice_id, senão deixe como False
+            # Associar a fatura somente se houver uma única fatura rascunho relacionada corretamente
             if len(related_invoice_ids) == 1:
                 record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
-            else:
-                record.invoice_id = False
-    """def _compute_invoice_id(self):
-        for record in self:
-            # Esta lista guardará todos os ids de faturas postadas que estão diretamente relacionadas às estacas da medição atual
-            related_invoice_ids = set()
-
-            for estaca in record.estacas_ids:
-                # Obter todas as faturas postadas das linhas de pedido vinculadas à estaca
-                for invoice_line in estaca.sale_order_line_id.invoice_lines:
-                    if invoice_line.move_id.move_type == 'out_invoice' and invoice_line.move_id.state == 'posted':
-                        related_invoice_ids.add(invoice_line.move_id.id)
-
-            # Se houver exatamente um id de fatura relacionado e postado, atribua-o ao invoice_id, senão deixe como False
-            if len(related_invoice_ids) == 1:
-                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
-            else:
-                record.invoice_id = False"""
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
