@@ -12,7 +12,9 @@ class FoundationMedicao(models.Model):
     data = fields.Date("Data da Medição")
     situacao = fields.Selection([
         ('aguardando', 'Aguardando Conferência'),
-        ('emissao', 'Aguardando Emissão de Nota')
+        ('emissao', 'Aguardando Emissão de Nota'),
+        ('rejeitado', 'Rejeitado pelo cliente'),
+        ('arquivada', 'Arquivada')
     ], string="Situação", default='aguardando')
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
     estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)

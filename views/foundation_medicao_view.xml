@@ -6,7 +6,7 @@
             <field name="name">foundation.medicao.tree</field>
             <field name="model">foundation.medicao</field>
             <field name="arch" type="xml">
-                <tree string="Foundation Medicao List">
+                <tree string="Foundation Medicao List" decoration-bf="situacao == 'aguardando'" decoration-success="situacao == 'emissao'">
                     <header>
                         <button string="Kanban View" type="action" name="%(action_foundation_medicao)d" icon="fa-th-large"/>
                         <!-- button string="Faturar" type="object" name="action_create_invoice" icon="fa-money"/ -->
@@ -15,8 +15,23 @@
                     <field name="data"/>
                     <field name="nome"/>
                     <field name="situacao"/>
+
                     <field name="valor_total"/>
-                    <field name="invoice_id"/>
+                    <field name="situacao"
+                           decoration-success="situacao == 'arquivado'"
+                           decoration-info="situacao == 'aguardando'"
+                           decoration-warning="situacao == 'emissao'"
+                           decoration-danger="situacao == 'rejeitado'"
+                           decoration-muted="situacao == ' cancelado'"
+                    widget="badge" optional="show"/>
+
+
+                    <!--field name="situacao" widget="statusbar" decoration-info="situacao == 'aguardando'" decoration-success="situacao == 'emissao'" optional="show"/-->
+
+                    <field name="invoice_id" widget="many2one" options="{'no_open': True}" optional="hide"/>
+
+
+
 
                 </tree>
             </field>
