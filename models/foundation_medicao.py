@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class FoundationMedicao(models.Model):
@@ -20,6 +20,7 @@ class FoundationMedicao(models.Model):
     # foundation_estacas.sale_order_line_id
     invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True,
                                  tracking=True)
+    invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', default=0)
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
@@ -92,6 +93,29 @@ class FoundationMedicao(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+
+
+    def action_view_invoice(self):
+        self.ensure_one()  # Garante que apenas um registro seja processado
+        if not self.invoice_id:
+            raise UserError("Não há fatura relacionada para abrir.")
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Fatura Relacionada',
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'res_id': self.invoice_id.id,
+            'target': 'current',
+        }
+
+
+    @api.depends('invoice_id')
+    def _compute_invoice_count(self):
+        for record in self:
+            record.invoice_count = 1 if record.invoice_id else 0
+
+
 
 
 
