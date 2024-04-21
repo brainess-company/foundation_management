@@ -9,7 +9,8 @@ class SaleOrder(models.Model):
     def _create_invoices(self, grouped=False, final=False, **kwargs):
         """
         Sobrescreve para verificar estacas relacionadas sem medição, criar uma nova medição,
-        vinculá-la à fatura, e inserir estacas nas linhas da fatura com detalhes completos nos logs.
+        vinculá-la à fatura, zerar quantidades das linhas existentes, inserir estacas nas linhas da fatura
+        e registrar detalhes completos nos logs.
         """
         invoices = super(SaleOrder, self)._create_invoices(grouped=grouped, final=final, **kwargs)
 
@@ -19,19 +20,24 @@ class SaleOrder(models.Model):
         for invoice in invoices:
             _logger.info(f'Processing invoice ID {invoice.id} for sale order ID {self.id}')
 
+            # Zerando quantidades das linhas de fatura existentes
+            for line in invoice.invoice_line_ids:
+                line.quantity = 0
+                _logger.info(f'Quantity zeroed for line ID {line.id} with product {line.product_id.display_name}')
+
             # Procurando por estacas que estão ligadas a esta ordem de venda e que não têm medição
             estacas = Estacas.search([
                 ('sale_order_id', '=', self.id),
                 ('medicao_id', '=', False),
                 ('sale_order_line_id', '!=', False)  # Estacas que estão ligadas a uma linha de pedido de venda
             ])
-
             _logger.info(f'Found {len(estacas)} unmeasured stakes linked to sale order lines for sale order ID {self.id}')
 
             if estacas:
                 # Criando uma nova medição
                 last_medicao = Medicao.search([('sale_order_id', '=', self.id)], order='create_date desc', limit=1)
-                nome_medicao = f"Medição {int(last_medicao.nome.split(' ')[-1]) + 1 if last_medicao else 1}"
+                next_number = int(last_medicao.nome.split(' ')[-1]) + 1 if last_medicao else 1
+                nome_medicao = f"Medição {next_number}"
                 new_medicao = Medicao.create({
                     'nome': nome_medicao,
                     'sale_order_id': self.id,
