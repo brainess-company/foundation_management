@@ -46,42 +46,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- Action to open the view with estacas -->
-        <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
-            <field name="name">Serviços na Obra com Estacas</field>
-            <field name="res_model">foundation.obra.service</field>
-            <field name="view_mode">tree,form</field>
-            <field name="views" eval="[(ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form'), 'form')]"/>
-        </record>
 
 
-
-        <!-- Action to open the kanban view -->
-        <record id="action_foundation_medicao_kanban" model="ir.actions.act_window">
-            <field name="name">Medições Kanban</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.medicao</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="view_id" ref="view_foundation_medicao_kanban"/>
-        </record>
-
-        <!-- Action to open the kanban view tree or form -->
-        <record id="action_foundation_medicao" model="ir.actions.act_window">
-            <field name="name">Medições</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.medicao</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="views">
-                [(ref('view_foundation_medicao_tree'), 'tree'),
-                 (ref('view_foundation_medicao_kanban'), 'kanban'),
-                 (ref('view_foundation_medicao_form'), 'form')]
-            </field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Clique para criar uma nova Medição.
-                </p>
-            </field>
-        </record>
 
         <!-- Extendendo a Form View para adicionar o botão de download PDF -->
         <template id="view_foundation_medicao_form_inherit" inherit_id="tiago_fundacao.view_foundation_medicao_form">

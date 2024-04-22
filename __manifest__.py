@@ -14,21 +14,18 @@
         'product',
     ],
     'data': [
-        'security/ir.model.access.csv',
-        # 'views/foundation_views.xml',
-        'views/foundation_estacas_view.xml',
-        'views/foundation_maquina_view.xml',
-        'views/foundation_medicao_view.xml',
-        'views/foundation_obra_service_view.xml',
-        'views/foundation_obra_view.xml',
-        'views/freports.xml',
-        'views/foundation_actions.xml',
-        'views/foundation_menus.xml',
-        # 'views/reports.xml'  # Onde você define seus paperformats, se necessário
-        # 'views/foundation_obra_service_views.xml',
-        # 'views/foundation_estacas_views.xml',
-        # 'views/foundation_medicao_views.xml',
+        'security/ir.model.access.csv',  # Load security and access rules first
+
+        'views/foundation_estacas_view.xml',  # Load views for the Estacas model
+        'views/foundation_maquina_view.xml',  # Load views for the Maquina model
+        'views/foundation_obra_service_view.xml',  # Load views for the Obra Service model
+        'views/foundation_obra_view.xml',  # Load views for the Obra model
+        'views/foundation_medicao_view.xml',  # Load views for the Medicao model
+        'views/freports.xml',  # Load other reports or final views
+        'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
+        'views/foundation_menus.xml',  # Load menu definitions
     ],
+
     'demo': [],
     'installable': True,
     'application': True,

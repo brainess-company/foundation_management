@@ -17,12 +17,15 @@ class FoundationMedicao(models.Model):
         ('arquivada', 'Arquivada')
     ], string="Situação", default='aguardando')
 
+    # RELACIONA ESSA MEDIÇÃO COM UMA SALE ORDER
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
+
+    # CAMPO INVERSO QUE MOSTRA AS ESTACAS QUE ESTÃO RELACIONADAS COM ESSA MEDIÇÃO
     estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)
+
+    # CAMPOS COMPUTADOS
     valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
-    # foundation_estacas.sale_order_line_id
-    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True,
-                                 tracking=True)
+    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True, tracking=True)
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', default=0)
 
     @api.depends('estacas_ids.total_price')

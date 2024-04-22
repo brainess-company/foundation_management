@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+        <!-- Action to open the kanban view tree or form -->
+        <record id="action_foundation_medicao" model="ir.actions.act_window">
+            <field name="name">Medições</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.medicao</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="views">
+                [(ref('view_foundation_medicao_tree'), 'tree'),
+                 (ref('view_foundation_medicao_kanban'), 'kanban'),
+                 (ref('view_foundation_medicao_form'), 'form')]
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Clique para criar uma nova Medição.
+                </p>
+            </field>
+        </record>
+
+
+
+        <!-- Kanban View for Foundation Medicao -->
+        <record id="view_foundation_medicao_kanban" model="ir.ui.view">
+            <field name="name">foundation.medicao.kanban</field>
+            <field name="model">foundation.medicao</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="situacao" class="o_kanban_small_column">
+                    <field name="nome"/>
+                    <field name="situacao"/>
+                    <field name="data"/>
+                    <field name="valor_total"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong><field name="nome"/></strong>
+                                    <div><field name="data"/></div>
+                                    <div><span class="oe_currency_value">$</span><field name="valor_total"/></div>
+                                    <div class="text-muted">
+                                        Situação: <field name="situacao"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Action to open the kanban view -->
+        <record id="action_foundation_medicao_kanban" model="ir.actions.act_window">
+            <field name="name">Medições Kanban</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.medicao</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_foundation_medicao_kanban"/>
+        </record>
+
         <!-- Tree View for Foundation Medicao -->
         <record id="view_foundation_medicao_tree" model="ir.ui.view">
             <field name="name">foundation.medicao.tree</field>
@@ -15,7 +72,6 @@
                     <field name="data"/>
                     <field name="nome"/>
                     <field name="situacao"/>
-
                     <field name="valor_total"/>
                     <field name="situacao"
                            decoration-success="situacao == 'arquivado'"
@@ -24,15 +80,9 @@
                            decoration-danger="situacao == 'rejeitado'"
                            decoration-muted="situacao == ' cancelado'"
                     widget="badge" optional="show"/>
-
-
                     <!--field name="situacao" widget="statusbar" decoration-info="situacao == 'aguardando'" decoration-success="situacao == 'emissao'" optional="show"/-->
 
                     <field name="invoice_id" widget="many2one" options="{'no_open': True}" optional="hide"/>
-
-
-
-
                 </tree>
             </field>
         </record>
@@ -93,33 +143,6 @@
         </record>
 
 
-        <!-- Kanban View for Foundation Medicao -->
-        <record id="view_foundation_medicao_kanban" model="ir.ui.view">
-            <field name="name">foundation.medicao.kanban</field>
-            <field name="model">foundation.medicao</field>
-            <field name="arch" type="xml">
-                <kanban default_group_by="situacao" class="o_kanban_small_column">
-                    <field name="nome"/>
-                    <field name="situacao"/>
-                    <field name="data"/>
-                    <field name="valor_total"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="oe_kanban_details">
-                                    <strong><field name="nome"/></strong>
-                                    <div><field name="data"/></div>
-                                    <div><span class="oe_currency_value">$</span><field name="valor_total"/></div>
-                                    <div class="text-muted">
-                                        Situação: <field name="situacao"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
 
     </data>
 </odoo>
