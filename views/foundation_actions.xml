@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
         <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_estacas" model="ir.actions.act_window">
             <field name="name">Foundation Estacas</field>
@@ -16,9 +15,6 @@
                 </p>
             </field>
         </record>
-
-
-3
         <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_maquina" model="ir.actions.act_window">
             <field name="name">Foundation Maquina</field>
@@ -34,7 +30,7 @@
             <field name="res_model">foundation.medicao</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <!-- Ações para Pilares de Fundação -->
+        <!-- Ações para Obras de Fundação -->
         <record id="action_foundation_obra" model="ir.actions.act_window">
             <field name="name">Foundation Obra</field>
             <field name="type">ir.actions.act_window</field>
@@ -51,8 +47,6 @@
         </record>
 
         <!-- Action to open the view with estacas -->
-
-
         <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
             <field name="name">Serviços na Obra com Estacas</field>
             <field name="res_model">foundation.obra.service</field>
@@ -61,17 +55,7 @@
         </record>
 
 
-        <record model="ir.actions.server" id="action_generate_medicao_server">
-            <field name="name">Gerar Medição</field>
-            <field name="model_id" ref="model_foundation_estacas"/>
-            <field name="binding_model_id" ref="model_foundation_estacas"/>
-            <field name="state">code</field>
-            <field name="type">ir.actions.server</field>
-            <field name="code">
-                action = records.action_generate_medicao()
-            </field>
-            <field name="binding_type">action</field>
-        </record>
+
         <!-- Action to open the kanban view -->
         <record id="action_foundation_medicao_kanban" model="ir.actions.act_window">
             <field name="name">Medições Kanban</field>
@@ -81,6 +65,7 @@
             <field name="view_id" ref="view_foundation_medicao_kanban"/>
         </record>
 
+        <!-- Action to open the kanban view tree or form -->
         <record id="action_foundation_medicao" model="ir.actions.act_window">
             <field name="name">Medições</field>
             <field name="type">ir.actions.act_window</field>
@@ -105,7 +90,7 @@
             </xpath>
         </template>
 
-        <!-- Ação modificada para agora realizar uma operação útil -->
+        <!-- Criar uma fatura -->
         <record id="action_create_invoice" model="ir.actions.server">
             <field name="name">Faturar</field>
             <field name="model_id" ref="model_foundation_medicao"/>
@@ -115,7 +100,18 @@
                 action = model.action_create_invoice()
             </field>
         </record>
-
+        <!-- Gerar uma medição -->
+        <record model="ir.actions.server" id="action_generate_medicao_server">
+            <field name="name">Gerar Medição</field>
+            <field name="model_id" ref="model_foundation_estacas"/>
+            <field name="binding_model_id" ref="model_foundation_estacas"/>
+            <field name="state">code</field>
+            <field name="type">ir.actions.server</field>
+            <field name="code">
+                action = records.action_generate_medicao()
+            </field>
+            <field name="binding_type">action</field>
+        </record>
 
     </data>
 </odoo>

@@ -9,13 +9,14 @@ class FoundationMedicao(models.Model):
     _rec_name = 'nome'
 
     nome = fields.Char("Nome da Medição", required=True)
-    data = fields.Date("Data da Medição")
+    data = fields.Date("Data da Medição", default=lambda self: fields.Date.context_today(self), required=True)
     situacao = fields.Selection([
         ('aguardando', 'Aguardando Conferência'),
         ('emissao', 'Aguardando Emissão de Nota'),
         ('rejeitado', 'Rejeitado pelo cliente'),
         ('arquivada', 'Arquivada')
     ], string="Situação", default='aguardando')
+
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
     estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)
     valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
