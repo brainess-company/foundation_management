@@ -3,49 +3,48 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class FoundationEstacas(models.Model):
+    """
+    PRINCIPAL TABELA DO MODELO, REGISTRO DE ESTACAS E RELACIONAMENTO COM OUTRAS TABELAS
+    TODO INSERIR RALACIONAMENTO COM A NOVA TABELA (foundation.relatorios)
+    """
     _name = 'foundation.estacas'
     _description = 'Estacas utilizadas na obra'
     _rec_name = 'nome_estaca'
 
-    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
-    nome_estaca = fields.Char("Nome da Estaca", required=True)
 
+    # CAMPOS PROPRIOS
+    nome_estaca = fields.Char("Nome da Estaca", required=True)
+    signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
+    image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
     profundidade = fields.Float("Profundidade (m)", required=True, help="o numero deve estar entre 1 e 40", default=1.0)
-    # Setting the default value to today's date
     data = fields.Date("Data", default=lambda self: fields.Date.context_today(self), required=True)
     observacao = fields.Char("Observação")
+
+    # RELACIONA ESSA ESTACA COM O SERVIÇO
+    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
     # Adicionando o campo relacionado para Sale Order ID
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda",
-                                    related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
     # Novo campo para relacionar diretamente com uma linha de pedido de venda
-    sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",
-                                         domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",
-                                         required=True)
+    sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",required=True)
     # Related field to access service_id from FoundationObraService #vaeiante de produto
-    variante_id = fields.Many2one(
-        'product.product', string="Variante",
-        related='foundation_obra_service_id.variante_id', readonly=True, store=True
-    )
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço",
-                                          related='foundation_obra_service_id.service_template_id', readonly=True,
-                                          store=True)
+    variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True)
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='foundation_obra_service_id.service_template_id', readonly=True,store=True)
+
+
+
+    # Campos relacionados para mostrar no calendário
+    nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
+    nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
+    nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
+
+    # CAMPOS CALCULADOS
     unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
     total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
 
-    # Novo campo de assinatura
-    signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
-    image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
-    # Campos relacionados para mostrar no calendário
-    nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",
-                               readonly=True)
-    nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",
-                                readonly=True)
-    nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
-
-
     @api.model
     def create(self, vals):
+
         record = super(FoundationEstacas, self).create(vals)
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
@@ -117,6 +116,7 @@ class FoundationEstacas(models.Model):
             if not (1 <= record.profundidade <= 40):
                 raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
             #_logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")
+
 
 
 
