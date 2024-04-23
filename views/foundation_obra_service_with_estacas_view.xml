@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <!-- Tree View for Foundation Obra Service -->
-        <record id="view_foundation_obra_service_tree" model="ir.ui.view">
+        <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
             <field name="name">foundation.obra.service.tree</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
@@ -25,7 +25,7 @@
             <field name="name">foundation.obra.service.with.estacas.form</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <form string="Serviço na Obra com Estacas">
+                <form string="Serviço na Obra com Estacas b">
                     <sheet>
                         <group>
                             <field name="variante_id" invisible="1"/>
@@ -71,10 +71,10 @@
 
         <!-- Action to open the view with estacas -->
         <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
-            <field name="name">Serviços na Obra com Estacas</field>
+            <field name="name">Serviços na Obra com Estacas F</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
-            <field name="views" eval="[(ref('view_foundation_obra_service_tree'), 'tree'), (ref('view_foundation_obra_service_with_estacas_form'), 'form')]"/>
+            <field name="views" eval="[(ref('view_foundation_obra_service_with_estacas_tree'), 'tree'), (ref('view_foundation_obra_service_with_estacas_form'), 'form')]"/>
         </record>
     </data>
 
