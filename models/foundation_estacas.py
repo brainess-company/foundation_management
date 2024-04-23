@@ -35,6 +35,8 @@ class FoundationEstacas(models.Model):
     nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
     nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
 
+    relatorio_id = fields.Many2one('foundation.relatorios', string="Relatório Associado")
+
     # CAMPOS CALCULADOS
     unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
     total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
