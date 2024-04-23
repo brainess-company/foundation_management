@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- provavelmente pelo radical ser o mesmo o sistema fica confuso -->
+       <menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)"
+          parent="main_foundation_menu" action="action_foundation_obra_service_with_estacas" sequence="50"/>
+
+        <menuitem id="menu_foundation_obra_service" name="Obra Services"
+          parent="main_foundation_menu" action="action_foundation_obra_service" sequence="60"/>
+
+        <!-- os menus acima estão levando para essa tree -->
+        <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
+
+
+        <!-- ambas as trees trazem para essa form -->
+        <record id="view_foundation_obra_service_form" model="ir.ui.view">
+
+    </data>
+</odoo>

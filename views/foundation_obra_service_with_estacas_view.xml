@@ -3,7 +3,7 @@
     <data>
         <!-- Tree View for Foundation Obra Service -->
         <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
-            <field name="name">foundation.obra.service.tree</field>
+            <field name="name">foundation.obra.service.with.estacas.tree</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Obra Service List">
@@ -17,9 +17,6 @@
             </field>
         </record>
 
-        <!-- Tree View for foundation  obra service with estacas -->
-        <!-- Tree View for foundation  obra service with estacas -->
-  <!-- Form View for Foundation Obra Service with Estacas -->
         <!-- Tree View for foundation  obra service with estacas -->
         <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.with.estacas.form</field>
