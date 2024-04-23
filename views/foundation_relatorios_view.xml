@@ -2,6 +2,21 @@
 <odoo>
     <data>
 
+        <record id="view_foundation_obra_service2_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service2.tree</field>
+            <field name="model">foundation.obra.service</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Obra Service List Simples">
+                    <field name="sale_order_id"/>
+                    <field name="service_name"/>
+                    <field name="nome_obra"/>
+                    <field name="endereco"/>
+                    <field name="operador_id"/>
+                    <button name="%(action_open_foundation_relatorio_form)d" type="action" string="Adicionar Relatório" icon="fa-plus-square"/>
+                </tree>
+            </field>
+        </record>
+
 
 
         <!-- Form View for inserting Estacas into Relatórios -->
@@ -52,7 +67,17 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-
-
+        <record id="action_foundation_obra_service2_tree" model="ir.actions.act_window">
+            <field name="name">Serviços da Fundação</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.obra.service</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_obra_service2_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie um novo Serviço de Fundação
+                </p>
+            </field>
+        </record>
     </data>
 </odoo>
