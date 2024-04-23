@@ -10,53 +10,16 @@
                     <field name="sale_order_id"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
-                    <field name="endereco"/>
-                    <field name="operador_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Form View for Foundation Obra Service -->
-        <record id="view_foundation_obra_service_form" model="ir.ui.view">
-            <field name="name">foundation.obra.service.form</field>
-            <field name="model">foundation.obra.service</field>
-            <field name="arch" type="xml">
-                <form string="Foundation Obra Service">
-                    <sheet>
-                        <group>
-                            <field name="sale_order_id"/>
-                            <field name="service_name"/>
-                            <field name="nome_obra"/>
-                            <field name="foundation_maquina_id"/>
-                            <field name="endereco"/>
-                            <field name="operador_id"/>
-                        </group>
-                    </sheet>
-                    <!-- Inserir Chatter -->
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
-        <!-- Tree View for Foundation Obra Service -->
-        <record id="view_foundation_obra_service_tree" model="ir.ui.view">
-            <field name="name">foundation.obra.service.tree</field>
-            <field name="model">foundation.obra.service</field>
-            <field name="arch" type="xml">
-                <tree string="Foundation Obra Service List">
-                    <field name="sale_order_id"/>
-                    <field name="service_name"/>
-                    <field name="nome_obra"/>
                     <field name="foundation_maquina_id"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
-
                 </tree>
             </field>
         </record>
 
+        <!-- Tree View for foundation  obra service with estacas -->
+        <!-- Tree View for foundation  obra service with estacas -->
+  <!-- Form View for Foundation Obra Service with Estacas -->
         <!-- Tree View for foundation  obra service with estacas -->
         <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.with.estacas.form</field>
@@ -76,6 +39,7 @@
                                         <sheet>
                                             <group>
                                                 <field name="nome_estaca"/>
+                                   
                                                 <field name="profundidade"/>
                                                 <field name="data"/>
                                                 <field name="observacao"/>
@@ -95,16 +59,24 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
+
+
+
         <!-- Action to open the view with estacas -->
         <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
             <field name="name">Serviços na Obra com Estacas</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
-            <field name="views" eval="[(ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form'), 'form')]"/>
+            <field name="views" eval="[(ref('view_foundation_obra_service_tree'), 'tree'), (ref('view_foundation_obra_service_with_estacas_form'), 'form')]"/>
         </record>
-
     </data>
+
+
 </odoo>

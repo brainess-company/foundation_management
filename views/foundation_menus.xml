@@ -19,11 +19,9 @@
         <menuitem id="menu_foundation_obra" name="Obras"
                   parent="main_foundation_menu" action="action_foundation_obra" sequence="40"/>
 
-        <menuitem id="menu_foundation_obra_service" name="Serviço em Obras"
-                  parent="main_foundation_menu" action="action_foundation_obra_service" sequence="50"/>
-        <!-- Menu item for the new view -->
+
         <menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)"
-                  parent="main_foundation_menu" action="action_foundation_obra_service_with_estacas" sequence="60"/>
+          parent="main_foundation_menu" action="action_foundation_obra_service_with_estacas" sequence="50"/>
 
     </data>
 </odoo>
