@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>                                                                   <!-- Tree View for Foundation Obra Service -->
+    <data>
+        <!-- New Tree View for Simpler Foundation Obra Service -->
         <record id="view_foundation_obra_service_simples_tree" model="ir.ui.view">
             <field name="name">foundation.obra.service.simples.tree</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <tree string="Foundation Obra Service List Simples">
+                <tree string="Simplified Foundation Obra Service List">
                     <field name="sale_order_id"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
+                    <field name="foundation_maquina_id"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
                 </tree>
             </field>
+            <field name="priority">2</field>
         </record>
 
-        <!-- Form View for Foundation Obra Service -->
+        <!-- Simple Form View for editing Foundation Obra Service -->
         <record id="view_foundation_obra_service_simples_form" model="ir.ui.view">
             <field name="name">foundation.obra.service.simples.form</field>
             <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <form string="Foundation Obra Service Simples">
+                <form string="Simplified Edit for Obra Service">
                     <sheet>
                         <group>
                             <field name="sale_order_id"/>
@@ -31,22 +34,23 @@
                             <field name="operador_id"/>
                         </group>
                     </sheet>
-                    <!-- Inserir Chatter -->
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
 
+        <!-- Action to open the new simple view -->
 
-        <record id="action_foundation_obra_service_simples" model="ir.actions.act_window">
-            <field name="name">Foundation Piles</field>
-            <field name="type">ir.actions.act_window</field>
+
+        <!-- Action to open the view with estacas -->
+
+
+        <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
+            <field name="name">Serviços na Obra com Estacas</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
-
+            <field name="view_ids" eval="[(5, 0, 0),
+                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
+                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
         </record>
     </data>
 </odoo>
