@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+
         <!-- Tree View for Foundation Maquina -->
         <record id="view_foundation_maquina_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.tree</field>
@@ -35,5 +37,6 @@
                 </form>
             </field>
         </record>
+
     </data>
 </odoo>

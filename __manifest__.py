@@ -15,13 +15,15 @@
     ],
     'data': [
         'security/ir.model.access.csv',  # Load security and access rules first
-        'views/foundation_estacas_view.xml',  # Load views for the Estacas model
+
+
+        'views/freports.xml',  # Load other reports or final views
         'views/foundation_maquina_view.xml',  # Load views for the Maquina model
-        'views/foundation_obra_service_with_estacas_view.xml',  # Load views for the Obra Service model
         'views/foundation_obra_view.xml',  # Load views for the Obra model
+        'views/foundation_obra_service_with_estacas_view.xml',  # Load views for the Obra Service model
         'views/foundation_medicao_view.xml',  # Load views for the Medicao model
         'views/foundation_obra_service_simples_view.xml',  # Load views for the Obra Service model
-        'views/freports.xml',  # Load other reports or final views
+        'views/foundation_estacas_view.xml',  # Load views for the Estacas model
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
         'views/foundation_menus.xml',  # Load menu definitions
     ],

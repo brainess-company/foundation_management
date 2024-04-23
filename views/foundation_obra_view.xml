@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+
+
         <!-- Tree View for Foundation Obra -->
         <record id="view_foundation_obra_tree" model="ir.ui.view">
             <field name="name">foundation.obra.tree</field>
@@ -37,5 +40,6 @@
                 </form>
             </field>
         </record>
+
     </data>
 </odoo>

@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Ações para Pilares de Fundação -->
-        <record id="action_foundation_estacas" model="ir.actions.act_window">
-            <field name="name">Foundation Estacas</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.estacas</field>
-            <field name="view_mode">tree,form,calendar,graph</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Create the first estaca
-                </p><p>
-                    Use the calendar to schedule your estacas. Use the graph view to analyze the estacas.
-                </p>
-            </field>
-        </record>
-        <!-- Ações para Pilares de Fundação -->
+
+
+                                <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_maquina" model="ir.actions.act_window">
             <field name="name">Foundation Maquina</field>
             <field name="type">ir.actions.act_window</field>
@@ -23,21 +11,37 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- Ações para Obras de Fundação -->
+
+        <record id="action_foundation_obra_service_simples" model="ir.actions.act_window">
+            <field name="name">Foundation Piles simples</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.obra.service</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+
+                        <!-- Ações para Obras de Fundação -->
         <record id="action_foundation_obra" model="ir.actions.act_window">
             <field name="name">Foundation Obra</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.obra</field>
             <field name="view_mode">tree,form</field>
         </record>
-        
-        <record id="action_foundation_obra_service" model="ir.actions.act_window">
-            <field name="name">Foundation Piles</field>
-            <field name="type">ir.actions.act_window</field>
+
+
+
+
+
+        <!-- Action to open the view with estacas -->
+        <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
+            <field name="name">Serviços na Obra com Estacas Funcionando</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
+                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
         </record>
-
 
 
         <!-- Extendendo a Form View para adicionar o botão de download PDF -->
@@ -46,6 +50,7 @@
                 <button name="%(tiago_fundacao.medicao_report)d" type="action" string="Download PDF" class="oe_highlight"/>
             </xpath>
         </template>
+
 
         <!-- Criar uma fatura -->
         <record id="action_create_invoice" model="ir.actions.server">
@@ -69,6 +74,22 @@
             </field>
             <field name="binding_type">action</field>
         </record>
+                                <!-- Ações para Pilares de Fundação -->
+        <record id="action_foundation_estacas" model="ir.actions.act_window">
+            <field name="name">Foundation Estacas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.estacas</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first estaca
+                </p><p>
+                    Use the calendar to schedule your estacas. Use the graph view to analyze the estacas.
+                </p>
+            </field>
+        </record>
+
+
 
     </data>
 </odoo>
