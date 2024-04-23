@@ -15,5 +15,18 @@
         <!-- ambas as trees trazem para essa form -->
         <record id="view_foundation_obra_service_form" model="ir.ui.view">
 
+
+
+                <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
+            <field name="name">Serviços na Obra com Estacas Funcionando</field>
+            <field name="res_model">foundation.obra.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
+                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
+        </record>
+
+        essa configuração de eval resolveu o problema
+
     </data>
 </odoo>

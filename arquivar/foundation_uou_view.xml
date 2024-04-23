@@ -45,7 +45,7 @@
 
 
         <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
-            <field name="name">Serviços na Obra com Estacas</field>
+            <field name="name">Serviços na Obra com Estacas Funcionando</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
             <field name="view_ids" eval="[(5, 0, 0),

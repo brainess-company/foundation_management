@@ -42,7 +42,7 @@
 
 
         <record id="action_foundation_obra_service_simples" model="ir.actions.act_window">
-            <field name="name">Foundation Piles</field>
+            <field name="name">Foundation Piles simples</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
