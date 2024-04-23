@@ -28,6 +28,12 @@ class FoundationRelatorios(models.Model):
     endereco_obra = fields.Char(related='foundation_obra_service_id.endereco', string="Endereço da Obra", readonly=True,
                                 store=True)
 
+    sale_order_id = fields.Many2one('sale.order', string="Sale Order",
+                                    related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
+
+    # No modelo FoundationRelatorios
+    service_template_id = fields.Many2one('product.template', related='foundation_obra_service_id.service_template_id',
+                                          readonly=True, store=True)
 
     @api.model
     def create(self, vals):

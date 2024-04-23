@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Obra Service List">
                     <field name="sale_order_id"/>
+                    <field name="service_template_id" invisible="1"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
                     <field name="foundation_maquina_id"/>
@@ -37,7 +38,6 @@
                                         <sheet>
                                             <group>
                                                 <field name="nome_estaca"/>
-
                                                 <field name="profundidade"/>
                                                 <field name="data"/>
                                                 <field name="observacao"/>
