@@ -12,7 +12,9 @@
                     <field name="nome_obra"/>
                     <field name="endereco"/>
                     <field name="operador_id"/>
-                    <button name="%(action_open_foundation_relatorio_form)d" type="action" string="Adicionar Relatório" icon="fa-plus-square"/>
+                    <button name="%(action_open_foundation_relatorio_form)d" type="action"
+            string="Adicionar Relatório" icon="fa-plus-square"
+            context="{'default_foundation_obra_service_id': id}"/>
                 </tree>
             </field>
         </record>
@@ -20,6 +22,7 @@
 
 
         <!-- Form View for inserting Estacas into Relatórios -->
+        <!-- Form View for inserting Estacas into Relatórios, including service details -->
         <record id="view_foundation_relatorio_form" model="ir.ui.view">
             <field name="name">foundation.relatorio.form</field>
             <field name="model">foundation.relatorios</field>
@@ -28,7 +31,10 @@
                     <sheet>
                         <group>
                             <field name="data"/>
-                            <field name="foundation_obra_service_id"/>
+                            <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="nome_obra" related="foundation_obra_service_id.nome_obra" readonly="1"/>
+                            <field name="nome_servico" related="foundation_obra_service_id.service_name" readonly="1"/>
+                            <field name="endereco_obra" related="foundation_obra_service_id.endereco" readonly="1"/>
                         </group>
                         <notebook>
                             <page string="Estacas">
@@ -37,6 +43,7 @@
                                         <field name="nome_estaca"/>
                                         <field name="profundidade"/>
                                         <field name="data"/>
+
                                     </tree>
                                     <form>
                                         <group>
@@ -58,6 +65,7 @@
                 </form>
             </field>
         </record>
+
                 <!-- Action to open the new Relatório Form -->
         <record id="action_open_foundation_relatorio_form" model="ir.actions.act_window">
             <field name="name">Criar Relatório</field>
@@ -66,6 +74,7 @@
             <field name="view_id" ref="view_foundation_relatorio_form"/>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="context">{}</field>
         </record>
         <record id="action_foundation_obra_service2_tree" model="ir.actions.act_window">
             <field name="name">Serviços da Fundação</field>

@@ -16,6 +16,19 @@ class FoundationRelatorios(models.Model):
         ('cancelled', 'Cancelado')
     ], default='draft', string="Status", required=True)
 
+    # Campos adicionais relacionados ao serviço
+    nome_servico = fields.Char(related='foundation_obra_service_id.service_name', string="Nome do Serviço",
+                               readonly=True, store=True)
+    nome_maquina = fields.Char(related='foundation_obra_service_id.nome_maquina', string="Máquina Associada",
+                               readonly=True, store=True)
+    nome_operador = fields.Char(related='foundation_obra_service_id.operador_id.name', string="Operador", readonly=True,
+                                store=True)
+    nome_obra = fields.Char(related='foundation_obra_service_id.nome_obra', string="Nome da Obra", readonly=True,
+                            store=True)
+    endereco_obra = fields.Char(related='foundation_obra_service_id.endereco', string="Endereço da Obra", readonly=True,
+                                store=True)
+
+
     @api.model
     def create(self, vals):
         if not vals.get('assinatura'):
