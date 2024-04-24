@@ -1,3 +1,4 @@
+from datetime import date
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
@@ -28,7 +29,22 @@ class Chamada(models.Model):
 
     # Adiciona um campo Many2one para vincular a Foundation Obra Service
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
+    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
+    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
+                                            store=False)
 
+    @api.depends('has_today_chamada')
+    def _compute_display_has_today_chamada(self):
+        for record in self:
+            record.display_has_today_chamada = "Sim" if record.has_today_chamada else "Não"
+
+    def _compute_has_today_chamada(self):
+        for record in self:
+            today_chamadas = self.env['foundation.chamada'].search([
+                ('foundation_obra_service_id', '=', record.id),
+                ('data', '=', date.today())
+            ])
+            record.has_today_chamada = bool(today_chamadas)
 
     @api.constrains('foundation_obra_service_id', 'data')
     def _check_unique_chamada_per_day(self):

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Tree View for Foundation Maquina Registro -->
+        <!-- O BOTÃO QUE O MENU ACIONA TRAZ PRA CA Tree View for Foundation Maquina Registro -->
         <record id="view_foundation_maquina_registro_estacas_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.estacas.tree</field>
             <field name="model">foundation.maquina.registro</field>
             <field name="arch" type="xml">
                 <tree string="Foundation Maquina Registro List">
                     <field name="sale_order_id"/>
-                    <field name="service_id" invisible="1"/>
+                    <field name="service_id"/>
                     <field name="maquina_id"/>
                     <field name="nome_obra"/>
                 </tree>
@@ -60,7 +60,7 @@
                 </form>
             </field>
         </record>
-        <!-- Action to open the Tree View of Foundation Maquina Registro -->
+        <!-- O MENU ACIONA ESSE BOTÃO TRAZ PRA CA Action to open the Tree View of Foundation Maquina Registro -->
         <record id="action_foundation_maquina_registro_estacas_tree" model="ir.actions.act_window">
             <field name="name">Visualizar Registros de Máquina</field>
             <field name="type">ir.actions.act_window</field>
