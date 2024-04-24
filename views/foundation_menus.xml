@@ -32,5 +32,9 @@
                   parent="main_foundation_menu" action="action_foundation_obra_service2_tree"/>
 
 
+        <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios"
+                  parent="main_foundation_menu" action="action_foundation_relatorios_lista_tree"/>
+
+
     </data>
 </odoo>

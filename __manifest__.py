@@ -23,6 +23,7 @@
         'views/foundation_obra_service_simples_view.xml',  # Load views for the Obra Service model
         'views/foundation_estacas_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_view.xml',  # Load views for the Estacas model
+        'views/foundation_relatorios_lista_view.xml',
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
         'views/foundation_menus.xml',  # Load menu definitions
     ],

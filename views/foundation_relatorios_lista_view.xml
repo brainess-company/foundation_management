@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
-        <record id="view_foundation_obra_service2_tree" model="ir.ui.view">
-            <field name="name">foundation.obra.service2.tree</field>
-            <field name="model">foundation.obra.service</field>
+        <!-- Form View for Foundation Obra Service -->
+        <!-- Tree View for Foundation Obra Service -->
+        <record id="view_foundation_relatorios_lista_tree" model="ir.ui.view">
+            <field name="name">foundation.relatorios.lista.tree</field>
+            <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
-                <tree string="Foundation Obra Service List Simples">
-                    <field name="sale_order_id"/>
-                    <field name="service_name"/>
+                <tree string="Lista de relatorios">
+                    <field name="data"/>
+                    <field name="foundation_obra_service_id"/>
+                    <field name="nome_maquina"/>
+                    <field name="nome_operador"/>
                     <field name="nome_obra"/>
-                    <field name="endereco"/>
-                    <field name="operador_id"/>
-                    <button name="%(action_open_foundation_relatorio_form)d" type="action"
-            string="Adicionar Relatório" icon="fa-plus-square"
-            context="{'default_foundation_obra_service_id': id}"/>
+                    <field name="sale_order_id"/>
                 </tree>
             </field>
         </record>
 
-        <!-- Form View for inserting Estacas into Relatórios, including service details -->
-        <record id="view_foundation_relatorio_form" model="ir.ui.view">
-            <field name="name">foundation.relatorio.form</field>
+
+        <!-- Form View for Foundation Obra Service -->
+                <!-- Form View for inserting Estacas into Relatórios, including service details -->
+        <record id="view_foundation_relatorios_lista_form" model="ir.ui.view">
+            <field name="name">foundation.relatorios.lista.form</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas">
@@ -63,38 +64,34 @@
                         <group>
                             <field name="assinatura" widget="signature"/>
                         </group>
-                        <footer>
-                            <button string="Salvar" type="object" name="action_save" class="oe_highlight"/>
-                            <button string="Cancelar" class="oe_link" special="cancel"/>
-                        </footer>
+
                     </sheet>
                 </form>
             </field>
         </record>
-
-
-
-        <!-- Action to open the new Relatório Form -->
-        <record id="action_open_foundation_relatorio_form" model="ir.actions.act_window">
-            <field name="name">Criar Relatório</field>
+                <!-- Action to open the new Relatório Form -->
+        <record id="action_open_foundation_relatorios_lista_form" model="ir.actions.act_window">
+            <field name="name">Relatorio</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
-            <field name="view_id" ref="view_foundation_relatorio_form"/>
+            <field name="view_id" ref="view_foundation_relatorios_lista_form"/>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="context">{}</field>
         </record>
-        <record id="action_foundation_obra_service2_tree" model="ir.actions.act_window">
-            <field name="name">Serviços da Fundação</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.obra.service</field>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_foundation_obra_service2_tree"/>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Crie um novo Serviço de Fundação
-                </p>
-            </field>
-        </record>
+        <record id="action_foundation_relatorios_lista_tree" model="ir.actions.act_window">
+    <field name="name">Relatorios</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">foundation.relatorios</field>
+    <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form')]"/>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Crie um novo Serviço de Fundação
+        </p>
+    </field>
+</record>
+
+
     </data>
 </odoo>
