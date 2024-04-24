@@ -8,6 +8,8 @@ class FoundationMaquinaRegistro(models.Model):
     """
     _name = 'foundation.maquina.registro'
     _description = 'Registro de Máquinas para Serviços'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
+    #_rec_name = 'nome_maquina'
 
     service_id = fields.Many2one('foundation.obra.service', string="Serviço")
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
