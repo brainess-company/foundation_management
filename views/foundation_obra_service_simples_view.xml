@@ -29,6 +29,8 @@
                             <field name="sale_order_id"/>
                             <field name="service_name"/>
                             <field name="nome_obra"/>
+                            <field name="foundation_maquina_ids" widget="many2many_tags"
+                           string="Máquinas Associadas"/>
                             <!--field name="foundation_maquina_id"/-->
                             <!--field name="endereco"/-->
                             <!--field name="operador_id"/-->
