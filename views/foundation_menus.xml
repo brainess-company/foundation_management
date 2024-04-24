@@ -24,12 +24,18 @@
     <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_menu"
               action="action_foundation_estacas" sequence="40"/>
 
+
     <!-- Submenu para Relatórios -->
     <menuitem id="foundation_relatorios_menu" name="Relatórios" parent="main_foundation_menu" sequence="50"/>
         <menuitem id="menu_foundation_relatorio_completo" name="Relatório de Estacas"
                   parent="foundation_relatorios_menu" action="action_foundation_relatorio_completo_tree" sequence="10"/>
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios"
                   parent="foundation_relatorios_menu" action="action_foundation_relatorios_lista_tree" sequence="20"/>
+
+
+                      <!-- Submenu para Estacas -->
+    <menuitem id="foundation_chamada_menu" name="Chamada" parent="main_foundation_menu"
+              action="action_chamada_tree" sequence="60"/>
 
 
 <!-- Herda a visão do menu principal -->
@@ -42,6 +48,8 @@
             <field name="sequence" eval="10"/>
             <field name="action" ref="action_foundation_obra"/> <!-- Referência para a ação específica em seu módulo -->
         </record>
+
+
     </data>
 </odoo>
 

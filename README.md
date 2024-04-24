@@ -30,5 +30,7 @@ Para instalar este módulo, você precisa:
 - [ ] Uma medição só pode ser excluida se nçao tiver uma fatura relacionada
 - [ ] Quando uma medição for excluida as estecas tem que ser desrelacionadas com a medição
 - [ ] Remover botões de ação desnecessários
-- [ ] teste
+- [ ] Lista de presenças (Nao fica salvo nada se nao o operador não preenche, só dá ok e ja era)
+-´[ ] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
+- [ ] Quando uma sale order virar uma obra, criar uma account move para cada tipo de item e uma generica
 

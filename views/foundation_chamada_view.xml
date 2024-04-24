@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_chamada_form" model="ir.ui.view">
+            <field name="name">foundation.chamada.form</field>
+            <field name="model">foundation.chamada</field>
+            <field name="arch" type="xml">
+                <form string="Registro de Chamada">
+                    <sheet>
+                        <group>
+                            <field name="data"/>
+                            <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="nome_obra" readonly="1"/>
+                            <field name="service_name" readonly="1"/>
+                            <field name="endereco" readonly="1"/>
+                            <field name="nome_maquina" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Funcionários Presentes">
+                                <field name="funcionario_id">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button string="Salvar" type="object" name="action_save" class="oe_highlight"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_open_chamada_form" model="ir.actions.act_window">
+            <field name="name">Criar Registro de Chamada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.chamada</field>
+            <field name="view_id" ref="view_chamada_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="view_chamada_tree" model="ir.ui.view">
+            <field name="name">foundation.chamada.tree</field>
+            <field name="model">foundation.chamada</field>
+            <field name="arch" type="xml">
+                <tree string="Registro de Chamada">
+                    <field name="data"/>
+                    <field name="nome_obra"/>
+                    <field name="endereco"/>
+                    <field name="service_name"/>
+                    <field name="nome_maquina"/>
+                    <button name="%(action_open_chamada_form)d" type="action"
+                            string="Adicionar Registro" icon="fa-plus-square"
+                            context="{'default_foundation_obra_service_id': id}"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_chamada_tree" model="ir.actions.act_window">
+            <field name="name">Registro de Chamadas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.chamada</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_chamada_tree"/>
+        </record>
+    </data>
+</odoo>

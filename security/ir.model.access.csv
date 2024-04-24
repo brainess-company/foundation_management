@@ -5,5 +5,6 @@ access_foundation_obra_service,foundation_obra_service_user,model_foundation_obr
 access_foundation_estacas,foundation_estacas_user,model_foundation_estacas,,1,1,1,1
 access_foundation_medicao,foundation_medicao_user,model_foundation_medicao,,1,1,1,1
 access_foundation_relatorios,foundation_relatorios_user,model_foundation_relatorios,,1,1,1,1
+access_foundation_chamada,foundation_chamada_user,model_foundation_chamada,,1,1,1,1
 
 

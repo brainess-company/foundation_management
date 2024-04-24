@@ -24,6 +24,7 @@
         'views/foundation_estacas_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_lista_view.xml',
+        'views/foundation_chamada_view.xml',
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
         'views/foundation_menus.xml',  # Load menu definitions
         'views/sale_order_obra_extension.xml',
