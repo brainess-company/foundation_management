@@ -1,46 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-<!-- Menu principal para o módulo de Gestão de Fundações -->
-<menuitem id="main_foundation_menu" name="Foundation Tiago" sequence="10"/>
+        <!-- Menu Principal para o Módulo de Gestão de Fundações -->
+        <menuitem id="main_foundation_menu" name="Foundation Tiago" sequence="10"/>
 
-    <!-- Submenu para Gerenciamento de Obras -->
-    <menuitem id="foundation_obras_menu" name="Gerenciamento de Obras" parent="main_foundation_menu" sequence="20"/>
-        <menuitem id="menu_foundation_obra" name="Obras"
-                  parent="foundation_obras_menu" action="action_foundation_obra" sequence="10"/>
-        <menuitem id="menu_foundation_obra_service_simples" name="Serviço"
-                  parent="foundation_obras_menu" action="action_foundation_obra_service_simples" sequence="20"/>
-        <menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)"
-                  parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/>
+        <!-- Submenu para Gerenciamento de Obras -->
+        <menuitem id="foundation_obras_menu" name="Gerenciamento de Obras" parent="main_foundation_menu" sequence="20"/>
+        <menuitem id="menu_foundation_obra" name="Obras" parent="foundation_obras_menu" action="action_foundation_obra" sequence="10"/>
+        <menuitem id="menu_foundation_obra_service_simples" name="Serviço" parent="foundation_obras_menu" action="action_foundation_obra_service_simples" sequence="20"/>
+        <menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)" parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/>
 
-    <!-- Submenu para Máquinas e Equipamentos -->
-    <menuitem id="foundation_maquinas_menu" name="Máquinas e Equipamentos" parent="main_foundation_menu" sequence="30"/>
-        <menuitem id="foundation_maquina_menu" name="Máquinas" parent="foundation_maquinas_menu"
-                  action="action_foundation_maquina" sequence="10"/>
-        <menuitem id="foundation_medicao_menu" name="Medições" parent="foundation_maquinas_menu"
-                  action="action_foundation_medicao" sequence="20"/>
+        <!-- Submenu para Máquinas e Equipamentos -->
+        <menuitem id="foundation_maquinas_menu" name="Máquinas e Equipamentos" parent="main_foundation_menu" sequence="30"/>
+        <menuitem id="foundation_maquina_menu" name="Máquinas" parent="foundation_maquinas_menu" action="action_foundation_maquina" sequence="10"/>
+        <menuitem id="foundation_medicao_menu" name="Medições" parent="foundation_maquinas_menu" action="action_foundation_medicao" sequence="20"/>
 
-    <!-- Submenu para Estacas -->
-    <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_menu"
-              action="action_foundation_estacas" sequence="40"/>
+        <!-- Submenu para Estacas -->
+        <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_menu" action="action_foundation_estacas" sequence="40"/>
 
+        <!-- Submenu para Relatórios -->
+        <menuitem id="foundation_relatorios_menu" name="Relatórios" parent="main_foundation_menu" sequence="50"/>
+        <menuitem id="menu_foundation_relatorio_completo" name="Relatório de Estacas" parent="foundation_relatorios_menu" action="action_foundation_relatorio_completo_tree" sequence="10"/>
+        <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="foundation_relatorios_menu" action="action_foundation_relatorios_lista_tree" sequence="20"/>
 
-    <!-- Submenu para Relatórios -->
-    <menuitem id="foundation_relatorios_menu" name="Relatórios" parent="main_foundation_menu" sequence="50"/>
-        <menuitem id="menu_foundation_relatorio_completo" name="Relatório de Estacas"
-                  parent="foundation_relatorios_menu" action="action_foundation_relatorio_completo_tree" sequence="10"/>
-        <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios"
-                  parent="foundation_relatorios_menu" action="action_foundation_relatorios_lista_tree" sequence="20"/>
+        <!-- Submenu para Chamada -->
+        <menuitem id="foundation_chamada_menu" name="Chamada" parent="main_foundation_menu" action="action_open_foundation_obra_service_chamada_tree" sequence="60"/>
 
-
-                      <!-- Submenu para Estacas -->
-    <menuitem id="foundation_chamada_menu" name="Chamada" parent="main_foundation_menu"
-              action="action_chamada_tree" sequence="60"/>
-
-
-<!-- Herda a visão do menu principal -->
-        <!-- Adiciona um item de menu no módulo Sale Order -->
-
+        <!-- Herda a visão do menu principal -->
         <!-- Adiciona um item de menu no módulo Sale Order -->
         <record id="menu_sale_order_custom" model="ir.ui.menu">
             <field name="name">Meu Módulo Personalizado</field>
@@ -49,7 +35,5 @@
             <field name="action" ref="action_foundation_obra"/> <!-- Referência para a ação específica em seu módulo -->
         </record>
 
-
     </data>
 </odoo>
-

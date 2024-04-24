@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <!-- Visão em Árvore para Foundation Obra Service com botão para abrir Chamada -->
+        <record id="view_foundation_obra_service_chamada_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service.chamada.tree</field>
+            <field name="model">foundation.obra.service</field>
+            <field name="arch" type="xml">
+                <tree string="Lista Simples de Serviços da Obra">
+                    <field name="sale_order_id"/>
+                    <field name="service_name"/>
+                    <field name="nome_obra"/>
+                    <field name="endereco"/>
+                    <field name="operador_id"/>
+                    <button name="%(action_open_chamada_form)d" type="action"
+                            string="Registrar Chamada" icon="fa-plus-square"
+                            context="{'default_foundation_obra_service_id': id, 'default_nome_obra': nome_obra, 'default_endereco': endereco, 'default_service_name': service_name}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Ação para abrir o Formulário de Chamada com dados pré-preenchidos -->
+        <record id="action_open_chamada_form" model="ir.actions.act_window">
+            <field name="name">Criar Registro de Chamada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.chamada</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_foundation_obra_service_id': context.get('default_foundation_obra_service_id', False), 'default_nome_obra': context.get('default_nome_obra', ''), 'default_endereco': context.get('default_endereco', ''), 'default_service_name': context.get('default_service_name', '')}</field>
+        </record>
+
+        <!-- Formulário de Chamada -->
         <record id="view_chamada_form" model="ir.ui.view">
             <field name="name">foundation.chamada.form</field>
             <field name="model">foundation.chamada</field>
@@ -32,38 +61,16 @@
                 </form>
             </field>
         </record>
-        <record id="action_open_chamada_form" model="ir.actions.act_window">
-            <field name="name">Criar Registro de Chamada</field>
+        <record id="action_open_foundation_obra_service_chamada_tree" model="ir.actions.act_window">
+            <field name="name">Serviços de Obra</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.chamada</field>
-            <field name="view_id" ref="view_chamada_form"/>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-
-
-        <record id="view_chamada_tree" model="ir.ui.view">
-            <field name="name">foundation.chamada.tree</field>
-            <field name="model">foundation.chamada</field>
-            <field name="arch" type="xml">
-                <tree string="Registro de Chamada">
-                    <field name="data"/>
-                    <field name="nome_obra"/>
-                    <field name="endereco"/>
-                    <field name="service_name"/>
-                    <field name="nome_maquina"/>
-                    <button name="%(action_open_chamada_form)d" type="action"
-                            string="Adicionar Registro" icon="fa-plus-square"
-                            context="{'default_foundation_obra_service_id': id}"/>
-                </tree>
+            <field name="res_model">foundation.obra.service</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_obra_service_chamada_tree"/>
+            <field name="help" type="html">
+                <p>Veja todos os serviços de obra listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>
             </field>
         </record>
-        <record id="action_chamada_tree" model="ir.actions.act_window">
-            <field name="name">Registro de Chamadas</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.chamada</field>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_chamada_tree"/>
-        </record>
+
     </data>
 </odoo>
