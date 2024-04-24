@@ -1,3 +1,4 @@
+from datetime import date
 from odoo import models, fields
 
 class FoundationObraService(models.Model):
@@ -28,3 +29,12 @@ class FoundationObraService(models.Model):
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas") # tracking=True
+    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
+
+    def _compute_has_today_chamada(self):
+        for record in self:
+            today_chamadas = self.env['foundation.chamada'].search([
+                ('foundation_obra_service_id', '=', record.id),
+                ('data', '=', date.today())
+            ])
+            record.has_today_chamada = bool(today_chamadas)

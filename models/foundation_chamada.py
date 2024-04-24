@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+
 
 class Chamada(models.Model):
     _name = 'foundation.chamada'
@@ -16,15 +18,22 @@ class Chamada(models.Model):
     foundation_maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
     nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,
                                store=True)
+    data = fields.Date(string="Data", default=fields.Date.today, required=True)
+
+    @api.constrains('foundation_obra_service_id', 'data')
+    def _check_unique_chamada_per_day(self):
+        for record in self:
+            existing_chamada = self.search([
+                ('foundation_obra_service_id', '=', record.foundation_obra_service_id.id),
+                ('data', '=', record.data),
+                ('id', '!=', record.id)
+            ])
+            if existing_chamada:
+                raise ValidationError("Já existe uma chamada registrada para este serviço neste dia.")
+
     def action_save(self):
         # Lógica para salvar os dados aqui
-        # Exemplo: salvar os dados e retornar uma mensagem de sucesso
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Sucesso',
-                'message': 'Dados salvos com sucesso!',
-                'type': 'success',  # Pode ser 'success', 'danger', 'warning', 'info'
-            }
-        }
+        self.ensure_one()  # Garantir que está sendo chamado em um único registro
+        self.write(
+            {})  # Este método escreve os dados no banco, já está implicitamente incluído pelo Odoo no botão salvar.
+        return {'type': 'ir.actions.act_window_close'}
