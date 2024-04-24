@@ -24,6 +24,8 @@
         <!-- Form View for inserting Estacas into Relatórios -->
         <!-- Form View for inserting Estacas into Relatórios, including service details -->
 <!-- Form View for inserting Estacas into Relatórios, including service details -->
+<!-- Form View for inserting Estacas into Relatórios, including service details -->
+<!-- Form View for inserting Estacas into Relatórios, including service details -->
 <record id="view_foundation_relatorio_form" model="ir.ui.view">
     <field name="name">foundation.relatorio.form</field>
     <field name="model">foundation.relatorios</field>
@@ -37,24 +39,26 @@
                     <field name="nome_servico" related="foundation_obra_service_id.service_name" readonly="1"/>
                     <field name="endereco_obra" related="foundation_obra_service_id.endereco" readonly="1"/>
                     <field name="sale_order_id"/>
+                    <field name="service_template_id" related="foundation_obra_service_id.service_template_id"/>
                 </group>
                 <notebook>
                     <page string="Estacas">
-                        <field name="estacas_ids" context="{'default_foundation_obra_service_id': foundation_obra_service_id, 'default_sale_order_id': sale_order_id}">
+                        <field name="estacas_ids" context="{'default_foundation_obra_service_id': foundation_obra_service_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}">
                             <tree editable="bottom">
                                 <field name="nome_estaca"/>
+                                <field name="service_template_id"/>
                                 <field name="sale_order_id"/>
                                 <field name="profundidade"/>
-                                <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id)]" options="{'no_create': True, 'no_open': True}"/>
-
+                                <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/>
                             </tree>
                             <form>
                                 <group>
                                     <field name="nome_estaca"/>
                                     <field name="profundidade"/>
-                                    <field name="sale_order_id"/>
                                     <field name="observacao"/>
-                                    <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id)]" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="service_template_id"/>
+                                    <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/>
                                 </group>
                             </form>
                         </field>
@@ -68,6 +72,8 @@
         </form>
     </field>
 </record>
+
+
 
         <!-- Action to open the new Relatório Form -->
         <record id="action_open_foundation_relatorio_form" model="ir.actions.act_window">
