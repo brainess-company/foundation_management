@@ -36,5 +36,5 @@ Para instalar este módulo, você precisa:
 - [ ] Incluir gerenciamento de equipe onde cada funcionario está relacionado a uma equipe (Máquina)
 - [ ] E quando for pra ter mais de uma maquina relacionada a um serviço?
 - [ ] Pra cada serviço só pode ter uma máquina relacionada mas não é assim que deve funcionar
-- [ ] Falta incluir o proprio operador na lista de chamada
+- [ ] Falta incluir o proprio operador na lista de chamadaaa
 
