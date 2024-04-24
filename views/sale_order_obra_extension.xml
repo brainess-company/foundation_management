@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Sale Order Form to add custom field -->
+        <record id="view_order_form_inherited" model="ir.ui.view">
+            <field name="name">sale.order.form.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="nome_obra"/>
+                </field>
+                <field name="client_order_ref" position="after">
+                    <field name="nome_obra"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

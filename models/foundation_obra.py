@@ -7,12 +7,15 @@ _logger = logging.getLogger(__name__)  # Configuração do logger
 class FoundationObra(models.Model):
     """
     OBRAS RELACIONADAS COM ORDEM DE VENDAS
+
     """
     _name = 'foundation.obra'
     _description = 'Informações sobre a obra'
 
     # CAMPOS PRÓPRIOS
-    nome_obra = fields.Char("Nome da Obra")
+    # TODO vai dar erro referenciar esse campo quando eu instalar de novo, porque ele nem vai existir ainda e ja vai ser referenciado
+    nome_obra = fields.Char(related='sale_order_id.nome_obra', store=True, readonly=True, string="Nome da Obra")
+    #nome_obra = fields.Char("OBRA")
     endereco = fields.Char("Endereço")
 
     # RELACIONA ESSA TABELA FOUNDATION OBRA COM  UMA SALE ORDER
