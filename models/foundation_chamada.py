@@ -15,9 +15,8 @@ class Chamada(models.Model):
     nome_obra = fields.Char("Nome da Obra", related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
 
-    foundation_maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
-    nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,
-                               store=True)
+    foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquina Associada")
+    #nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,store=True)
     data = fields.Date(string="Data", default=fields.Date.today, required=True)
     # Novo campo computado:
     has_chamada_today = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_chamada_today", store=False)

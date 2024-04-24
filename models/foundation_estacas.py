@@ -31,8 +31,8 @@ class FoundationEstacas(models.Model):
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
 
     # Campos relacionados para mostrar no calendário
-    nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
-    nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
+    #nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
+    #nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
     nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
 
     relatorio_id = fields.Many2one('foundation.relatorios', string="Relatório Associado")

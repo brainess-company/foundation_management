@@ -17,9 +17,9 @@ class FoundationObraService(models.Model):
     service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)  # variante
 
     # RELACIONA ESSE SERVIÇO COM UMA MÁQUINA
-    foundation_maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada", required=False)
-    operador_id = fields.Many2one('res.partner', string="Operador", related='foundation_maquina_id.operador',readonly=True, store=True)
-    nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True, store=True, tracking=True)
+    foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquinas Associadas")
+    #operador_id = fields.Many2one('res.partner', string="Operador", related='foundation_maquina_id.operador',readonly=True, store=True)
+    #nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True, store=True, tracking=True)
 
     # RELACIONA COM A TABELA DE OBRA (foundation.obra)
     obra_id = fields.Many2one('foundation.obra', string="Obra")

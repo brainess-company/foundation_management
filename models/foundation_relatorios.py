@@ -19,14 +19,10 @@ class FoundationRelatorios(models.Model):
     # Campos adicionais relacionados ao serviço
     nome_servico = fields.Char(related='foundation_obra_service_id.service_name', string="Nome do Serviço",
                                readonly=True, store=True)
-    nome_maquina = fields.Char(related='foundation_obra_service_id.nome_maquina', string="Máquina Associada",
-                               readonly=True, store=True)
-    nome_operador = fields.Char(related='foundation_obra_service_id.operador_id.name', string="Operador", readonly=True,
-                                store=True)
-    nome_obra = fields.Char(related='foundation_obra_service_id.nome_obra', string="Nome da Obra", readonly=True,
-                            store=True)
-    endereco_obra = fields.Char(related='foundation_obra_service_id.endereco', string="Endereço da Obra", readonly=True,
-                                store=True)
+    #nome_maquina = fields.Char(related='foundation_obra_service_id.nome_maquina', string="Máquina Associada",readonly=True, store=True)
+    #nome_operador = fields.Char(related='foundation_obra_service_id.operador_id.name', string="Operador", readonly=True,store=True)
+    nome_obra = fields.Char(related='foundation_obra_service_id.nome_obra', string="Nome da Obra", readonly=True,store=True)
+    endereco_obra = fields.Char(related='foundation_obra_service_id.endereco', string="Endereço da Obra", readonly=True,store=True)
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order",
                                     related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)

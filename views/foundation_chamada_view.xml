@@ -10,13 +10,13 @@
                     <field name="sale_order_id"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
-                  
+
                     <field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"
                    decoration-danger="display_has_today_chamada == 'Não'"
                     widget="badge" optional="show"/>  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
                     <field name="endereco"/>
-                    <field name="operador_id"/>
+                    <!--field name="operador_id"/-->
                     <button name="%(action_open_chamada_form)d" type="action"
                             string="Registrar Chamada" icon="fa-plus-square"
                             context="{'default_foundation_obra_service_id': id, 'default_nome_obra': nome_obra, 'default_endereco': endereco, 'default_service_name': service_name}"/>
@@ -46,7 +46,7 @@
                     <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                     <field name="nome_obra" readonly="1"/>
                     <field name="endereco" readonly="1"/>
-                    <field name="nome_maquina" readonly="1"/>
+                    <!--field name="nome_maquina" readonly="1"/-->
                 </group>
                 <notebook>
                     <page string="Funcionários Presentes">

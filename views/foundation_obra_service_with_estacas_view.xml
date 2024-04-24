@@ -11,9 +11,9 @@
                     <field name="service_template_id" invisible="1"/>
                     <field name="service_name"/>
                     <field name="nome_obra"/>
-                    <field name="foundation_maquina_id"/>
-                    <field name="endereco"/>
-                    <field name="operador_id"/>
+                    <!--field name="foundation_maquina_id"/-->
+                    <!--field name="endereco"/-->
+                    <!--field name="operador_id"/-->
                 </tree>
             </field>
             <field name="priority">2</field>
