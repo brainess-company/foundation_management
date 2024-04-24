@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Menu principal para o módulo de Gestão de Fundações -->
-        <menuitem id="main_foundation_menu" name="Foundation Tiago" sequence="10"/>
+<!-- Menu principal para o módulo de Gestão de Fundações -->
+<menuitem id="main_foundation_menu" name="Foundation Tiago" sequence="10"/>
 
-        <!-- Submenu para Sites do Projeto -->
-        <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_menu"
-                  action="action_foundation_estacas" sequence="10"/>
-
-        <!-- Submenu para Máquinas de Construção -->
-        <menuitem id="foundation_maquina_menu" name="Máquinas" parent="main_foundation_menu"
-                  action="action_foundation_maquina" sequence="20"/>
-
-        <!-- Submenu para Medidas de Fundação -->
-        <menuitem id="foundation_medicao_menu" name="Medições" parent="main_foundation_menu"
-                  action="action_foundation_medicao" sequence="30"/>
-
+    <!-- Submenu para Gerenciamento de Obras -->
+    <menuitem id="foundation_obras_menu" name="Gerenciamento de Obras" parent="main_foundation_menu" sequence="20"/>
         <menuitem id="menu_foundation_obra" name="Obras"
-                  parent="main_foundation_menu" action="action_foundation_obra" sequence="40"/>
-
+                  parent="foundation_obras_menu" action="action_foundation_obra" sequence="10"/>
         <menuitem id="menu_foundation_obra_service_simples" name="Serviço"
-          parent="main_foundation_menu" action="action_foundation_obra_service_simples" sequence="60"/>
+                  parent="foundation_obras_menu" action="action_foundation_obra_service_simples" sequence="20"/>
         <menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)"
-          parent="main_foundation_menu" action="action_foundation_obra_service_with_estacas" sequence="50"/>
-        <!-- Submenu para Medidas de Fundação
-        <menuitem id="menu_foundation_obra_service_simples" name="Obra Services simples"
-          parent="main_foundation_menu" action="action_foundation_obra_service_simples" sequence="60"/> -->
+                  parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/>
 
-        <!-- Menu item to access the Relatório Form -->
+    <!-- Submenu para Máquinas e Equipamentos -->
+    <menuitem id="foundation_maquinas_menu" name="Máquinas e Equipamentos" parent="main_foundation_menu" sequence="30"/>
+        <menuitem id="foundation_maquina_menu" name="Máquinas" parent="foundation_maquinas_menu"
+                  action="action_foundation_maquina" sequence="10"/>
+        <menuitem id="foundation_medicao_menu" name="Medições" parent="foundation_maquinas_menu"
+                  action="action_foundation_medicao" sequence="20"/>
+
+    <!-- Submenu para Estacas -->
+    <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_menu"
+              action="action_foundation_estacas" sequence="40"/>
+
+    <!-- Submenu para Relatórios -->
+    <menuitem id="foundation_relatorios_menu" name="Relatórios" parent="main_foundation_menu" sequence="50"/>
         <menuitem id="menu_foundation_relatorio_completo" name="Relatório de Estacas"
-                  parent="main_foundation_menu" action="action_foundation_relatorio_completo_tree"/><!-- action="action_foundation_obra_service2_tree"/-->
-
-<!-- Menu item to access the Relatório Form-->
+                  parent="foundation_relatorios_menu" action="action_foundation_relatorio_completo_tree" sequence="10"/>
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios"
-                  parent="main_foundation_menu" action="action_foundation_relatorios_lista_tree"/>
+                  parent="foundation_relatorios_menu" action="action_foundation_relatorios_lista_tree" sequence="20"/>
 
 
 
