@@ -45,3 +45,23 @@ class FoundationObraService(models.Model):
                     ('data', '=', date.today())
                 ])
                 record.has_today_chamada = bool(today_chamadas)
+
+    @api.model
+    def create(self, vals):
+        new_record = super(FoundationObraService, self).create(vals)
+        self._create_machine_records(new_record, new_record.foundation_maquina_ids)
+        return new_record
+
+    def write(self, vals):
+        result = super(FoundationObraService, self).write(vals)
+        if 'foundation_maquina_ids' in vals:
+            self._create_machine_records(self, self.foundation_maquina_ids)
+        return result
+
+    def _create_machine_records(self, service, maquinas):
+        MaquinaRegistro = self.env['foundation.maquina.registro']
+        for maquina in maquinas:
+            MaquinaRegistro.create({
+                'service_id': service.id,
+                'maquina_id': maquina.id,
+            })
