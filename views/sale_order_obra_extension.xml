@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Inherit Sale Order Form to add custom field -->
     <data>
-        <!-- Inherit Sale Order Form to add custom field -->
         <record id="view_order_form_inherited" model="ir.ui.view">
             <field name="name">sale.order.form.inherited</field>
             <field name="model">sale.order</field>
@@ -15,5 +15,6 @@
                 </field>
             </field>
         </record>
+
     </data>
 </odoo>

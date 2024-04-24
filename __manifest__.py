@@ -27,6 +27,9 @@
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
         'views/foundation_menus.xml',  # Load menu definitions
         'views/sale_order_obra_extension.xml',
+        #'views/sale_order_obra_extension_link_order.xml',
+        #'views/sale_order_obra_extension_link_invoice.xml',
+        #'views/sale_order_obra_extension.xml',
     ],
 
     'demo': [],

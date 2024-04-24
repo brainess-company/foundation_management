@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit Sale Order Form to add custom field -->
+    <data>
+
+        <!-- Herda do modelo de relatório original da Sale Order -->
+        <report
+            id="report_sale_order_document_ext"
+            model="sale.order"
+            string="Sale Order Document Extended"
+            inherit_id="sale.report_saleorder_document"
+            name="sale.report_saleorder_document_ext"
+        />
+        <!-- Herda do modelo de relatório original da Fatura -->
+        <!-- Herda do modelo de relatório original da Fatura -->
+        <!-- Herda do modelo de relatório original da Fatura -->
+        <!-- Herda do modelo de relatório original da Fatura -->
+
+        <!-- Define o novo modelo de relatório que estende o original -->
+        <template id="report_sale_order_document_ext" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//p[@name='footer']/p" position="after">
+                <!-- Adicione o campo da obra após o footer original -->
+                <p><span t-esc="o.foundation_obra_id.nome_obra"/></p>
+            </xpath>
+        </template>
+
+        <!-- Herda do modelo de relatório original da Fatura -->
+
+    </data>
+</odoo>
