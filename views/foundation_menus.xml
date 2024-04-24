@@ -31,10 +31,10 @@
         <menuitem id="menu_foundation_relatorio_completo" name="Relatório de Estacas"
                   parent="main_foundation_menu" action="action_foundation_relatorio_completo_tree"/><!-- action="action_foundation_obra_service2_tree"/-->
 
-<!-- Menu item to access the Relatório Form
+<!-- Menu item to access the Relatório Form-->
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios"
                   parent="main_foundation_menu" action="action_foundation_relatorios_lista_tree"/>
-                  -->
+
 
 
     </data>
