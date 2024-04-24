@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <!-- Formulário de Chamada com Lista de Presença -->
+        <record id="view_chamada_form" model="ir.ui.view">
+            <field name="name">foundation.chamada.form</field>
+            <field name="model">foundation.chamada</field>
+            <field name="arch" type="xml">
+                <form string="Registro de Chamada">
+                    <sheet>
+                        <group>
+                            <field name="data"/>
+
+                            <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="nome_obra" readonly="1"/>
+                            <field name="endereco" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Funcionários Presentes">
+                                <field name="lista_presenca_ids">
+                                    <tree editable="bottom">
+                                        <field name="funcionario_id" widget="many2one" options="{'no_open': True}"/>
+                                        <field name="data"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="funcionario_id"/>
+                                            <field name="data"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button string="Salvar" type="object" name="action_save" class="oe_highlight"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Foundation Maquina Registro -->
+        <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.registro.tree</field>
+            <field name="model">foundation.maquina.registro</field>
+            <field name="arch" type="xml">
+                <tree string="Lista de Registros de Máquinas">
+                    <field name="data_registro"/>
+                    <field name="maquina_id"/>
+                    <field name="service_id"/>
+
+                    <field name="nome_obra" string="Nome da Obra" related="service_id.nome_obra"/>
+                    <field name="endereco" string="Endereço" related="service_id.endereco"/>
+                    <button name="%(action_open_chamada_form)d" type="action"
+                            string="Registrar Chamada" icon="fa-plus-square"
+                            context="{
+                                'default_service_id': service_id,
+                                'default_data_registro': data_registro,
+                                'default_nome_obra': nome_obra,
+                                'default_endereco': endereco
+                            }"/>
+                </tree>
+            </field>
+        </record>
+<!-- Ação para abrir o Formulário de Chamada com dados pré-preenchidos -->
+        <record id="action_open_chamada_form" model="ir.actions.act_window">
+            <field name="name">Criar Registro de Chamada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.chamada</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_service_id': context.get('default_service_id', False),
+                'default_nome_obra': context.get('default_nome_obra', ''),
+                'default_endereco': context.get('default_endereco', ''),
+                'default_data_registro': context.get('default_data_registro', '')
+            }</field>
+        </record>
+
+        <!-- Ação para abrir a visão em árvore -->
+        <record id="action_open_foundation_maquina_registro_tree" model="ir.actions.act_window">
+            <field name="name">Registros de Máquinas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina.registro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
+            <field name="help" type="html">
+                <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>
+            </field>
+        </record>
+    </data>
+</odoo>

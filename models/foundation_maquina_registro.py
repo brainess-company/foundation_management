@@ -46,3 +46,4 @@ class FoundationMaquinaRegistro(models.Model):
             # Assumindo que 'operador' é um campo em 'foundation.maquina'
             record.operador_id = record.maquina_id.operador if record.maquina_id else False
 
+

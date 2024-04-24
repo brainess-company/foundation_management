@@ -85,10 +85,6 @@
             </field>
         </record>
 
-
-
-
-
         <record id="action_foundation_relatorio_completo_tree" model="ir.actions.act_window">
     <field name="name">Serviços da Fundação</field>
     <field name="type">ir.actions.act_window</field>

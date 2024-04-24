@@ -26,6 +26,12 @@
         <!-- Submenu para Chamada -->
         <menuitem id="foundation_chamada_menu" name="Chamada" parent="main_foundation_menu" action="action_open_foundation_obra_service_chamada_tree" sequence="60"/>
 
+        <!-- Submenu para Relatórios -->
+
+        <!--menuitem id="menu_foundation_maquina_registro" name="TESTE" parent="main_foundation_menu" action="action_open_foundation_maquina_registro_tree" sequence="70"/-->
+        <!--menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="foundation_teste_menu" action="action_foundation_relatorios_lista_tree" sequence="20"/-->
+        <!--menuitem id="menu_foundation_maquina_registro" name="TESTE" parent="main_foundation_menu" action="action_open_foundation_maquina_registro_tree" sequence="70"/-->
+
         <!-- Herda a visão do menu principal -->
         <!-- Adiciona um item de menu no módulo Sale Order -->
         <record id="menu_sale_order_custom" model="ir.ui.menu">

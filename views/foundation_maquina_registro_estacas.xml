@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Foundation Maquina Registro -->
+        <record id="view_foundation_maquina_registro_with_estacas_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.registro.with.estacas.tree</field>
+            <field name="model">foundation.maquina.registro</field>
+            <field name="arch" type="xml">
+                <tree string="Foundation Maquina Registro List">
+                    <field name="sale_order_id"/>
+                    <field name="service_id" invisible="1"/>
+                    <field name="maquina_id"/>
+                    <field name="nome_obra"/>
+                </tree>
+            </field>
+            <field name="priority">2</field>
+        </record>
+
+        <!-- Form View for Foundation Maquina Registro with estacas -->
+        <record id="view_foundation_maquina_registro_with_estacas_form" model="ir.ui.view">
+            <field name="name">foundation.maquina.registro.with.estacas.form</field>
+            <field name="model">foundation.maquina.registro</field>
+            <field name="arch" type="xml">
+                <form string="Registro de Máquina com Estacas">
+                    <sheet>
+                        <group>
+                            <field name="maquina_id" invisible="1"/>
+                            <field name="nome_obra" readonly="1"/>
+                            <field name="sale_order_id" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Estacas">
+                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': active_id, 'default_sale_order_id': sale_order_id}">
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="nome_estaca"/>
+                                                <field name="profundidade"/>
+                                                <field name="data"/>
+                                                <field name="observacao"/>
+                                                <field name="sale_order_id" invisible="1"/>
+                                                <field name="service_id" invisible="1"/>
+                                                <field name="sale_order_line_id"
+                                                       domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_id)]"
+                                                       context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
+                                                       options="{'no_create': True, 'no_open': True}"/>
+                                                <field name="signature" widget="signature"/>
+                                                <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [500, 500]}"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
