@@ -31,6 +31,10 @@ Para instalar este módulo, você precisa:
 - [ ] Quando uma medição for excluida as estecas tem que ser desrelacionadas com a medição
 - [ ] Remover botões de ação desnecessários
 - [ ] Lista de presenças (Nao fica salvo nada se nao o operador não preenche, só dá ok e ja era)
--´[ ] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
+- [ ] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
 - [ ] Quando uma sale order virar uma obra, criar uma account move para cada tipo de item e uma generica
+- [ ] Incluir gerenciamento de equipe onde cada funcionario está relacionado a uma equipe (Máquina)
+- [ ] E quando for pra ter mais de uma maquina relacionada a um serviço?
+- [ ] Pra cada serviço só pode ter uma máquina relacionada mas não é assim que deve funcionar
+- [ ] Falta incluir o proprio operador na lista de chamada
 
