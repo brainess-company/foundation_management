@@ -19,6 +19,9 @@ class Chamada(models.Model):
     nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,
                                store=True)
     data = fields.Date(string="Data", default=fields.Date.today, required=True)
+    # Novo campo computado:
+    has_chamada_today = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_chamada_today", store=False)
+
 
     @api.constrains('foundation_obra_service_id', 'data')
     def _check_unique_chamada_per_day(self):
