@@ -23,6 +23,12 @@ class FoundationMaquinaRegistro(models.Model):
     endereco = fields.Char(related='service_id.endereco', string="Endereço", readonly=True, store=True)
     operador_id = fields.Many2one('res.partner', string="Operador", compute='_compute_operador', store=True)
 
+    # RELACIONA ESSA TABELA COM A DE PRODUTOS
+    variante_id = fields.Many2one('product.product', string="Variante")
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço",
+                                          related='variante_id.product_tmpl_id', readonly=True, store=True)  # produto
+    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)  # variante
+
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id', string="Estacas")  # tracking=True
     has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)

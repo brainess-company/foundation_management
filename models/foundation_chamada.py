@@ -41,22 +41,21 @@ class Chamada(models.Model):
     def _compute_has_today_chamada(self):
         for record in self:
             today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_obra_service_id', '=', record.id),
+                ('foundation_maquina_registro_id', '=', record.id),
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)
 
-    @api.constrains('foundation_obra_service_id', 'data')
+    @api.constrains('foundation_maquina_registro_id', 'data')
     def _check_unique_chamada_per_day(self):
         for record in self:
             existing_chamada = self.search([
-                ('foundation_obra_service_id', '=', record.foundation_obra_service_id.id),
+                ('foundation_maquina_registro_id', '=', record.foundation_maquina_registro_id.id),
                 ('data', '=', record.data),
                 ('id', '!=', record.id)
             ])
             if existing_chamada:
-                raise ValidationError("Já existe uma chamada registrada para este serviço neste dia.")
-
+                raise ValidationError("Já existe uma chamada registrada para este registro de máquina neste dia.")
     def action_save(self):
         # Lógica para salvar os dados aqui
         self.ensure_one()  # Garantir que está sendo chamado em um único registro

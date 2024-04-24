@@ -16,7 +16,7 @@
                    decoration-success="display_has_today_chamada == 'Sim'"
                    decoration-danger="display_has_today_chamada == 'Não'"
                     widget="badge" optional="show"/>  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
-                    
+
                     <field name="endereco" string="Endereço"/>
                     <button name="%(action_open_chamada_form)d" type="action"
                             string="Registrar Chamada" icon="fa-plus-square"
@@ -39,7 +39,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="context">{
-                'default_foundation_service_id': context.get('default_foundation_service_id', False),
+                'default_foundation_service_id': context.get('default_service_id', False),
                 'default_nome_obra': context.get('default_nome_obra', ''),
                 'default_endereco': context.get('default_endereco', ''),
                 'default_data_registro': context.get('default_data_registro', '')

@@ -1,36 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Tree View for Foundation Maquina Registro -->
-        <record id="view_foundation_maquina_registro_estacas_tree" model="ir.ui.view">
-            <field name="name">foundation.maquina.registro.estacas.tree</field>
-            <field name="model">foundation.maquina.registro</field>
+        <!-- action_foundation_relatorio_completo_tree -->
+        <record id="view_foundation_obra_service_with_estacas_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service.with.estacas.tree</field>
+            <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <tree string="Lista de Registros de Máquinas com Estacas">
+                <tree string="Foundation Obra Service List">
                     <field name="sale_order_id"/>
-                    <field name="service_id"/>
-                    <field name="service_template_id"/>
-                    <field name="maquina_id"/>
+                    <field name="service_template_id" invisible="1"/>
+                    <field name="service_name"/>
                     <field name="nome_obra"/>
+                    <!--field name="foundation_maquina_id"/-->
+                    <!--field name="endereco"/-->
+                    <!--field name="operador_id"/-->
                 </tree>
             </field>
+            <field name="priority">2</field>
         </record>
 
-        <!-- Form View for Foundation Maquina Registro with estacas -->
-        <record id="view_foundation_maquina_registro_estacas_form" model="ir.ui.view">
-            <field name="name">foundation.maquina.registro.estacas.form</field>
-            <field name="model">foundation.maquina.registro</field>
+        <!-- Tree View for foundation  obra service with estacas -->
+        <record id="view_foundation_obra_service_with_estacas_form" model="ir.ui.view">
+            <field name="name">foundation.obra.service.with.estacas.form</field>
+            <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <form string="Registro de Máquina com Estacas">
+                <form string="Serviço na Obra com Estacas b">
                     <sheet>
                         <group>
-                            <field name="maquina_id" invisible="1"/>
+                            <field name="variante_id" invisible="1"/>
                             <field name="nome_obra" readonly="1"/>
-                            <field name="service_template_id"/>
                             <field name="sale_order_id" invisible="1"/>
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': active_id, 'default_sale_order_id': sale_order_id}">
+                                <field name="estacas_ids" context="{'default_foundation_obra_service_id': active_id, 'default_sale_order_id': sale_order_id}">
                                     <form>
                                         <sheet>
                                             <group>
@@ -39,14 +42,14 @@
                                                 <field name="data"/>
                                                 <field name="observacao"/>
                                                 <field name="sale_order_id" invisible="1"/>
-                                                <field name="service_template_id"/>
-                                                <field name="foundation_obra_service_id" invisible="1"/>
+                                                <field name="service_template_id" invisible="1"/>
                                                 <field name="sale_order_line_id"
                                                        domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
                                                        context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
                                                        options="{'no_create': True, 'no_open': True}"/>
                                                 <field name="signature" widget="signature"/>
                                                 <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [500, 500]}"/>
+                                                <!-- field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [90, 90]}"/-->
                                             </group>
                                         </sheet>
                                     </form>
@@ -61,19 +64,15 @@
                 </form>
             </field>
         </record>
-
-        <!-- Action to open the Tree View of Foundation Maquina Registro -->
-        <record id="action_foundation_maquina_registro_estacas_tree" model="ir.actions.act_window">
-            <field name="name">Visualizar Registros de Máquina com Estacas</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.maquina.registro</field>
+        <!-- Action to open the view with estacas -->
+        <record id="action_foundation_obra_service_with_estacas" model="ir.actions.act_window">
+            <field name="name">Serviços na Obra com Estacas Funcionando</field>
+            <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_maquina_registro_estacas_tree')}),
-                                           (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_maquina_registro_estacas_form')})]"/>
-            <field name="help" type="html">
-                <p>Visualize e gerencie todos os registros de máquinas com detalhes de estacas aqui.</p>
-            </field>
+                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_tree')}),
+                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tiago_fundacao.view_foundation_obra_service_with_estacas_form')})]"/>
         </record>
+
     </data>
 </odoo>
