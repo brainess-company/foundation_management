@@ -1,9 +1,48 @@
+from datetime import date
 from odoo import models, fields, api
 
 class FoundationMaquinaRegistro(models.Model):
+    """
+    ESSA TABELA TEM REGISTROS INSERIDOS AUTOMATICAMENTE
+    PARA CADA MAQUINA QUE ESTÁ RELACIONADA A UM SERVIÇO DE UMA OBRA
+    """
     _name = 'foundation.maquina.registro'
     _description = 'Registro de Máquinas para Serviços'
 
     service_id = fields.Many2one('foundation.obra.service', string="Serviço")
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     data_registro = fields.Date(string="Data de Registro", default=fields.Date.context_today)
+
+    # Campos adicionais similares a FoundationObraService
+    obra_id = fields.Many2one('foundation.obra', related='service_id.obra_id', string="Obra", readonly=True, store=True)
+    sale_order_id = fields.Many2one('sale.order', related='service_id.sale_order_id', string="Ordem de Venda",
+                                    readonly=True, store=True)
+    nome_obra = fields.Char(related='service_id.nome_obra', string="Nome da Obra", readonly=True, store=True)
+    endereco = fields.Char(related='service_id.endereco', string="Endereço", readonly=True, store=True)
+    operador_id = fields.Many2one('res.partner', string="Operador", compute='_compute_operador', store=True)
+
+    # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
+    estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id', string="Estacas")  # tracking=True
+    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
+    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
+                                            store=False)
+
+    @api.depends('has_today_chamada')
+    def _compute_display_has_today_chamada(self):
+        for record in self:
+            record.display_has_today_chamada = "Sim" if record.has_today_chamada else "Não"
+
+    def _compute_has_today_chamada(self):
+        for record in self:
+            today_chamadas = self.env['foundation.chamada'].search([
+                ('foundation_obra_service_id', '=', record.id),
+                ('data', '=', date.today())
+            ])
+            record.has_today_chamada = bool(today_chamadas)
+
+    @api.depends('maquina_id')
+    def _compute_operador(self):
+        for record in self:
+            # Assumindo que 'operador' é um campo em 'foundation.maquina'
+            record.operador_id = record.maquina_id.operador if record.maquina_id else False
+

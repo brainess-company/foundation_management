@@ -27,6 +27,9 @@ class FoundationEstacas(models.Model):
     variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True)
     service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='foundation_obra_service_id.service_template_id', readonly=True,store=True)
 
+    # RELACIONA ESSA ESTACA COM a tabela nova de SERVIÇO ()FOUNDATION MAQUINA REGISTRO
+    foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro', string="Serviço na Obra", required=True)
+
     # RELACIONA ESSA TABELA COM A DE MEDIÇÃO
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
 
