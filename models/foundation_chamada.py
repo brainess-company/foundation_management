@@ -20,6 +20,14 @@ class Chamada(models.Model):
     data = fields.Date(string="Data", default=fields.Date.today, required=True)
     # Novo campo computado:
     has_chamada_today = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_chamada_today", store=False)
+    foundation_maquina_registro_id = fields.Many2one(
+        'foundation.maquina.registro',
+        string='Registro de Máquina',
+        help='Referência ao registro de máquina associado.'
+    )
+
+    # Adiciona um campo Many2one para vincular a Foundation Obra Service
+    foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
 
 
     @api.constrains('foundation_obra_service_id', 'data')

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-<!-- Tree View for Foundation Maquina Registro -->
+        <!-- Tree View for Foundation Maquina Registro -->
         <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.tree</field>
             <field name="model">foundation.maquina.registro</field>
@@ -10,19 +9,23 @@
                     <field name="data_registro"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
+                    <field name="sale_order_id"/>
+                    <field name="obra_id"/>
                     <field name="nome_obra" string="Nome da Obra"/>
                     <field name="endereco" string="Endereço"/>
                     <button name="%(action_open_chamada_form)d" type="action"
                             string="Registrar Chamada" icon="fa-plus-square"
                             context="{
-                                'default_service_id': service_id,
+                                'default_foundation_service_id': service_id,
                                 'default_data_registro': data_registro,
                                 'default_nome_obra': nome_obra,
-                                'default_endereco': endereco
+                                'default_endereco': endereco,
+                                'default_foundation_obra_service_id': service_id
                             }"/>
                 </tree>
             </field>
         </record>
+
         <!-- Ação para abrir o Formulário de Chamada com dados pré-preenchidos -->
         <record id="action_open_chamada_form" model="ir.actions.act_window">
             <field name="name">Criar Registro de Chamada</field>
@@ -31,7 +34,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="context">{
-                'default_service_id': context.get('default_service_id', False),
+                'default_foundation_service_id': context.get('default_foundation_service_id', False),
                 'default_nome_obra': context.get('default_nome_obra', ''),
                 'default_endereco': context.get('default_endereco', ''),
                 'default_data_registro': context.get('default_data_registro', '')
@@ -47,10 +50,10 @@
                     <sheet>
                         <group>
                             <field name="data"/>
-
                             <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" readonly="1"/>
                             <field name="endereco" readonly="1"/>
+                            <field name="foundation_service_id" readonly="1"/>
                         </group>
                         <notebook>
                             <page string="Funcionários Presentes">
@@ -76,9 +79,6 @@
                 </form>
             </field>
         </record>
-
-
-
 
         <!-- Ação para abrir a visão em árvore -->
         <record id="action_open_foundation_maquina_registro_tree" model="ir.actions.act_window">

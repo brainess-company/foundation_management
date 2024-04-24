@@ -37,7 +37,7 @@
 
         <menuitem id="foundation_teste_menu" name="TESTE" parent="main_foundation_menu" sequence="50"/>
         <menuitem id="menu_foundation_chamada" name="CHAMADA TESTE" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_tree" sequence="10"/>
-        <menuitem id="menu_foundation_add_estacas" name="ESTACAS TESTE" parent="foundation_teste_menu" action="action_foundation_maquina_registro_estacas_tree" sequence="20"/>
+        <menuitem id="menu_foundation_add_estacas" name="ESTACAS TESTE" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_tree" sequence="20"/>
 
 
 
