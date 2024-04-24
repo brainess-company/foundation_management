@@ -16,12 +16,14 @@ class FoundationObra(models.Model):
     # TODO vai dar erro referenciar esse campo quando eu instalar de novo, porque ele nem vai existir ainda e ja vai ser referenciado
     nome_obra = fields.Char(related='sale_order_id.nome_obra', store=True, readonly=True, string="Nome da Obra")
     #nome_obra = fields.Char("OBRA")
+    # para  o endereço pegar o da sale order (sale_order.partner_invoice_id)
     endereco = fields.Char("Endereço")
 
     # RELACIONA ESSA TABELA FOUNDATION OBRA COM  UMA SALE ORDER
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", required=True)
     cliente_id = fields.Many2one('res.partner', string="Cliente", related='sale_order_id.partner_id', readonly=True, store=True)
     valor_total = fields.Monetary("Valor Total", related='sale_order_id.amount_total', readonly=True, store=True)
+    invoice_address = fields.Char("Endereço de Faturamento", related='sale_order_id.partner_invoice_id.street', readonly=True, store=True)
     currency_id = fields.Many2one('res.currency', related='sale_order_id.currency_id', readonly=True, store=True)
 
     # CAMPOS CALCULADOS

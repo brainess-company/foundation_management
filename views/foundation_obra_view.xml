@@ -13,6 +13,8 @@
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                     <field name="cliente_id"/>
+                    <field name="invoice_address"/>
+
                     <field name="valor_total"/>
                     <field name="valor_faturado" readonly="1"/>
                     <field name="valor_a_faturar" readonly="1"/>
@@ -31,6 +33,7 @@
                         <group>
                             <field name="sale_order_id" readonly="1"/>
                             <field name="nome_obra"/>
+                            <field name="invoice_address"/>
                             <field name="cliente_id" readonly="1"/>
                             <field name="valor_total" readonly="1"/>
                             <field name="valor_faturado" readonly="1"/>

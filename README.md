@@ -18,18 +18,17 @@ Para instalar este módulo, você precisa:
    git clone https://github.com/brainess-company/foundation_management.git
 
 ## issues
-- [x] Definir o metodo que atualiza a lista de obras com base nas sale_order 
-- [x] Definir vicualização xml para operador clicar na foundation_obra e inserir estaca produzida
-- [x] O campo diâmtro na estca não pode ser um campo aberto deve ser uma lista da descrição da variavel de produto (string) do produto em questão
-- [x] Retornar o campo de preço unitario relacionado ao diâmtro selecionado
-- [x] Calcular o valor da estaca multiplicando a profundidade pelo preço unitário
-- [x] Inserir um filtro no notebook que o funcionario vai usar para inserir estaca só aparecer as que estão relacionadas com o serviço que ele está alocado, na tela de estacas já está assim automaticamente.
 - [ ] Melhorar kanban
 - [ ] Baixar medição em pdf para enviar ao cliente
 - [x] Enviar medição para conferência de terceiros igual a sale_order
 - [x] Inserir assinatura
 - [ ] Definir permissões de segurança
 - [ ] Uma medição só pode gerar uma unica fatura
-- [x] quando uma fatura for ferada direto da sale order incluir as estacas e acionar o metodo que ceia medição para as estacas
+- [ ] Da pra fazer um endereço clicado abrir no google maps
+- [ ] Opção de gerar medição pelos relatorios
+- [ ] Depois que o relatorio for salvo a assinatura fica read only
+- [ ] Uma medição só pode ser excluida se nçao tiver uma fatura relacionada
+- [ ] Quando uma medição for excluida as estecas tem que ser desrelacionadas com a medição
+- [ ] Remover botões de ação desnecessários
 - [ ] teste
 
