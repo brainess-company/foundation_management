@@ -40,7 +40,7 @@
         <menuitem id="menu_foundation_add_estacas" name="ESTACAS TESTE" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="20"/>
 
         <menuitem id="menu_foundation_team" name="TEAM" parent="foundation_teste_menu" action="action_foundation_maquina_team_tree" sequence="30"/>
-        <!--menuitem id="menu_foundation_add_estacas_2" name="ESTACAS TESTE SOZINHO" parent="foundation_teste_menu" action="action_foundation_relatorio_completo_tree" sequence="40"/-->
+        <menuitem id="menu_foundation_add_estacas_3" name="liSTA MAQUINA REGISTRO" parent="foundation_teste_menu" action="action_tela_foundation_maquina_registro" sequence="40"/>
 
 
 
