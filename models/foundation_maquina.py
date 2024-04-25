@@ -13,6 +13,13 @@ class FoundationMaquina(models.Model):
     current_team_employees = fields.Many2many('res.partner', string="Equipe Atual",
                                               compute='_compute_current_team_employees',
                                               store=False)
+    status_maquina = fields.Selection([
+        ('em_mobilizacao', 'Em Mobilização'),
+        ('sem_obra', 'Sem Obra'),
+        ('parada', 'Máquina Parada'),
+        ('em_manutencao', 'Em Manutenção'),
+        ('disponivel', 'Disponível')
+    ], string="Status da Máquina", default='sem_obra', tracking=True)
 
 
     @api.depends('team_ids')
