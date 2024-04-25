@@ -21,6 +21,8 @@ class FoundationObra(models.Model):
 
     # RELACIONA ESSA TABELA FOUNDATION OBRA COM  UMA SALE ORDER
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", required=True)
+    partner_id = fields.Many2one('res.partner', string="Cliente", related='sale_order_id.partner_id', readonly=True,
+                                 store=True)
     cliente_id = fields.Many2one('res.partner', string="Cliente", related='sale_order_id.partner_id', readonly=True, store=True)
     valor_total = fields.Monetary("Valor Total", related='sale_order_id.amount_total', readonly=True, store=True)
     invoice_address = fields.Char("Endereço de Faturamento", related='sale_order_id.partner_invoice_id.street', readonly=True, store=True)

@@ -59,9 +59,54 @@ class FoundationObraService(models.Model):
         return result
 
     def _create_machine_records(self, service, maquinas):
-        MaquinaRegistro = self.env['foundation.maquina.registro']
+        """Cria registros de máquina e contas analíticas associadas."""
         for maquina in maquinas:
-            MaquinaRegistro.create({
-                'service_id': service.id,
-                'maquina_id': maquina.id,
+            self._create_individual_machine_record(service, maquina)
+            self._create_analytic_accounts(service, maquina)
+
+    def _create_individual_machine_record(self, service, maquina):
+        """Cria um registro de máquina no modelo foundation.maquina.registro."""
+        MaquinaRegistro = self.env['foundation.maquina.registro']
+        MaquinaRegistro.create({
+            'service_id': service.id,
+            'maquina_id': maquina.id,
+        })
+
+    def _create_analytic_accounts(self, service, maquinas):
+        AnalyticAccount = self.env['account.analytic.account']
+        Plan = self.env['account.analytic.plan']  # Substitua pelo modelo correto de seu sistema, se diferente
+
+        # Verifica se o plano "DESPESAS" existe, cria se não existir
+        expense_plan = Plan.search([('name', '=', 'DESPESAS')], limit=1)
+        if not expense_plan:
+            expense_plan = Plan.create({
+                'name': 'DESPESAS'
+            })
+
+        for maquina in maquinas:
+            partner_id = service.obra_id.partner_id.id if service.obra_id.partner_id else None
+            company_id = self.env.company.id
+
+            # Criar conta analítica para a obra
+            AnalyticAccount.create({
+                'name': f"{service.nome_obra} - {service.service_name}",
+                'partner_id': partner_id,
+                'company_id': company_id,
+                'plan_id': expense_plan.id
+            })
+
+            # Criar conta analítica para cada serviço
+            AnalyticAccount.create({
+                'name': f"{service.nome_obra} - {service.service_name}",
+                'partner_id': partner_id,
+                'company_id': company_id,
+                'plan_id': expense_plan.id
+            })
+
+            # Criar conta analítica para cada máquina
+            AnalyticAccount.create({
+                'name': f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}",
+                'partner_id': partner_id,
+                'company_id': company_id,
+                'plan_id': expense_plan.id
             })

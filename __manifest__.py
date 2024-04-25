@@ -12,6 +12,8 @@
         'sale',
         'mail',
         'product',
+        'account',  # Para usar contas analíticas
+        'hr',       # Se você estiver usando funcionalidades relacionadas a empregados
     ],
     'data': [
         'security/ir.model.access.csv',  # Load security and access rules first
