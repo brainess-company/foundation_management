@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Form View for inserting Estacas into Relatórios, including machine registration details -->
-        <record id="view_foundation_relatorio_maquina_form" model="ir.ui.view">
-            <field name="name">foundation.relatorio.maquina.form</field>
+
+        <!-- O MENU TRÁ PARA CÁ -->
+        <!-- Form View for inserting Estacas into Relatórios, including service details -->
+        <record id="view_foundation_relatorio_form" model="ir.ui.view">
+            <field name="name">foundation.relatorio.form</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas">
                     <sheet>
                         <group>
                             <field name="data"/>
-                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-                            <field name="nome_obra" related="foundation_maquina_registro_id.nome_obra" readonly="1"/>
-                            <field name="sale_order_id" readonly="1"/>
-                            <field name="foundation_obra_service_id" readonly="1"/>
+                            <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="foundation_obra_service_id"/>
+                            <field name="nome_obra" related="foundation_obra_service_id.nome_obra" readonly="1"/>
+                            <field name="nome_servico" related="foundation_obra_service_id.service_name" readonly="1"/>
+                            <field name="endereco_obra" related="foundation_obra_service_id.endereco" readonly="1"/>
+                            <field name="sale_order_id"/>
                             <field name="service_template_id" related="foundation_obra_service_id.service_template_id"/>
-                            <field name="endereco_obra" related="foundation_maquina_registro_id.endereco" readonly="1"/>
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids" context="{
-                                            'default_foundation_obra_service_id': foundation_obra_service_id,
-                                            'default_sale_order_id': sale_order_id,
-                                            'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
-                                            'default_service_template_id': service_template_id}">
+                                <field name="estacas_ids" context="{'default_foundation_obra_service_id': foundation_obra_service_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}">
                                     <tree editable="bottom">
                                         <field name="nome_estaca"/>
-                                        <field name="profundidade"/>
+                                        <field name="service_template_id"/>
                                         <field name="sale_order_id"/>
-                                        <field name="data"/>
-                                        <field name="service_template_id" related="foundation_obra_service_id.service_template_id"/>
-                                        <field name="foundation_obra_service_id" readonly="1"/>
+                                        <field name="profundidade"/>
                                         <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                     </tree>
                                     <form>
                                         <group>
                                             <field name="nome_estaca"/>
                                             <field name="profundidade"/>
-                                            <field name="service_template_id" related="foundation_obra_service_id.service_template_id"/>
-                                            <field name="foundation_obra_service_id"/>
+                                            <field name="observacao"/>
                                             <field name="sale_order_id"/>
+                                            <field name="service_template_id"/>
                                             <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/>
+                                            <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                         </group>
                                     </form>
                                 </field>
@@ -57,51 +56,46 @@
                 </form>
             </field>
         </record>
-        <!-- Action to open the new Relatório Form -->
-        <record id="action_open_foundation_relatorio_maquina_form" model="ir.actions.act_window">
-            <field name="name">Criar Relatório de Máquina</field>
+         <!-- Action to open the new Relatório Form -->
+        <record id="action_open_foundation_relatorio_form" model="ir.actions.act_window">
+            <field name="name">Criar Relatório</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
-            <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
+            <field name="view_id" ref="view_foundation_relatorio_form"/>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="context">{}</field>
         </record>
 
-        <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
-            <field name="name">foundation.maquina.registro.tree</field>
-            <field name="model">foundation.maquina.registro</field>
+        <record id="view_foundation_relatorio_completo_tree" model="ir.ui.view">
+            <field name="name">foundation.obra.service2.tree</field>
+            <field name="model">foundation.obra.service</field>
             <field name="arch" type="xml">
-                <tree string="Lista de Registros de Máquinas">
+                <tree string="Foundation Obra Service List Simples">
                     <field name="sale_order_id"/>
+                    <field name="service_name"/>
                     <field name="nome_obra"/>
-                    <field name="maquina_id"/>
-                    <field name="service_id"/>
                     <field name="endereco"/>
-                    <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
-                            string="Adicionar Relatório" icon="fa-plus-square"
-                            context="{
-                                'default_foundation_maquina_registro_id': id,
-                                'default_sale_order_id': sale_order_id,
-                                'default_nome_obra': nome_obra,
-                                'default_endereco': endereco,
-                                'default_foundation_obra_service_id': service_id
-                            }"/>
+                    <!--field name="operador_id"/-->
+                    <button name="%(action_open_foundation_relatorio_form)d" type="action"
+            string="Adicionar Relatório" icon="fa-plus-square"
+            context="{'default_foundation_obra_service_id': id}"/>
                 </tree>
             </field>
         </record>
 
-        <record id="action_foundation_maquina_registro_tree" model="ir.actions.act_window">
-            <field name="name">Registros de Máquina</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.maquina.registro</field>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Crie um novo Relatório de Máquina
-                </p>
-            </field>
-        </record>
+        <record id="action_foundation_relatorio_completo_tree" model="ir.actions.act_window">
+    <field name="name">Serviços da Fundação</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">foundation.obra.service</field>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="view_foundation_relatorio_completo_tree"/>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Crie um novo Serviço de Fundação
+        </p>
+    </field>
+</record>
+
     </data>
 </odoo>

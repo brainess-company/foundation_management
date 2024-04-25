@@ -46,27 +46,19 @@ class FoundationEstacas(models.Model):
 
     @api.model
     def create(self, vals):
-        # Configurando valores relacionados antes de criar o registro
-        if 'foundation_obra_service_id' in vals:
-            service = self.env['foundation.obra.service'].browse(vals['foundation_obra_service_id'])
-            vals['sale_order_id'] = service.sale_order_id.id
-            vals['service_template_id'] = service.service_template_id.id
-
         record = super(FoundationEstacas, self).create(vals)
-
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
-
         return record
 
     def write(self, vals):
         res = super(FoundationEstacas, self).write(vals)
-
         for record in self:
             if record.sale_order_line_id:
+                # Atualiza o delivered_qty somente se a profundidade foi alterada,
+                # ou uma linha de pedido de venda foi associada após a criação da estaca
                 if 'profundidade' in vals or 'sale_order_line_id' in vals:
                     record.sale_order_line_id.qty_delivered += vals.get('profundidade', record.profundidade)
-
         return res
 
 
