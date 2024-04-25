@@ -37,8 +37,10 @@
 
         <menuitem id="foundation_teste_menu" name="TESTE" parent="main_foundation_menu" sequence="50"/>
         <menuitem id="menu_foundation_chamada" name="CHAMADA TESTE" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_chamada_tree" sequence="10"/>
-        <menuitem id="menu_foundation_add_estacas" name="ESTACAS TESTE" parent="foundation_teste_menu" action="action_foundation_relatorio_completo_tree" sequence="20"/>
+        <menuitem id="menu_foundation_add_estacas" name="ESTACAS TESTE" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="20"/>
+
         <menuitem id="menu_foundation_team" name="TEAM" parent="foundation_teste_menu" action="action_foundation_maquina_team_tree" sequence="30"/>
+        <!--menuitem id="menu_foundation_add_estacas_2" name="ESTACAS TESTE SOZINHO" parent="foundation_teste_menu" action="action_foundation_relatorio_completo_tree" sequence="40"/-->
 
 
 

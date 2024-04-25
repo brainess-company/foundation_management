@@ -27,6 +27,8 @@ class FoundationMaquinaRegistro(models.Model):
 
     # RELACIONA ESSA TABELA COM A DE PRODUTOS
     variante_id = fields.Many2one('product.product', string="Variante")
+
+
     service_template_id = fields.Many2one('product.template', string="Template do Serviço",
                                           related='variante_id.product_tmpl_id', readonly=True, store=True)  # produto
     service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)  # variante
