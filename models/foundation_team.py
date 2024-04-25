@@ -11,6 +11,7 @@ class FoundationTeam(models.Model):
     machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True,  tracking=True)
     employee_ids = fields.Many2many('res.partner', string="Funcionários",  tracking=True)
     note = fields.Text("Notas",  tracking=True)
+    machine_status = fields.Selection(related='machine_id.status_maquina', string="Status da Máquina", readonly=True,  tracking=True)
 
     @api.model
     def create_daily_team_records(self):

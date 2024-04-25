@@ -35,6 +35,7 @@
                         <group>
                             <field name="nome_maquina"/>
                             <field name="operador"/>
+                            <field name="status_maquina"/>
                             <field name="observacao"/>
                         </group>
                     </sheet>
