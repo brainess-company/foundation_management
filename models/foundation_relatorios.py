@@ -30,6 +30,12 @@ class FoundationRelatorios(models.Model):
     # No modelo FoundationRelatorios
     service_template_id = fields.Many2one('product.template', related='foundation_obra_service_id.service_template_id',
                                           readonly=True, store=True)
+    foundation_maquina_registro_id = fields.Many2one(
+        'foundation.maquina.registro',
+        string='Registro de Máquina',
+        required=True,
+        help='Referência ao registro de máquina associado.'
+    )
 
     @api.model
     def create(self, vals):
