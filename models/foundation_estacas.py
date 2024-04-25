@@ -14,8 +14,8 @@ class FoundationEstacas(models.Model):
 
     # CAMPOS PROPRIOS
     nome_estaca = fields.Char("Nome da Estaca", required=True)
-    signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
-    image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
+    #signature = fields.Binary("Assinatura", help="Assinatura do responsável pela estaca")
+    #image = fields.Binary("Imagem da Estaca", attachment=True, help="Imagem relacionada à estaca")
     profundidade = fields.Float("Profundidade (m)", required=True, help="o numero deve estar entre 1 e 40", default=1.0)
     data = fields.Date("Data", default=lambda self: fields.Date.context_today(self), required=True)
     observacao = fields.Char("Observação")
@@ -24,8 +24,8 @@ class FoundationEstacas(models.Model):
     foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='foundation_obra_service_id.sale_order_id', readonly=True, store=True, required=True)
     sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",required=True)
-    variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True)
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='foundation_obra_service_id.service_template_id', readonly=True,store=True)
+    variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True,required=True)
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='foundation_obra_service_id.service_template_id', readonly=True,store=True, required=True)
 
     # RELACIONA ESSA ESTACA COM a tabela nova de SERVIÇO ()FOUNDATION MAQUINA REGISTRO
     foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro', string="Serviço na Obra", required=True)
@@ -46,20 +46,29 @@ class FoundationEstacas(models.Model):
 
     @api.model
     def create(self, vals):
+        # Configurando valores relacionados antes de criar o registro
+        if 'foundation_obra_service_id' in vals:
+            service = self.env['foundation.obra.service'].browse(vals['foundation_obra_service_id'])
+            vals['sale_order_id'] = service.sale_order_id.id
+            vals['service_template_id'] = service.service_template_id.id
+
         record = super(FoundationEstacas, self).create(vals)
+
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
+
         return record
 
     def write(self, vals):
         res = super(FoundationEstacas, self).write(vals)
+
         for record in self:
             if record.sale_order_line_id:
-                # Atualiza o delivered_qty somente se a profundidade foi alterada,
-                # ou uma linha de pedido de venda foi associada após a criação da estaca
                 if 'profundidade' in vals or 'sale_order_line_id' in vals:
                     record.sale_order_line_id.qty_delivered += vals.get('profundidade', record.profundidade)
+
         return res
+
 
     @api.depends('sale_order_line_id.price_unit', 'profundidade')
     def _compute_line_values(self):

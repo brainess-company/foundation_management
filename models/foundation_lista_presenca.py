@@ -1,6 +1,9 @@
 from odoo import models, fields, api
 
 class ListaPresenca(models.Model):
+    """
+    CADA UM FUNCIONARIO AQUI ESTA RELACIONADO COM UMA CHAMADA
+    """
     _name = 'foundation.lista.presenca'
     _description = 'Lista de Presença de Funcionários'
 

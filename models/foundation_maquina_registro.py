@@ -5,12 +5,14 @@ class FoundationMaquinaRegistro(models.Model):
     """
     ESSA TABELA TEM REGISTROS INSERIDOS AUTOMATICAMENTE
     PARA CADA MAQUINA QUE ESTÁ RELACIONADA A UM SERVIÇO DE UMA OBRA
+    ENTÃO AQUI EU TENHO UMA TABELA COM REGISTRO COMPOSTO POR CADA MAQUINA RELACIONADA A CADA SERVIÇO
     """
     _name = 'foundation.maquina.registro'
     _description = 'Registro de Máquinas para Serviços'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     #_rec_name = 'nome_maquina'
 
+    # RELACIONA ESSA TABELA COM A DE SERVIÇO
     service_id = fields.Many2one('foundation.obra.service', string="Serviço")
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     data_registro = fields.Date(string="Data de Registro", default=fields.Date.context_today)

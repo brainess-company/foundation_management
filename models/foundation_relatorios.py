@@ -43,6 +43,8 @@ class FoundationRelatorios(models.Model):
             raise UserError("A assinatura é obrigatória para a criação de um relatório.")
         return super(FoundationRelatorios, self).create(vals)
 
+
+
     def action_confirm(self):
         self.write({'state': 'confirmed'})
 

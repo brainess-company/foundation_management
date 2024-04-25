@@ -4,6 +4,10 @@ from odoo.exceptions import ValidationError
 
 
 class Chamada(models.Model):
+    """
+    UM REGISTRO DE CHAMADA AQUI TEM MUITOS LISTA DE PRESENÇA
+    UMA CHAMADA É UM GRUPO DE REGISTROS EM LISTA DE PRESENÇA
+    """
     _name = 'foundation.chamada'
     _description = 'Registro de Chamada'
 

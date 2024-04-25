@@ -77,8 +77,8 @@
                             <field name="sale_order_line_id"/>
                             <field name="unit_price"/>
                             <field name="total_price"/>
-                            <field name="signature" widget="signature" readonly="1"/>
-                            <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/>
+                            <!--field name="signature" widget="signature" readonly="1"/-->
+                            <!--field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/-->
                         </group>
                     </sheet>
                 </form>
