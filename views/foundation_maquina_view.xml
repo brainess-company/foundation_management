@@ -11,7 +11,9 @@
                 <tree string="Foundation Maquina List">
                     <field name="nome_maquina"/>
                     <field name="operador"/>
+                    <field name="current_team_employees" string="Equipe"/>
                     <field name="observacao"/>
+
                 </tree>
             </field>
         </record>

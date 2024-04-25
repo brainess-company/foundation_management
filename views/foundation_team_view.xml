@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data><!-- Ações para team -->
-        <record id="view_foundation_team_tree" model="ir.ui.view">
-            <field name="name">foundation.team.tree</field>
-            <field name="model">foundation.team</field>
+    <data>
+        <!-- Tree View for Foundation Maquina -->
+        <record id="view_foundation_maquina_team_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.tree</field>
+            <field name="model">foundation.maquina</field>
             <field name="arch" type="xml">
-                <tree string="Registro de Equipes">
-                    <field name="date"/>
-                    <field name="machine_id"/>
-                    <field name="employee_ids" widget="many2many_tags"/>
+                <tree string="Lista de Máquinas da Fundação">
+                    <field name="nome_maquina"/>
+                    <field name="operador"/>
+                    <field name="observacao"/>
+                    <button name="%(action_open_foundation_team_form)d" type="action"
+                            string="Configurar Equipe" icon="fa-users"
+                            context="{
+                                'default_machine_id': id
+                            }"/>
                 </tree>
             </field>
         </record>
+
+        <!-- Form View for Foundation Team -->
         <record id="view_foundation_team_form" model="ir.ui.view">
             <field name="name">foundation.team.form</field>
             <field name="model">foundation.team</field>
@@ -27,7 +35,7 @@
                             <field name="note"/>
                         </group>
                     </sheet>
-                    <!-- Inserir Chatter -->
+                    <!-- Chatter for interaction tracking -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="message_ids" widget="mail_thread"/>
@@ -35,12 +43,32 @@
                 </form>
             </field>
         </record>
+
+        <!-- Action to open Team Configuration Form -->
+        <record id="action_open_foundation_team_form" model="ir.actions.act_window">
+            <field name="name">Configurar Equipe</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.team</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Action to display Foundation Team Tree View -->
         <record id="action_foundation_team" model="ir.actions.act_window">
             <field name="name">Equipe da Fundação</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.team</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_foundation_team_tree"/>
+            <field name="view_id" ref="view_foundation_team_form"/>
         </record>
     </data>
+    <!-- Definições de ação para a árvore e formulário de Equipe -->
+        <record id="action_foundation_maquina_team_tree" model="ir.actions.act_window">
+            <field name="name">Máquinas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_maquina_team_tree"/>
+        </record>
 </odoo>
