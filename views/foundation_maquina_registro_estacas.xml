@@ -67,6 +67,8 @@
                 <tree string="Lista de Registros de Máquinas">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
+                    <field name="maquina_id"/>
+                    <field name="service_id"/>
                     <field name="endereco"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
