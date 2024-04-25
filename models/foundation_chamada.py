@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class Chamada(models.Model):
     """
+    chamada contem lista de presencas
     UM REGISTRO DE CHAMADA AQUI TEM MUITOS LISTA DE PRESENÇA
     UMA CHAMADA É UM GRUPO DE REGISTROS EM LISTA DE PRESENÇA
     """

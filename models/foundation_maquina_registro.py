@@ -12,26 +12,26 @@ class FoundationMaquinaRegistro(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     #_rec_name = 'nome_maquina'
 
-    # RELACIONA ESSA TABELA COM A DE SERVIÇO
-    service_id = fields.Many2one('foundation.obra.service', string="Serviço")
-    maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     data_registro = fields.Date(string="Data de Registro", default=fields.Date.context_today)
 
-    # Campos adicionais similares a FoundationObraService
-    obra_id = fields.Many2one('foundation.obra', related='service_id.obra_id', string="Obra", readonly=True, store=True)
-    sale_order_id = fields.Many2one('sale.order', related='service_id.sale_order_id', string="Ordem de Venda",
-                                    readonly=True, store=True)
-    nome_obra = fields.Char(related='service_id.nome_obra', string="Nome da Obra", readonly=True, store=True)
-    endereco = fields.Char(related='service_id.endereco', string="Endereço", readonly=True, store=True)
+
+
+    # RELACIONA ESSA TABELA COM A DE SERVIÇO
+    service_id = fields.Many2one('foundation.obra.service', string="Serviço")
+    nome_servico = fields.Char(related='service_id.service_name', string="Nome do Serviço",readonly=True, store=True)
+    obra_id = fields.Many2one('foundation.obra', related='service_id.obra_id', string="Obra id", readonly=True,store=True)
+    sale_order_id = fields.Many2one('sale.order', related='service_id.sale_order_id',string="Ordem de Venda", readonly=True, store=True)
+    nome_obra = fields.Char(related='service_id.nome_obra', string="Nome da Obra",readonly=True,store=True)
+    endereco = fields.Char(related='service_id.endereco', string="Endereço", readonly=True,  store=True)
+
+    # Campos relacionados à definição de produto/serviço
+    variante_id = fields.Many2one('product.product', related='service_id.variante_id',string="Variante", readonly=True, store=True)
+    service_template_id = fields.Many2one('product.template',related='service_id.service_template_id', string="Template do Serviço",readonly=True, store=True)
+
+
+    maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     operador_id = fields.Many2one('res.partner', string="Operador", compute='_compute_operador', store=True)
 
-    # RELACIONA ESSA TABELA COM A DE PRODUTOS
-    variante_id = fields.Many2one('product.product', string="Variante")
-
-
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço",
-                                          related='variante_id.product_tmpl_id', readonly=True, store=True)  # produto
-    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)  # variante
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id', string="Estacas")  # tracking=True

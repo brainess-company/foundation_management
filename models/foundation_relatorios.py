@@ -7,7 +7,7 @@ class FoundationRelatorios(models.Model):
 
     # Campos básicos
     data = fields.Date("Data do Relatório", default=fields.Date.context_today, required=True)
-    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
+    #foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
     estacas_ids = fields.One2many('foundation.estacas', 'relatorio_id', string="Estacas Incluídas")
     assinatura = fields.Binary("Assinatura do Responsável", help="Assinatura digital do responsável pelo relatório")
     state = fields.Selection([
@@ -17,19 +17,21 @@ class FoundationRelatorios(models.Model):
     ], default='draft', string="Status", required=True)
 
     # Campos adicionais relacionados ao serviço
-    nome_servico = fields.Char(related='foundation_obra_service_id.service_name', string="Nome do Serviço",
+    nome_servico = fields.Char(related='foundation_maquina_registro_id.nome_servico', string="Nome do Serviço",
                                readonly=True, store=True)
     #nome_maquina = fields.Char(related='foundation_obra_service_id.nome_maquina', string="Máquina Associada",readonly=True, store=True)
     #nome_operador = fields.Char(related='foundation_obra_service_id.operador_id.name', string="Operador", readonly=True,store=True)
-    nome_obra = fields.Char(related='foundation_obra_service_id.nome_obra', string="Nome da Obra", readonly=True,store=True)
-    endereco_obra = fields.Char(related='foundation_obra_service_id.endereco', string="Endereço da Obra", readonly=True,store=True)
+    nome_obra = fields.Char(related='foundation_maquina_registro_id.nome_obra', string="Nome da Obra", readonly=True,store=True)
+    endereco_obra = fields.Char(related='foundation_maquina_registro_id.endereco', string="Endereço da Obra", readonly=True,store=True)
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order",
-                                    related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
+                                    related='foundation_maquina_registro_id.sale_order_id', readonly=True, store=True)
 
     # No modelo FoundationRelatorios
-    service_template_id = fields.Many2one('product.template', related='foundation_obra_service_id.service_template_id',
+    service_template_id = fields.Many2one('product.template', related='foundation_maquina_registro_id.service_template_id',
                                           readonly=True, store=True)
+
+    # todo substituir nas views foundation_obra_service_id por foundation_maquina_registro_id
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
         string='Registro de Máquina',

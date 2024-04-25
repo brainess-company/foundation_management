@@ -22,6 +22,12 @@ class FoundationObraService(models.Model):
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
 
+    maquina_registros_ids = fields.One2many(
+        'foundation.maquina.registro',  # Modelo relacionado
+        'service_id',  # Campo inverso em FoundationMaquinaRegistro
+        string="Registros de Máquinas"
+    )
+
 
     @api.model
     def create(self, vals):
