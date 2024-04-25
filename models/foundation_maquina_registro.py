@@ -43,7 +43,7 @@ class FoundationMaquinaRegistro(models.Model):
     def _compute_has_today_chamada(self):
         for record in self:
             today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_obra_service_id', '=', record.id),
+                ('foundation_maquina_registro_id', '=', record.id),
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)

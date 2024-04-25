@@ -21,21 +21,7 @@ class FoundationObraService(models.Model):
     nome_obra = fields.Char("Nome da Obra", related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
-    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
-    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada')
 
-    @api.depends('has_today_chamada')
-    def _compute_display_has_today_chamada(self):
-        for record in self:
-            record.display_has_today_chamada = "Sim" if record.has_today_chamada else "Não"
-
-    def _compute_has_today_chamada(self):
-        for record in self:
-            today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_obra_service_id', '=', record.id),
-                ('data', '=', date.today())
-            ])
-            record.has_today_chamada = bool(today_chamadas)
 
     @api.model
     def create(self, vals):
@@ -152,4 +138,3 @@ class FoundationObraService(models.Model):
                 'plan_id': expense_plan.id
             })
 
-            

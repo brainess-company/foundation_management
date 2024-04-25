@@ -11,10 +11,10 @@
                     <field name="service_name"/>
                     <field name="nome_obra"/>
 
-                    <field name="display_has_today_chamada"
+                    <!--field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"
                    decoration-danger="display_has_today_chamada == 'Não'"
-                    widget="badge" optional="show"/>  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
+                    widget="badge" optional="show"/-->  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
                     <field name="endereco"/>
                     <!--field name="operador_id"/-->
                     <button name="%(action_open_chamada_form)d" type="action"
