@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <!-- Tree View for Foundation Maquina Registro -->
-        <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
+        <record id="view_foundation_maquina_registro_chamada_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.tree</field>
             <field name="model">foundation.maquina.registro</field>
             <field name="arch" type="xml">
@@ -87,12 +87,12 @@
         </record>
 
         <!-- Ação para abrir a visão em árvore -->
-        <record id="action_open_foundation_maquina_registro_tree" model="ir.actions.act_window">
+        <record id="action_open_foundation_maquina_registro_chamada_tree" model="ir.actions.act_window">
             <field name="name">Registros de Máquinas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina.registro</field>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
+            <field name="view_id" ref="view_foundation_maquina_registro_chamada_tree"/>
             <field name="help" type="html">
                 <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>
             </field>
