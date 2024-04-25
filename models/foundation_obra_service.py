@@ -1,37 +1,28 @@
+import logging
 from datetime import date
 from odoo import models, fields, api
 
+_logger = logging.getLogger(__name__)
+
 class FoundationObraService(models.Model):
-    """
-    ESSA CLASSE SERVE PRINCIPALMENTE PARA RELACIONAR UMA MÁQUINA À UM SERVIÇO
-    O SERVIÇO NA VERDADE SÃO OS PRODUCT TEMPLATES DISTINTOS DA SALE ORDER
-    """
+    # Configurações básicas do modelo
     _name = 'foundation.obra.service'
     _description = 'Serviços em uma obra'
-    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'service_name'
 
-    # RELACIONA ESSA TABELA COM A DE PRODUTOS
+    # Definição dos campos
     variante_id = fields.Many2one('product.product', string="Variante")
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='variante_id.product_tmpl_id', readonly=True, store=True) #produto
-    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)  # variante
-
-    # RELACIONA ESSE SERVIÇO COM UMA MÁQUINA
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='variante_id.product_tmpl_id', readonly=True, store=True)
+    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)
     foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquinas Associadas")
-    #operador_id = fields.Many2one('res.partner', string="Operador", related='foundation_maquina_id.operador',readonly=True, store=True)
-    #nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True, store=True, tracking=True)
-
-    # RELACIONA COM A TABELA DE OBRA (foundation.obra)
     obra_id = fields.Many2one('foundation.obra', string="Obra")
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='obra_id.sale_order_id',readonly=True, store=True)
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='obra_id.sale_order_id', readonly=True, store=True)
     nome_obra = fields.Char("Nome da Obra", related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
-
-    # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
-    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas") # tracking=True
+    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
     has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
-    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
-                                            store=False)
+    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada')
 
     @api.depends('has_today_chamada')
     def _compute_display_has_today_chamada(self):
@@ -39,74 +30,126 @@ class FoundationObraService(models.Model):
             record.display_has_today_chamada = "Sim" if record.has_today_chamada else "Não"
 
     def _compute_has_today_chamada(self):
-            for record in self:
-                today_chamadas = self.env['foundation.chamada'].search([
-                    ('foundation_obra_service_id', '=', record.id),
-                    ('data', '=', date.today())
-                ])
-                record.has_today_chamada = bool(today_chamadas)
+        for record in self:
+            today_chamadas = self.env['foundation.chamada'].search([
+                ('foundation_obra_service_id', '=', record.id),
+                ('data', '=', date.today())
+            ])
+            record.has_today_chamada = bool(today_chamadas)
 
     @api.model
     def create(self, vals):
-        new_record = super(FoundationObraService, self).create(vals)
+        _logger.debug("Creating new FoundationObraService record with values: %s", vals)
+        new_record = super().create(vals)
         self._create_machine_records(new_record, new_record.foundation_maquina_ids)
         return new_record
 
     def write(self, vals):
-        result = super(FoundationObraService, self).write(vals)
+        _logger.debug("Writing to FoundationObraService record with values: %s", vals)
+        result = super().write(vals)
         if 'foundation_maquina_ids' in vals:
             self._create_machine_records(self, self.foundation_maquina_ids)
         return result
 
     def _create_machine_records(self, service, maquinas):
-        """Cria registros de máquina e contas analíticas associadas."""
-        for maquina in maquinas:
-            self._create_individual_machine_record(service, maquina)
-            self._create_analytic_accounts(service, maquina)
-
-    def _create_individual_machine_record(self, service, maquina):
-        """Cria um registro de máquina no modelo foundation.maquina.registro."""
+        _logger.debug("Creating machine records for service %s", service.id)
         MaquinaRegistro = self.env['foundation.maquina.registro']
-        MaquinaRegistro.create({
-            'service_id': service.id,
-            'maquina_id': maquina.id,
-        })
+        for maquina in maquinas:
+            _logger.debug("Processing machine %s", maquina.id)
+            existing_record = MaquinaRegistro.search([('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
+            if existing_record:
+                _logger.info("Updating existing machine record for machine %s", maquina.id)
+                existing_record.write({
+                    'service_id': service.id,
+                    'maquina_id': maquina.id,
+                })
+            else:
+                _logger.info("Creating new machine record for machine %s", maquina.id)
+                MaquinaRegistro.create({
+                    'service_id': service.id,
+                    'maquina_id': maquina.id,
+                })
 
-    def _create_analytic_accounts(self, service, maquinas):
+        self._create_or_update_analytic_accounts(service, maquinas)
+
+    def _create_or_update_analytic_accounts(self, service, maquinas):
+        MaquinaRegistro = self.env['foundation.maquina.registro']
         AnalyticAccount = self.env['account.analytic.account']
-        Plan = self.env['account.analytic.plan']  # Substitua pelo modelo correto de seu sistema, se diferente
+        Plan = self.env['account.analytic.plan']
 
-        # Verifica se o plano "DESPESAS" existe, cria se não existir
+        _logger.info("Checking for existing 'DESPESAS' plan")
         expense_plan = Plan.search([('name', '=', 'DESPESAS')], limit=1)
         if not expense_plan:
+            _logger.info("'DESPESAS' plan not found, creating new one")
             expense_plan = Plan.create({
                 'name': 'DESPESAS'
             })
 
+        multiple_machines = len(maquinas) > 1
+        _logger.debug(f"Processing {len(maquinas)} machines, multiple_machines={multiple_machines}")
+
         for maquina in maquinas:
-            partner_id = service.obra_id.partner_id.id if service.obra_id.partner_id else None
-            company_id = self.env.company.id
+            _logger.debug(f"Processing machine {maquina.id}")
+            # Procura por um registro existente ou cria um novo
+            maquina_registro = MaquinaRegistro.search(
+                [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
+            if not maquina_registro:
+                maquina_registro = MaquinaRegistro.create({
+                    'service_id': service.id,
+                    'maquina_id': maquina.id,
+                })
 
-            # Criar conta analítica para a obra
+            account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
+            _logger.debug(f"Looking for existing analytic account for machine {maquina.id}")
+            existing_account = AnalyticAccount.search([('foundation_maquina_registro_id', '=', maquina_registro.id)],
+                                                      limit=1)
+
+            if existing_account:
+                _logger.info(f"Updating existing account {existing_account.id}")
+                existing_account.write({
+                    'name': account_name
+                })
+            else:
+                _logger.info(f"Creating new analytic account for machine {maquina.id}")
+                AnalyticAccount.create({
+                    'name': account_name,
+                    'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
+                    'company_id': self.env.company.id,
+                    'plan_id': expense_plan.id,
+                    'foundation_maquina_registro_id': maquina_registro.id
+                })
+
+        if multiple_machines:
+            service_account_name = f"{service.nome_obra} - {service.service_name}"
+            _logger.debug("Checking for existing service account")
+            service_account = AnalyticAccount.search(
+                [('name', '=', service_account_name), ('foundation_maquina_registro_id', '=', False)], limit=1)
+            if service_account:
+                _logger.info("Updating service account")
+                service_account.write({'name': service_account_name})
+            else:
+                _logger.info("Creating new service account")
+                AnalyticAccount.create({
+                    'name': service_account_name,
+                    'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
+                    'company_id': self.env.company.id,
+                    'plan_id': expense_plan.id
+                })
+
+        obra_account_name = f"{service.nome_obra}"
+        _logger.debug("Checking for existing obra account")
+        obra_account = AnalyticAccount.search(
+            [('name', '=', obra_account_name), ('foundation_maquina_registro_id', '=', False)], limit=1)
+        if obra_account:
+            _logger.info("Updating obra account")
+            obra_account.write({'name': obra_account_name})
+        else:
+            _logger.info("Creating new obra account")
             AnalyticAccount.create({
-                'name': f"{service.nome_obra} - {service.service_name}",
-                'partner_id': partner_id,
-                'company_id': company_id,
+                'name': obra_account_name,
+                'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
+                'company_id': self.env.company.id,
                 'plan_id': expense_plan.id
             })
 
-            # Criar conta analítica para cada serviço
-            AnalyticAccount.create({
-                'name': f"{service.nome_obra} - {service.service_name}",
-                'partner_id': partner_id,
-                'company_id': company_id,
-                'plan_id': expense_plan.id
-            })
-
-            # Criar conta analítica para cada máquina
-            AnalyticAccount.create({
-                'name': f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}",
-                'partner_id': partner_id,
-                'company_id': company_id,
-                'plan_id': expense_plan.id
-            })
+            

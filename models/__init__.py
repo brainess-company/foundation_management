@@ -9,5 +9,6 @@ from . import foundation_relatorios
 from . import foundation_lista_presenca
 from . import foundation_maquina_registro
 from . import foundation_team
+from . import foundation_analytic_account_foundation_maquina_registro
 # from . import foundation_extension_sale_order_obra
 # from . import foundation_reverse_automacao
