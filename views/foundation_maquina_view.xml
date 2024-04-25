@@ -16,7 +16,7 @@
                            decoration-success="status_maquina == 'disponivel'"
                            decoration-info="status_maquina == 'em_mobilizacao'"
                            decoration-danger="status_maquina == 'em_manutencao'"
-                           decoration-warning="status_maquina == 'emissao'"
+                           decoration-warning="status_maquina == 'parada'"
                            decoration-muted="status_maquina == ' sem_obra'"
                     widget="badge" optional="show"/>
                     <field name="observacao"/>

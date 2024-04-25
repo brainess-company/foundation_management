@@ -20,13 +20,13 @@
         'views/freports.xml',  # Load other reports or final views
         'views/foundation_maquina_view.xml',  # Load views for the Maquina model
         'views/foundation_obra_view.xml',  # Load views for the Obra model
-        'views/foundation_obra_service_with_estacas_view.xml',  # Load views for the Obra Service model
+        #'views/foundation_obra_service_with_estacas_view.xml',  # Load views for the Obra Service model
         'views/foundation_medicao_view.xml',  # Load views for the Medicao model
         'views/foundation_obra_service_simples_view.xml',  # Load views for the Obra Service model
         'views/foundation_estacas_view.xml',  # Load views for the Estacas model
-        'views/foundation_relatorios_view.xml',  # Load views for the Estacas model
+        #'views/foundation_relatorios_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_lista_view.xml',
-        'views/foundation_chamada_view.xml',
+        #'views/foundation_chamada_view.xml',
         'views/foundation_chamada_maquina_registro.xml',
         'views/foundation_maquina_registro_estacas.xml',
         'views/foundation_team_view.xml',
