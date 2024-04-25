@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data><!-- Ações para team -->
+        <record id="view_foundation_team_tree" model="ir.ui.view">
+            <field name="name">foundation.team.tree</field>
+            <field name="model">foundation.team</field>
+            <field name="arch" type="xml">
+                <tree string="Registro de Equipes">
+                    <field name="date"/>
+                    <field name="machine_id"/>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_foundation_team_form" model="ir.ui.view">
+            <field name="name">foundation.team.form</field>
+            <field name="model">foundation.team</field>
+            <field name="arch" type="xml">
+                <form string="Detalhes da Equipe">
+                    <sheet>
+                        <group>
+                            <field name="date"/>
+                            <field name="machine_id" options="{'no_create': True}"/>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_foundation_team" model="ir.actions.act_window">
+            <field name="name">Equipe da Fundação</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.team</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_team_tree"/>
+        </record>
+    </data>
+</odoo>
