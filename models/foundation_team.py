@@ -1,14 +1,16 @@
 from odoo import models, fields, api
+from odoo.tools.translate import _
 
 class FoundationTeam(models.Model):
     _name = 'foundation.team'
     _description = 'Registro de equipe de máquinas'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     _rec_name = 'date'
 
-    date = fields.Date("Data", required=True, default=fields.Date.context_today)
-    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True)
-    employee_ids = fields.Many2many('res.partner', string="Funcionários")
-    note = fields.Text("Notas")
+    date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
+    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True,  tracking=True)
+    employee_ids = fields.Many2many('res.partner', string="Funcionários",  tracking=True)
+    note = fields.Text("Notas",  tracking=True)
 
     @api.model
     def create_daily_team_records(self):
@@ -27,3 +29,22 @@ class FoundationTeam(models.Model):
                         'employee_ids': [(6, 0, last_record.employee_ids.ids)],
                         'note': last_record.note
                     })
+
+    def write(self, vals):
+        # Checa se os funcionários foram modificados
+        if 'employee_ids' in vals:
+            old_employees = self.mapped('employee_ids')
+            super(FoundationTeam, self).write(vals)
+            new_employees = self.mapped('employee_ids')
+            added = new_employees - old_employees
+            removed = old_employees - new_employees
+
+            if added:
+                message = _("Adicionados: %s") % ', '.join(added.mapped('name'))
+                self.message_post(body=message)
+            if removed:
+                message = _("Removidos: %s") % ', '.join(removed.mapped('name'))
+                self.message_post(body=message)
+        else:
+            super(FoundationTeam, self).write(vals)
+        return True
