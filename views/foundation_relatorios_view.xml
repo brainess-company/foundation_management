@@ -2,8 +2,6 @@
 <odoo>
     <data>
 
-
-
         <!-- O MENU TRÁ PARA CÁ -->
         <!-- Form View for inserting Estacas into Relatórios, including service details -->
         <record id="view_foundation_relatorio_form" model="ir.ui.view">
@@ -15,7 +13,6 @@
                         <group>
                             <field name="data"/>
                             <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-
                             <field name="foundation_obra_service_id"/>
                             <field name="nome_obra" related="foundation_obra_service_id.nome_obra" readonly="1"/>
                             <field name="nome_servico" related="foundation_obra_service_id.service_name" readonly="1"/>
