@@ -21,7 +21,7 @@ class FoundationEstacas(models.Model):
     observacao = fields.Char("Observação")
 
     # RELACIONA ESSA ESTACA COM O SERVIÇO
-    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
+    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra")#, required=True)
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='foundation_obra_service_id.sale_order_id', readonly=True, store=True)
     sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",required=True)
     variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True)
