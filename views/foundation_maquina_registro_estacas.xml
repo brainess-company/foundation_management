@@ -72,7 +72,13 @@
                     <field name="endereco"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
-                            context="{'default_foundation_maquina_registro_id': id}"/>
+                            context="{
+                                'default_foundation_maquina_registro_id': id,
+                                'default_sale_order_id': sale_order_id,
+                                'default_nome_obra': nome_obra,
+                                'default_endereco': endereco,
+                                'default_foundation_obra_service_id': service_id
+                            }"/>
                 </tree>
             </field>
         </record>
