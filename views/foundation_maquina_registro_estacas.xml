@@ -16,6 +16,7 @@
                             <field name="maquina_id" readonly="1"/>
                             <field name="state" readonly="1"/>
                             <field name="service_id" readonly="1"/>
+                            <field name="operador_id" readonly="1"/>
                             <field name="nome_obra" readonly="1"/>
                             <field name="endereco_obra" readonly="1"/>
                             <field name="service_template_id" readonly="1" invisible="1"/>

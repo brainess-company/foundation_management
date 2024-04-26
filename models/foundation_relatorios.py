@@ -49,6 +49,10 @@ class FoundationRelatorios(models.Model):
         help='Referência ao registro de máquina associado.'
     )
 
+    operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
+                                 string="Operador", readonly=True,
+                                 store=True)
+
     @api.model
     def create(self, vals):
         if not vals.get('assinatura'):
