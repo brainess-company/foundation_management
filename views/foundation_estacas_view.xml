@@ -89,11 +89,13 @@
         <!-- FOUNDATION ESTACAS VIEW -->
         <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_estacas" model="ir.actions.act_window">
-            <field name="name">Foundation Estacas</field>
             <field name="type">ir.actions.act_window</field>
+
             <field name="res_model">foundation.estacas</field>
             <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{"create": False}</field> <!-- sumir o botao de new-->
             <field name="help" type="html">
+
                 <p class="o_view_nocontent_smiling_face">
                     Create the first estaca
                 </p><p>
