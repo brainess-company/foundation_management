@@ -47,6 +47,21 @@
                 </kanban>
             </field>
         </record>
+         <!-- FOUNDATION RELATORIO LISTA CALENDAR-->
+        <record id="view_foundation_relatorios_lista_calendar" model="ir.ui.view">
+            <field name="name">foundation.relatorios.calendar</field>
+            <field name="model">foundation.relatorios</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View for Relatorios" date_start="data" color="nome_obra">
+                    <field name="nome_obra"/>
+                    <field name="data"/>
+
+                    <!--field name="nome_maquina"/-->
+                    <!--field name="nome_operador"/-->
+                    <field name="nome_obra"/>
+                </calendar>
+            </field>
+        </record>
 
 
         <!-- Form View for Foundation Obra Service -->
