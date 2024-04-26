@@ -13,6 +13,7 @@ class FoundationMaquina(models.Model):
     current_team_employees = fields.Many2many('res.partner', string="Equipe Atual",
                                               compute='_compute_current_team_employees',
                                               store=False)
+    requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
     status_maquina = fields.Selection([
         ('em_mobilizacao', 'Em Mobilização'),
         ('sem_obra', 'Sem Obra'),
