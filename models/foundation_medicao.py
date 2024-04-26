@@ -6,9 +6,9 @@ class FoundationMedicao(models.Model):
     _name = 'foundation.medicao'
     _description = 'Medições das Estacas'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
-    _rec_name = 'nome'
+    _rec_name = 'display_medicao'
 
-    nome = fields.Char("Nome da Medição", required=True)
+    nome = fields.Char("Numero da Medição", required=True)
     data = fields.Date("Data da Medição", default=lambda self: fields.Date.context_today(self), required=True)
     situacao = fields.Selection([
         ('aguardando', 'Aguardando Conferência'),
@@ -29,9 +29,17 @@ class FoundationMedicao(models.Model):
     valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
     invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True, tracking=True)
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', default=0)
-    nome_medicao = fields.Integer(compute='_compute_display_medicao', string='Nome Medicao')
 
+    display_medicao = fields.Char(string="NMedição", compute='_compute_display_medicao')
 
+    @api.depends('nome')
+    def _compute_display_medicao(self):
+        for record in self:
+            # Certifique-se de que nome_medicao é uma string e contém apenas números antes de formatar
+            if isinstance(record.nome, str) and record.nome.isdigit():
+                record.display_medicao = f"Medição {record.nome}"
+            else:
+                record.display_medicao = ""  # Um valor padrão ou erro se o nome_medicao não for válido
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):

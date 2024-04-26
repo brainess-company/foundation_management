@@ -53,6 +53,8 @@
                     </header>
                     <field name="sale_order_id"/>
                     <field name="data"/>
+                    <field name="display_medicao"/>
+
                     <field name="nome"/>
                     <field name="nome_obra"/>
 
