@@ -165,7 +165,7 @@
 
 
         <!-- FOUNDATION RELATORIO LISTA VIEW-->
-        <!-- Action to open the new Relatório Form -->
+        <!-- Action to open the new Relatório Form
         <record id="action_open_foundation_relatorios_lista_form" model="ir.actions.act_window">
             <field name="name">Relatorio</field>
             <field name="type">ir.actions.act_window</field>
@@ -175,15 +175,15 @@
             <field name="target">new</field>
             <field name="context">{}</field>
 
-        </record>
+        </record>-->
 
         <!-- FOUNDATION RELATORIO LISTA VIEW-->
         <record id="action_foundation_relatorios_lista_tree" model="ir.actions.act_window">
             <field name="name">Relatorios</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
-            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form')]"/>
-            <field name="view_mode">tree,form</field>
+            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form'),(ref('view_foundation_relatorios_lista_kanban'), 'kanban'),]"/>
+            <field name="view_mode">tree,form,kanban</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Crie um novo Serviço de Fundação

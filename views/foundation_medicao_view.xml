@@ -55,8 +55,7 @@
                     <field name="data"/>
                     <field name="nome"/>
                     <field name="nome_obra"/>
-                    <field name="situacao"/>
-                    <field name="valor_total"/>
+
                     <field name="situacao"
                            decoration-success="situacao == 'arquivado'"
                            decoration-info="situacao == 'aguardando'"
@@ -64,6 +63,7 @@
                            decoration-danger="situacao == 'rejeitado'"
                            decoration-muted="situacao == ' cancelado'"
                     widget="badge" optional="show"/>
+                    <field name="valor_total"/>
                     <!--field name="situacao" widget="statusbar" decoration-info="situacao == 'aguardando'" decoration-success="situacao == 'emissao'" optional="show"/-->
 
                     <field name="invoice_id" widget="many2one" options="{'no_open': True}" optional="hide"/>
