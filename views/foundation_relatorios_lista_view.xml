@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Form View for Foundation Obra Service -->
-        <!-- Tree View for Foundation Obra Service -->
+
+        <!-- Tree View for Foundation Relatorios lista -->
         <record id="view_foundation_relatorios_lista_tree" model="ir.ui.view">
             <field name="name">foundation.relatorios.lista.tree</field>
             <field name="model">foundation.relatorios</field>
@@ -12,6 +12,13 @@
                     <field name="foundation_maquina_registro_id"/>
                     <field name="maquina_id"/>
                     <field name="display_relatorio_name"/>
+                    <field name="state"
+                           decoration-success="state == 'conferido'"
+                           decoration-info="state == 'aguardando'"
+                           decoration-warning="state == 'em_analise'"
+                           decoration-danger="state == 'cancelado'"
+                           decoration-muted="state == ' rascunho'"
+                    widget="badge" optional="show"/>
 
                     <!--field name="nome_maquina"/-->
                     <field name="operador_id"/>

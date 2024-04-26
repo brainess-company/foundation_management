@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError
 
 class FoundationRelatorios(models.Model):
+    """FALTA CRIAR AS OUTRAS ACTIONS PARA OS STATUS E INCLUIR BOTOUS NO FORMULARIO"""
     _name = 'foundation.relatorios'
     _description = 'Relatórios de Fundação'
     _rec_name = 'display_relatorio_name'
@@ -12,10 +13,12 @@ class FoundationRelatorios(models.Model):
     estacas_ids = fields.One2many('foundation.estacas', 'relatorio_id', string="Estacas Incluídas")
     assinatura = fields.Binary("Assinatura do Responsável", help="Assinatura digital do responsável pelo relatório")
     state = fields.Selection([
-        ('draft', 'Rascunho'),
-        ('confirmed', 'Confirmado'),
-        ('cancelled', 'Cancelado')
-    ], default='draft', string="Status", required=True)
+        ('rascunho', 'Rascunho'),
+        ('conferencia', 'Aguardando Conferencia'),
+        ('em_analise', 'Em Análise'),
+        ('cancelado', 'Cancelado'), # todo verificar as implicações disso
+        ('conferido', 'Conferido')
+    ], default='rascunho', string="Status", required=True)
 
     # Campos adicionais relacionados ao serviço
     nome_servico = fields.Char(related='foundation_maquina_registro_id.nome_servico', string="Nome do Serviço",
@@ -89,14 +92,16 @@ class FoundationRelatorios(models.Model):
 
         return super(FoundationRelatorios, self).create(vals)
 
+
+    # comentei os botoes de acai para usar depois
     def action_confirm(self):
-        self.write({'state': 'confirmed'})
+        self.write({'state': 'conferido'})
 
     def action_cancel(self):
-        self.write({'state': 'cancelled'})
+        self.write({'state': 'cancelado'})
 
     def action_draft(self):
-        self.write({'state': 'draft'})
+        self.write({'state': 'rascunho'})
 
     @api.constrains('estacas_ids')
     def _check_estacas(self):
@@ -107,7 +112,7 @@ class FoundationRelatorios(models.Model):
         self.ensure_one()
         if not self.assinatura:
             raise UserError("A assinatura é necessária para salvar o relatório.")
-        self.state = 'confirmed'  # Supondo que haja um campo de estado para controlar a confirmação do relatório
+        self.state = 'conferencia'  # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {
             'type': 'ir.actions.act_window',
             'name': 'Relatório Confirmado',
