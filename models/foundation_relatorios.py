@@ -29,10 +29,19 @@ class FoundationRelatorios(models.Model):
                                     related='foundation_maquina_registro_id.sale_order_id', readonly=True, store=True)
 
     # No modelo FoundationRelatorios
-    service_template_id = fields.Many2one('product.template', related='foundation_maquina_registro_id.service_template_id',
-                                          readonly=True, store=True)
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço",
+                                          related='service_id.service_template_id', readonly=True,
+                                          store=True, required=True)
+    #service_template_id = fields.Many2one('product.template', related='foundation_maquina_registro_id.service_template_id',readonly=True, store=True)
 
     # todo substituir nas views foundation_obra_service_id por foundation_maquina_registro_id
+    # service id
+
+
+    #service_id= fields.Char(related='service_id.service_name', string="Nome do Serviço", readonly=True, store=True)
+    service_id = fields.Many2one('foundation.obra.service', related='foundation_maquina_registro_id.service_id', string="Serivice id", readonly=True,
+                              store=True)
+
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
         string='Registro de Máquina',
