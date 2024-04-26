@@ -9,20 +9,18 @@
                 <form string="Relatório de Estacas">
                     <sheet>
                         <group>
+                            <!--CAPOS DE FOUNDATIOM RELATORIO-->
                             <field name="data"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="sale_order_id" readonly="1"/>
                             <field name="maquina_id" readonly="1"/>
                             <field name="state" readonly="1"/>
-                            <field name="nome_servico" readonly="1"/>
                             <field name="service_id" readonly="1"/>
                             <field name="nome_obra" readonly="1"/>
                             <field name="endereco_obra" readonly="1"/>
-                            <field name="sale_order_id" readonly="1"/>
                             <field name="service_template_id" readonly="1"/>
                             <field name="foundation_maquina_registro_id" readonly="1"/>
-                            <field name="service_template_id"/>
-                            <field name="endereco_obra" related="foundation_maquina_registro_id.endereco" readonly="1"/>
+
                         </group>
                         <notebook>
                             <page string="Estacas">
@@ -30,7 +28,6 @@
                                             'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
                                             'default_sale_order_id': sale_order_id,
                                             'default_service_template_id': service_id,
-
                                             'default_service_id': service_template_id}">
 
                                     <!--defalt_ campo anterior: campo novo-->
@@ -44,11 +41,9 @@
                                         <field name="profundidade"/>
                                         <field name="sale_order_id"/>
                                         <field name="data"/>
-
-
                                         <field name="service_template_id"/> <!--ESSE CAMPO DEVE RECEBER O NOME DO SERVICO-->
                                         <field name="foundation_maquina_registro_id" readonly="1"/>
-                                        <field name="service_id"/>
+
                                         <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id)]" options="{'no_create': True, 'no_open': True}"/>
                                         <!--field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/-->
                                     </tree>
