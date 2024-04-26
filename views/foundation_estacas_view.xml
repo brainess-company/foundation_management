@@ -12,7 +12,8 @@
                     <field name="data"/>
                     <field name="nome_estaca"/>
                     <field name="service_template_id"/>
-                    <field name="medicao_id"/>
+
+                    <field name="display_medicao"/>
                     <field name="profundidade"/>
                     <field name="unit_price"/>
                     <field name="total_price" readonly="1"/>

@@ -29,6 +29,9 @@ class FoundationMedicao(models.Model):
     valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
     invoice_id = fields.Many2one('account.move', string="Fatura Relacionada", compute="_compute_invoice_id", store=True, tracking=True)
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', default=0)
+    nome_medicao = fields.Integer(compute='_compute_display_medicao', string='Nome Medicao')
+
+
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):

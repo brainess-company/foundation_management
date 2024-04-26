@@ -32,6 +32,7 @@ class FoundationEstacas(models.Model):
 
     # RELACIONA ESSA TABELA COM A DE MEDIÇÃO
     medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
+    nome_medicao = fields.Char(related='medicao_id.nome', string="Numero Medicao", readonly=True)
 
     # Campos relacionados para mostrar no calendário
     #nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
@@ -43,6 +44,17 @@ class FoundationEstacas(models.Model):
     # CAMPOS CALCULADOS
     unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
     total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
+    # Campo computado para exibir o nome formatado da medição
+    display_medicao = fields.Char(string="Nome da Medição", compute='_compute_display_medicao')
+
+    @api.depends('nome_medicao')
+    def _compute_display_medicao(self):
+        for record in self:
+            # Certifique-se de que nome_medicao é uma string e contém apenas números antes de formatar
+            if isinstance(record.nome_medicao, str) and record.nome_medicao.isdigit():
+                record.display_medicao = f"Medição {record.nome_medicao}"
+            else:
+                record.display_medicao = ""  # Um valor padrão ou erro se o nome_medicao não for válido
 
     @api.model
     def create(self, vals):
@@ -70,47 +82,48 @@ class FoundationEstacas(models.Model):
 
     @api.model
     def action_generate_medicao(self):
-            Medicao = self.env['foundation.medicao']
+        Medicao = self.env['foundation.medicao']
 
-            if not self:
-                return {'type': 'ir.actions.act_window_close'}
+        if not self:
+            return {'type': 'ir.actions.act_window_close'}
 
-            # Verifica se todas as estacas selecionadas são da mesma sale_order
-            sale_orders = self.mapped('foundation_obra_service_id.sale_order_id')
-            if len(sale_orders) > 1:
-                raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
+        # Verifica se todas as estacas selecionadas são da mesma sale_order
+        sale_orders = self.mapped('foundation_obra_service_id.sale_order_id')
+        if len(sale_orders) > 1:
+            raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
-            sale_order = sale_orders[0]
-            if not sale_order:
-                return {'type': 'ir.actions.act_window_close'}
+        sale_order = sale_orders[0]
+        if not sale_order:
+            return {'type': 'ir.actions.act_window_close'}
 
-            # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
-            last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
-            nome_medicao = "Medição 1" if not last_medicao else f"Medição {int(last_medicao.nome.split(' ')[-1]) + 1}"
+        # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
+        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+        next_medicao_number = 1 if not last_medicao else int(
+            last_medicao.nome) + 1  # Ajustado para usar apenas o número
 
-            # Criar uma nova medição
-            new_medicao = Medicao.create({
-                'nome': nome_medicao,
-                'sale_order_id': sale_order.id,
-                'data': fields.Date.today(),
-                'situacao': 'aguardando',
-            })
+        # Criar uma nova medição
+        new_medicao = Medicao.create({
+            'nome': str(next_medicao_number),  # Nome da medição é apenas o número
+            'sale_order_id': sale_order.id,
+            'data': fields.Date.today(),
+            'situacao': 'aguardando',
+        })
 
-            # Associar cada estaca à nova medição, apenas se não foi previamente medida
-            for estaca in self:
-                if not estaca.medicao_id:
-                    estaca.medicao_id = new_medicao.id
-                else:
-                    raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
+        # Associar cada estaca à nova medição, apenas se não foi previamente medida
+        for estaca in self:
+            if not estaca.medicao_id:
+                estaca.medicao_id = new_medicao.id
+            else:
+                raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
 
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Medições',
-                'view_mode': 'form',
-                'res_model': 'foundation.medicao',
-                'res_id': new_medicao.id,
-                'target': 'current'
-            }
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Medições',
+            'view_mode': 'form',
+            'res_model': 'foundation.medicao',
+            'res_id': new_medicao.id,
+            'target': 'current'
+        }
 
     @api.constrains('profundidade')
     def _check_profundidade(self):
