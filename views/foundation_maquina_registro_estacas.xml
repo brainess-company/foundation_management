@@ -122,7 +122,8 @@
                                 'default_nome_obra': nome_obra,
                                 'default_service_template_id': service_id,
                                 'default_endereco': endereco
-                            }" attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"/>
+                            }"/>
+                    <!-- attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"-->
                     <!--  'default_maquina_id': maquina_id,
                      'default_foundation_maquina_registro_id': id,
                      /-->
