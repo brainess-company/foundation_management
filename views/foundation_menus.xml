@@ -43,13 +43,13 @@
 
 
 
-
-        <record id="menu_sale_order_custom" model="ir.ui.menu">
+ <record id="menu_sale_order_custom" model="ir.ui.menu">
             <field name="name">Meu Módulo Personalizado</field>
             <field name="parent_id" ref="sale.sale_menu_root"/> <!-- Referência para o menu principal do Sale Order -->
             <field name="sequence" eval="10"/>
             <field name="action" ref="action_foundation_obra"/> <!-- Referência para a ação específica em seu módulo -->
         </record>
+
 
     </data>
 </odoo>

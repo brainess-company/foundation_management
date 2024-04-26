@@ -86,6 +86,23 @@
             </field>
         </record>
 
+        <!-- FOUNDATION ESTACAS VIEW -->
+        <!-- Ações para Pilares de Fundação -->
+        <record id="action_foundation_estacas" model="ir.actions.act_window">
+            <field name="name">Foundation Estacas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.estacas</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first estaca
+                </p><p>
+                    Use the calendar to schedule your estacas. Use the graph view to analyze the estacas.
+                </p>
+            </field>
+        </record>
+
+
 
 
     </data>

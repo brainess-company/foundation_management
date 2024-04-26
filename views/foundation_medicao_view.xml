@@ -129,6 +129,14 @@
             </field>
         </record>
 
+        <!-- FOUNDATION MEDICAO VIEW -->
+        <!-- Extendendo a Form View para adicionar o botão de download PDF -->
+        <template id="view_foundation_medicao_form_inherit" inherit_id="tiago_fundacao.view_foundation_medicao_form">
+            <xpath expr="//field[@name='valor_total']" position="after">
+                <button name="%(tiago_fundacao.medicao_report)d" type="action" string="Download PDF" class="oe_highlight"/>
+            </xpath>
+        </template>
+
 
     </data>
 </odoo>

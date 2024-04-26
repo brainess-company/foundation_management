@@ -43,6 +43,18 @@
                 </form>
             </field>
         </record>
+        <!-- FOUNDATION OBRA VIEW --> <!-- Ações para Obras de Fundação -->
+        <!-- MENU abrir arvore ou formulario -->
+        <record id="action_foundation_obra" model="ir.actions.act_window">
+            <field name="name">Foundation Obra</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.obra</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
 
     </data>
 </odoo>

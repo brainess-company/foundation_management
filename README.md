@@ -28,7 +28,6 @@ Para instalar este módulo, você precisa:
 - [ ] Melhorar kanban
 - [ ] Baixar medição em pdf para enviar ao cliente
 - [ ] Definir permissões de segurança
-
 - [ ] Da pra fazer um endereço clicado abrir no google maps
 - [ ] Opção de gerar medição pelos relatorios?
 - [ ] Depois que o relatorio for salvo a assinatura fica read only
@@ -40,6 +39,6 @@ Para instalar este módulo, você precisa:
 - **Urgente**:
 - [ ] Falta incluir o proprio operador na lista de chamadaaa
 - [ ] Uma medição só pode gerar uma unica fatura
-- [ ] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
+- [X] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
 - [ ] O nome computado do relatorio deve ser nome relatorio - nome servico - nome maquina
 

@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Tree View for Foundation Maquina -->
-        <record id="view_foundation_maquina_team_tree" model="ir.ui.view">
-            <field name="name">foundation.maquina.tree</field>
-            <field name="model">foundation.maquina</field>
-            <field name="arch" type="xml">
-                <tree string="Lista de Máquinas da Fundação">
-                    <field name="nome_maquina"/>
-                    <field name="operador"/>
-                    <field name="observacao"/>
-                    <button name="%(action_open_foundation_team_form)d" type="action"
-                            string="Configurar Equipe" icon="fa-users"
-                            context="{
-                                'default_machine_id': id
-                            }"/>
-                </tree>
-            </field>
-        </record>
 
         <!-- Form View for Foundation Team -->
         <record id="view_foundation_team_form" model="ir.ui.view">
@@ -43,6 +26,48 @@
                 </form>
             </field>
         </record>
+
+                   <!-- FOUNDATION TEAM VIEW -->
+        <!-- Action to open Team Configuration Form -->
+        <record id="action_open_foundation_team_form" model="ir.actions.act_window">
+            <field name="name">Configurar Equipe</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.team</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+
+
+        <!-- Tree View for Foundation Maquina -->
+        <record id="view_foundation_maquina_team_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.tree</field>
+            <field name="model">foundation.maquina</field>
+            <field name="arch" type="xml">
+                <tree string="Lista de Máquinas da Fundação">
+                    <field name="nome_maquina"/>
+                    <field name="operador"/>
+                    <field name="observacao"/>
+                    <button name="%(action_open_foundation_team_form)d" type="action"
+                            string="Configurar Equipe" icon="fa-users"
+                            context="{
+                                'default_machine_id': id
+                            }"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FOUNDATION TEAM VIEW -->
+        <!-- Definições de ação para a árvore e formulário de Equipe -->
+        <record id="action_foundation_maquina_team_tree" model="ir.actions.act_window">
+            <field name="name">Máquinas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_maquina_team_tree"/>
+        </record>
+
 
 
 

@@ -124,6 +124,20 @@
             </field>
         </record>
 
+        <!-- FOUNDATION RELATORIO LISTA VIEW-->
+        <record id="action_foundation_relatorios_lista_tree" model="ir.actions.act_window">
+            <field name="name">Relatorios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.relatorios</field>
+            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form'),(ref('view_foundation_relatorios_lista_kanban'), 'kanban'),(ref('view_foundation_relatorios_lista_calendar'), 'calendar')]"/>
+            <field name="view_mode">tree,form,kanban,calendar</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie um novo Serviço de Fundação
+                </p>
+            </field>
+        </record>
+
 
 
     </data>

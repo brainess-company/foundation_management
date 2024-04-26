@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+
         <!-- CRIAR RELATORIO DE ESTACAS -->
         <!-- Form View for inserting Estacas into Relatórios, including machine registration details -->
         <record id="view_foundation_relatorio_maquina_form" model="ir.ui.view">
@@ -78,6 +80,20 @@
             </field>
         </record>
 
+                  <!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
+                <!-- Action to open the new Relatório Form -->
+        <record id="action_open_foundation_relatorio_maquina_form" model="ir.actions.act_window">
+            <field name="name">Criar Relatório de Máquina</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.relatorios</field>
+            <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+
+
 
         <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.tree</field>
@@ -113,6 +129,25 @@
                 </tree>
             </field>
         </record>
+
+
+         <!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
+                <record id="action_foundation_maquina_registro_tree" model="ir.actions.act_window">
+            <field name="name">Registros de Máquina</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina.registro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie um novo Relatório de Máquina
+                </p>
+            </field>
+        </record>
+
+
+
+
 
 
     </data>
