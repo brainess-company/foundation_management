@@ -1,5 +1,8 @@
 from datetime import date
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class FoundationMaquinaRegistro(models.Model):
     """
@@ -55,7 +58,7 @@ class FoundationMaquinaRegistro(models.Model):
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)
-
+            _logger.info(f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
     @api.depends('maquina_id')
     def _compute_operador(self):
         for record in self:

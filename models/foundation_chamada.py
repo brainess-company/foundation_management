@@ -7,7 +7,7 @@ class Chamada(models.Model):
     """
     chamada contem lista de presencas
     UM REGISTRO DE CHAMADA AQUI TEM MUITOS LISTA DE PRESENÇA
-    UMA CHAMADA É UM GRUPO DE REGISTROS EM LISTA DE PRESENÇA
+    UMA CHAMADA É UM GRUPO DE REGISTROS EM LISTA DE PRESENÇAd
     """
     _name = 'foundation.chamada'
     _description = 'Registro de Chamada'
@@ -29,9 +29,7 @@ class Chamada(models.Model):
 
     # Adiciona um campo Many2one para vincular a Foundation Obra Service
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
-    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
-    display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
-                                            store=False)
+
     # This field now relates to FoundationMaquinaRegistro instead of FoundationObraService
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
@@ -41,20 +39,7 @@ class Chamada(models.Model):
     )
 
 
-    has_chamada_today = fields.Boolean(
-        string="Tem Chamada Hoje",
-        compute="_compute_has_chamada_today",
-        store=False
-    )
 
-    @api.depends('foundation_maquina_registro_id', 'data')
-    def _compute_has_chamada_today(self):
-        for record in self:
-            today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_maquina_registro_id', '=', record.foundation_maquina_registro_id.id),
-                ('data', '=', date.today())
-            ])
-            record.has_chamada_today = bool(today_chamadas)
 
 
     def action_save(self):

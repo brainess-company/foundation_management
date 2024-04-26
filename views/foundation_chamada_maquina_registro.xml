@@ -41,7 +41,7 @@
             </field>
         </record>
 
-        <!-- Tree View for Foundation Maquina Registro -->
+        <!-- Tree View for Foundation Maquina Registro   -->
         <record id="view_foundation_maquina_registro_chamada_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.tree</field>
             <field name="model">foundation.maquina.registro</field>
@@ -66,8 +66,10 @@
                                 'default_data_registro': data_registro,
                                 'default_nome_obra': nome_obra,
                                 'default_endereco': endereco,
-                                'default_foundation_obra_service_id': service_id
+                                'default_foundation_obra_service_id': service_id,
+                                'default_foundation_maquina_registro_id': id
                             }"/>
+                    <!-- VERIFICAR A COMPATIBILIDADE DOS ITENS ACIMA -->
                 </tree>
             </field>
         </record>
