@@ -39,6 +39,10 @@ class FoundationMaquinaRegistro(models.Model):
     display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
                                             store=False)
 
+    product_id = fields.Many2one('product.product', string="Produto Associado")
+    product_template_id = fields.Many2one('product.template', string="Template do Produto",
+                                          related='product_id.product_tmpl_id', readonly=True, store=True)
+
     @api.depends('has_today_chamada')
     def _compute_display_has_today_chamada(self):
         for record in self:
