@@ -71,6 +71,7 @@
                     <field name="sale_order_id"/>
                     <field name="data"/>
                     <field name="nome"/>
+                    <field name="nome_obra"/>
                     <field name="situacao"/>
                     <field name="valor_total"/>
                     <field name="situacao"
@@ -114,6 +115,7 @@
                             <field name="nome" readonly="1"/>
                             <field name="data" readonly="1"/>
                             <field name="situacao"/>
+                            <field name="nome_obra"/>
                             <field name="sale_order_id"/>
                             <field name="valor_total"/>
                             <field name="invoice_id"/>

@@ -20,6 +20,8 @@ class FoundationMedicao(models.Model):
     # RELACIONA ESSA MEDIÇÃO COM UMA SALE ORDER
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda Relacionada",  tracking=True)
 
+    nome_obra = fields.Char(related='sale_order_id.nome_obra', string="Obra", readonly=True)
+
     # CAMPO INVERSO QUE MOSTRA AS ESTACAS QUE ESTÃO RELACIONADAS COM ESSA MEDIÇÃO
     estacas_ids = fields.One2many('foundation.estacas', 'medicao_id', string="Estacas Medidas",  tracking=True)
 
