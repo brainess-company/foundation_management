@@ -2,23 +2,6 @@
 <odoo>
     <data>
 
-                <!-- Action to open the kanban view tree or form -->
-        <record id="action_foundation_medicao" model="ir.actions.act_window">
-            <field name="name">Medições</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.medicao</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="views">
-                [(ref('view_foundation_medicao_tree'), 'tree'),
-                 (ref('view_foundation_medicao_kanban'), 'kanban'),
-                 (ref('view_foundation_medicao_form'), 'form')]
-            </field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Clique para criar uma nova Medição.
-                </p>
-            </field>
-        </record>
 
 
 
@@ -49,14 +32,14 @@
                 </kanban>
             </field>
         </record>
-        <!-- Action to open the kanban view -->
+        <!-- Action to open the kanban view
         <record id="action_foundation_medicao_kanban" model="ir.actions.act_window">
             <field name="name">Medições Kanban</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.medicao</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_foundation_medicao_kanban"/>
-        </record>
+        </record> -->
 
         <!-- Tree View for Foundation Medicao -->
         <record id="view_foundation_medicao_tree" model="ir.ui.view">
