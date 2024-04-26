@@ -11,6 +11,7 @@
                     <field name="data"/>
                     <field name="foundation_maquina_registro_id"/>
                     <field name="maquina_id"/>
+                    <field name="display_relatorio_name"/>
 
                     <!--field name="nome_maquina"/-->
                     <field name="operador_id"/>

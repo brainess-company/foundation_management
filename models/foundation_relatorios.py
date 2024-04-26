@@ -52,13 +52,36 @@ class FoundationRelatorios(models.Model):
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                  string="Operador", readonly=True,
                                  store=True)
+    relatorio_name = fields.Char(string="Nome do Relatório")
+    display_relatorio_name = fields.Char(compute="_compute_display_relatorio_name",
+                                         string="Nome de Exibição do Relatório", store=True)
+
+    # Outros campos já definidos...
+
+    @api.depends('relatorio_name', 'service_id', 'nome_obra')
+    def _compute_display_relatorio_name(self):
+        for record in self:
+            if record.relatorio_name and record.service_id and record.nome_obra:
+                record.display_relatorio_name = f"{record.relatorio_name} - {record.service_id.service_name} - {record.nome_obra}"
 
     @api.model
     def create(self, vals):
+        if 'foundation_maquina_registro_id' not in vals:
+            raise UserError("O campo 'Registro de Máquina' é obrigatório para a criação de um relatório.")
+
         if not vals.get('assinatura'):
             raise UserError("A assinatura é obrigatória para a criação de um relatório.")
-        return super(FoundationRelatorios, self).create(vals)
 
+        last_report = self.search([
+            ('foundation_maquina_registro_id', '=', vals['foundation_maquina_registro_id'])
+        ], order='id desc', limit=1)
+        next_number = 1
+        if last_report:
+            last_number = int(last_report.relatorio_name.split(' - ')[1]) if ' - ' in last_report.relatorio_name else 1
+            next_number = last_number + 1
+
+        vals['relatorio_name'] = f"Relatório - {next_number}"
+        return super(FoundationRelatorios, self).create(vals)
 
 
     def action_confirm(self):
