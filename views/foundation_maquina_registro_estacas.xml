@@ -86,6 +86,9 @@
                 <tree string="Lista de Registros de Máquinas">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
+                    <field name="requer_chamada_maquina"/>
+                    <field name="display_has_today_chamada"/>
+
 
                     <field name="maquina_id"/>
                     <field name="service_id"/>

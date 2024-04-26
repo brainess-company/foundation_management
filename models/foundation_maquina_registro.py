@@ -45,11 +45,24 @@ class FoundationMaquinaRegistro(models.Model):
     product_id = fields.Many2one('product.product', string="Produto Associado")
     product_template_id = fields.Many2one('product.template', string="Template do Produto",
                                           related='product_id.product_tmpl_id', readonly=True, store=True)
+    # Adicionar o campo relacionado requer_chamada
+    requer_chamada_maquina = fields.Boolean(
+        string="Requer Chamada?",
+        related='maquina_id.requer_chamada',
+        readonly=True,
+        store=True
+    )
 
-    @api.depends('has_today_chamada')
+    @api.depends('has_today_chamada', 'requer_chamada_maquina')
     def _compute_display_has_today_chamada(self):
         for record in self:
-            record.display_has_today_chamada = "Sim" if record.has_today_chamada else "Não"
+            if record.requer_chamada_maquina:  # Verifica se a máquina requer chamada
+                if record.has_today_chamada:
+                    record.display_has_today_chamada = "Sim"
+                else:
+                    record.display_has_today_chamada = "Não"
+            else:
+                record.display_has_today_chamada = ""  # Deixa em branco se não requer chamada
 
     def _compute_has_today_chamada(self):
         for record in self:

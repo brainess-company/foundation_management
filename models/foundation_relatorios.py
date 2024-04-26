@@ -60,6 +60,14 @@ class FoundationRelatorios(models.Model):
     display_relatorio_name = fields.Char(compute="_compute_display_relatorio_name",
                                          string="Nome de Exibição do Relatório", store=True)
 
+    # Adicionar o campo relacionado requer_chamada
+    requer_chamada_maquina = fields.Boolean(
+        string="Requer Chamada?",
+        related='maquina_id.requer_chamada',
+        readonly=True,
+        store=True
+    )
+
     # Outros campos já definidos...
 
     @api.depends('relatorio_number', 'service_id', 'nome_obra')
