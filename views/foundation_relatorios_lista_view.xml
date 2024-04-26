@@ -10,6 +10,8 @@
                 <tree string="Lista de relatorios">
                     <field name="data"/>
                     <field name="foundation_maquina_registro_id"/>
+                    <field name="maquina_id"/>
+
                     <!--field name="nome_maquina"/-->
                     <!--field name="nome_operador"/-->
                     <field name="nome_obra"/>
