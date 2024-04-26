@@ -101,6 +101,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina.registro</field>
             <field name="view_mode">tree</field>
+            <field name="context">{"create": False}</field>
             <field name="view_id" ref="view_foundation_maquina_registro_chamada_tree"/>
             <field name="help" type="html">
                 <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>

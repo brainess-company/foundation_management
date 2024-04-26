@@ -136,6 +136,7 @@
                     Crie um novo Serviço de Fundação
                 </p>
             </field>
+            <field name="context">{"create": False}</field>
         </record>
 
 

@@ -65,6 +65,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{"create": False}</field>
             <field name="view_id" ref="view_foundation_maquina_team_tree"/>
         </record>
 
