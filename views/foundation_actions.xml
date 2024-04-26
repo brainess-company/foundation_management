@@ -3,7 +3,8 @@
     <data>
 
 
-                                <!-- Ações para Pilares de Fundação -->
+        <!-- FOUNDATION MAQUINA VIEW -->
+        <!-- MENU abrir arvore ou formulario -->
         <record id="action_foundation_maquina" model="ir.actions.act_window">
             <field name="name">Foundation Maquina</field>
             <field name="type">ir.actions.act_window</field>
@@ -11,17 +12,16 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-
+        <!-- FOUNDATION OBRA SERVICE SIMPLES-->
         <record id="action_foundation_obra_service_simples" model="ir.actions.act_window">
             <field name="name">Foundation Piles simples</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.obra.service</field>
             <field name="view_mode">tree,form</field>
-
         </record>
 
 
-                        <!-- Ações para Obras de Fundação -->
+        <!-- FOUNDATION OBRA VIEW --> <!-- Ações para Obras de Fundação -->
         <record id="action_foundation_obra" model="ir.actions.act_window">
             <field name="name">Foundation Obra</field>
             <field name="type">ir.actions.act_window</field>
@@ -33,27 +33,15 @@
 
 
 
-
-
+    <!-- FOUNDATION MEDICAO VIEW -->
         <!-- Extendendo a Form View para adicionar o botão de download PDF -->
         <template id="view_foundation_medicao_form_inherit" inherit_id="tiago_fundacao.view_foundation_medicao_form">
             <xpath expr="//field[@name='valor_total']" position="after">
                 <button name="%(tiago_fundacao.medicao_report)d" type="action" string="Download PDF" class="oe_highlight"/>
             </xpath>
         </template>
-
-
-        <!-- Criar uma fatura -->
-        <record id="action_create_invoice" model="ir.actions.server">
-            <field name="name">Faturar</field>
-            <field name="model_id" ref="model_foundation_medicao"/>
-            <field name="binding_model_id" ref="model_foundation_medicao"/>
-            <field name="state">code</field>
-            <field name="code">
-                action = model.action_create_invoice()
-            </field>
-        </record>
         <!-- Gerar uma medição -->
+        <!-- FOUNDATION MEDICAO VIEW -->
         <record model="ir.actions.server" id="action_generate_medicao_server">
             <field name="name">Gerar Medição</field>
             <field name="model_id" ref="model_foundation_estacas"/>
@@ -65,6 +53,21 @@
             </field>
             <field name="binding_type">action</field>
         </record>
+        <!-- Criar uma fatura -->
+        <!-- FOUNDATION MEDICAO VIEW -->
+        <record id="action_create_invoice" model="ir.actions.server">
+            <field name="name">Faturar</field>
+            <field name="model_id" ref="model_foundation_medicao"/>
+            <field name="binding_model_id" ref="model_foundation_medicao"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.action_create_invoice()
+            </field>
+        </record>
+
+
+
+        <!-- FOUNDATION ESTACAS VIEW -->
         <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_estacas" model="ir.actions.act_window">
             <field name="name">Foundation Estacas</field>
@@ -80,7 +83,124 @@
             </field>
         </record>
 
+        <!-- FOUNDATION CHAMADA MAQUINA REGISTRO -->
+    <!-- Ação para abrir o Formulário de Chamada com dados pré-preenchidos -->
+        <record id="action_open_chamada_form" model="ir.actions.act_window">
+            <field name="name">Criar Registro de Chamada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.chamada</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_foundation_service_id': context.get('default_service_id', False),
+                'default_nome_obra': context.get('default_nome_obra', ''),
+                'default_endereco': context.get('default_endereco', ''),
+                'default_data_registro': context.get('default_data_registro', '')
+            }</field>
+        </record>
 
+
+
+        <!-- FOUNDATION CHAMADA MAQUINA REGISTRO -->
+        <!-- Ação para abrir a visão em árvore -->
+        <record id="action_open_foundation_maquina_registro_chamada_tree" model="ir.actions.act_window">
+            <field name="name">Registros de Máquinas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina.registro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_maquina_registro_chamada_tree"/>
+            <field name="help" type="html">
+                <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>
+            </field>
+        </record>
+
+
+
+<!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
+                <!-- Action to open the new Relatório Form -->
+        <record id="action_open_foundation_relatorio_maquina_form" model="ir.actions.act_window">
+            <field name="name">Criar Relatório de Máquina</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.relatorios</field>
+            <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
+                <record id="action_foundation_maquina_registro_tree" model="ir.actions.act_window">
+            <field name="name">Registros de Máquina</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina.registro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie um novo Relatório de Máquina
+                </p>
+            </field>
+        </record>
+
+
+        <!-- FOUNDATION RELATORIO LISTA VIEW-->
+        <!-- Action to open the new Relatório Form -->
+        <record id="action_open_foundation_relatorios_lista_form" model="ir.actions.act_window">
+            <field name="name">Relatorio</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.relatorios</field>
+            <field name="view_id" ref="view_foundation_relatorios_lista_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+
+        </record>
+
+        <!-- FOUNDATION RELATORIO LISTA VIEW-->
+        <record id="action_foundation_relatorios_lista_tree" model="ir.actions.act_window">
+            <field name="name">Relatorios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.relatorios</field>
+            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form')]"/>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie um novo Serviço de Fundação
+                </p>
+            </field>
+        </record>
+
+        <!-- FOUNDATION TEAM VIEW -->
+        <!-- Definições de ação para a árvore e formulário de Equipe -->
+        <record id="action_foundation_maquina_team_tree" model="ir.actions.act_window">
+            <field name="name">Máquinas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_maquina_team_tree"/>
+        </record>
+
+        <!-- FOUNDATION TEAM VIEW -->
+        <!-- Action to open Team Configuration Form -->
+        <record id="action_open_foundation_team_form" model="ir.actions.act_window">
+            <field name="name">Configurar Equipe</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.team</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!-- FOUNDATION TEAM VIEW -->
+        <!-- Action to display Foundation Team Tree View -->
+        <record id="action_foundation_team" model="ir.actions.act_window">
+            <field name="name">Equipe da Fundação</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.team</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_team_form"/>
+        </record>
 
     </data>
 </odoo>
