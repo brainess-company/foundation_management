@@ -51,6 +51,8 @@
                     <field name="maquina_id"/>
                     <field name="service_id"/>
                     <field name="sale_order_id"/>
+                    <field name="has_today_chamada" invisible="1"/>
+
                     <field name="obra_id"/>
                     <field name="nome_obra" string="Nome da Obra"/>
                     <field name="display_has_today_chamada"
@@ -68,7 +70,7 @@
                                 'default_endereco': endereco,
                                 'default_foundation_obra_service_id': service_id,
                                 'default_foundation_maquina_registro_id': id
-                            }"/>
+                            }"  attrs="{'invisible': [('has_today_chamada', '!=', False)]}"/>
                     <!-- VERIFICAR A COMPATIBILIDADE DOS ITENS ACIMA -->
                 </tree>
             </field>
