@@ -1,5 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class FoundationRelatorios(models.Model):
     """FALTA CRIAR AS OUTRAS ACTIONS PARA OS STATUS E INCLUIR BOTOUS NO FORMULARIO"""
@@ -121,6 +124,7 @@ class FoundationRelatorios(models.Model):
         self.ensure_one()
         if not self.assinatura:
             raise UserError("A assinatura é necessária para salvar o relatório.")
+        _logger.info('Current context: %s', self.env.context)
         self.state = 'conferencia'  # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {
             'type': 'ir.actions.act_window',

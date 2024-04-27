@@ -12,10 +12,12 @@
                 <form string="Relatório de Estacas">
                     <sheet>
                         <group>
-                            <field name="variante_id"/>
+                            <!--field name="variante_id"/-->
                             <field name="nome_obra" readonly="1"/>
                             <field name="sale_order_id"/>
                             <field name="data"/>
+                            <field name="foundation_maquina_registro_id"/>
+
                             <field name="service_id"/>
                             <field name="service_template_id"/>
 
@@ -24,7 +26,7 @@
                             <page string="Estacas">
 
                                 <field name="estacas_ids" context="{
-                                        'default_foundation_maquina_registro_id': id,
+                                        'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
                                         'default_service_template_id': service_template_id,
                                         'default_foundation_obra_service_id': service_id,
 
@@ -76,7 +78,8 @@
             <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
             <field name="view_mode">form</field>
             <field name="target">new</field>
-            <field name="context">{}</field>
+            <field name="context">{'default_foundation_maquina_registro_id': active_id}</field>
+
         </record>
 
 
