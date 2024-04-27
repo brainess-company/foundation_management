@@ -38,7 +38,7 @@ class FoundationMaquinaRegistro(models.Model):
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id', string="Estacas")  # tracking=True
-    has_today_chamada = fields.Boolean(string="Tem Chamada Hoje", compute="_compute_has_today_chamada", store=False)
+    has_today_chamada = fields.Boolean(string="Fez Chamada Hoje", compute="_compute_has_today_chamada", store=False)
     display_has_today_chamada = fields.Char(string="Chamada Hoje?", compute='_compute_display_has_today_chamada',
                                             store=False)
 
