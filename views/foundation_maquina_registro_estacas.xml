@@ -12,62 +12,49 @@
                 <form string="Relatório de Estacas">
                     <sheet>
                         <group>
-                            <!--CAPOS DE FOUNDATIOM RELATORIO-->
-                            <field name="data"/>
-                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-                            <field name="sale_order_id" readonly="1"/>
-                            <field name="maquina_id" readonly="1"/>
-                            <field name="state" readonly="1"/>
-                            <field name="service_id" readonly="1"/>
-                            <field name="operador_id" readonly="1"/>
+                            <field name="variante_id"/>
                             <field name="nome_obra" readonly="1"/>
-                            <field name="endereco_obra" readonly="1"/>
-                            <field name="service_template_id" readonly="1" invisible="1"/>
-
+                            <field name="sale_order_id"/>
+                            <field name="data"/>
+                            <field name="service_id"/>
+                            <field name="service_template_id"/>
 
                         </group>
                         <notebook>
                             <page string="Estacas">
+
                                 <field name="estacas_ids" context="{
-                                            'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
-                                            'default_sale_order_id': sale_order_id,
-                                            'default_foundation_obra_service_id': service_id,
-                                            'default_service_template_id': service_id,
-                                            'default_service_id': service_template_id}">
+                                        'default_foundation_maquina_registro_id': id,
+                                        'default_service_template_id': service_template_id,
+                                        'default_foundation_obra_service_id': service_id,
 
-                                    <!--defalt_ campo anterior: campo novo
-                                    'default_service_id': foundation_obra_service_id,
-                                    'default_service_id': foundation_obra_service_id,
-                                    -->
-
-                                    <tree editable="bottom">
-                                        <!---->
-                                        <!--AQUI SÓ APARECE OS CAMPOS QUE EXISTEM NA TABELA DE ESTACAS-->
-
-                                        <field name="nome_estaca"/>
-                                        <field name="foundation_obra_service_id"/>
-                                        <field name="profundidade"/>
-                                        <field name="sale_order_id"/>
-                                        <field name="data"/>
-                                        <field name="service_template_id" invisible="1"/> <!--ESSE CAMPO DEVE RECEBER O NOME DO SERVICO-->
-                                        <field name="foundation_maquina_registro_id" invisible="1"/>
-                                        <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id)]" options="{'no_create': True, 'no_open': True}"/>
-                                        <!--field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/-->
-                                    </tree>
+                                        'default_sale_order_id': sale_order_id}">
                                     <form>
-                                        <group>
-                                            <field name="nome_estaca"/>
-                                            <field name="profundidade"/>
-                                            <field name="service_template_id"/>
-                                            <field name="foundation_maquina_registro_id" invisible="1"/>
-                                            <field name="sale_order_id"/>
-                                            <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id)]" options="{'no_create': True, 'no_open': True}"/>
-                                            <!--field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': True, 'no_open': True}"/-->
-                                        </group>
+                                        <sheet>
+                                            <group>
+                                                <field name="nome_estaca"/>
+                                                <field name="profundidade"/>
+                                                <field name="data"/>
+                                                <field name="foundation_obra_service_id"/>
+                                                <field name="sale_order_id"/>
+                                                <field name="service_template_id"/>
+
+                                                <field name="foundation_obra_service_id"/>
+
+                                                <field name="sale_order_line_id"
+                                                       domain="[('order_id', '=', sale_order_id)]"
+                                                       context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
+                                                       options="{'no_create': True, 'no_open': True}"/>
+
+                                                <!--, ('product_id.product_tmpl_id', '=', service_template_id)
+                                                field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [90, 90]}"/-->
+                                            </group>
+                                        </sheet>
                                     </form>
                                 </field>
                             </page>
                         </notebook>
+
                         <group>
                             <field name="assinatura" widget="signature"/>
                         </group>
@@ -111,7 +98,7 @@
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
-                    <field name="product_template_id"/>
+                    <field name="service_template_id"/>
                     <field name="endereco"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
@@ -119,10 +106,10 @@
 
                                 'default_foundation_maquina_registro_id':id,
                                 'default_sale_order_id': sale_order_id,
-                                'default_foundation_obra_service_id': service_id,
 
+                                'default_service_id': service_id,
                                 'default_nome_obra': nome_obra,
-                                'default_service_template_id': service_id,
+                                'default_service_template_id': service_template_id,
                                 'default_endereco': endereco
                             }" attrs="{'invisible': [('has_today_chamada', '=', False)]}"/>
                     <!-- attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"-->
