@@ -5,10 +5,19 @@ from odoo.exceptions import ValidationError
 
 class Chamada(models.Model):
     """
-    chamada contem lista de presencas
-    UM REGISTRO DE CHAMADA AQUI TEM MUITOS LISTA DE PRESENÇA
-    UMA CHAMADA É UM GRUPO DE REGISTROS EM LISTA DE PRESENÇAd
+    Gerencia registros de chamadas para listas de presença em obras. Este modelo serve como
+    um meio de documentar a presença de equipes e o uso de equipamentos em locais de obras específicos.
+
+    Atributos:
+        lista_presenca_ids (One2many): Registros de presença associados a esta chamada.
+        foundation_obra_service_id (Many2one): Serviço na obra associado à chamada.
+        obra_id (Many2one): Obra relacionada à chamada.
+        sale_order_id (Many2one): Ordem de venda relacionada à obra.
+        nome_obra (Char): Nome da obra, obtido da relação com a obra.
+        endereco (Char): Endereço da obra, também derivado da relação.
+        data (Date): Data da chamada.
     """
+
     _name = 'foundation.chamada'
     _description = 'Registro de Chamada'
 
@@ -22,15 +31,12 @@ class Chamada(models.Model):
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
 
     foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquina Associada")
-    #nome_maquina = fields.Char("Nome da Máquina", related='foundation_maquina_id.nome_maquina', readonly=True,store=True)
+
     data = fields.Date(string="Data", default=fields.Date.today, required=True)
-    # Novo campo computado:
 
-
-    # Adiciona um campo Many2one para vincular a Foundation Obra Service
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
 
-    # This field now relates to FoundationMaquinaRegistro instead of FoundationObraService
+
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
         string='Registro de Máquina',
@@ -43,5 +49,8 @@ class Chamada(models.Model):
 
 
     def action_save(self):
+        """
+                Fecha a janela de ação atual. Este método garante que a ação seja chamada em um único registro.
+                """
         self.ensure_one()  # Garantir que está sendo chamado em um único registro
         return {'type': 'ir.actions.act_window_close'}

@@ -1,20 +1,24 @@
 from odoo import models, fields, api
 from odoo.tools.translate import _
 
+
 class FoundationTeam(models.Model):
+    """gerencia os funcionarios relacionados a determinadas maquinas"""
     _name = 'foundation.team'
     _description = 'Registro de equipe de máquinas'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     _rec_name = 'date'
 
     date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
-    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True,  tracking=True)
-    employee_ids = fields.Many2many('res.partner', string="Funcionários",  tracking=True)
-    note = fields.Text("Notas",  tracking=True)
-    machine_status = fields.Selection(related='machine_id.status_maquina', string="Status da Máquina", readonly=True,  tracking=True)
+    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True, tracking=True)
+    employee_ids = fields.Many2many('res.partner', string="Funcionários", tracking=True)
+    note = fields.Text("Notas", tracking=True)
+    machine_status = fields.Selection(related='machine_id.status_maquina',
+                                      string="Status da Máquina", readonly=True, tracking=True)
 
     @api.model
     def create_daily_team_records(self):
+        """registra diariamente um registro de equipes no db, isso se chama job alguma coisa"""
         today = fields.Date.today()
         teams = self.search([])  # Pesquisar todos os registros de equipe
         for team in teams:
@@ -32,6 +36,7 @@ class FoundationTeam(models.Model):
                     })
 
     def write(self, vals):
+        """define o metodo whrite para ver se teve modificações de funcionarios em equipes"""
         # Checa se os funcionários foram modificados
         if 'employee_ids' in vals:
             old_employees = self.mapped('employee_ids')

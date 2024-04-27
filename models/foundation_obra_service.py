@@ -5,6 +5,24 @@ from odoo import models, fields, api
 _logger = logging.getLogger(__name__)
 
 class FoundationObraService(models.Model):
+    """
+        Este modelo representa os serviços associados a uma obra específica dentro do sistema.
+        Ele rastreia os detalhes dos serviços oferecidos, as máquinas utilizadas, e as estacas
+        envolvidas em cada serviço. Este modelo serve como um núcleo para conectar diferentes
+        aspectos de uma obra, como máquinas, estacas e as informações comerciais associadas.
+
+        Atributos:
+            variante_id (Many2one): Identificador da variante do produto/serviço utilizado no serviço.
+            service_template_id (Many2one): Template do serviço relacionado à variante escolhida.
+            service_name (Char): Nome do serviço, extraído da variante do produto.
+            foundation_maquina_ids (Many2many): Máquinas associadas a este serviço.
+            obra_id (Many2one): Obra na qual o serviço está sendo executado.
+            sale_order_id (Many2one): Ordem de venda associada à obra.
+            nome_obra (Char): Nome da obra, derivado da referência da obra.
+            endereco (Char): Endereço da obra, também derivado da referência da obra.
+            estacas_ids (One2many): Estacas relacionadas a este serviço específico.
+            maquina_registros_ids (One2many): Registros de máquinas associados a este serviço.
+        """
     # Configurações básicas do modelo
     _name = 'foundation.obra.service'
     _description = 'Serviços em uma obra'

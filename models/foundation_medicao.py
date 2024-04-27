@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError, UserError
 
 
 class FoundationMedicao(models.Model):
+    """Registra as estacas que foram preparadas para serem cobradas, gerar invoice"""
     _name = 'foundation.medicao'
     _description = 'Medições das Estacas'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
@@ -34,6 +35,7 @@ class FoundationMedicao(models.Model):
 
     @api.depends('nome')
     def _compute_display_medicao(self):
+        """computa o nome da medição sequecial"""
         for record in self:
             # Certifique-se de que nome_medicao é uma string e contém apenas números antes de formatar
             if isinstance(record.nome, str) and record.nome.isdigit():
@@ -43,11 +45,13 @@ class FoundationMedicao(models.Model):
 
     @api.depends('estacas_ids.total_price')
     def _compute_valor_total(self):
+        """calcula o valor total"""
         for record in self:
             record.valor_total = sum(estaca.total_price for estaca in record.estacas_ids)
 
     @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
     def _compute_invoice_id(self):
+        """pega o link da fatura relacionada para inserir no icone"""
         for record in self:
             record.invoice_id = False  # Resetando o invoice_id para evitar associações erradas
             related_invoice_ids = set()
@@ -66,6 +70,7 @@ class FoundationMedicao(models.Model):
 
     @api.depends('estacas_ids.total_price')
     def action_create_invoice(self):
+        """sobrescreve create para criar fatura"""
         self.ensure_one()  # Garante que apenas um registro seja processado
 
         if not self.sale_order_id:
@@ -115,6 +120,7 @@ class FoundationMedicao(models.Model):
 
 
     def action_view_invoice(self):
+        """define a ação do clique no botão"""
         self.ensure_one()  # Garante que apenas um registro seja processado
         if not self.invoice_id:
             raise UserError("Não há fatura relacionada para abrir.")
@@ -131,6 +137,7 @@ class FoundationMedicao(models.Model):
 
     @api.depends('invoice_id')
     def _compute_invoice_count(self):
+        """computa a quantidade de faturas relacionadas"""
         for record in self:
             record.invoice_count = 1 if record.invoice_id else 0
 

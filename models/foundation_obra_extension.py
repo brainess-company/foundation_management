@@ -2,7 +2,6 @@ from odoo import models, api, fields
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-
     nome_obra = fields.Char("OBRA")
 
 
