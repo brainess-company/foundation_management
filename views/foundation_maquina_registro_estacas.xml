@@ -13,11 +13,12 @@
                     <sheet>
                         <group>
                             <!--field name="variante_id"/-->
-                            <field name="nome_obra" readonly="1"/>
+                            <field name="nome_obra"/>
                             <field name="sale_order_id"/>
                             <field name="data"/>
-                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="variante_id" invisible="1"/>
 
+                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="service_id"/>
                             <field name="service_template_id"/>
 
@@ -27,9 +28,9 @@
 
                                 <field name="estacas_ids" context="{
     'default_sale_order_id': sale_order_id,
-    'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
+    'default_foundation_maquina_registro_id': active_id,
     'default_service_template_id': service_template_id,
-    'default_foundation_obra_service_id': service_id
+    'default_service_id': service_id
 }">
                                     <form>
                                         <sheet>
@@ -37,12 +38,11 @@
                                                 <field name="nome_estaca"/>
                                                 <field name="profundidade"/>
                                                 <field name="data"/>
-                                                <field name="foundation_obra_service_id"/>
+                                                <field name="service_id"/>
+                                                <field name="variante_id"/>
                                                 <field name="sale_order_id"/>
+                                                <field name="foundation_maquina_registro_id"/>
                                                 <field name="service_template_id"/>
-
-                                                <field name="foundation_obra_service_id"/>
-
                                                 <field name="sale_order_line_id"
                                                        domain="[('order_id', '=', sale_order_id)]"
                                                        context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
@@ -79,10 +79,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="context">{}</field>
-
         </record>
-
-
 
 
         <record id="view_foundation_maquina_registro_tree" model="ir.ui.view">
@@ -93,7 +90,6 @@
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                     <field name="requer_chamada_maquina" invisible="1"/>
-
                     <field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"
                    decoration-danger="display_has_today_chamada == 'Não'"
@@ -101,15 +97,14 @@
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
-                    <field name="sale_order_id"/>
                     <field name="service_template_id"/>
                     <field name="endereco"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
-
-
-                                context="{
-            'default_foundation_maquina_registro_id': id,
+                            context="{
+            'default_foundation_maquina_registro_id': active_id,
+            'default_service_template_id': service_template_id,
+            'default_sale_order_id': sale_order_id
 
         }" attrs="{'invisible': [('has_today_chamada', '=', False)]}"/>
                     <!-- attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"-->

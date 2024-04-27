@@ -20,7 +20,7 @@ class FoundationObraService(models.Model):
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='obra_id.sale_order_id', readonly=True, store=True)
     nome_obra = fields.Char("Nome da Obra", related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
-    estacas_ids = fields.One2many('foundation.estacas', 'foundation_obra_service_id', string="Estacas")
+    estacas_ids = fields.One2many('foundation.estacas', 'service_id', string="Estacas")
 
     maquina_registros_ids = fields.One2many(
         'foundation.maquina.registro',  # Modelo relacionado

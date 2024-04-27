@@ -25,11 +25,13 @@ class FoundationEstacas(models.Model):
     observacao = fields.Char("Observação")
 
     # RELACIONA ESSA ESTACA COM O SERVIÇO
-    foundation_obra_service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='foundation_obra_service_id.sale_order_id', readonly=True, store=True, required=True)
+    service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='service_id.sale_order_id', readonly=True, store=True, required=False)
     sale_order_line_id = fields.Many2one('sale.order.line', string="Linha de Pedido de Venda",domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]",required=True)
-    variante_id = fields.Many2one('product.product', string="Variante",related='foundation_obra_service_id.variante_id', readonly=True, store=True,required=True)
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='foundation_obra_service_id.service_template_id', readonly=True,store=True, required=True)
+    variante_id = fields.Many2one('product.product', string="Variante",related='service_id.variante_id', readonly=True, store=True)#,required=True)
+
+
+    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='service_id.service_template_id', readonly=True,store=True)#, required=True)
 
     # RELACIONA ESSA ESTACA COM a tabela nova de SERVIÇO ()FOUNDATION MAQUINA REGISTRO
     foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro', string="Foundation Maquina registro", required=True)
@@ -39,9 +41,9 @@ class FoundationEstacas(models.Model):
     nome_medicao = fields.Char(related='medicao_id.nome', string="Numero Medicao", readonly=True)
 
     # Campos relacionados para mostrar no calendário
-    #nome_maquina = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
-    #nome_operador = fields.Char(related='foundation_obra_service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
-    nome_obra = fields.Char(related='foundation_obra_service_id.obra_id.nome_obra', string="Obra", readonly=True)
+    #nome_maquina = fields.Char(related='service_id.foundation_maquina_id.nome_maquina', string="Máquina",readonly=True)
+    #nome_operador = fields.Char(related='service_id.foundation_maquina_id.operador.name', string="Operador",readonly=True)
+    nome_obra = fields.Char(related='service_id.obra_id.nome_obra', string="Obra", readonly=True)
 
     relatorio_id = fields.Many2one('foundation.relatorios', string="Relatório Associado")
 
@@ -62,9 +64,9 @@ class FoundationEstacas(models.Model):
 
     @api.model
     def create(self, vals):
-        _logger.info("Values received for create: %s", vals)
+        _logger.info("VALORES ENVVIADOS PARA CRIAR ESTACAS: %s", vals)
         if 'sale_order_id' not in vals:
-            _logger.error("sale_order_id is missing in the received values!")
+            _logger.error("sale_order_id ESTA FALTANDO PARA CRIAR ESTACAS!")
         record = super(FoundationEstacas, self).create(vals)
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
@@ -95,7 +97,7 @@ class FoundationEstacas(models.Model):
             return {'type': 'ir.actions.act_window_close'}
 
         # Verifica se todas as estacas selecionadas são da mesma sale_order
-        sale_orders = self.mapped('foundation_obra_service_id.sale_order_id')
+        sale_orders = self.mapped('service_id.sale_order_id')
         if len(sale_orders) > 1:
             raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
@@ -133,7 +135,7 @@ class FoundationEstacas(models.Model):
         }
 
     @api.constrains('profundidade')
-    def _check_profundidade(self, vals):
+    def _check_profundidade(self):
         for record in self:
             if not (1 <= record.profundidade <= 40):
                 raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
