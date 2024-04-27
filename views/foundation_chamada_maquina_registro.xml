@@ -57,8 +57,6 @@
         </record>
 
 
-
-
         <!-- Tree View for Foundation Maquina Registro   -->
         <record id="view_foundation_maquina_registro_chamada_tree" model="ir.ui.view">
             <field name="name">foundation.maquina.registro.tree</field>
@@ -104,14 +102,8 @@
             <field name="context">{"create": False}</field>
             <field name="view_id" ref="view_foundation_maquina_registro_chamada_tree"/>
             <field name="help" type="html">
-                <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na visão em árvore.</p>
+                <p>Veja todos os registros de máquinas listados aqui. Você pode registrar novas chamadas usando o botão na lista.</p>
             </field>
         </record>
-
-
-
-
-
-
     </data>
 </odoo>

@@ -83,7 +83,7 @@
         <!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
         <!-- Action to open the new Relatório Form -->
         <record id="action_open_foundation_relatorio_maquina_form" model="ir.actions.act_window">
-            <field name="name">Criar Relatório de Máquina</field>
+            <field name="name">Criar Relatório de Produção</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
             <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
@@ -135,15 +135,17 @@
 
 
          <!-- FOUNDATION  MAQUINA REGISTRO ESTACAS-->
-                <record id="action_foundation_maquina_registro_tree" model="ir.actions.act_window">
-            <field name="name">Registros de Máquina</field>
+        <record id="action_foundation_maquina_registro_tree" model="ir.actions.act_window">
+            <field name="name">Criar Relatorio</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina.registro</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_foundation_maquina_registro_tree"/>
+            <field name="context">{"create": False}</field> <!-- sumir o botao de new-->
             <field name="help" type="html">
+
                 <p class="o_view_nocontent_smiling_face">
-                    Crie um novo Relatório de Máquina
+                    Crie um novo Relatório de Produção
                 </p>
             </field>
         </record>
