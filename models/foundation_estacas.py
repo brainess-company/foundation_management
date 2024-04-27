@@ -1,5 +1,9 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
+import logging
+
+_logger = logging.getLogger(__name__)
+
 
 
 class FoundationEstacas(models.Model):
@@ -58,6 +62,9 @@ class FoundationEstacas(models.Model):
 
     @api.model
     def create(self, vals):
+        _logger.info("Values received for create: %s", vals)
+        if 'sale_order_id' not in vals:
+            _logger.error("sale_order_id is missing in the received values!")
         record = super(FoundationEstacas, self).create(vals)
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
@@ -126,11 +133,12 @@ class FoundationEstacas(models.Model):
         }
 
     @api.constrains('profundidade')
-    def _check_profundidade(self):
+    def _check_profundidade(self, vals):
         for record in self:
             if not (1 <= record.profundidade <= 40):
                 raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
             #_logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")
+
 
 
 

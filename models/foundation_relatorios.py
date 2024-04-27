@@ -85,6 +85,8 @@ class FoundationRelatorios(models.Model):
     def create(self, vals):
         if not vals.get('assinatura'):
             raise UserError("A assinatura é obrigatória para a criação de um relatório.")
+            _logger.debug("Context at point X: %s", self.env.context)
+            _logger.debug("Vals at point X: %s", vals)
 
         # Verificar o último número de relatório para o registro de máquina específico
         last_report = self.search([

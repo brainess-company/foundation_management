@@ -16,7 +16,7 @@
                             <field name="nome_obra" readonly="1"/>
                             <field name="sale_order_id"/>
                             <field name="data"/>
-                            <field name="foundation_maquina_registro_id"/>
+                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
 
                             <field name="service_id"/>
                             <field name="service_template_id"/>
@@ -26,11 +26,11 @@
                             <page string="Estacas">
 
                                 <field name="estacas_ids" context="{
-                                        'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
-                                        'default_service_template_id': service_template_id,
-                                        'default_foundation_obra_service_id': service_id,
-
-                                        'default_sale_order_id': sale_order_id}">
+    'default_sale_order_id': sale_order_id,
+    'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
+    'default_service_template_id': service_template_id,
+    'default_foundation_obra_service_id': service_id
+}">
                                     <form>
                                         <sheet>
                                             <group>
@@ -78,7 +78,7 @@
             <field name="view_id" ref="view_foundation_relatorio_maquina_form"/>
             <field name="view_mode">form</field>
             <field name="target">new</field>
-            <field name="context">{'default_foundation_maquina_registro_id': active_id}</field>
+            <field name="context">{}</field>
 
         </record>
 
@@ -101,20 +101,17 @@
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
+                    <field name="sale_order_id"/>
                     <field name="service_template_id"/>
                     <field name="endereco"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
-                            context="{
 
-                                'default_foundation_maquina_registro_id':id,
-                                'default_sale_order_id': sale_order_id,
 
-                                'default_service_id': service_id,
-                                'default_nome_obra': nome_obra,
-                                'default_service_template_id': service_template_id,
-                                'default_endereco': endereco
-                            }" attrs="{'invisible': [('has_today_chamada', '=', False)]}"/>
+                                context="{
+            'default_foundation_maquina_registro_id': id,
+
+        }" attrs="{'invisible': [('has_today_chamada', '=', False)]}"/>
                     <!-- attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"-->
                     <!--  'default_maquina_id': maquina_id,
                      'default_foundation_maquina_registro_id': id,
