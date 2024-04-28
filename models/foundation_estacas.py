@@ -37,9 +37,11 @@ class FoundationEstacas(models.Model):
                                 required=True,
                                 help="o numero deve estar entre 1 e 40",
                                 default=1.0)
-    data = fields.Date("Data",
-                       default=lambda self: fields.Date.context_today(self),
-                       required=True)
+    data = fields.Date(
+        "Data da Estaca",
+        default=fields.Date.context_today,
+        required=True
+    )
     observacao = fields.Char("Observação")
 
     # RELACIONA ESSA ESTACA COM O SERVIÇO
@@ -137,7 +139,7 @@ class FoundationEstacas(models.Model):
             Returns:
                 res: Resultado da operação de escrita.
             """
-        res = super(FoundationEstacas, self).write(vals)
+        res = super().write(vals)
         for record in self:
             if record.sale_order_line_id:
                 # Atualiza o delivered_qty somente se a profundidade foi alterada,
@@ -172,7 +174,7 @@ class FoundationEstacas(models.Model):
            Returns:
                dict: Ação para abrir a janela de visualização da medição criada.
            """
-        Medicao = self.env['foundation.medicao']
+        medicao = self.env['foundation.medicao']
 
         if not self:
             return {'type': 'ir.actions.act_window_close'}
@@ -187,13 +189,13 @@ class FoundationEstacas(models.Model):
             return {'type': 'ir.actions.act_window_close'}
 
         # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
-        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)],
+        last_medicao = medicao.search([('sale_order_id', '=', sale_order.id)],
                                       order='create_date desc', limit=1)
         next_medicao_number = 1 if not last_medicao else int(
             last_medicao.nome) + 1  # Ajustado para usar apenas o número
 
         # Criar uma nova medição
-        new_medicao = Medicao.create({
+        new_medicao = medicao.create({
             'nome': str(next_medicao_number),  # Nome da medição é apenas o número
             'sale_order_id': sale_order.id,
             'data': fields.Date.today(),
@@ -224,6 +226,6 @@ class FoundationEstacas(models.Model):
                  esteja dentro dos limites aceitáveis (1 a 40 metros).
                 """
         for record in self:
-            if not (1 <= record.profundidade <= 40):
+            if not 1 <= record.profundidade <= 40:
                 raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
             # _logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")

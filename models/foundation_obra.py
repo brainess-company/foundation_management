@@ -32,7 +32,8 @@ class FoundationObra(models.Model):
     cliente_id = fields.Many2one('res.partner',
                                  string="Cliente 2", related='sale_order_id.partner_id',
                                  readonly=True, store=True)
-    valor_total = fields.Monetary("Valor Total", related='sale_order_id.amount_total', readonly=True)
+    valor_total = fields.Monetary("Valor Total", related='sale_order_id.amount_total',
+                                  readonly=True)
     invoice_address = fields.Char("Endereço de Faturamento",
                                   related='sale_order_id.partner_invoice_id.street',
                                   readonly=True)

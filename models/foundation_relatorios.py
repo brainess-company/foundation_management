@@ -95,7 +95,7 @@ class FoundationRelatorios(models.Model):
         # Definindo o nome do relatório apenas com o número, como string
         vals['relatorio_number'] = str(next_number)
 
-        return super(FoundationRelatorios, self).create(vals)
+        return super().create(vals)
 
     # comentei os botoes de acai para usar depois
     def action_confirm(self):

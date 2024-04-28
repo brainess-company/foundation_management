@@ -90,10 +90,10 @@ class FoundationObraService(models.Model):
     def _create_machine_records(self, service, maquinas):
         """METODO PARA CRIAR MAQUINA - PARECE REDUNDANTE"""
         _logger.debug("Creating machine records for service %s", service.id)
-        MaquinaRegistro = self.env['foundation.maquina.registro']
+        maquina_registro = self.env['foundation.maquina.registro']
         for maquina in maquinas:
             _logger.debug("Processing machine %s", maquina.id)
-            existing_record = MaquinaRegistro.search(
+            existing_record = maquina_registro.search(
                 [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
             if existing_record:
                 _logger.info("Updating existing machine record for machine %s", maquina.id)
@@ -103,7 +103,7 @@ class FoundationObraService(models.Model):
                 })
             else:
                 _logger.info("Creating new machine record for machine %s", maquina.id)
-                MaquinaRegistro.create({
+                maquina_registro.create({
                     'service_id': service.id,
                     'maquina_id': maquina.id,
                 })
@@ -138,8 +138,8 @@ class FoundationObraService(models.Model):
                     'maquina_id': maquina.id,
                 })
 
-            account_name = "%s - %s - %s" % (
-            service.nome_obra, service.service_name, maquina.nome_maquina)
+            account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
+
             _logger.debug("Looking for existing analytic account for machine %d", maquina.id)
             existing_account = analytic_account_model.search(
                 [('foundation_maquina_registro_id', '=', maquina_registro.id)], limit=1)
@@ -159,4 +159,3 @@ class FoundationObraService(models.Model):
                     'plan_id': expense_plan.id,
                     'foundation_maquina_registro_id': maquina_registro.id
                 })
-

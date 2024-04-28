@@ -12,8 +12,11 @@ class FoundationMedicao(models.Model):
     _rec_name = 'display_medicao'
 
     nome = fields.Char("Numero da Medição", required=True)
-    data = fields.Date("Data da Medição",
-                       default=lambda self: fields.Date.context_today(self), required=True)
+    data = fields.Date(
+        "Data da Medição",
+        default=fields.Date.context_today,
+        required=True
+    )
     situacao = fields.Selection([
         ('aguardando', 'Aguardando Conferência'),
         ('emissao', 'Aguardando Emissão de Nota'),
@@ -32,13 +35,13 @@ class FoundationMedicao(models.Model):
                                   string="Estacas Medidas",  tracking=True)
 
     # CAMPOS COMPUTADOS
-    valor_total = fields.Float("Valor Total", compute='_compute_valor_total', store=True)
+    valor_total = fields.Float("Total", compute='_compute_valor_total', store=True)
     invoice_id = fields.Many2one('account.move', string="Fatura Relacionada",
                                  compute="_compute_invoice_id", store=True, tracking=True)
     invoice_count = fields.Integer(compute='_compute_invoice_count',
-                                   string='Invoice Count', default=0)
+                                   string='Invoice Countagem', default=0)
 
-    display_medicao = fields.Char(string="NMedição", compute='_compute_display_medicao')
+    display_medicao = fields.Char(string="Medição", compute='_compute_display_medicao')
 
     @api.depends('nome')
     def _compute_display_medicao(self):
@@ -60,16 +63,17 @@ class FoundationMedicao(models.Model):
 
     @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
     def _compute_invoice_id(self):
-        """pega o link da fatura relacionada para inserir no icone"""
+        """Pega o link da fatura relacionada para inserir no ícone."""
         for record in self:
             record.invoice_id = False  # Resetando o invoice_id para evitar associações erradas
             related_invoice_ids = set()
 
             for estaca in record.estacas_ids:
+                # Usando estaca como um argumento padrão para capturar o valor atual
                 invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
-                    lambda l: l.move_id.state == 'draft' and
-                              l.product_id == estaca.sale_order_line_id.product_id and
-                              l.move_id.invoice_origin == record.sale_order_id.name)
+                    lambda l, estaca=estaca: l.move_id.state == 'draft' and
+                                             l.product_id == estaca.sale_order_line_id.product_id and
+                                             l.move_id.invoice_origin == record.sale_order_id.name)
                 for invoice_line in invoice_lines:
                     related_invoice_ids.add(invoice_line.move_id.id)
 
@@ -102,7 +106,9 @@ class FoundationMedicao(models.Model):
                 'quantity': quantity,
                 'price_unit': price_unit,
                 'name': f'Estaca {estaca.nome_estaca}: {product.display_name}',
-                'account_id': product.categ_id.property_account_income_categ_id.id or product.categ_id.property_account_expense_categ_id.id,
+                'account_id':
+                    product.categ_id.property_account_income_categ_id.id
+                    or product.categ_id.property_account_expense_categ_id.id,
                 'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]
             }
             invoice_lines.append((0, 0, line_vals))

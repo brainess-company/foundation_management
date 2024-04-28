@@ -4,9 +4,9 @@ Gerencia registros automáticos de máquinas associadas
     Este modelo serve como uma ligação entre máquinas e os serviços realizados,
     permitindo rastrear a utilização de cada máquina em diferentes fases da obra.
 """
+import logging
 from datetime import date
 from odoo import models, fields, api
-import logging
 
 _logger = logging.getLogger(__name__)
 
