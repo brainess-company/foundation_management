@@ -41,4 +41,7 @@ Para instalar este módulo, você precisa:
 - [ ] Uma medição só pode gerar uma unica fatura
 - [X] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
 - [ ] O nome computado do relatorio deve ser nome relatorio - nome servico - nome maquina
-
+- [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
+- [ ] Estudar o relacionamento com o portal do cliente
+- [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
+- [ ] csads
