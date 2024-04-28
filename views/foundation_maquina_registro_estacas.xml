@@ -25,11 +25,11 @@
                             <page string="Estacas">
 
                                 <field name="estacas_ids" context="{
-    'default_sale_order_id': sale_order_id,
-    'default_foundation_maquina_registro_id': active_id,
-    'default_service_template_id': service_template_id,
-    'default_service_id': service_id
-}">
+                                            'default_sale_order_id': sale_order_id,
+                                            'default_foundation_maquina_registro_id': active_id,
+                                            'default_service_template_id': service_template_id,
+                                            'default_service_id': service_id
+                                        }">
                                     <form>
                                         <sheet>
                                             <group>
@@ -100,11 +100,10 @@
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
                             context="{
-            'default_foundation_maquina_registro_id': active_id,
-            'default_service_template_id': service_template_id,
-            'default_sale_order_id': sale_order_id
-
-        }" attrs="{'invisible': [('has_today_chamada', '=', False)]}"/>
+                                    'default_foundation_maquina_registro_id': active_id,
+                                    'default_service_template_id': service_template_id,
+                                    'default_sale_order_id': sale_order_id
+                                }" attrs="{'invisible': [('requer_chamada_maquina', '=', True),('has_today_chamada', '=', False)]}"/>
                     <!-- attrs="{'invisible': [('requer_chamada_maquina', '!=', False)]}"-->
                     <!--  'default_maquina_id': maquina_id,
                      'default_foundation_maquina_registro_id': id,

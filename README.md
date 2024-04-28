@@ -42,6 +42,7 @@ Para instalar este módulo, você precisa:
 - [ ] Uma medição só pode gerar uma unica fatura
 - [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
 - [ ] Estudar o relacionamento com o portal do cliente
+- [ ] organizar melhor o filtro do botao de criar relatorio
 - [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
-- [ ] Colocar filtro de estacas por serviço no relatorio que o operador preenche
+- [x] Colocar filtro de estacas por serviço no relatorio que o operador preenche
 - [ ] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
