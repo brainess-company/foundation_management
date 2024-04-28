@@ -13,14 +13,20 @@ _logger = logging.getLogger(__name__)
 
 class FoundationObraService(models.Model):
     """
-        Este modelo representa os serviços associados a uma obra específica dentro do sistema.
-        Ele rastreia os detalhes dos serviços oferecidos, as máquinas utilizadas, e as estacas
-        envolvidas em cada serviço. Este modelo serve como um núcleo para conectar diferentes
-        aspectos de uma obra, como máquinas, estacas e as informações comerciais associadas.
+        Este modelo representa os serviços associados a uma
+        obra específica dentro do sistema.
+        Ele rastreia os detalhes dos serviços oferecidos,
+         as máquinas utilizadas, e as estacas
+        envolvidas em cada serviço.
+        Este modelo serve como um núcleo para conectar diferentes
+        aspectos de uma obra, como máquinas,
+        estacas e as informações comerciais associadas.
 
         Atributos:
-            variante_id (Many2one): Identificador da variante do produto/serviço utilizado no serviço.
-            service_template_id (Many2one): Template do serviço relacionado à variante escolhida.
+            variante_id (Many2one): Identificador da variante do
+             produto/serviço utilizado no serviço.
+            service_template_id (Many2one): Template do serviço relacionado à
+            variante escolhida.
             service_name (Char): Nome do serviço, extraído da variante do produto.
             foundation_maquina_ids (Many2many): Máquinas associadas a este serviço.
             obra_id (Many2one): Obra na qual o serviço está sendo executado.
@@ -28,7 +34,8 @@ class FoundationObraService(models.Model):
             nome_obra (Char): Nome da obra, derivado da referência da obra.
             endereco (Char): Endereço da obra, também derivado da referência da obra.
             estacas_ids (One2many): Estacas relacionadas a este serviço específico.
-            maquina_registros_ids (One2many): Registros de máquinas associados a este serviço.
+            maquina_registros_ids (One2many):
+            Registros de máquinas associados a este serviço.
         """
     # Configurações básicas do modelo
     _name = 'foundation.obra.service'
@@ -38,13 +45,24 @@ class FoundationObraService(models.Model):
 
     # Definição dos campos
     variante_id = fields.Many2one('product.product', string="Variante")
-    service_template_id = fields.Many2one('product.template', string="Template do Serviço", related='variante_id.product_tmpl_id', readonly=True, store=True)
-    service_name = fields.Char("Nome do Serviço", related='variante_id.name', store=True)
-    foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquinas Associadas")
+    service_template_id = fields.Many2one('product.template',
+                                          string="Template do Serviço",
+                                          related='variante_id.product_tmpl_id',
+                                          readonly=True, store=True)
+    service_name = fields.Char("Nome do Serviço",
+                               related='variante_id.name', store=True)
+    foundation_maquina_ids = fields.Many2many('foundation.maquina',
+                                              string="Máquinas Associadas")
     obra_id = fields.Many2one('foundation.obra', string="Obra")
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='obra_id.sale_order_id', readonly=True, store=True)
-    nome_obra = fields.Char("Nome da Obra", related='obra_id.nome_obra', readonly=True, store=True)
-    endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda",
+                                    related='obra_id.sale_order_id',
+                                    readonly=True, store=True)
+    nome_obra = fields.Char("Nome da Obra",
+                            related='obra_id.nome_obra',
+                            readonly=True, store=True)
+    endereco = fields.Char("Endereço",
+                           related='obra_id.endereco',
+                           readonly=True, store=True)
     estacas_ids = fields.One2many('foundation.estacas', 'service_id', string="Estacas")
 
     maquina_registros_ids = fields.One2many(
@@ -75,7 +93,8 @@ class FoundationObraService(models.Model):
         MaquinaRegistro = self.env['foundation.maquina.registro']
         for maquina in maquinas:
             _logger.debug("Processing machine %s", maquina.id)
-            existing_record = MaquinaRegistro.search([('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
+            existing_record = MaquinaRegistro.search(
+                [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
             if existing_record:
                 _logger.info("Updating existing machine record for machine %s", maquina.id)
                 existing_record.write({
@@ -106,7 +125,8 @@ class FoundationObraService(models.Model):
             })
 
         multiple_machines = len(maquinas) > 1
-        _logger.debug(f"Processing {len(maquinas)} machines, multiple_machines={multiple_machines}")
+        _logger.debug(
+            f"Processing {len(maquinas)} machines, multiple_machines={multiple_machines}")
 
         for maquina in maquinas:
             _logger.debug(f"Processing machine {maquina.id}")
@@ -121,7 +141,8 @@ class FoundationObraService(models.Model):
 
             account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
             _logger.debug(f"Looking for existing analytic account for machine {maquina.id}")
-            existing_account = AnalyticAccount.search([('foundation_maquina_registro_id', '=', maquina_registro.id)],
+            existing_account = AnalyticAccount.search([('foundation_maquina_registro_id',
+                                                        '=', maquina_registro.id)],
                                                       limit=1)
 
             if existing_account:
@@ -133,7 +154,8 @@ class FoundationObraService(models.Model):
                 _logger.info(f"Creating new analytic account for machine {maquina.id}")
                 AnalyticAccount.create({
                     'name': account_name,
-                    'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
+                    'partner_id': service.obra_id.partner_id.id
+                    if service.obra_id.partner_id else None,
                     'company_id': self.env.company.id,
                     'plan_id': expense_plan.id,
                     'foundation_maquina_registro_id': maquina_registro.id
@@ -143,7 +165,8 @@ class FoundationObraService(models.Model):
             service_account_name = f"{service.nome_obra} - {service.service_name}"
             _logger.debug("Checking for existing service account")
             service_account = AnalyticAccount.search(
-                [('name', '=', service_account_name), ('foundation_maquina_registro_id', '=', False)], limit=1)
+                [('name', '=', service_account_name),
+                 ('foundation_maquina_registro_id', '=', False)], limit=1)
             if service_account:
                 _logger.info("Updating service account")
                 service_account.write({'name': service_account_name})
@@ -151,7 +174,8 @@ class FoundationObraService(models.Model):
                 _logger.info("Creating new service account")
                 AnalyticAccount.create({
                     'name': service_account_name,
-                    'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
+                    'partner_id': service.obra_id.partner_id.id if
+                    service.obra_id.partner_id else None,
                     'company_id': self.env.company.id,
                     'plan_id': expense_plan.id
                 })
@@ -159,7 +183,8 @@ class FoundationObraService(models.Model):
         obra_account_name = f"{service.nome_obra}"
         _logger.debug("Checking for existing obra account")
         obra_account = AnalyticAccount.search(
-            [('name', '=', obra_account_name), ('foundation_maquina_registro_id', '=', False)], limit=1)
+            [('name', '=', obra_account_name),
+             ('foundation_maquina_registro_id', '=', False)], limit=1)
         if obra_account:
             _logger.info("Updating obra account")
             obra_account.write({'name': obra_account_name})
@@ -171,4 +196,3 @@ class FoundationObraService(models.Model):
                 'company_id': self.env.company.id,
                 'plan_id': expense_plan.id
             })
-

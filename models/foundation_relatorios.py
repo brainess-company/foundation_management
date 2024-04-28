@@ -1,6 +1,8 @@
+"""Lançamento em lote de estacas"""
 import logging
 from odoo import models, fields, api
 from odoo.exceptions import UserError
+
 _logger = logging.getLogger(__name__)
 
 
@@ -20,12 +22,14 @@ class FoundationRelatorios(models.Model):
         ('rascunho', 'Rascunho'),
         ('conferencia', 'Aguardando Conferencia'),
         ('em_analise', 'Em Análise'),
-        ('cancelado', 'Cancelado'),  # todo verificar as implicações disso
+        ('cancelado', 'Cancelado'),
         ('conferido', 'Conferido')
     ], default='rascunho', string="Status", required=True)
+    # todo verificar as implicações disso
 
     # Campos adicionais relacionados ao serviço
-    nome_servico = fields.Char(related='foundation_maquina_registro_id.nome_servico', string="Nome do Serviço",
+    nome_servico = fields.Char(related='foundation_maquina_registro_id.nome_servico',
+                               string="Nome do Serviço",
                                readonly=True, store=True)
     maquina_id = fields.Many2one('foundation.maquina',
                                  related='foundation_maquina_registro_id.maquina_id',
@@ -49,7 +53,7 @@ class FoundationRelatorios(models.Model):
     foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro',
                                                      string='Registro de Máquina',
                                                      required=True,
-                                                     help='Referência ao registro de máquina associado.')
+                                help='Referência ao registro de máquina associado.')
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                   string="Operador", readonly=True, store=True)
     relatorio_number = fields.Char(string="Nome do Relatório")
@@ -66,8 +70,8 @@ class FoundationRelatorios(models.Model):
         """computa o nome do relatorio"""
         for record in self:
             if record.relatorio_number and record.service_id and record.nome_obra:
-                record.display_relatorio_name = \
-                    f"REL{record.relatorio_number} - {record.service_id.service_name} - {record.nome_obra}"
+                record.display_relatorio_name = f"REL{record.relatorio_number} - \
+                    {record.service_id.service_name} - {record.nome_obra}"
 
     @api.model
     def create(self, vals):
@@ -119,7 +123,8 @@ class FoundationRelatorios(models.Model):
         if not self.assinatura:
             raise UserError("A assinatura é necessária para salvar o relatório.")
         _logger.info('CONTEXTO ATUAL ATUAL PARA CRIAR RELATORIO 2: %s', self.env.context)
-        self.state = 'conferencia'  # Supondo que haja um campo de estado para controlar a confirmação do relatório
+        self.state = 'conferencia'
+        # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {
             'type': 'ir.actions.act_window',
             'name': 'Relatório Confirmado',

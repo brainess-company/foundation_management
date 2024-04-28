@@ -1,3 +1,4 @@
+"""Registra as estacas que foram preparadas para serem cobradas, gerar invoice"""
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
 
@@ -72,7 +73,8 @@ class FoundationMedicao(models.Model):
                 for invoice_line in invoice_lines:
                     related_invoice_ids.add(invoice_line.move_id.id)
 
-            # Associar a fatura somente se houver uma única fatura em rascunho relacionada corretamente
+            # Associar a fatura somente se houver uma única fatura
+            # em rascunho relacionada corretamente
             if len(related_invoice_ids) == 1:
                 record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
 
@@ -88,7 +90,8 @@ class FoundationMedicao(models.Model):
         for estaca in self.estacas_ids:
             if not estaca.sale_order_line_id:
                 raise ValidationError(
-                    f"Estaca {estaca.nome_estaca} não possui uma linha de pedido de venda relacionada.")
+                    f"Estaca {estaca.nome_estaca} "
+                    f"não possui uma linha de pedido de venda relacionada.")
 
             product = estaca.sale_order_line_id.product_id
             quantity = estaca.profundidade

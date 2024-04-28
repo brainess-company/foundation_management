@@ -33,10 +33,12 @@ class FoundationTeam(models.Model):
         teams = self.search([])  # Pesquisar todos os registros de equipe
         for team in teams:
             # Verifica se já existe um registro para hoje
-            existing_today = self.search([('date', '=', today), ('machine_id', '=', team.machine_id.id)])
+            existing_today = self.search(
+                [('date', '=', today), ('machine_id', '=', team.machine_id.id)])
             if not existing_today:
                 # Cria um novo registro com a mesma configuração do último registro ativo
-                last_record = self.search([('machine_id', '=', team.machine_id.id)], limit=1, order='date desc')
+                last_record = self.search(
+                    [('machine_id', '=', team.machine_id.id)], limit=1, order='date desc')
                 if last_record:
                     self.create({
                         'date': today,
@@ -46,21 +48,20 @@ class FoundationTeam(models.Model):
                     })
 
     def write(self, vals):
-        """define o metodo whrite para ver se teve modificações de funcionarios em equipes"""
-        # Checa se os funcionários foram modificados
+        """Define o método write para verificar se houve modificações de funcionários em equipes."""
         if 'employee_ids' in vals:
             old_employees = self.mapped('employee_ids')
-            super(FoundationTeam, self).write(vals)
+            super().write(vals)
             new_employees = self.mapped('employee_ids')
             added = new_employees - old_employees
             removed = old_employees - new_employees
 
             if added:
-                message = _("Adicionados: %s") % ', '.join(added.mapped('name'))
+                message = _("Adicionados: %s") % (', '.join(added.mapped('name')),)
                 self.message_post(body=message)
             if removed:
-                message = _("Removidos: %s") % ', '.join(removed.mapped('name'))
+                message = _("Removidos: %s") % (', '.join(removed.mapped('name')),)
                 self.message_post(body=message)
         else:
-            super(FoundationTeam, self).write(vals)
+            super().write(vals)
         return True

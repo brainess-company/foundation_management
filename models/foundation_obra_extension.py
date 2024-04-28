@@ -8,6 +8,7 @@ class SaleOrder(models.Model):
     nome_obra = fields.Char("OBRA")
 
     def _create_foundation_obra_and_services(self):
+        """para cada serviço na sale order cria um registro aqui"""
         FoundationObra = self.env['foundation.obra']
         FoundationObraService = self.env['foundation.obra.service']
         # Assuming this is how you access the machine model
@@ -39,13 +40,15 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
+        """cria p registro em foundation obra service"""
         order = super(SaleOrder, self).create(vals)
         if vals.get('state') == 'sale':  # Check if the order is confirmed upon creation
             order._create_foundation_obra_and_services()
         return order
 
     def write(self, vals):
+        """atualiza o registro qando a sale order muda de status"""
         res = super(SaleOrder, self).write(vals)
-        if 'state' in vals and vals.get('state') == 'sale':  # Only trigger on state change to 'sale'
+        if 'state' in vals and vals.get('state') == 'sale':  # Onlytrigger onstate change to 'sale'
             self.filtered(lambda x: x.state == 'sale')._create_foundation_obra_and_services()
         return res

@@ -1,3 +1,9 @@
+"""
+Gerencia registros automáticos de máquinas associadas
+    a serviços específicos em obras.
+    Este modelo serve como uma ligação entre máquinas e os serviços realizados,
+    permitindo rastrear a utilização de cada máquina em diferentes fases da obra.
+"""
 from datetime import date
 from odoo import models, fields, api
 import logging
@@ -9,11 +15,13 @@ class FoundationMaquinaRegistro(models.Model):
     """
     Gerencia registros automáticos de máquinas associadas
     a serviços específicos em obras.
-    Este modelo serve como uma ligação entre máquinas e os serviços realizados, permitindo rastrear
+    Este modelo serve como uma ligação entre máquinas e os serviços realizados,
+    permitindo rastrear
     a utilização de cada máquina em diferentes fases da obra.
 
     Cada registro nesta tabela representa uma associação única entre uma máquina e um serviço
-    dentro de uma obra, com detalhes complementares sobre a obra, serviço, e a máquina utilizada.
+    dentro de uma obra, com detalhes complementares sobre a obra, serviço,
+    e a máquina utilizada.
     Isso facilita o monitoramento e a gestão eficaz dos recursos em projetos de construção.
 
     Atributos:
@@ -108,7 +116,8 @@ class FoundationMaquinaRegistro(models.Model):
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)
-            _logger.info(f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
+            _logger.info(
+                f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
 
     @api.depends('maquina_id')
     def _compute_operador(self):
