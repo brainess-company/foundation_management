@@ -60,18 +60,24 @@ class FoundationObra(models.Model):
             _logger.info(
                 f"Computed 'valor_faturado' for FoundationObra {record.id}: {valor_faturado}")
 
-    @api.depends('sale_order_id.order_line.qty_delivered',
+    @api.depends('sale_order_id.invoice_ids', 'sale_order_id.invoice_ids.amount_untaxed',
+                 'sale_order_id.invoice_ids.state', 'sale_order_id.order_line.qty_delivered',
                  'sale_order_id.order_line.qty_invoiced',
                  'sale_order_id.order_line.product_id.type')
+    @api.depends('sale_order_id.order_line.qty_delivered',
+                 'sale_order_id.order_line.qty_invoiced',
+                 'sale_order_id.order_line.price_unit')
     def _compute_valor_a_faturar(self):
         """
-        CALCULA VALOR A FATURAR MAS ESTÁ COM ERRO
+        Calcula o valor a faturar com base na diferença entre quantidade entregue e quantidade faturada,
+        multiplicada pelo preço unitário de cada linha da ordem de venda.
         """
         for record in self:
-            valor_a_faturar = sum((line.qty_delivered - line.qty_invoiced) * line.price_unit
-                                  for line in record.sale_order_id.order_line
-                                  if line.product_id.type == 'product'
-                                  and (line.qty_delivered - line.qty_invoiced) > 0)
+            valor_a_faturar = 0.0
+            for line in record.sale_order_id.order_line:
+                quantidade_a_faturar = line.qty_delivered - line.qty_invoiced
+                if quantidade_a_faturar > 0:
+                    valor_a_faturar += quantidade_a_faturar * line.price_unit
             record.valor_a_faturar = valor_a_faturar
             _logger.info(
                 f"Computed 'valor_a_faturar' for FoundationObra {record.id}: {valor_a_faturar}")
