@@ -112,47 +112,46 @@ class FoundationObraService(models.Model):
 
     def _create_or_update_analytic_accounts(self, service, maquinas):
         """CRUAR OU EDITAR CONTA ANALITICA"""
-        MaquinaRegistro = self.env['foundation.maquina.registro']
-        AnalyticAccount = self.env['account.analytic.account']
-        Plan = self.env['account.analytic.plan']
+        maquina_registro_model = self.env['foundation.maquina.registro']
+        analytic_account_model = self.env['account.analytic.account']
+        plan_model = self.env['account.analytic.plan']
 
         _logger.info("Checking for existing 'DESPESAS' plan")
-        expense_plan = Plan.search([('name', '=', 'DESPESAS')], limit=1)
+        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
         if not expense_plan:
             _logger.info("'DESPESAS' plan not found, creating new one")
-            expense_plan = Plan.create({
+            expense_plan = plan_model.create({
                 'name': 'DESPESAS'
             })
 
         multiple_machines = len(maquinas) > 1
-        _logger.debug(
-            f"Processing {len(maquinas)} machines, multiple_machines={multiple_machines}")
+        _logger.debug("Processing %d machines, multiple_machines=%s", len(maquinas),
+                      multiple_machines)
 
         for maquina in maquinas:
-            _logger.debug(f"Processing machine {maquina.id}")
-            # Procura por um registro existente ou cria um novo
-            maquina_registro = MaquinaRegistro.search(
+            _logger.debug("Processing machine %d", maquina.id)
+            maquina_registro = maquina_registro_model.search(
                 [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
             if not maquina_registro:
-                maquina_registro = MaquinaRegistro.create({
+                maquina_registro = maquina_registro_model.create({
                     'service_id': service.id,
                     'maquina_id': maquina.id,
                 })
 
-            account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
-            _logger.debug(f"Looking for existing analytic account for machine {maquina.id}")
-            existing_account = AnalyticAccount.search([('foundation_maquina_registro_id',
-                                                        '=', maquina_registro.id)],
-                                                      limit=1)
+            account_name = "%s - %s - %s" % (
+            service.nome_obra, service.service_name, maquina.nome_maquina)
+            _logger.debug("Looking for existing analytic account for machine %d", maquina.id)
+            existing_account = analytic_account_model.search(
+                [('foundation_maquina_registro_id', '=', maquina_registro.id)], limit=1)
 
             if existing_account:
-                _logger.info(f"Updating existing account {existing_account.id}")
+                _logger.info("Updating existing account %d", existing_account.id)
                 existing_account.write({
                     'name': account_name
                 })
             else:
-                _logger.info(f"Creating new analytic account for machine {maquina.id}")
-                AnalyticAccount.create({
+                _logger.info("Creating new analytic account for machine %d", maquina.id)
+                analytic_account_model.create({
                     'name': account_name,
                     'partner_id': service.obra_id.partner_id.id
                     if service.obra_id.partner_id else None,
@@ -161,38 +160,3 @@ class FoundationObraService(models.Model):
                     'foundation_maquina_registro_id': maquina_registro.id
                 })
 
-        if multiple_machines:
-            service_account_name = f"{service.nome_obra} - {service.service_name}"
-            _logger.debug("Checking for existing service account")
-            service_account = AnalyticAccount.search(
-                [('name', '=', service_account_name),
-                 ('foundation_maquina_registro_id', '=', False)], limit=1)
-            if service_account:
-                _logger.info("Updating service account")
-                service_account.write({'name': service_account_name})
-            else:
-                _logger.info("Creating new service account")
-                AnalyticAccount.create({
-                    'name': service_account_name,
-                    'partner_id': service.obra_id.partner_id.id if
-                    service.obra_id.partner_id else None,
-                    'company_id': self.env.company.id,
-                    'plan_id': expense_plan.id
-                })
-
-        obra_account_name = f"{service.nome_obra}"
-        _logger.debug("Checking for existing obra account")
-        obra_account = AnalyticAccount.search(
-            [('name', '=', obra_account_name),
-             ('foundation_maquina_registro_id', '=', False)], limit=1)
-        if obra_account:
-            _logger.info("Updating obra account")
-            obra_account.write({'name': obra_account_name})
-        else:
-            _logger.info("Creating new obra account")
-            AnalyticAccount.create({
-                'name': obra_account_name,
-                'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
-                'company_id': self.env.company.id,
-                'plan_id': expense_plan.id
-            })
