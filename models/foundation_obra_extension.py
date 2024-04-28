@@ -9,15 +9,15 @@ class SaleOrder(models.Model):
 
     def _create_foundation_obra_and_services(self):
         """para cada serviço na sale order cria um registro aqui"""
-        FoundationObra = self.env['foundation.obra']
-        FoundationObraService = self.env['foundation.obra.service']
+        foundation_obra = self.env['foundation.obra']
+        foundation_obra_service = self.env['foundation.obra.service']
         # Assuming this is how you access the machine model
 
         for order in self:
             # Ensure there is an 'obra' for the sale order
-            obra = FoundationObra.search([('sale_order_id', '=', order.id)], limit=1)
+            obra = foundation_obra.search([('sale_order_id', '=', order.id)], limit=1)
             if not obra:
-                obra = FoundationObra.create({
+                obra = foundation_obra.create({
                     'sale_order_id': order.id
                 })
 
@@ -29,11 +29,11 @@ class SaleOrder(models.Model):
                     template_lines[template] = line
 
             for template, line in template_lines.items():
-                if not FoundationObraService.search([
+                if not foundation_obra_service.search([
                     ('variante_id', '=', line.product_id.id),
                     ('obra_id', '=', obra.id)
                 ], limit=1):
-                    FoundationObraService.create({
+                    foundation_obra_service.create({
                         'variante_id': line.product_id.id,
                         'obra_id': obra.id
                     })
@@ -41,14 +41,15 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         """cria p registro em foundation obra service"""
-        order = super(SaleOrder, self).create(vals)
+        order = super().create(vals)
         if vals.get('state') == 'sale':  # Check if the order is confirmed upon creation
             order._create_foundation_obra_and_services()
         return order
 
     def write(self, vals):
-        """atualiza o registro qando a sale order muda de status"""
-        res = super(SaleOrder, self).write(vals)
-        if 'state' in vals and vals.get('state') == 'sale':  # Onlytrigger onstate change to 'sale'
+        """Atualiza o registro quando a sale order muda de status."""
+        res = super().write(vals)
+        if 'state' in vals and vals.get(
+                'state') == 'sale':  # Only trigger on state change to 'sale'
             self.filtered(lambda x: x.state == 'sale')._create_foundation_obra_and_services()
         return res

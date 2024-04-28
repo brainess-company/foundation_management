@@ -56,8 +56,8 @@ class FoundationObra(models.Model):
                 invoice.amount_untaxed for invoice in record.sale_order_id.invoice_ids
                 if invoice.state == 'posted')
             record.valor_faturado = valor_faturado
-            _logger.info(f"Computed 'valor_faturado' "
-                         f"for FoundationObra {record.id}: {valor_faturado}")
+            _logger.info(
+                f"Computed 'valor_faturado' for FoundationObra {record.id}: {valor_faturado}")
 
     @api.depends('sale_order_id.order_line.qty_delivered',
                  'sale_order_id.order_line.qty_invoiced',
