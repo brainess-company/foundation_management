@@ -1,9 +1,13 @@
+"""
+    Gerencia registros de estacas usadas em obras.
+    Este modelo é essencial para rastrear as especificações
+    e a utilização de estacas em projetos de construção.
+    """
+import logging
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
-import logging
 
 _logger = logging.getLogger(__name__)
-
 
 
 class FoundationEstacas(models.Model):
@@ -25,25 +29,33 @@ class FoundationEstacas(models.Model):
     _description = 'Estacas utilizadas na obra'
     _rec_name = 'nome_estaca'
 
-
     # CAMPOS PROPRIOS
     nome_estaca = fields.Char("Nome da Estaca", required=True)
-    profundidade = fields.Float("Profundidade (m)", required=True, help="o numero deve estar entre 1 e 40", default=1.0)
-    data = fields.Date("Data", default=lambda self: fields.Date.context_today(self), required=True)
+    profundidade = fields.Float("Profundidade (m)",
+                                required=True,
+                                help="o numero deve estar entre 1 e 40",
+                                default=1.0)
+    data = fields.Date("Data",
+                       default=lambda self: fields.Date.context_today(self),
+                       required=True)
     observacao = fields.Char("Observação")
 
     # RELACIONA ESSA ESTACA COM O SERVIÇO
-    service_id = fields.Many2one('foundation.obra.service', string="Serviço na Obra", required=True)
-    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", related='service_id.sale_order_id',
+    service_id = fields.Many2one('foundation.obra.service',
+                                 string="Serviço na Obra",
+                                 required=True)
+    sale_order_id = fields.Many2one('sale.order',
+                                    string="Ordem de Venda",
+                                    related='service_id.sale_order_id',
                                     readonly=True, store=True, required=False)
     sale_order_line_id = fields.Many2one('sale.order.line',
                                          string="Linha de Pedido de Venda",
                                          domain="[('order_id', '=', sale_order_id), "
-                                                "('product_id.product_tmpl_id', '=', service_template_id)]"
-                                         ,required=True)
+                                                "('product_id.product_tmpl_id', '=', service_template_id)]",
+                                         required=True)
     variante_id = fields.Many2one('product.product', string="Variante",
-                                  related='service_id.variante_id', readonly=True, store=True)  # ,required=True)
-
+                                  related='service_id.variante_id',
+                                  readonly=True, store=True)  # ,required=True)
 
     service_template_id = fields.Many2one('product.template',
                                           string="Template do Serviço",
@@ -55,19 +67,26 @@ class FoundationEstacas(models.Model):
                                                      string="Foundation Maquina registro", required=True)
 
     # RELACIONA ESSA TABELA COM A DE MEDIÇÃO
-    medicao_id = fields.Many2one('foundation.medicao', string="Medição Relacionada")
-    nome_medicao = fields.Char(related='medicao_id.nome', string="Numero Medicao", readonly=True)
+    medicao_id = fields.Many2one('foundation.medicao',
+                                 string="Medição Relacionada")
+    nome_medicao = fields.Char(related='medicao_id.nome',
+                               string="Numero Medicao", readonly=True)
 
     # Campos relacionados para mostrar no calendário
-    nome_obra = fields.Char(related='service_id.obra_id.nome_obra', string="Obra", readonly=True)
+    nome_obra = fields.Char(related='service_id.obra_id.nome_obra',
+                            string="Obra", readonly=True)
 
-    relatorio_id = fields.Many2one('foundation.relatorios', string="Relatório Associado")
+    relatorio_id = fields.Many2one('foundation.relatorios',
+                                   string="Relatório Associado")
 
     # CAMPOS CALCULADOS
-    unit_price = fields.Float("Preço Unitário", compute="_compute_line_values", store=True)
-    total_price = fields.Float("Preço Total", compute="_compute_line_values", store=True)
+    unit_price = fields.Float("Preço Unitário",
+                              compute="_compute_line_values", store=True)
+    total_price = fields.Float("Preço Total",
+                               compute="_compute_line_values", store=True)
     # Campo computado para exibir o nome formatado da medição
-    display_medicao = fields.Char(string="Nome da Medição", compute='_compute_display_medicao')
+    display_medicao = fields.Char(string="Nome da Medição",
+                                  compute='_compute_display_medicao')
 
     @api.depends('nome_medicao')
     def _compute_display_medicao(self):
@@ -82,12 +101,15 @@ class FoundationEstacas(models.Model):
     @api.model
     def create(self, vals):
         """
-            Sobrescreve o método create para adicionar funcionalidades específicas ao criar estacas.
-            Registra a criação no log e ajusta a quantidade entregue na linha de pedido de venda
+            Sobrescreve o método create para adicionar
+            funcionalidades específicas ao criar estacas.
+            Registra a criação no log e ajusta a
+            quantidade entregue na linha de pedido de venda
             baseada na profundidade da estaca criada.
 
             Args:
-                vals (dict): Dicionário contendo os valores dos campos para criar o registro.
+                vals (dict): Dicionário contendo os valores
+                dos campos para criar o registro.
 
             Returns:
                 record: Objeto da estaca recém-criada.
@@ -120,7 +142,6 @@ class FoundationEstacas(models.Model):
                     record.sale_order_line_id.qty_delivered += vals.get('profundidade', record.profundidade)
         return res
 
-
     @api.depends('sale_order_line_id.price_unit', 'profundidade')
     def _compute_line_values(self):
         """
@@ -136,8 +157,10 @@ class FoundationEstacas(models.Model):
     @api.model
     def action_generate_medicao(self):
         """
-           Gera uma nova medição para a ordem de venda associada a todas as estacas selecionadas.
-           Valida se todas as estacas pertencem à mesma ordem de venda e cria uma medição,
+           Gera uma nova medição para a ordem de venda associada
+           a todas as estacas selecionadas.
+           Valida se todas as estacas pertencem à mesma
+           ordem de venda e cria uma medição,
            associando-a às estacas que ainda não foram medidas.
 
            Returns:
@@ -158,7 +181,8 @@ class FoundationEstacas(models.Model):
             return {'type': 'ir.actions.act_window_close'}
 
         # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
-        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+        last_medicao = Medicao.search([('sale_order_id', '=', sale_order.id)],
+                                      order='create_date desc', limit=1)
         next_medicao_number = 1 if not last_medicao else int(
             last_medicao.nome) + 1  # Ajustado para usar apenas o número
 
@@ -175,7 +199,8 @@ class FoundationEstacas(models.Model):
             if not estaca.medicao_id:
                 estaca.medicao_id = new_medicao.id
             else:
-                raise UserError(f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
+                raise UserError(f"Estaca '{estaca.nome_estaca}"
+                                f"' já foi medida e não pode ser medida novamente.")
 
         return {
             'type': 'ir.actions.act_window',
@@ -189,18 +214,10 @@ class FoundationEstacas(models.Model):
     @api.constrains('profundidade')
     def _check_profundidade(self):
         """
-                Valida a profundidade da estaca para garantir que esteja dentro dos limites aceitáveis (1 a 40 metros).
+                Valida a profundidade da estaca para garantir que
+                 esteja dentro dos limites aceitáveis (1 a 40 metros).
                 """
         for record in self:
             if not (1 <= record.profundidade <= 40):
                 raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
-            #_logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")
-
-
-
-
-
-
-
-
-
+            # _logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")

@@ -1,3 +1,7 @@
+"""
+modulo de gerenciamento de equipes
+"""
+
 from odoo import models, fields, api
 from odoo.tools.translate import _
 
@@ -10,11 +14,17 @@ class FoundationTeam(models.Model):
     _rec_name = 'date'
 
     date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
-    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True, tracking=True)
-    employee_ids = fields.Many2many('res.partner', string="Funcionários", tracking=True)
+    machine_id = fields.Many2one('foundation.maquina',
+                                 string="Máquina",
+                                 required=True,
+                                 tracking=True)
+    employee_ids = fields.Many2many('res.partner',
+                                    string="Funcionários",
+                                    tracking=True)
     note = fields.Text("Notas", tracking=True)
     machine_status = fields.Selection(related='machine_id.status_maquina',
-                                      string="Status da Máquina", readonly=True, tracking=True)
+                                      string="Status da Máquina",
+                                      readonly=True, tracking=True)
 
     @api.model
     def create_daily_team_records(self):

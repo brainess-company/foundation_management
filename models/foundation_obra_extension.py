@@ -1,9 +1,11 @@
+"""extende o sale order para criar automaticamente uma obra"""
 from odoo import models, api, fields
 
+
 class SaleOrder(models.Model):
+    """extende o sale order para criar automaticamente uma obra"""
     _inherit = 'sale.order'
     nome_obra = fields.Char("OBRA")
-
 
     def _create_foundation_obra_and_services(self):
         FoundationObra = self.env['foundation.obra']

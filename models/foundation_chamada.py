@@ -1,6 +1,9 @@
-from datetime import date
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+"""
+ Gerencia registros de chamadas para listas de presença em obras.
+ Este modelo serve como um meio de documentar a presença de equipes
+ e o uso de equipamentos em locais de obras específicos.
+"""
+from odoo import models, fields
 
 
 class Chamada(models.Model):
@@ -36,7 +39,6 @@ class Chamada(models.Model):
 
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
 
-
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
         string='Registro de Máquina',
@@ -44,13 +46,10 @@ class Chamada(models.Model):
         help='Referência ao registro de máquina associado.'
     )
 
-
-
-
-
     def action_save(self):
         """
-                Fecha a janela de ação atual. Este método garante que a ação seja chamada em um único registro.
-                """
+            Fecha a janela de ação atual.
+            Este método garante que a ação seja chamada em um único registro.
+        """
         self.ensure_one()  # Garantir que está sendo chamado em um único registro
         return {'type': 'ir.actions.act_window_close'}

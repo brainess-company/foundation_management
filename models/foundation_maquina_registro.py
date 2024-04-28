@@ -4,9 +4,11 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class FoundationMaquinaRegistro(models.Model):
     """
-    Gerencia registros automáticos de máquinas associadas a serviços específicos em obras.
+    Gerencia registros automáticos de máquinas associadas
+    a serviços específicos em obras.
     Este modelo serve como uma ligação entre máquinas e os serviços realizados, permitindo rastrear
     a utilização de cada máquina em diferentes fases da obra.
 
@@ -31,50 +33,54 @@ class FoundationMaquinaRegistro(models.Model):
         display_has_today_chamada (Char): Descrição textual do status da chamada no dia atual.
         product_id (Many2one): Produto associado à máquina.
         product_template_id (Many2one): Template do produto associado.
-        requer_chamada_maquina (Boolean): Indica se a máquina requer chamada, baseado nas propriedades da máquina.
+        requer_chamada_maquina (Boolean): Indica se a máquina requer chamada,
+        baseado nas propriedades da máquina.
     """
 
     _name = 'foundation.maquina.registro'
     _description = 'Registro de Máquinas para Serviços'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
-    #_rec_name = 'nome_maquina'
+    # _rec_name = 'nome_maquina'
 
     data_registro = fields.Date(string="Data de Registro", default=fields.Date.context_today)
 
-
-
     # RELACIONA ESSA TABELA COM A DE SERVIÇO
     service_id = fields.Many2one('foundation.obra.service', string="Serviço")
-    nome_servico = fields.Char(related='service_id.service_name', string="Nome do Serviço",readonly=True, store=True)
+    nome_servico = fields.Char(related='service_id.service_name',
+                               string="Nome do Serviço", readonly=True, store=True)
     obra_id = fields.Many2one('foundation.obra', related='service_id.obra_id',
                               string="Obra id", readonly=True, store=True)
     sale_order_id = fields.Many2one('sale.order', related='service_id.sale_order_id',
                                     string="Ordem de Venda", readonly=True, store=True)
-    nome_obra = fields.Char(related='service_id.nome_obra', string="Nome da Obra", readonly=True, store=True)
-    endereco = fields.Char(related='service_id.endereco', string="Endereço", readonly=True,  store=True)
+    nome_obra = fields.Char(related='service_id.nome_obra',
+                            string="Nome da Obra", readonly=True, store=True)
+    endereco = fields.Char(related='service_id.endereco',
+                           string="Endereço", readonly=True,  store=True)
 
     # Campos relacionados à definição de produto/serviço
     variante_id = fields.Many2one('product.product', related='service_id.variante_id',
                                   string="Variante", readonly=True, store=True)
     service_template_id = fields.Many2one('product.template',
                                           related='service_id.service_template_id',
-                                          string="Template do Serviço",readonly=True, store=True)
-
+                                          string="Template do Serviço", readonly=True, store=True)
 
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
-    operador_id = fields.Many2one('res.partner', string="Operador", compute='_compute_operador', store=True)
-
+    operador_id = fields.Many2one('res.partner', string="Operador",
+                                  compute='_compute_operador', store=True)
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id',
                                   string="Estacas")  # tracking=True
-    has_today_chamada = fields.Boolean(string="Chamada Hoje?", compute="_compute_has_today_chamada", store=False)
-    display_has_today_chamada = fields.Char(string="Fez Chamada Hoje?", compute='_compute_display_has_today_chamada',
+    has_today_chamada = fields.Boolean(string="Chamada Hoje?",
+                                       compute="_compute_has_today_chamada", store=False)
+    display_has_today_chamada = fields.Char(string="Fez Chamada Hoje?",
+                                            compute='_compute_display_has_today_chamada',
                                             store=False)
 
     product_id = fields.Many2one('product.product', string="Produto Associado")
     product_template_id = fields.Many2one('product.template', string="Template do Produto",
-                                          related='product_id.product_tmpl_id', readonly=True, store=True)
+                                          related='product_id.product_tmpl_id',
+                                          readonly=True, store=True)
     # Adicionar o campo relacionado requer_chamada
     requer_chamada_maquina = fields.Boolean(
         string="Requer Chamada?",
@@ -103,11 +109,10 @@ class FoundationMaquinaRegistro(models.Model):
             ])
             record.has_today_chamada = bool(today_chamadas)
             _logger.info(f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
+
     @api.depends('maquina_id')
     def _compute_operador(self):
         """conputa o nome do operador associado"""
         for record in self:
             # Assumindo que 'operador' é um campo em 'foundation.maquina'
             record.operador_id = record.maquina_id.operador if record.maquina_id else False
-
-

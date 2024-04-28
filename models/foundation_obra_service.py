@@ -1,5 +1,12 @@
+"""
+Este modelo representa os serviços associados a uma obra específica dentro do sistema.
+Ele rastreia os detalhes dos serviços oferecidos, as máquinas utilizadas, e as estacas
+envolvidas em cada serviço. Este modelo serve como um núcleo para conectar diferentes
+aspectos de uma obra, como máquinas, estacas e as informações comerciais associadas.
+
+"""
+
 import logging
-from datetime import date
 from odoo import models, fields, api
 
 _logger = logging.getLogger(__name__)
@@ -46,15 +53,16 @@ class FoundationObraService(models.Model):
         string="Registros de Máquinas"
     )
 
-
     @api.model
     def create(self, vals):
+        """METODO PARA CRIAR MAQUINA"""
         _logger.debug("Creating new FoundationObraService record with values: %s", vals)
         new_record = super().create(vals)
         self._create_machine_records(new_record, new_record.foundation_maquina_ids)
         return new_record
 
     def write(self, vals):
+        """METODO PARA EDITAR MAQUINA"""
         _logger.debug("Writing to FoundationObraService record with values: %s", vals)
         result = super().write(vals)
         if 'foundation_maquina_ids' in vals:
@@ -62,6 +70,7 @@ class FoundationObraService(models.Model):
         return result
 
     def _create_machine_records(self, service, maquinas):
+        """METODO PARA CRIAR MAQUINA - PARECE REDUNDANTE"""
         _logger.debug("Creating machine records for service %s", service.id)
         MaquinaRegistro = self.env['foundation.maquina.registro']
         for maquina in maquinas:
@@ -83,6 +92,7 @@ class FoundationObraService(models.Model):
         self._create_or_update_analytic_accounts(service, maquinas)
 
     def _create_or_update_analytic_accounts(self, service, maquinas):
+        """CRUAR OU EDITAR CONTA ANALITICA"""
         MaquinaRegistro = self.env['foundation.maquina.registro']
         AnalyticAccount = self.env['account.analytic.account']
         Plan = self.env['account.analytic.plan']

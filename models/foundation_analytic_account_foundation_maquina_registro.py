@@ -1,4 +1,8 @@
+"""
+HERDA MODELO DE CONTA ANALITICA PARA CRIAR
+"""
 from odoo import models, fields
+
 
 class AccountAnalyticAccount(models.Model):
     """HERDA CONTA ANALITICA PARA CRIAR"""

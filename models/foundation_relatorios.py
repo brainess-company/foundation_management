@@ -1,7 +1,6 @@
+import logging
 from odoo import models, fields, api
 from odoo.exceptions import UserError
-import logging
-
 _logger = logging.getLogger(__name__)
 
 
@@ -13,8 +12,10 @@ class FoundationRelatorios(models.Model):
 
     # CAMPOS PROPRIOS
     data = fields.Date("Data do Relatório", default=fields.Date.context_today, required=True)
-    estacas_ids = fields.One2many('foundation.estacas', 'relatorio_id', string="Estacas Incluídas")
-    assinatura = fields.Binary("Assinatura do Responsável", help="Assinatura digital do responsável pelo relatório")
+    estacas_ids = fields.One2many('foundation.estacas', 'relatorio_id',
+                                  string="Estacas Incluídas")
+    assinatura = fields.Binary("Assinatura do Responsável",
+                               help="Assinatura digital do responsável pelo relatório")
     state = fields.Selection([
         ('rascunho', 'Rascunho'),
         ('conferencia', 'Aguardando Conferencia'),
@@ -31,7 +32,7 @@ class FoundationRelatorios(models.Model):
                                  string="Máquina Associada",
                                  readonly=True, store=True)
     nome_obra = fields.Char(related='foundation_maquina_registro_id.nome_obra',
-                            string="Nome da Obra", readonly=True,store=True)
+                            string="Nome da Obra", readonly=True, store=True)
     endereco_obra = fields.Char(related='foundation_maquina_registro_id.endereco',
                                 string="Endereço da Obra", readonly=True, store=True)
     sale_order_id = fields.Many2one('sale.order', string="Sale Order",
@@ -40,14 +41,15 @@ class FoundationRelatorios(models.Model):
     service_template_id = fields.Many2one('product.template',
                                           string="Template do Serviço",
                                           related='service_id.service_template_id',
-                                          readonly=True,store=True, required=True)
+                                          readonly=True, store=True, required=True)
     service_id = fields.Many2one('foundation.obra.service',
                                  related='foundation_maquina_registro_id.service_id',
                                  string="Serivice id", readonly=True, store=True)
     variante_id = fields.Many2one('product.product', string="Variante")
     foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro',
                                                      string='Registro de Máquina',
-                                                     required=True, help='Referência ao registro de máquina associado.')
+                                                     required=True,
+                                                     help='Referência ao registro de máquina associado.')
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                   string="Operador", readonly=True, store=True)
     relatorio_number = fields.Char(string="Nome do Relatório")
@@ -66,7 +68,6 @@ class FoundationRelatorios(models.Model):
             if record.relatorio_number and record.service_id and record.nome_obra:
                 record.display_relatorio_name = \
                     f"REL{record.relatorio_number} - {record.service_id.service_name} - {record.nome_obra}"
-
 
     @api.model
     def create(self, vals):

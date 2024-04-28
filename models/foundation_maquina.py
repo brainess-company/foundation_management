@@ -1,18 +1,23 @@
+"""
+Esse modulo gerencia as maquinas
+"""
 from odoo import models, fields, api
+
 
 class FoundationMaquina(models.Model):
     """
         Este modelo gerencia o cadastro e o rastreamento de máquinas usadas nas obras.
-        Ele armazena informações detalhadas sobre cada máquina, incluindo seu operador,
+        Ele armazena informações como seu operador,
         seu status atual e um histórico das equipes que utilizaram a máquina.
 
         Atributos:
             nome_maquina (Char): Nome ou identificador da máquina.
-            operador (Many2one): Relaciona o operador da máquina com o cadastro de parceiros.
-            status_maquina (Selection): Status atual da máquina, com opções pré-definidas.
+            operador (Many2one)
+            status_maquina (Selection): Status atual da máquina.
             team_ids (One2many): Histórico das equipes que trabalharam com a máquina.
-            current_team_employees (Many2many): Empregados da equipe atual, calculado dinamicamente.
-            requer_chamada (Boolean): Indica se a máquina requer lista de chamada.
+            current_team_employees (Many2many): conta Empregados da equipe atual,
+            calculado dinamicamente.
+            requer_chamada (Boolean)
         """
     _name = 'foundation.maquina'
     _description = 'Cadastro de Máquinas'
@@ -38,10 +43,9 @@ class FoundationMaquina(models.Model):
 
     @api.depends('team_ids')
     def _compute_current_team_employees(self):
-        """
-                Computa os empregados da equipe atual baseando-se no último registro de equipe
-                associado à máquina. Este método procura a equipe mais recente e atribui seus empregados
-                ao campo current_team_employees.
+        """Computa os empregados da equipe atual baseando-se no último registro de equipe
+                associado à máquina. Este método procura a equipe mais recente
+                e atribui seus empregados ao campo current_team_employees.
                 """
         for machine in self:
             last_team = self.env['foundation.team'].search([
