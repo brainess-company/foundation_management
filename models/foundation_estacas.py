@@ -123,7 +123,7 @@ class FoundationEstacas(models.Model):
         _logger.info("VALORES ENVVIADOS PARA CRIAR ESTACAS: %s", vals)
         if 'sale_order_id' not in vals:
             _logger.error("sale_order_id ESTA FALTANDO PARA CRIAR ESTACAS!")
-        record = super(FoundationEstacas, self).create(vals)
+        record = super().create(vals)
         if record.sale_order_line_id:
             record.sale_order_line_id.qty_delivered += record.profundidade
         return record
