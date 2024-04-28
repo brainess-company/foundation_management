@@ -24,6 +24,7 @@ Para instalar este módulo, você precisa:
 - [x] Incluir um status no formulario de maquina, Em mobilização, etc
 - [x] Quando uma sale order virar uma obra, criar uma account move para cada tipo de item e uma generica
 - [x] Lista de presenças (Nao fica salvo nada para o proximo dia, se nao, o operador não preenche, só dá ok e ja era)
+- [X] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
 - **Futuramente**:
 - [ ] Melhorar kanban
 - [ ] Baixar medição em pdf para enviar ao cliente
@@ -39,9 +40,8 @@ Para instalar este módulo, você precisa:
 - **Urgente**:
 - [ ] Falta incluir o proprio operador na lista de chamadaaa
 - [ ] Uma medição só pode gerar uma unica fatura
-- [X] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
-- [ ] O nome computado do relatorio deve ser nome relatorio - nome servico - nome maquina
 - [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
 - [ ] Estudar o relacionamento com o portal do cliente
 - [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
-- [ ] csads
+- [ ] Colocar filtro de estacas por serviço no relatorio que o operador preenche
+- [ ] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
