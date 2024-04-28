@@ -14,7 +14,8 @@ class FoundationRelatorios(models.Model):
     _rec_name = 'display_relatorio_name'
 
     # CAMPOS PROPRIOS
-    data = fields.Date("Data do Relatório", default=fields.Date.context_today, required=True)
+    data = fields.Date("Data do Relatório",
+                       default=fields.Date.context_today, required=True, store=True)
     estacas_ids = fields.One2many('foundation.estacas', 'relatorio_id',
                                   string="Estacas Incluídas")
     assinatura = fields.Binary("Assinatura do Responsável",
@@ -51,10 +52,9 @@ class FoundationRelatorios(models.Model):
                                  related='foundation_maquina_registro_id.service_id',
                                  string="Serivice id", readonly=True, store=True)
     variante_id = fields.Many2one('product.product', string="Variante")
-    foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro',
-                                                     string='Registro de Máquina',
-                                                     required=True,
-                                help='Referência ao registro de máquina associado.')
+    foundation_maquina_registro_id = fields.Many2one(
+        'foundation.maquina.registro', dstring='Registro de Máquina',
+        required=True, help='Referência ao registro de máquina associado.')
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                   string="Operador", readonly=True, store=True)
     relatorio_number = fields.Char(string="Nome do Relatório")
