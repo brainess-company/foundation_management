@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
-
         <!-- CRIAR RELATORIO DE ESTACAS -->
+        <!-- A TELA DE RELATORIOS TAMBEM ABRE ESSE FORMULARIO -->
         <!-- Form View for inserting Estacas into Relatórios, including machine registration details -->
         <record id="view_foundation_relatorio_maquina_form" model="ir.ui.view">
             <field name="name">foundation.relatorio.maquina.form</field>

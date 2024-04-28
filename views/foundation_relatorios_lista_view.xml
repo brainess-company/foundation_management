@@ -74,13 +74,13 @@
 
         <!-- Form View for Foundation Obra Service -->
                 <!-- Form View for inserting Estacas into Relatórios, including service details -->
-        <record id="view_foundation_relatorios_lista_form" model="ir.ui.view">
-            <field name="name">foundation.relatorios.lista.form</field>
+        <record id="view_FODASE" model="ir.ui.view">
+            <field name="name">FODASE</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas">
 
-                    <!--header>
+                    <header>
                         <field name="data" invisible="1"/>
                         <button name="action_confirm" type="object" string="Confirmar" class="oe_highlight"
                                 attrs="{'invisible': [('state', 'in', ['conferido', 'cancelado'])]}"
@@ -92,9 +92,11 @@
                                 attrs="{'invisible': [('state', '=', 'cancelado')]}"
                                 help="Cancela o relatório."/>
                         <field name="state" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
-                    </header-->
+                    </header>
                     <sheet>
                         <group>
+                            <field name="data" readonly="1"/>
+                            <field name="data" readonly="1"/>
                             <field name="data" readonly="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" related="foundation_maquina_registro_id.nome_obra" readonly="1"/>
@@ -143,7 +145,7 @@
             <field name="name">Relatorios</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
-            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_foundation_relatorios_lista_form'), 'form'),(ref('view_foundation_relatorios_lista_kanban'), 'kanban'),(ref('view_foundation_relatorios_lista_calendar'), 'calendar')]"/>
+            <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_FODASE'), 'form'),(ref('view_foundation_relatorios_lista_kanban'), 'kanban'),(ref('view_foundation_relatorios_lista_calendar'), 'calendar')]"/>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
