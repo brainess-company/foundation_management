@@ -79,6 +79,20 @@
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas">
+
+                    <!--header>
+                        <field name="data" invisible="1"/>
+                        <button name="action_confirm" type="object" string="Confirmar" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'in', ['conferido', 'cancelado'])]}"
+                                help="Confirma o relatório, marcando-o como conferido."/>
+                        <button name="action_draft" type="object" string="Rascunho"
+                                attrs="{'invisible': [('state', '=', 'rascunho')]}"
+                                help="Retorna o relatório para o estado de rascunho."/>
+                        <button name="action_cancel" type="object" string="Cancelar"
+                                attrs="{'invisible': [('state', '=', 'cancelado')]}"
+                                help="Cancela o relatório."/>
+                        <field name="state" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
+                    </header-->
                     <sheet>
                         <group>
                             <field name="data" readonly="1"/>

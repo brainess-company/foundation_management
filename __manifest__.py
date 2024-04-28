@@ -1,9 +1,11 @@
 {
+    """docstrynd?"""
     'name': 'Foundation Tiago',
     'version': '16.0.1.0.0',  # Formato correto1
     'summary': 'Manages foundations, machines, services, and measurements.',
     'sequence': 10,
-    'description': """Long description""",
+    'description': """Long defsfsdfsd scription""",
+    'author': 'Brainess Company, Odoo Community Association (OCA)',
     'category': 'Construction',
     'website': 'https://www.yourcompany.com',
     'images': [],

@@ -1,6 +1,6 @@
 """Lançamento em lote de estacas"""
 import logging
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from odoo.exceptions import UserError
 from odoo.tools import translate
 
@@ -123,7 +123,8 @@ class FoundationRelatorios(models.Model):
         self.ensure_one()
         if not self.assinatura:
             # raise UserError("A assinatura é necessária para salvar o relatório.")
-            raise UserError(translate._("A assinatura é obrigatória para a criação de um relatório."))
+            raise UserError(
+                translate._("A assinatura é obrigatória para a criação de um relatório."))
         _logger.info('CONTEXTO ATUAL ATUAL PARA CRIAR RELATORIO 2: %s', self.env.context)
         self.state = 'conferencia'
         # Supondo que haja um campo de estado para controlar a confirmação do relatório

@@ -43,9 +43,9 @@ class FoundationObra(models.Model):
 
     # CAMPOS CALCULADOS
     valor_faturado = fields.Monetary(compute="_compute_valor_faturado",
-                                     string="Valor Faturado", readonly=True)
+                                     string="Valor ja Faturado", readonly=True)
     valor_a_faturar = fields.Monetary(compute="_compute_valor_a_faturar",
-                                      string="Valor a Faturar", eadonly=True)
+                                      string="Valores a Faturar", eadonly=True)
 
     @api.depends('sale_order_id.invoice_ids', 'sale_order_id.invoice_ids.state')
     def _compute_valor_faturado(self):
