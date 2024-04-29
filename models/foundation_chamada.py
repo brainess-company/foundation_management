@@ -51,6 +51,11 @@ class Chamada(models.Model):
         help='Referência ao registro de máquina associado.'
     )
 
+    # Adicionando campo para selecionar a máquina e mostrar o operador
+    maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
+    operador_id = fields.Many2one('res.partner', string="Operador da Máquina",
+                                  related='maquina_id.operador', readonly=True)
+
     def action_save(self):
         """
             Fecha a janela de ação atual.

@@ -12,6 +12,8 @@
                             <field name="data"/>
                             <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" readonly="1"/>
+                            <field name="maquina_id"/>
+                            <field name="operador_id"/>
                             <field name="endereco" readonly="1"/>
                             <field name="foundation_service_id" readonly="1"/>
 
@@ -52,6 +54,8 @@
                 'default_foundation_service_id': context.get('default_service_id', False),
                 'default_nome_obra': context.get('default_nome_obra', ''),
                 'default_endereco': context.get('default_endereco', ''),
+                'default_maquina_id': context.get('default_maquina_id', ''),
+                'default_operador_id': context.get('default_operador_id', ''),
                 'default_data_registro': context.get('default_data_registro', '')
             }</field>
         </record>
@@ -66,10 +70,10 @@
                     <field name="data_registro"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
+                    <field name="operador_id"/>
                     <field name="sale_order_id"/>
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="requer_chamada_maquina" invisible="1"/>
-
                     <field name="obra_id"/>
                     <field name="nome_obra" string="Nome da Obra"/>
                     <field name="display_has_today_chamada"
@@ -86,6 +90,8 @@
                                 'default_nome_obra': nome_obra,
                                 'default_endereco': endereco,
                                 'default_foundation_obra_service_id': service_id,
+                                'default_maquina_id': maquina_id,
+                                'default_operador_id': operador_id,
                                 'default_foundation_maquina_registro_id': id
                             }"  attrs="{'invisible': ['|', ('requer_chamada_maquina', '=', False), ('has_today_chamada', '=', True)]}"/>
 
