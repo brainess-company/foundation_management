@@ -5,14 +5,14 @@
         <record id="action_redirect_to_help" model="ir.actions.act_url">
             <field name="name">Abrir Ajuda do Módulo</field>
             <field name="type">ir.actions.act_url</field>
-            <field name="url">/tiago_fundacao/help</field>
+            <field name="url">/foundation_management/help</field>
             <field name="target">new</field>
         </record>
 
         <record model="ir.actions.act_url" id="action_module_description">
             <field name="name">Download Descrição do Módulo</field>
             <field name="type">ir.actions.act_url</field>
-            <field name="url">/tiago_fundacao/static/description/instrucao_modulo.pdf</field>
+            <field name="url">/foundation_management/static/description/instrucao_modulo.pdf</field>
             <field name="target">new</field>
         </record>
         <!-- Menu Principal para o Módulo de Gestão de Fundações -->
