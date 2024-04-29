@@ -60,10 +60,6 @@ class FoundationObra(models.Model):
             _logger.info(
                 f"Computed 'valor_faturado' for FoundationObra {record.id}: {valor_faturado}")
 
-    @api.depends('sale_order_id.invoice_ids', 'sale_order_id.invoice_ids.amount_untaxed',
-                 'sale_order_id.invoice_ids.state', 'sale_order_id.order_line.qty_delivered',
-                 'sale_order_id.order_line.qty_invoiced',
-                 'sale_order_id.order_line.product_id.type')
     @api.depends('sale_order_id.order_line.qty_delivered',
                  'sale_order_id.order_line.qty_invoiced',
                  'sale_order_id.order_line.price_unit')
