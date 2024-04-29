@@ -12,14 +12,15 @@
         'base',
         'sale',
         'mail',
+        'website',
         'product',
         'account',  # Para usar contas analíticas
         'hr',       # Se você estiver usando funcionalidades relacionadas a empregados
     ],
     'data': [
-
-        'security/ir.model.access.csv',  # Load security and access rules first
         'views/help_page_template.xml',
+        'security/ir.model.access.csv',  # Load security and access rules first
+
         'views/freports.xml',  # Load other reports or final views
         'views/foundation_maquina_view.xml',  # Load views for the Maquina model
         'views/foundation_obra_view.xml',  # Load views for the Obra model
