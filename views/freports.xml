@@ -16,15 +16,7 @@
             <field name="dpi">90</field>
         </record>
 
-        <!-- Report Definition -->
-        <report
-                id="medicao_report"
-                model="foundation.medicao"
-                string="Imprimir Medição"
-                report_type="qweb-pdf"
-                name="foundation_management.medicao_report_template"
-                file="foundation_management.medicao_report_template"
-                paperformat="foundation_management.paperformat_euro_small"/>
+
 
         <!-- QWeb Template for the Medição Report -->
         <template id="medicao_report_template">
@@ -58,5 +50,14 @@
                 </t>
             </t>
         </template>
+        <!-- Report Definition -->
+        <report
+                id="medicao_report"
+                model="foundation.medicao"
+                string="Imprimir Medição"
+                report_type="qweb-pdf"
+                name="medicao_report_template"
+                file="medicao_report_template"
+                paperformat="paperformat_euro_small"/>
     </data>
 </odoo>
