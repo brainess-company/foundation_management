@@ -1,5 +1,5 @@
 {
-    'name': 'Foundation Tiago',
+    'name': 'Foundation Skills',
     'version': '16.0.1.0.0',  # Formato correto1
     'summary': 'Manages foundations, machines, services, and measurements.',
     'sequence': 10,
