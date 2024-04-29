@@ -27,6 +27,20 @@
         <menuitem id="foundation_testes" name="TESTES"  parent="main_foundation_menu" sequence="50"/>
         <menuitem id="menu_foundation_maquina_registro" name="BACKUP" parent="foundation_testes" action="action_tela_foundation_maquina_registro" sequence="10"/>
 
+        <!-- Menu para acessar a página de ajuda -->
+        <menuitem id="menu_help_page"
+                  name="Ajuda do Módulo"
+                  action="action_redirect_to_help"
+                  parent="foundation_testes"
+                  sequence="20"/> <!-- Altere para o menu pai desejado -->
+                <!-- Ação de Redirecionamento -->
+        <record id="action_redirect_to_help" model="ir.actions.act_url">
+            <field name="name">Abrir Ajuda do Módulo</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="url">/tiago_fundacao/help</field>
+            <field name="target">new</field>
+        </record>
+
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->
         <record id="menu_sale_order_custom" model="ir.ui.menu">

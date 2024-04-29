@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Template da página de ajuda -->
+        <template id="help_page_template" name="Help Page">
+            <t t-call="website.layout">
+                <div class="container mt16">
+                    <h1>Ajuda e Instruções para o Módulo</h1>
+                    <p>Este é um guia passo a passo sobre como usar as funcionalidades do módulo.</p>
+                    <!-- Adicione mais conteúdo conforme necessário -->
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>
