@@ -22,9 +22,9 @@
                 model="foundation.medicao"
                 string="Imprimir Medição"
                 report_type="qweb-pdf"
-                name="tiago_fundacao.medicao_report_template"
-                file="tiago_fundacao.medicao_report_template"
-                paperformat="tiago_fundacao.paperformat_euro_small"/>
+                name="foundation_management.medicao_report_template"
+                file="foundation_management.medicao_report_template"
+                paperformat="foundation_management.paperformat_euro_small"/>
 
         <!-- QWeb Template for the Medição Report -->
         <template id="medicao_report_template">
