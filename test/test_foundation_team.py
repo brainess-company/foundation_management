@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from odoo.tests.common import TransactionCase
+from odoo import fields
 
 class TestFoundationTeam(TransactionCase):
 
