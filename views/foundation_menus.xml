@@ -55,6 +55,12 @@
 
         <menuitem id="menu_foundation_maquina_registro" name="BACKUP" parent="foundation_testes" action="action_tela_foundation_maquina_registro" sequence="30"/>
 
+        <menuitem id="menu_instructions"
+          name="Instruções de Uso"
+          action="action_instructions"
+          parent="menu_foundation_maquina_registro"
+          sequence="40"/>
+
 
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->

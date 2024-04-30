@@ -24,6 +24,7 @@
 
         'views/foundation_maquina_view.xml',  # Load views for the Maquina model
         'views/foundation_obra_view.xml',  # Load views for the Obra model
+        'views/template_instructions.xml',
         'views/freports.xml',  # Load other reports or final views
         'views/foundation_medicao_view.xml',  # Load views for the Medicao model
         'views/foundation_obra_service_simples_view.xml',  # Load views for the Obra Service model
