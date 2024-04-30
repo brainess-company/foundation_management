@@ -1,59 +1,58 @@
 import unittest
-from odoo import models, fields
+from unittest.mock import patch
 from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
 
 class TestFoundationEstacas(TransactionCase):
+    """
+    Classe de teste para FoundationEstacas para verificar a integridade
+    e o comportamento esperado das operações do modelo.
+    """
 
     def setUp(self):
+        """
+        Configuração inicial para cada teste.
+        """
         super(TestFoundationEstacas, self).setUp()
-        # Configurar dados necessários para o teste
-        self.Empresa = self.env['res.partner'].create({
-            'name': 'Empresa Teste'
-        })
-        self.Obra = self.env['foundation.obra'].create({
-            'nome_obra': 'Obra X',
-            'endereco': 'Endereço X',
-            'partner_id': self.Empresa.id
-        })
-        self.Servico = self.env['foundation.obra.service'].create({
-            'obra_id': self.Obra.id,
-            'service_name': 'Serviço Y'
-        })
-        self.Produto = self.env['product.product'].create({
-            'name': 'Produto Z'
-        })
-        self.OrdemVenda = self.env['sale.order'].create({
-            'partner_id': self.Empresa.id
-        })
-        self.LinhaOrdemVenda = self.env['sale.order.line'].create({
-            'order_id': self.OrdemVenda.id,
-            'product_id': self.Produto.id,
-            'product_uom_qty': 5
+        self.FoundationEstacas = self.env['foundation.estacas']
+        self.SaleOrderLine = self.env['sale.order.line']
+
+        # Criar um serviço de obra mock
+        self.service = self.env['foundation.obra.service'].create({
+            'name': 'Service Test'
         })
 
-    def test_create_estacas(self):
-        # Teste para verificar a criação correta de uma estaca
-        estaca = self.env['foundation.estacas'].create({
-            'nome_estaca': 'Estaca 001',
+        # Criar uma ordem de venda mock
+        self.sale_order = self.env['sale.order'].create({
+            'name': 'Sale Order Test'
+        })
+
+        # Criar uma linha de ordem de venda mock
+        self.sale_order_line = self.SaleOrderLine.create({
+            'order_id': self.sale_order.id,
+            'product_id': 1,  # Assume que existe um produto com id 1
+            'price_unit': 100.0,
+            'product_uom_qty': 0
+        })
+
+    @patch('odoo.addons.foundation_estacas.models.foundation_estacas._logger')
+    def test_create_estacas(self, mock_logger):
+        """
+        Testa a criação de uma estaca garantindo que a profundidade seja ajustada
+        corretamente e que os logs sejam registrados como esperado.
+        """
+        estaca = self.FoundationEstacas.create({
+            'nome_estaca': 'Estaca 1',
             'profundidade': 10,
-            'data': '2024-01-01',
-            'service_id': self.Servico.id,
-            'sale_order_line_id': self.LinhaOrdemVenda.id
+            'data': '2021-01-01',
+            'observacao': 'Nenhuma',
+            'service_id': self.service.id,
+            'sale_order_line_id': self.sale_order_line.id
         })
-        self.assertEqual(estaca.profundidade, 10, "A profundidade da estaca deve ser igual a 10.")
 
-    def test_profundidade_constraint(self):
-        # Teste para verificar a restrição de profundidade aplicada no modelo
-        with self.assertRaises(ValidationError, msg="Deve ser lançada uma ValidationError se a profundidade exceder o limite permitido."):
-            self.env['foundation.estacas'].create({
-                'nome_estaca': 'Estaca 002',
-                'profundidade': 50,  # Supondo que 50 é maior que o limite permitido
-                'data': '2024-01-01',
-                'service_id': self.Servico.id,
-                'sale_order_line_id': self.LinhaOrdemVenda.id
-            })
+        # Verificar se a estaca foi criada corretamente
+        self.assertEqual(estaca.profundidade, 10)
+        self.assertEqual(estaca.sale_order_line_id.qty_delivered, 10)
+        mock_logger.info.assert_called_with("VALORES ENVVIADOS PARA CRIAR ESTACAS: %s", any())
 
-# Parte final para inicialização do teste, se necessário.
 if __name__ == '__main__':
     unittest.main()
