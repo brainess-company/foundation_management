@@ -61,6 +61,18 @@
           parent="menu_foundation_maquina_registro"
           sequence="40"/>
 
+        <!-- Menu para acessar a página de ajuda -->
+        <menuitem id="menu_chamadas"
+                  name="Chamadas"
+                  parent="main_foundation_menu"
+                  sequence="60"/> <!-- Altere para o menu pai desejado -->
+
+        <menuitem id="menu_chamada1"
+          name="Chamada 1"
+          action="action_foundation_chamada"
+          parent="menu_chamadas"
+          sequence="10"/>
+
 
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->

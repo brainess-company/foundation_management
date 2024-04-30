@@ -40,7 +40,7 @@ class Chamada(models.Model):
 
     foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquina Associada")
 
-    data = fields.Date(string="Data da chamada", default=fields.Date.today, required=True)
+    data = fields.Date(string="Data da chamada", default=fields.Date.today, required=True, store=True)
 
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
 
