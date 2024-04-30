@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="template_instructions" name="Instructions Page">
+            <t t-call="website.layout">
+                <div class="container mt16 mb16">
+                    <h1>Instruções de Uso do Módulo</h1>
+                    <p>Aqui você pode adicionar instruções detalhadas sobre como utilizar seu módulo.</p>
+                </div>
+            </t>
+        </template>
+        <record id="action_instructions" model="ir.actions.act_url">
+            <field name="name">Abrir Instruções</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="url">/instructions</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
