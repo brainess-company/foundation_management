@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View para FoundationMaquinaRegistro -->
+        <record id="view_foundation_maquina_registro_saida_tree" model="ir.ui.view">
+            <field name="name">foundation.maquina.registro.saida.tree</field>
+            <field name="model">foundation.maquina.registro</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nome_servico"/>
+                    <field name="nome_obra"/>
+                    <field name="analytic_account_id"/><!-- CONTA ANALITICA DESSE REGISTRO-->
+                    <field name="sale_order_id" invisible="1"/>
+                    <field name="sale_order_id.specific_stock_location_id" invisible="1"/>
+                    <button name="%(action_stock_quant_kanban_foundation_maquina_registro)d"
+                            type="action"
+                            string="Ver Produtos no Estoque"
+                            context="{'specific_stock_location_id': sale_order_id.specific_stock_location_id}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Kanban View para Stock Quant -->
+        <record id="view_foundation_stock_quant_kanban" model="ir.ui.view">
+            <field name="name">stock.quant.kanban.foundation</field>
+            <field name="model">stock.quant</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_image">
+                                    <img t-att-src="kanban_image('product.product', 'image_128', record.product_id.raw_value)"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="product_id"/></strong>
+                                    <p>Qty: <field name="quantity"/></p>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Ação para abrir a vista Kanban de Stock Quant baseado em FoundationMaquinaRegistro -->
+        <record id="action_stock_quant_kanban_foundation_maquina_registro" model="ir.actions.act_window">
+            <field name="name">Product Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_foundation_stock_quant_kanban"/>
+            <field name="domain">[('location_id', '=', context.get('specific_stock_location_id'))]</field>
+        </record>
+
+        <!-- Ação para abrir a vista em árvore de FoundationMaquinaRegistro -->
+        <record id="action_foundation_maquina_registro_saida_tree" model="ir.actions.act_window">
+            <field name="name">Machine Records</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.maquina.registro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_foundation_maquina_registro_saida_tree"/>
+        </record>
+    </data>
+</odoo>
