@@ -10,8 +10,11 @@ class SaleOrder(models.Model):
     specific_stock_location_id = fields.Many2one('stock.location',
                                                  string="Local de Estoque Específico",
                                                  readonly=True)
+    specific_stock_output_id = fields.Many2one('stock.location', string="Local de Estoque de Saída",
+                                               readonly=True)
     analytic_account_ids = fields.One2many('account.analytic.account', 'sale_order_id',
                                            string="Contas Analíticas")
+
 
 
     def _ensure_central_stock_location(self):
@@ -36,25 +39,41 @@ class SaleOrder(models.Model):
             _logger.info("Estoque Central criado: %s", central_stock.name)
         return central_stock
 
-    def _create_specific_stock_location(self):
+    def _create_or_update_specific_stock_location(self):
         """Cria ou atualiza um estoque específico para esta sale.order."""
+        stock_name = f"{self.nome_obra} - {self.name}"
         if self.specific_stock_location_id:
-            stock_name = f"{self.nome_obra} - {self.name}"
-            self.specific_stock_location_id.write({
-                'name': stock_name
-            })
+            self.specific_stock_location_id.write({'name': stock_name})
             _logger.info("Estoque específico atualizado para a Sale Order %s: %s", self.name, stock_name)
         else:
-            stock_name = f"{self.nome_obra} - {self.name}"
             specific_stock = self.env['stock.location'].create({
                 'name': stock_name,
                 'usage': 'internal',
-                'location_id': self._ensure_central_stock_location().id,
-                'company_id': False  # No company associated
+                'location_id': False,  # Este estoque não deve ser aninhado
+                'company_id': False  # Sem associação de empresa
             })
             self.specific_stock_location_id = specific_stock.id
             _logger.info("Estoque específico criado para a Sale Order %s: %s", self.name, stock_name)
         return self.specific_stock_location_id
+
+    def _create_or_update_specific_output_stock_location(self):
+        """Cria ou atualiza um estoque de saída aninhado ao estoque específico."""
+        output_stock_name = "SAÍDA DE ESTOQUE"
+        if self.specific_stock_output_id:
+            self.specific_stock_output_id.write({'name': output_stock_name})
+            _logger.info("Estoque de saída atualizado: %s", output_stock_name)
+        else:
+            specific_output_stock = self.env['stock.location'].create({
+                'name': output_stock_name,
+                'usage': 'production',  # Assume que este estoque será para saída de produção
+                'location_id': self.specific_stock_location_id.id,  # Aninhado sob o estoque específico
+                'company_id': False
+            })
+            self.specific_stock_output_id = specific_output_stock.id
+            _logger.info("Estoque de saída criado: %s", output_stock_name)
+        return self.specific_stock_output_id
+
+    # Exemplo de uso destes métodos em create e write seria adaptado aqui
 
     def _create_foundation_obra_and_services(self):
         """para cada serviço na sale order cria um registro aqui"""
@@ -154,9 +173,10 @@ class SaleOrder(models.Model):
     def create(self, vals):
         order = super().create(vals)
         order._ensure_central_stock_location()
-        order._create_specific_stock_location()
+        order._create_or_update_specific_stock_location()
         order._create_foundation_obra_and_services()
         order._create_or_update_analytic_accounts()
+        order._create_or_update_specific_output_stock_location()
 
         return order
 
@@ -164,8 +184,9 @@ class SaleOrder(models.Model):
         res = super().write(vals)
         if 'state' in vals and vals.get('state') == 'sale':
             self._ensure_central_stock_location()
-            self._create_specific_stock_location()
+            self._create_or_update_specific_stock_location()
             self._create_foundation_obra_and_services()
             self._create_or_update_analytic_accounts()
+            self._create_or_update_specific_output_stock_location()
 
         return res
