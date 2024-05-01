@@ -10,10 +10,9 @@
                 <tree>
                     <field name="name"/>
                     <field name="partner_id"/>
-                    <field name="date_order"/>
-                    <field name="specific_stock_location_id"/>
-
-                    <field name="state"/>
+                    <field name="nome_obra"/>
+                    <field name="specific_stock_location_id" invisible="1"/>
+                    <field name="state" invisible="1"/>
                     <button name="%(action_stock_quant_kanban)d"
                             type="action"
                             string="Ver Produtos no Estoque"
@@ -23,6 +22,7 @@
         </record>
 
         <!-- Kanban View para Stock Quant -->
+        <!-- Kanban View para Stock Quant com Imagem do Produto -->
         <record id="view_foundation_stock_quant_kanban" model="ir.ui.view">
             <field name="name">stock.quant.kanban</field>
             <field name="model">stock.quant</field>
@@ -32,15 +32,21 @@
                     <field name="quantity"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div>
-                                <strong><field name="product_id"/></strong>
-                                <p>Qty: <field name="quantity"/></p>
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_image">
+                                    <img t-att-src="kanban_image('product.product', 'image_128', record.product_id.raw_value)"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="product_id"/></strong>
+                                    <p>Qty: <field name="quantity"/></p>
+                                </div>
                             </div>
                         </t>
                     </templates>
                 </kanban>
             </field>
         </record>
+
 
         <!-- Ação para abrir a vista Kanban de Stock Quant -->
         <record id="action_stock_quant_kanban" model="ir.actions.act_window">
