@@ -48,3 +48,5 @@ Para instalar este módulo, você precisa:
 - [ ] organizar melhor o filtro do botao de criar relatorio
 - [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
 - [ ] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
+- [ ] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
+- [ ] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo

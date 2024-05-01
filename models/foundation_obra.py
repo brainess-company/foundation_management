@@ -29,6 +29,7 @@ class FoundationObra(models.Model):
     partner_id = fields.Many2one('res.partner', string="Cliente",
                                  related='sale_order_id.partner_id', readonly=True,
                                  store=True)
+    # todo remover um campo
     cliente_id = fields.Many2one('res.partner',
                                  string="Cliente 2", related='sale_order_id.partner_id',
                                  readonly=True, store=True)

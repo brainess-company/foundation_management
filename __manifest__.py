@@ -11,9 +11,12 @@
     'depends': [
         'base',
         'sale',
+        'account',
         'mail',
         'sale_management',
         # 'website',
+        #'invoice',
+        'stock',
         'product',
         'account',  # Para usar contas analíticas
         'hr',       # Se você estiver usando funcionalidades relacionadas a empregados
