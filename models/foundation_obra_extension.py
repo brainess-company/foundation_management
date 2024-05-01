@@ -41,7 +41,7 @@ class SaleOrder(models.Model):
 
     def _create_or_update_specific_stock_location(self):
         """Cria ou atualiza um estoque específico para esta sale.order."""
-        stock_name = f"{self.nome_obra} - {self.name}"
+        stock_name = f"ESTOQUE {self.nome_obra} - {self.name}"
         if self.specific_stock_location_id:
             self.specific_stock_location_id.write({'name': stock_name})
             _logger.info("Estoque específico atualizado para a Sale Order %s: %s", self.name, stock_name)
