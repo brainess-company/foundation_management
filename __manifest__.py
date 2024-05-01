@@ -25,6 +25,7 @@
         # 'views/help_page_template.xml',
         'security/ir.model.access.csv',  # Load security and access rules first
         'views/foundation_chamada_view.xml',  # Load views for the Maquina model
+        'views/foundation_estoque_obra_view.xml',  # Load views for the Maquina model
 
         'views/foundation_maquina_view.xml',  # Load views for the Maquina model
         'views/foundation_obra_view.xml',  # Load views for the Obra model

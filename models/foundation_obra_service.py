@@ -71,6 +71,12 @@ class FoundationObraService(models.Model):
         string="Registros de Máquinas"
     )
 
+    # Novo campo relacionado para acessar o local específico de estoque
+    specific_stock_location_id = fields.Many2one('stock.location',
+                                                 related='sale_order_id.specific_stock_location_id',
+                                                 string="Local de Estoque Específico",
+                                                 readonly=True, store=True)
+
     @api.model
     def create(self, vals):
         """METODO PARA CRIAR MAQUINA"""
