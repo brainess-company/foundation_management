@@ -50,3 +50,5 @@ Para instalar este módulo, você precisa:
 - [ ] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
 - [ ] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
 - [ ] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
+- [ ] Tenho que criar um estoque de saída para a obra mesmo mas quando for feita uma transferencia para ele, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
+- [ ] incluir botão no kanbam para deixar a transferencia pronta
