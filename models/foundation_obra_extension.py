@@ -10,6 +10,9 @@ class SaleOrder(models.Model):
     specific_stock_location_id = fields.Many2one('stock.location',
                                                  string="Local de Estoque Específico",
                                                  readonly=True)
+    analytic_account_ids = fields.One2many('account.analytic.account', 'sale_order_id',
+                                           string="Contas Analíticas")
+
 
     def _ensure_central_stock_location(self):
         """Verifica e cria um estoque central se não existir."""
@@ -34,24 +37,39 @@ class SaleOrder(models.Model):
         return central_stock
 
     def _create_specific_stock_location(self):
-        """Cria um estoque específico para esta sale.order."""
-        StockLocation = self.env['stock.location']
-        stock_name = f"{self.nome_obra} - {self.name}"
-        specific_stock = StockLocation.create({
-            'name': stock_name,
-            'usage': 'internal',
-            'location_id': self._ensure_central_stock_location().id,
-            'company_id': False  # Associated with the company of the sale.order
-        })
-        self.specific_stock_location_id = specific_stock.id
-        _logger.info("Estoque específico criado para a Sale Order %s: %s", self.name, stock_name)
-        return specific_stock
+        """Cria ou atualiza um estoque específico para esta sale.order."""
+        if self.specific_stock_location_id:
+            stock_name = f"{self.nome_obra} - {self.name}"
+            self.specific_stock_location_id.write({
+                'name': stock_name
+            })
+            _logger.info("Estoque específico atualizado para a Sale Order %s: %s", self.name, stock_name)
+        else:
+            stock_name = f"{self.nome_obra} - {self.name}"
+            specific_stock = self.env['stock.location'].create({
+                'name': stock_name,
+                'usage': 'internal',
+                'location_id': self._ensure_central_stock_location().id,
+                'company_id': False  # No company associated
+            })
+            self.specific_stock_location_id = specific_stock.id
+            _logger.info("Estoque específico criado para a Sale Order %s: %s", self.name, stock_name)
+        return self.specific_stock_location_id
 
     def _create_foundation_obra_and_services(self):
         """para cada serviço na sale order cria um registro aqui"""
         foundation_obra = self.env['foundation.obra']
         foundation_obra_service = self.env['foundation.obra.service']
         # Assuming this is how you access the machine model
+        plan_model = self.env['account.analytic.plan']
+
+        _logger.info("Checking for existing 'DESPESAS' plan")
+        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
+        if not expense_plan:
+            _logger.info("'DESPESAS' plan not found, creating new one")
+            expense_plan = plan_model.create({
+                'name': 'DESPESAS'
+            })
 
         for order in self:
             # Ensure there is an 'obra' for the sale order
@@ -78,12 +96,68 @@ class SaleOrder(models.Model):
                         'obra_id': obra.id
                     })
 
+    def _create_or_update_analytic_accounts(self):
+        """ Cria ou atualiza contas analíticas baseadas na ordem de venda e em cada template de produto único """
+        AnalyticAccount = self.env['account.analytic.account']
+        plan_model = self.env['account.analytic.plan']
+        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
+
+        if not expense_plan:
+            expense_plan = plan_model.create({'name': 'DESPESAS'})
+            _logger.info("Plano 'DESPESAS' criado: %s", expense_plan.id)
+
+        # Conta geral para a Sale Order
+        general_account_name = f"{self.nome_obra} - {self.name}"
+        general_account = AnalyticAccount.search([
+            ('name', '=', general_account_name),
+            ('sale_order_id', '=', self.id)
+        ], limit=1)
+
+        if not general_account:
+            general_account = AnalyticAccount.create({
+                'name': general_account_name,
+                'company_id': self.company_id.id,
+                'sale_order_id': self.id,
+                'plan_id': expense_plan.id  # Definindo plan_id aqui
+            })
+            _logger.info("Conta analítica criada para a ordem de venda: %s", general_account.name)
+        else:
+            _logger.info("Conta analítica geral já existe e foi atualizada: %s",
+                         general_account.name)
+
+        # Contas para cada template de produto distinto
+        product_templates = {line.product_id.product_tmpl_id for line in self.order_line}
+        for template in product_templates:
+            account_name = f"{self.nome_obra} - {template.name}"
+            analytic_account = AnalyticAccount.search([
+                ('name', '=', account_name),
+                ('sale_order_id', '=', self.id)
+            ], limit=1)
+
+            if not analytic_account:
+                analytic_account = AnalyticAccount.create({
+                    'name': account_name,
+                    'company_id': self.company_id.id,
+                    'plan_id': expense_plan.id,  # Definindo plan_id aqui
+                    'sale_order_id': self.id
+                })
+                _logger.info("Conta analítica criada: %s", analytic_account.name)
+            else:
+                analytic_account.write({
+                    'company_id': self.company_id.id,  # Atualize campos relevantes se necessário
+                    'plan_id': expense_plan.id  # Assegurar que plan_id é atualizado se necessário
+                })
+                _logger.info("Conta analítica já existe e foi atualizada: %s",
+                             analytic_account.name)
+
     @api.model
     def create(self, vals):
         order = super().create(vals)
         order._ensure_central_stock_location()
         order._create_specific_stock_location()
         order._create_foundation_obra_and_services()
+        order._create_or_update_analytic_accounts()
+
         return order
 
     def write(self, vals):
@@ -92,4 +166,6 @@ class SaleOrder(models.Model):
             self._ensure_central_stock_location()
             self._create_specific_stock_location()
             self._create_foundation_obra_and_services()
+            self._create_or_update_analytic_accounts()
+
         return res

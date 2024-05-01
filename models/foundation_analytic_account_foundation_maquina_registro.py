@@ -10,3 +10,4 @@ class AccountAnalyticAccount(models.Model):
 
     foundation_maquina_registro_id = fields.Many2one('foundation.maquina.registro',
                                                      string="Registro de Máquina")
+    sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda", index=True)
