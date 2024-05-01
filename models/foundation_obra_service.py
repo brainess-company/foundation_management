@@ -79,14 +79,12 @@ class FoundationObraService(models.Model):
 
     @api.model
     def create(self, vals):
-        """METODO PARA CRIAR MAQUINA"""
         _logger.debug("Creating new FoundationObraService record with values: %s", vals)
         new_record = super().create(vals)
         self._create_machine_records(new_record, new_record.foundation_maquina_ids)
         return new_record
 
     def write(self, vals):
-        """METODO PARA EDITAR MAQUINA"""
         _logger.debug("Writing to FoundationObraService record with values: %s", vals)
         result = super().write(vals)
         if 'foundation_maquina_ids' in vals:
@@ -94,7 +92,6 @@ class FoundationObraService(models.Model):
         return result
 
     def _create_machine_records(self, service, maquinas):
-        """METODO PARA CRIAR MAQUINA - PARECE REDUNDANTE"""
         _logger.debug("Creating machine records for service %s", service.id)
         maquina_registro = self.env['foundation.maquina.registro']
         for maquina in maquinas:
@@ -109,59 +106,11 @@ class FoundationObraService(models.Model):
                 })
             else:
                 _logger.info("Creating new machine record for machine %s", maquina.id)
-                maquina_registro.create({
+                new_record = maquina_registro.create({
                     'service_id': service.id,
                     'maquina_id': maquina.id,
                 })
+                # Chamar o método para criar/atualizar a conta analítica
+                new_record._create_or_update_analytic_accounts(service, [maquina])
 
-        self._create_or_update_analytic_accounts(service, maquinas)
 
-    def _create_or_update_analytic_accounts(self, service, maquinas):
-        """CRUAR OU EDITAR CONTA ANALITICA"""
-        maquina_registro_model = self.env['foundation.maquina.registro']
-        analytic_account_model = self.env['account.analytic.account']
-        plan_model = self.env['account.analytic.plan']
-
-        _logger.info("Checking for existing 'DESPESAS' plan")
-        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
-        if not expense_plan:
-            _logger.info("'DESPESAS' plan not found, creating new one")
-            expense_plan = plan_model.create({
-                'name': 'DESPESAS'
-            })
-
-        multiple_machines = len(maquinas) > 1
-        _logger.debug("Processing %d machines, multiple_machines=%s", len(maquinas),
-                      multiple_machines)
-
-        for maquina in maquinas:
-            _logger.debug("Processing machine %d", maquina.id)
-            maquina_registro = maquina_registro_model.search(
-                [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
-            if not maquina_registro:
-                maquina_registro = maquina_registro_model.create({
-                    'service_id': service.id,
-                    'maquina_id': maquina.id,
-                })
-
-            account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
-
-            _logger.debug("Looking for existing analytic account for machine %d", maquina.id)
-            existing_account = analytic_account_model.search(
-                [('foundation_maquina_registro_id', '=', maquina_registro.id)], limit=1)
-
-            if existing_account:
-                _logger.info("Updating existing account %d", existing_account.id)
-                existing_account.write({
-                    'name': account_name
-                })
-            else:
-                _logger.info("Creating new analytic account for machine %d", maquina.id)
-                analytic_account_model.create({
-                    'name': account_name,
-                    'partner_id': service.obra_id.partner_id.id
-                    if service.obra_id.partner_id else None,
-                    'company_id': self.env.company.id,
-                    'plan_id': expense_plan.id,
-                    'foundation_maquina_registro_id': maquina_registro.id
-                })
