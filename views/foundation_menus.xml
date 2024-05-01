@@ -82,6 +82,13 @@
                   parent="menu_chamadas"
                   sequence="20"/>
 
+         <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
+        <menuitem id="menu_stock_saldo_by_location"
+                  name="saldo Estoque"
+                  action="action_sale_order_saldo_tree"
+                  parent="menu_chamadas"
+                  sequence="30"/>
+
 
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->
