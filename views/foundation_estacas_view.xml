@@ -12,6 +12,8 @@
                     <field name="data"/>
                     <field name="nome_estaca"/>
                     <field name="service_template_id"/>
+                    <field name="relatorio_id"/>
+                    <field name="status_relatorio"/>
 
                     <field name="display_medicao"/>
                     <field name="profundidade"/>
@@ -70,9 +72,8 @@
                             <field name="medicao_id"/>
                             <field name="nome_estaca"/>
                             <field name="profundidade"/>
-
-                            <field name="observacao"/>
-
+                            <field name="relatorio_id"/>
+                            <field name="status_relatorio"/>
                             <field name="service_template_id"/>
                             <field name="sale_order_id"/>
                             <field name="sale_order_line_id"/>

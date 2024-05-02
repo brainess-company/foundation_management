@@ -59,6 +59,10 @@
                             type="action"
                             string="Ver Produtos no Estoque"
                             context="{'specific_stock_location_id': specific_stock_location_id}"/>
+                    <button name="%(action_stock_move_wizard)d"
+                            type="action"
+                            string="Usar produto"
+                            context="{'default_maquina_registro_id': id}"/>
                 </tree>
             </field>
         </record>

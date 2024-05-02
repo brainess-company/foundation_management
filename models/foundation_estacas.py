@@ -84,6 +84,20 @@ class FoundationEstacas(models.Model):
 
     relatorio_id = fields.Many2one('foundation.relatorios',
                                    string="Relatório Associado")
+    # Campo relacionado para o estado do relatório
+    status_relatorio = fields.Selection(
+        selection=[
+            ('rascunho', 'Rascunho'),
+            ('conferencia', 'Aguardando Conferência'),
+            ('em_analise', 'Em Análise'),
+            ('cancelado', 'Cancelado'),
+            ('conferido', 'Conferido')
+        ],
+        string="Status do Relatório",
+        related='relatorio_id.state',
+        readonly=True,
+        store=True  # Opção de armazenar ou não o campo na base de dados
+    )
 
     # CAMPOS CALCULADOS
     unit_price = fields.Float("Preço Unitário",
@@ -165,17 +179,15 @@ class FoundationEstacas(models.Model):
     @api.model
     def action_generate_medicao(self):
         """
-           Gera uma nova medição para a ordem de venda associada
-           a todas as estacas selecionadas.
-           Valida se todas as estacas pertencem à mesma
-           ordem de venda e cria uma medição,
-           associando-a às estacas que ainda não foram medidas.
+        Gera uma nova medição para a ordem de venda associada
+        a todas as estacas selecionadas.
+        Valida se todas as estacas pertencem à mesma ordem de venda,
+        e se todas têm o relatório com status 'conferido', antes de criar uma medição,
+        associando-a às estacas que ainda não foram medidas.
 
-           Returns:
-               dict: Ação para abrir a janela de visualização da medição criada.
-           """
-        medicao = self.env['foundation.medicao']
-
+        Returns:
+            dict: Ação para abrir a janela de visualização da medição criada.
+        """
         if not self:
             return {'type': 'ir.actions.act_window_close'}
 
@@ -184,18 +196,23 @@ class FoundationEstacas(models.Model):
         if len(sale_orders) > 1:
             raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
+        # Verifica se todas as estacas têm relatórios conferidos
+        all_conferido = all(estaca.status_relatorio == 'conferido' for estaca in self)
+        if not all_conferido:
+            raise UserError(
+                "Todas as estacas selecionadas devem ter relatórios com status 'Conferido'.")
+
         sale_order = sale_orders[0]
         if not sale_order:
             return {'type': 'ir.actions.act_window_close'}
 
         # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
-        last_medicao = medicao.search([('sale_order_id', '=', sale_order.id)],
-                                      order='create_date desc', limit=1)
-        next_medicao_number = 1 if not last_medicao else int(
-            last_medicao.nome) + 1  # Ajustado para usar apenas o número
+        last_medicao = self.env['foundation.medicao'].search(
+            [('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+        next_medicao_number = 1 if not last_medicao else int(last_medicao.nome) + 1
 
         # Criar uma nova medição
-        new_medicao = medicao.create({
+        new_medicao = self.env['foundation.medicao'].create({
             'nome': str(next_medicao_number),  # Nome da medição é apenas o número
             'sale_order_id': sale_order.id,
             'data': fields.Date.today(),
@@ -207,8 +224,8 @@ class FoundationEstacas(models.Model):
             if not estaca.medicao_id:
                 estaca.medicao_id = new_medicao.id
             else:
-                raise UserError(f"Estaca '{estaca.nome_estaca}"
-                                f"' já foi medida e não pode ser medida novamente.")
+                raise UserError(
+                    f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
 
         return {
             'type': 'ir.actions.act_window',

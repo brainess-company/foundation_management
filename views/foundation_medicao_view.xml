@@ -101,7 +101,9 @@
                         <button name="action_create_invoice"
                                 string="Faturar"
                                 type="object"
-                                class="oe_highlight"/>
+                                class="oe_highlight"
+                                attrs="{'invisible': [('invoice_id', '!=', False)]}"/>
+                        
                         <field name="nome" widget="statusbar" statusbar_visible="aguardando,emissao"/>
                     </header>
                     <sheet>
