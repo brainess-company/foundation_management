@@ -11,17 +11,18 @@
                     <field name="nome_obra"/>
                     <field name="analytic_account_id"/><!-- CONTA ANALITICA DESSE REGISTRO-->
                     <field name="sale_order_id" invisible="1"/>
-                    <field name="sale_order_id.specific_stock_location_id" invisible="1"/>
-                    <button name="%(action_stock_quant_kanban_foundation_maquina_registro)d"
+                    <field name="specific_stock_location_id" invisible="1"/>
+                    <field name="specific_stock_output_id" invisible="1"/>
+                    <button name="%(action_stock_quant_kanban_foundation_maquina_saida_registro)d"
                             type="action"
                             string="Ver Produtos no Estoque"
-                            context="{'specific_stock_location_id': sale_order_id.specific_stock_location_id}"/>
+                            context="{'specific_stock_location_id': specific_stock_location_id}"/>
                 </tree>
             </field>
         </record>
 
         <!-- Kanban View para Stock Quant -->
-        <record id="view_foundation_stock_quant_kanban" model="ir.ui.view">
+        <record id="view_foundation_stock_quant_saida_kanban" model="ir.ui.view">
             <field name="name">stock.quant.kanban.foundation</field>
             <field name="model">stock.quant</field>
             <field name="arch" type="xml">
@@ -46,12 +47,12 @@
         </record>
 
         <!-- Ação para abrir a vista Kanban de Stock Quant baseado em FoundationMaquinaRegistro -->
-        <record id="action_stock_quant_kanban_foundation_maquina_registro" model="ir.actions.act_window">
+        <record id="action_stock_quant_kanban_foundation_maquina_saida_registro" model="ir.actions.act_window">
             <field name="name">Product Stock</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.quant</field>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="view_foundation_stock_quant_kanban"/>
+            <field name="view_id" ref="view_foundation_stock_quant_saida_kanban"/>
             <field name="domain">[('location_id', '=', context.get('specific_stock_location_id'))]</field>
         </record>
 

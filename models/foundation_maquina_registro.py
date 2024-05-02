@@ -105,6 +105,15 @@ class FoundationMaquinaRegistro(models.Model):
         help="Referência à conta analítica criada para este registro de máquina."
     )
 
+    # Novos campos para locais de estoque específicos e de saída
+    specific_stock_location_id = fields.Many2one('stock.location',
+                                                 related='sale_order_id.specific_stock_location_id',
+                                                 string="Local de Estoque Específico",
+                                                 readonly=True)
+    specific_stock_output_id = fields.Many2one('stock.location',
+                                               related='sale_order_id.specific_stock_output_id',
+                                               string="Local de Estoque de Saída", readonly=True)
+
     def _create_or_update_analytic_accounts(self, service, maquinas):
         """CRUAR OU EDITAR CONTA ANALITICA"""
         maquina_registro_model = self.env['foundation.maquina.registro']
