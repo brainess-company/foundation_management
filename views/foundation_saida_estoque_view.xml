@@ -18,6 +18,9 @@
                                 <div class="oe_kanban_details">
                                     <strong><field name="product_id"/></strong>
                                     <p>Qty: <field name="quantity"/></p>
+                                    <button type="object" name="action_use_product"
+                                            class="oe_highlight"
+                                            string="Usar"/>
                                 </div>
                             </div>
                         </t>
