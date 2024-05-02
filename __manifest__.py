@@ -35,6 +35,7 @@
         'views/foundation_estacas_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_lista_view.xml',
         'views/foundation_maquina_registro_estacas.xml',
+        'views/foundation_saida_estoque_view.xml',  # Load views for the Maquina model
         'views/foundation_team_view.xml',
         'views/BACKUP.xml',  # Load menu definitions
         'views/foundation_chamada_maquina_registro.xml',
