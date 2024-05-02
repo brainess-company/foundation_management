@@ -6,7 +6,8 @@ class StockQuant(models.Model):
 
     def prepare_action_use_product(self):
         self.ensure_one()
-        # Busca por uma localização de produção; ajuste conforme necessário.
+        # Busca por uma localização de produção;
+        # Deve ser um estoque de produção aninhado com o stock_location
         location_dest_id = self.env['stock.location'].search([('usage', '=', 'production')],
                                                              limit=1)
         # Busca por uma conta analítica; ajuste conforme necessário.

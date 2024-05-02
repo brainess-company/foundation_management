@@ -91,6 +91,13 @@
                   sequence="30"/>
 
 
+        <menuitem id="menu_saida_estoque_wizard"
+                  name="WIZARD"
+                  action="action_stock_move_wizard"
+                  parent="menu_chamadas"
+                  sequence="40"/>
+
+
 
 
 
