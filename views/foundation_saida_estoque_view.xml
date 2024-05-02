@@ -20,6 +20,7 @@
                             <strong><field name="product_id"/></strong>
                             <p>Qty: <field name="quantity"/></p>
                             <button name="prepare_action_use_product"
+                                    class="btn btn-primary oe_highlight"
                                     type="object"
                                     string="Usar"/>
                         </div>
