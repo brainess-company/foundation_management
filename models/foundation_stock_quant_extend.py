@@ -1,33 +1,35 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
-
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
-    def action_use_product(self):
+    def prepare_action_use_product(self):
         self.ensure_one()
-        location_id = self._context.get('default_location_id')
-        location_dest_id = self._context.get('default_location_dest_id')
-        analytic_account_id = self._context.get('default_analytic_account_id')
+        # Busca por uma localização de produção; ajuste conforme necessário.
+        location_dest_id = self.env['stock.location'].search([('usage', '=', 'production')],
+                                                             limit=1)
+        # Busca por uma conta analítica; ajuste conforme necessário.
+        analytic_account = self.env['account.analytic.account'].search([],
+                                                                       limit=1)  # Busca mais genérica.
 
         if not location_dest_id:
-            raise UserError("Local de destino não configurado para este produto.")
+            raise UserError("Localização de destino para produção não encontrada.")
+        if not analytic_account:
+            raise UserError("Conta analítica não encontrada.")
 
-        stock_move = self.env['stock.move'].create({
-            'name': 'Use Product',
-            'location_id': location_id,
-            'location_dest_id': location_dest_id,
-            'product_id': self.product_id.id,
-            'product_uom': self.product_id.uom_id.id,
-            'product_uom_qty': self.quantity,
-            'analytic_account_id': analytic_account_id
-        })
         return {
             'type': 'ir.actions.act_window',
             'name': 'Product Transfer',
             'res_model': 'stock.move',
             'view_mode': 'form',
-            'res_id': stock_move.id,
-            'target': 'new',
+            'context': {
+                'default_product_id': self.product_id.id,
+                'default_location_id': self.location_id.id,
+                'default_location_dest_id': location_dest_id.id,
+                'default_product_uom_qty': 1,
+                'default_analytic_account_id': analytic_account.id
+            },
+            'target': 'new'
         }
+
