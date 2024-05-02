@@ -39,6 +39,7 @@
         'views/foundation_team_view.xml',
         'views/BACKUP.xml',  # Load menu definitions
         'views/foundation_chamada_maquina_registro.xml',
+        'views/foundation_stock_extension_view.xml',
 
         'views/foundation_menus.xml',  # Load menu definitions
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
