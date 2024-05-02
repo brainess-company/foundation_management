@@ -57,20 +57,19 @@ Para instalar este módulo, você precisa:
 - [ ] Ou criar projeto no sistema
 - [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
 - [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-
+- [x] Uma estaca só pode ser medida se o relatorio relacionado estiver no estágio confirmado
 
 - **Urgente para entrega**:
 - [ ] Uma medição só pode gerar uma unica fatura
 - [ ] Falta incluir o proprio operador na lista de chamada
-- [ ] Uma estaca só pode ser medida se o relatorio relacionado estiver no estágio confirmado
+
 
 - [ ] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
 - [ ] quando for feita uma transferencia para estoque de saída, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
-- [ ] incluir botão no kanbam para deixar a transferencia pronta
+- [ ] Falta criar grupos de permissões
+- [ ] Falta testar os efeitos cascata de deleções de arquivos
 - [ ] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order
 - [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order 
 - [ ] Ou criar projeto no sistema
 - [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
 - [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-- [ ] Falta criar grupos de permissões
-- [ ] Falta testar os efeitos cascata de deleções de arquivos

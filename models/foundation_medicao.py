@@ -36,12 +36,13 @@ class FoundationMedicao(models.Model):
 
     # CAMPOS COMPUTADOS
     valor_total = fields.Float("Total", compute='_compute_valor_total', store=True)
-    invoice_id = fields.Many2one('account.move', string="Fatura Relacionada",
-                                 compute="_compute_invoice_id", store=True, tracking=True)
+    invoice_id = fields.Many2one('account.move', string="Fatura Estática", readonly=True,
+                                        copy=False)
     invoice_count = fields.Integer(compute='_compute_invoice_count',
                                    string='Invoice Countagem', default=0)
 
     display_medicao = fields.Char(string="Medição", compute='_compute_display_medicao')
+
 
     @api.depends('nome')
     def _compute_display_medicao(self):
@@ -61,26 +62,6 @@ class FoundationMedicao(models.Model):
         for record in self:
             record.valor_total = sum(estaca.total_price for estaca in record.estacas_ids)
 
-    @api.depends('estacas_ids.sale_order_line_id.invoice_lines.move_id')
-    def _compute_invoice_id(self):
-        """Pega o link da fatura relacionada para inserir no ícone."""
-        for record in self:
-            record.invoice_id = False  # Resetando o invoice_id para evitar associações erradas
-            related_invoice_ids = set()
-
-            for estaca in record.estacas_ids:
-                # Usando estaca como um argumento padrão para capturar o valor atual
-                invoice_lines = estaca.sale_order_line_id.invoice_lines.filtered(
-                    lambda l, estaca=estaca: l.move_id.state == 'draft' and
-                                             l.product_id == estaca.sale_order_line_id.product_id and
-                                             l.move_id.invoice_origin == record.sale_order_id.name)
-                for invoice_line in invoice_lines:
-                    related_invoice_ids.add(invoice_line.move_id.id)
-
-            # Associar a fatura somente se houver uma única fatura
-            # em rascunho relacionada corretamente
-            if len(related_invoice_ids) == 1:
-                record.invoice_id = self.env['account.move'].browse(related_invoice_ids.pop())
 
     @api.depends('estacas_ids.total_price')
     def action_create_invoice(self):

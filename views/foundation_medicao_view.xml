@@ -124,6 +124,7 @@
                             <field name="nome_obra"/>
                             <field name="sale_order_id"/>
                             <field name="valor_total"/>
+
                             <field name="invoice_id"/>
                             <!-- field name="invoice_id"/-->
                         </group>
