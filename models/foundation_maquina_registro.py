@@ -73,7 +73,7 @@ class FoundationMaquinaRegistro(models.Model):
                                           string="Template do Serviço", readonly=True, store=True)
 
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
-    operador_id = fields.Many2one('res.partner', string="Operador",
+    operador_id = fields.Many2one('hr.employee', string="Operador",
                                   compute='_compute_operador', store=True)
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO

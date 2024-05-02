@@ -20,5 +20,6 @@ from . import foundation_analytic_account_foundation_maquina_registro
 from . import foundation_stock_extension
 from . import foundation_stock_quant_extend
 from . import foundation_stock_move_wizard
+from . import foundation_employee_extend
 # from . import foundation_extension_sale_order_obra
 # from . import foundation_reverse_automacao

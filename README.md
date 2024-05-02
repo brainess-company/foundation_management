@@ -58,9 +58,10 @@ Para instalar este módulo, você precisa:
 - [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
 - [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
 - [x] Uma estaca só pode ser medida se o relatorio relacionado estiver no estágio confirmado
+- [x] Uma medição só pode gerar uma unica fatura
 
 - **Urgente para entrega**:
-- [ ] Uma medição só pode gerar uma unica fatura
+
 - [ ] Falta incluir o proprio operador na lista de chamada
 
 
@@ -69,7 +70,6 @@ Para instalar este módulo, você precisa:
 - [ ] Falta criar grupos de permissões
 - [ ] Falta testar os efeitos cascata de deleções de arquivos
 - [ ] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order
-- [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order 
-- [ ] Ou criar projeto no sistema
+- [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order  Ou criar projeto no sistema
 - [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
 - [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.

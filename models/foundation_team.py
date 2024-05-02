@@ -11,14 +11,14 @@ class FoundationTeam(models.Model):
     _name = 'foundation.team'
     _description = 'Registro de equipe de máquinas'
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
-    _rec_name = 'date'
+    _rec_name = 'machine_id'
 
     date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
     machine_id = fields.Many2one('foundation.maquina',
                                  string="Máquina",
                                  required=True,
                                  tracking=True)
-    employee_ids = fields.Many2many('res.partner',
+    employee_ids = fields.Many2many('hr.employee',
                                     string="Funcionários",
                                     tracking=True)
     note = fields.Text("Notas", tracking=True)

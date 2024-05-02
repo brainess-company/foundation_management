@@ -25,10 +25,10 @@ class FoundationMaquina(models.Model):
     _rec_name = 'nome_maquina'
 
     nome_maquina = fields.Char("Máquina",  required=True, tracking=True)
-    operador = fields.Many2one('res.partner', string="Nome Operador", tracking=True)
+    operador = fields.Many2one('hr.employee', string="Nome Operador", tracking=True)
     observacao = fields.Char("Observação")
     team_ids = fields.One2many('foundation.team', 'machine_id', string="Histórico de Equipes")
-    current_team_employees = fields.Many2many('res.partner', string="Equipe Atual",
+    current_team_employees = fields.Many2many('hr.employee', string="Equipe Atual",
                                               compute='_compute_current_team_employees',
                                               store=False, tracking=True)
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)

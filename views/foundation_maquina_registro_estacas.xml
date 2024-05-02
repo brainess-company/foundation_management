@@ -15,6 +15,7 @@
                             <field name="nome_obra"/>
                             <field name="sale_order_id"/>
                             <field name="data"/>
+                            <field name="team_id"/>
                             <field name="variante_id" invisible="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="service_id"/>
@@ -88,6 +89,8 @@
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                     <field name="analytic_account_id"/>
+
+
 
                     <field name="requer_chamada_maquina" invisible="1"/>
                     <field name="display_has_today_chamada"
