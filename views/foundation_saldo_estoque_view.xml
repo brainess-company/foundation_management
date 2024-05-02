@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Action to view stock.quant items for a specific sale order's location -->
-        <!-- Tree View para Sale Order -->
-        <record id="view_sale_order_saldo_tree" model="ir.ui.view">
-            <field name="name">sale.order.tree</field>
-            <field name="model">sale.order</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="nome_obra"/>
-                    <field name="specific_stock_location_id" invisible="1"/>
-                    <field name="state" invisible="1"/>
-                    <button name="%(action_stock_quant_kanban)d"
-                            type="action"
-                            string="Ver Produtos no Estoque"
-                            context="{'specific_stock_location_id': specific_stock_location_id}"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Kanban View para Stock Quant -->
-        <!-- Kanban View para Stock Quant com Imagem do Produto -->
-        <record id="view_foundation_stock_quant_kanban" model="ir.ui.view">
+                <record id="view_foundation_stock_quant_kanban" model="ir.ui.view">
             <field name="name">stock.quant.kanban</field>
             <field name="model">stock.quant</field>
             <field name="arch" type="xml">
@@ -47,7 +25,6 @@
             </field>
         </record>
 
-
         <!-- Ação para abrir a vista Kanban de Stock Quant -->
         <record id="action_stock_quant_kanban" model="ir.actions.act_window">
             <field name="name">Product Stock</field>
@@ -57,6 +34,31 @@
             <field name="view_id" ref="view_foundation_stock_quant_kanban"/>
             <field name="domain">[('location_id', '=', context.get('specific_stock_location_id'))]</field>
         </record>
+        <!-- Action to view stock.quant items for a specific sale order's location -->
+        <!-- Tree View para Sale Order -->
+        <record id="view_sale_order_saldo_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="nome_obra"/>
+                    <field name="specific_stock_location_id" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <button name="%(action_stock_quant_kanban)d"
+                            type="action"
+                            string="Ver Produtos no Estoque"
+                            context="{'specific_stock_location_id': specific_stock_location_id}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Kanban View para Stock Quant -->
+        <!-- Kanban View para Stock Quant com Imagem do Produto -->
+
+
+
 
                 <!-- Ação para abrir a vista em árvore de Sale Order -->
         <record id="action_sale_order_saldo_tree" model="ir.actions.act_window">
