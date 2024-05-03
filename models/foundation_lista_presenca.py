@@ -1,6 +1,6 @@
 """ CADA UM FUNCIONARIO AQUI ESTA RELACIONADO COM UMA CHAMADA
     """
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class ListaPresenca(models.Model):
@@ -12,3 +12,10 @@ class ListaPresenca(models.Model):
     chamada_id = fields.Many2one('foundation.chamada', string="Chamada", required=True)
     funcionario_id = fields.Many2one('hr.employee', string="Funcionário", required=True)
     data = fields.Date(string="Data da Lista de Presenca", default=fields.Date.today)
+    maquina_id = fields.Many2one('foundation.maquina', string="Máquina Alocada",
+                                 compute='_compute_maquina_id', store=True)
+
+    @api.depends('funcionario_id')
+    def _compute_maquina_id(self):
+        for record in self:
+            record.maquina_id = record.funcionario_id.machine_id if record.funcionario_id else False
