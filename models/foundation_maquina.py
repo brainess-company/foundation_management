@@ -29,9 +29,6 @@ class FoundationMaquina(models.Model):
     observacao = fields.Char("Observação")
     employee_ids = fields.One2many('hr.employee', 'machine_id', string="Funcionários", tracking=True)
     team_ids = fields.One2many('foundation.team', 'machine_id', string="Histórico de Equipes")
-    current_team_employees = fields.Many2many('hr.employee', string="Equipe Atual",
-                                              compute='_compute_current_team_employees',
-                                              store=False, tracking=True)
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
     status_maquina = fields.Selection([
         ('em_mobilizacao', 'Em Mobilização'),
@@ -41,15 +38,17 @@ class FoundationMaquina(models.Model):
         ('disponivel', 'Disponível')
     ], string="Status da Máquina", default='sem_obra', tracking=True)
 
+    employee_count = fields.Integer(string="Número de Funcionários",
+                                    compute='_compute_employee_count', store=True)
 
-    @api.depends('team_ids')
-    def _compute_current_team_employees(self):
-        """Computa os empregados da equipe atual baseando-se no último registro de equipe
-                associado à máquina. Este método procura a equipe mais recente
-                e atribui seus empregados ao campo current_team_employees.
-                """
+    # Outros campos...
+
+    @api.depends('employee_ids')
+    def _compute_employee_count(self):
         for machine in self:
-            last_team = self.env['foundation.team'].search([
-                ('machine_id', '=', machine.id)],
-                order='date desc', limit=1)
-            machine.current_team_employees = last_team.employee_ids if last_team else False
+            machine.employee_count = len(machine.employee_ids)
+
+
+
+
+

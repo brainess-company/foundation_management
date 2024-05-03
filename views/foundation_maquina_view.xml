@@ -10,7 +10,7 @@
                 <tree string="Foundation Maquina List">
                     <field name="nome_maquina"/>
                     <field name="operador"/>
-                    <field name="current_team_employees" string="Equipe"/>
+                    <field name="employee_count"/>
                     <field name="status_maquina"
                            decoration-success="status_maquina == 'disponivel'"
                            decoration-info="status_maquina == 'em_mobilizacao'"
