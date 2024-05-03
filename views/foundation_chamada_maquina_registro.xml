@@ -12,7 +12,7 @@
                             <field name="data"/>
                             <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" readonly="1"/>
-                            <field name="maquina_id"/>
+                            <field name="maquina_id" widget="many2one" options="{'no_open': True}"/>
                             <field name="operador_id"/>
                             <field name="endereco" readonly="1"/>
                             <field name="foundation_service_id" readonly="1"/>

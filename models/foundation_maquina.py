@@ -25,10 +25,16 @@ class FoundationMaquina(models.Model):
     _rec_name = 'nome_maquina'
 
     nome_maquina = fields.Char("Máquina",  required=True, tracking=True)
-    operador = fields.Many2one('hr.employee', string="Nome Operador", tracking=True)
+    operador = fields.Many2one(
+        'hr.employee',
+        string="Nome Operador",
+        domain="[('id', 'in', available_employee_ids)]",
+        tracking=True
+    )
     observacao = fields.Char("Observação")
     employee_ids = fields.One2many('hr.employee', 'machine_id', string="Funcionários", tracking=True)
-
+    available_employee_ids = fields.Many2many('hr.employee', compute='_compute_available_employees',
+                                              store=False)
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
     status_maquina = fields.Selection([
         ('em_mobilizacao', 'Em Mobilização'),
@@ -48,7 +54,7 @@ class FoundationMaquina(models.Model):
         for machine in self:
             machine.employee_count = len(machine.employee_ids)
 
-
-
-
-
+    @api.depends('employee_ids')
+    def _compute_available_employees(self):
+        for machine in self:
+            machine.available_employee_ids = [(6, 0, machine.employee_ids.ids)]

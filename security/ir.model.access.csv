@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_foundation_team,foundation_team_user,model_foundation_team,,1,1,1,1
 access_foundation_obra,foundation_obra_user,model_foundation_obra,,1,1,1,1
 access_foundation_maquina,foundation_maquina_user,model_foundation_maquina,,1,1,1,1
 access_foundation_obra_service,foundation_obra_service_user,model_foundation_obra_service,,1,1,1,1

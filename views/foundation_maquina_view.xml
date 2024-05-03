@@ -33,11 +33,10 @@
                     <sheet>
                         <group>
                             <field name="nome_maquina"/>
+                            <field name="available_employee_ids" invisible="1"/>
                             <field name="operador"/>
                             <field name="requer_chamada"/>
                             <field name="employee_ids" widget="many2many_tags"/>
-
-
                             <field name="status_maquina"/>
                             <field name="observacao"/>
                         </group>
