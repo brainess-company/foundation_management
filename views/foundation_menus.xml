@@ -35,6 +35,12 @@
         <menuitem id="foundation_teste_menu" name="Operador" parent="main_foundation_menu" sequence="40"/>
         <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_chamada_tree" sequence="10"/>
         <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="20"/>
+        <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
+        <menuitem id="menu_saida_estoque"
+                  name="Estoque"
+                  action="action_foundation_maquina_registro_saida_tree"
+                  parent="foundation_teste_menu"
+                  sequence="30"/>
 
         <!-- Submenu para Operador -->
         <menuitem id="foundation_testes" name="Ajuda"  parent="main_foundation_menu" sequence="50"/>
@@ -82,19 +88,7 @@
                   action="action_sale_order_saldo_tree"
                   parent="menu_chamadas"
                   sequence="20"/>
-        <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
-        <menuitem id="menu_saida_estoque"
-                  name="SAÍDA ESTOQUE"
-                  action="action_foundation_maquina_registro_saida_tree"
-                  parent="menu_chamadas"
-                  sequence="30"/>
 
-
-        <menuitem id="menu_saida_estoque_wizard"
-                  name="WIZARD"
-                  action="action_stock_move_wizard"
-                  parent="menu_chamadas"
-                  sequence="40"/>
 
 
 

@@ -95,7 +95,7 @@
 
                     <field name="endereco" string="Endereço"/>
                     <button name="%(action_open_chamada_form)d" type="action"
-                            string="Registrar Chamada" icon="fa-plus-square"
+                            string="Registrar Chamada" icon="fa-calendar"
                             context="{
                                 'default_foundation_service_id': service_id,
                                 'default_data_registro': data_registro,
