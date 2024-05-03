@@ -38,7 +38,6 @@ class Chamada(models.Model):
                             related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
 
-    foundation_maquina_ids = fields.Many2many('foundation.maquina', string="Máquina Associada")
 
     data = fields.Date(string="Data da chamada", default=fields.Date.today, required=True, store=True)
 

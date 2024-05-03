@@ -30,7 +30,6 @@
                             <field name="sale_order_id"/>
                             <field name="nome_obra"/>
                             <field name="endereco"/>
-                            <field name="foundation_maquina_ids"/>
                             <field name="foundation_maquina_registro_id"/>
                         </group>
                         <notebook>
