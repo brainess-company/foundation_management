@@ -68,10 +68,5 @@
             <field name="context">{"create": False}</field>
             <field name="view_id" ref="view_foundation_maquina_team_tree"/>
         </record>
-
-
-
-
     </data>
-
 </odoo>

@@ -18,9 +18,7 @@ class FoundationTeam(models.Model):
                                  string="Máquina",
                                  required=True,
                                  tracking=True)
-    employee_ids = fields.Many2many('hr.employee',
-                                    string="Funcionários",
-                                    tracking=True)
+    employee_ids = fields.One2many('hr.employee', 'team_id', string="Funcionários", tracking=True)
     note = fields.Text("Notas", tracking=True)
     machine_status = fields.Selection(related='machine_id.status_maquina',
                                       string="Status da Máquina",

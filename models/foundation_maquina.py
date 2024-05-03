@@ -27,6 +27,7 @@ class FoundationMaquina(models.Model):
     nome_maquina = fields.Char("Máquina",  required=True, tracking=True)
     operador = fields.Many2one('hr.employee', string="Nome Operador", tracking=True)
     observacao = fields.Char("Observação")
+    employee_ids = fields.One2many('hr.employee', 'machine_id', string="Funcionários", tracking=True)
     team_ids = fields.One2many('foundation.team', 'machine_id', string="Histórico de Equipes")
     current_team_employees = fields.Many2many('hr.employee', string="Equipe Atual",
                                               compute='_compute_current_team_employees',
