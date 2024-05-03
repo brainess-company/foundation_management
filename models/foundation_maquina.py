@@ -28,7 +28,7 @@ class FoundationMaquina(models.Model):
     operador = fields.Many2one('hr.employee', string="Nome Operador", tracking=True)
     observacao = fields.Char("Observação")
     employee_ids = fields.One2many('hr.employee', 'machine_id', string="Funcionários", tracking=True)
-    team_ids = fields.One2many('foundation.team', 'machine_id', string="Histórico de Equipes")
+
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
     status_maquina = fields.Selection([
         ('em_mobilizacao', 'Em Mobilização'),

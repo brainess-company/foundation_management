@@ -21,8 +21,7 @@
         <menuitem id="main_foundation_engenharia" name="Engenharia"  parent="main_foundation_menu" sequence="20"/>
         <menuitem id="menu_foundation_obra_service_simples" name="Serviços" parent="main_foundation_engenharia" action="action_foundation_obra_service_simples" sequence="10"/>
         <menuitem id="foundation_maquina_menu" name="Máquinas" parent="main_foundation_engenharia" action="action_foundation_maquina" sequence="20"/>
-        <menuitem id="menu_foundation_team" name="Equipes" parent="main_foundation_engenharia" action="action_foundation_maquina_team_tree" sequence="30"/>
-        <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="main_foundation_engenharia" action="action_foundation_relatorios_lista_tree" sequence="40"/>
+        <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="main_foundation_engenharia" action="action_foundation_relatorios_lista_tree" sequence="30"/>
         <!-- menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)" parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/-->
 
         <!-- Submenu para Máquinas e Equipamentos -->

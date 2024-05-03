@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
-
-
-        <!-- FOUNDATION OBRA SERVICE SIMPLES-->
-
-
-
         <!-- Gerar uma medição -->
         <!-- FOUNDATION MEDICAO VIEW -->
         <record model="ir.actions.server" id="action_generate_medicao_server">
@@ -32,48 +25,6 @@
             <field name="code">
                 action = model.action_create_invoice()
             </field>
-        </record>
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- FOUNDATION RELATORIO LISTA VIEW-->
-        <!-- Action to open the new Relatório Form
-        <record id="action_open_foundation_relatorios_lista_form" model="ir.actions.act_window">
-            <field name="name">Relatorio</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.relatorios</field>
-            <field name="view_id" ref="view_foundation_relatorios_lista_form"/>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{}</field>
-
-        </record>-->
-
-
-
-
-
-
-
-        <!-- FOUNDATION TEAM VIEW -->
-        <!-- Action to display Foundation Team Tree View -->
-        <record id="action_foundation_team" model="ir.actions.act_window">
-            <field name="name">Equipe da Fundação</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">foundation.team</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{"create": False}</field>
-            <field name="view_id" ref="view_foundation_team_form"/>
         </record>
 
     </data>

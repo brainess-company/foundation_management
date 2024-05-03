@@ -15,7 +15,6 @@ from . import foundation_chamada
 from . import foundation_relatorios
 from . import foundation_lista_presenca
 from . import foundation_maquina_registro
-from . import foundation_team
 from . import foundation_analytic_account_foundation_maquina_registro
 from . import foundation_stock_extension
 from . import foundation_stock_quant_extend
