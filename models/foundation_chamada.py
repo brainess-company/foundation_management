@@ -68,3 +68,18 @@ class Chamada(models.Model):
         """
         self.ensure_one()  # Garantir que está sendo chamado em um único registro
         return {'type': 'ir.actions.act_window_close'}
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(Chamada, self).default_get(fields_list)
+        default_maquina_id = self._context.get('default_maquina_id')
+
+        if default_maquina_id:
+            maquina = self.env['foundation.maquina'].browse(default_maquina_id)
+            if maquina and maquina.operador_id:
+                # Preparar a entrada da lista de presença para o operador da máquina
+                res['lista_presenca_ids'] = [(0, 0, {
+                    'funcionario_id': maquina.operador_id.id,
+                    'data': fields.Date.today(),
+                })]
+        return res
