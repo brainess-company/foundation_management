@@ -15,7 +15,6 @@
                             <field name="maquina_id"/>
                             <field name="operador_id"/>
                             <field name="endereco" readonly="1"/>
-                            <field name="service_id" readonly="1"/>
                             <field name="foundation_maquina_registro_id" readonly="1"/>
                         </group>
                         <notebook>

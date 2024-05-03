@@ -25,7 +25,7 @@ class FoundationMaquina(models.Model):
     _rec_name = 'nome_maquina'
 
     nome_maquina = fields.Char("Máquina",  required=True, tracking=True)
-    operador = fields.Many2one(
+    operador_id = fields.Many2one(
         'hr.employee',
         string="Nome Operador",
         domain="[('id', 'in', available_employee_ids)]",

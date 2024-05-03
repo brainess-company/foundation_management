@@ -54,7 +54,7 @@ class Chamada(models.Model):
     # Adicionando campo para selecionar a máquina e mostrar o operador
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
     operador_id = fields.Many2one('hr.employee', string="Operador da Máquina",
-                                  related='maquina_id.operador', readonly=True)
+                                  related='maquina_id.operador_id', readonly=True)
 
     def action_save(self):
         """

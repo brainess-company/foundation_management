@@ -74,7 +74,7 @@ class FoundationMaquinaRegistro(models.Model):
 
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     operador_id = fields.Many2one('hr.employee', string="Operador",
-                                  compute='_compute_operador', store=True)
+                                  related='maquina_id.operador_id', readonly=True, store=True)
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id',
@@ -182,10 +182,3 @@ class FoundationMaquinaRegistro(models.Model):
             record.has_today_chamada = bool(today_chamadas)
             _logger.info(
                 f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
-
-    @api.depends('maquina_id')
-    def _compute_operador(self):
-        """conputa o nome do operador associado"""
-        for record in self:
-            # Assumindo que 'operador' é um campo em 'foundation.maquina'
-            record.operador_id = record.maquina_id.operador if record.maquina_id else False

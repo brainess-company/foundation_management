@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Maquina List">
                     <field name="nome_maquina"/>
-                    <field name="operador"/>
+                    <field name="operador_id"/>
                     <field name="employee_count"/>
                     <field name="status_maquina"
                            decoration-success="status_maquina == 'disponivel'"
@@ -34,7 +34,7 @@
                         <group>
                             <field name="nome_maquina"/>
                             <field name="available_employee_ids" invisible="1"/>
-                            <field name="operador"/>
+                            <field name="operador_id"/>
                             <field name="requer_chamada"/>
                             <field name="employee_ids" widget="many2many_tags"/>
                             <field name="status_maquina"/>
