@@ -80,16 +80,22 @@ class FoundationRelatorios(models.Model):
         if not vals.get('assinatura'):
             raise UserError("A assinatura é obrigatória para a criação de um relatório.")
 
-        # Verificar o último número de relatório para o registro de máquina específico
-        last_report = self.search([
-            ('foundation_maquina_registro_id', '=', vals.get('foundation_maquina_registro_id'))
-        ], order='id desc', limit=1)
-        next_number = 1
-        if last_report:
-            # Ajustar para obter o número do último relatório e incrementar
-            if last_report.relatorio_number.isdigit():
-                next_number = int(last_report.relatorio_number) + 1
-        vals['relatorio_number'] = str(next_number)
+            # Obter o service_id associado ao registro de máquina
+        if vals.get('foundation_maquina_registro_id'):
+            maquina_registro = self.env['foundation.maquina.registro'].browse(
+                vals.get('foundation_maquina_registro_id'))
+            service_id = maquina_registro.service_id.id if maquina_registro.service_id else None
+
+            if service_id:
+                # Verificar o último número de relatório para o service_id específico
+                last_report = self.search([
+                    ('foundation_maquina_registro_id.service_id', '=', service_id)
+                ], order='id desc', limit=1)
+
+                next_number = 1
+                if last_report and last_report.relatorio_number.isdigit():
+                    next_number = int(last_report.relatorio_number) + 1
+                vals['relatorio_number'] = str(next_number)
 
         new_record = super(FoundationRelatorios, self).create(vals)
 
