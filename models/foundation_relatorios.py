@@ -77,29 +77,49 @@ class FoundationRelatorios(models.Model):
 
     @api.model
     def create(self, vals):
-        """define metodo construtor de relatorio"""
         if not vals.get('assinatura'):
             raise UserError("A assinatura é obrigatória para a criação de um relatório.")
 
         # Verificar o último número de relatório para o registro de máquina específico
         last_report = self.search([
-            ('foundation_maquina_registro_id', '=', vals['foundation_maquina_registro_id'])
+            ('foundation_maquina_registro_id', '=', vals.get('foundation_maquina_registro_id'))
         ], order='id desc', limit=1)
         next_number = 1
         if last_report:
             # Ajustar para obter o número do último relatório e incrementar
-            if last_report.relatorio_number.isdigit():  # Verifica se relatorio_numero é numérico
+            if last_report.relatorio_number.isdigit():
                 next_number = int(last_report.relatorio_number) + 1
-            else:
-                # Se não for numérico, inicia a sequência
-                next_number = 1
-
-        # Definindo o nome do relatório apenas com o número, como string
         vals['relatorio_number'] = str(next_number)
 
-        return super().create(vals)
+        new_record = super(FoundationRelatorios, self).create(vals)
 
-    # comentei os botoes de acai para usar depois
+        # Obter o registro de máquina associado para verificar se requer chamada
+        maquina_registro = new_record.foundation_maquina_registro_id
+
+        # Corrigindo a verificação de 'requer_chamada'
+        if maquina_registro.maquina_id and not maquina_registro.maquina_id.requer_chamada:
+            # Se a máquina não requer chamada, criar uma nova chamada
+            chamada_vals = {
+                'foundation_maquina_registro_id': maquina_registro.id,
+                'data': fields.Date.today(),
+                'foundation_obra_service_id': maquina_registro.service_id.id,
+                'maquina_id': maquina_registro.maquina_id.id,
+                'obra_id': maquina_registro.service_id.obra_id.id,
+                'nome_obra': maquina_registro.nome_obra,
+                'endereco': maquina_registro.endereco,
+            }
+            nova_chamada = self.env['foundation.chamada'].create(chamada_vals)
+
+            # Adicionar o operador da máquina à chamada, se disponível
+            if maquina_registro.maquina_id.operador_id:
+                self.env['foundation.lista.presenca'].create({
+                    'chamada_id': nova_chamada.id,
+                    'funcionario_id': maquina_registro.maquina_id.operador_id.id,
+                    'data': fields.Date.today(),
+                })
+
+        return new_record
+
     def action_confirm(self):
         """action confirm relatorio"""
         self.write({'state': 'conferido'})
