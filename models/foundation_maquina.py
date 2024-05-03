@@ -47,6 +47,21 @@ class FoundationMaquina(models.Model):
     employee_count = fields.Integer(string="Número de Funcionários",
                                     compute='_compute_employee_count', store=True)
 
+    department_id = fields.Many2one('hr.department', string='Departamento', readonly=True)
+
+    @api.model
+    def create(self, vals):
+        machine = super(FoundationMaquina, self).create(vals)
+
+        # Criar um novo departamento para a máquina
+        department = self.env['hr.department'].create({
+            'name': machine.nome_maquina + ' Department',
+            'maquina_id': machine.id,  # Referência à máquina criada
+        })
+        machine.department_id = department.id
+
+        return machine
+
     # Outros campos...
 
     @api.depends('employee_ids')

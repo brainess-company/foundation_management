@@ -9,5 +9,7 @@ access_foundation_chamada,foundation_chamada_user,model_foundation_chamada,,1,1,
 access_foundation_lista_presenca,foundation_lista_presenca_user,model_foundation_lista_presenca,,1,1,1,1
 access_foundation_maquina_registro,foundation_maquina_registro,model_foundation_maquina_registro,,1,1,1,1
 access_foundation_stock_move_wizard,foundation_stock_move_wizard,model_stock_move_wizard,,1,1,1,1
+access_foundation_hrdepartment_extend,foundation_hrdepartment_extend,model_foundation_hrdepartment_extend,,1,1,1,1
+
 
 
