@@ -96,12 +96,11 @@
                     <sheet>
                         <group>
                             <field name="data" readonly="1"/>
-                            <field name="data" readonly="1"/>
-                            <field name="data" readonly="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" related="foundation_maquina_registro_id.nome_obra" readonly="1"/>
                             <field name="nome_servico" related="foundation_maquina_registro_id.service_name" readonly="1"/>
                             <field name="endereco_obra" related="foundation_maquina_registro_id.endereco" readonly="1"/>
+                            <field name="maquina_id" related="foundation_maquina_registro_id.maquina_id" readonly="1"/>
                             <field name="sale_order_id"/>
                             <field name="service_template_id" related="foundation_maquina_registro_id.service_template_id"/>
                         </group>
