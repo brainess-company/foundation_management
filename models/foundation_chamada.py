@@ -3,7 +3,7 @@
  Este modelo serve como um meio de documentar a presença de equipes
  e o uso de equipamentos em locais de obras específicos.
 """
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class Chamada(models.Model):
@@ -54,6 +54,12 @@ class Chamada(models.Model):
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
     operador_id = fields.Many2one('hr.employee', string="Operador da Máquina",
                                   related='maquina_id.operador_id', readonly=True)
+    funcionario_ids = fields.Many2many('hr.employee', compute='_compute_funcionario_ids')
+
+    @api.depends('lista_presenca_ids.funcionario_id')
+    def _compute_funcionario_ids(self):
+        for rec in self:
+            rec.funcionario_ids = [(6, 0, rec.lista_presenca_ids.mapped('funcionario_id').ids)]
 
     def action_save(self):
         """

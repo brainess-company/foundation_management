@@ -12,27 +12,31 @@
                     <field name="foundation_obra_service_id" widget="many2one" options="{'no_open': True}"/>
                     <field name="nome_obra" readonly="1"/>
                     <field name="maquina_id"/>
+                    <field name="funcionario_ids" invisible="1"/>
+
                     <field name="operador_id"/>
                     <field name="endereco" readonly="1"/>
                     <field name="foundation_maquina_registro_id" readonly="1"/>
                 </group>
                 <notebook>
                     <page string="Funcionários Presentes">
-                        <field name="lista_presenca_ids" context="{'default_maquina_id': maquina_id}">
+                        <field name="lista_presenca_ids" context="{'default_maquina_id': maquina_id, 'already_added_ids': funcionario_ids}">
                             <tree editable="bottom">
                                 <field name="funcionario_id"
                                        widget="many2one"
                                        options="{'no_open': True}"
-                                       domain="[('machine_id', '=', maquina_id)]"/>
+                                       domain="[('id', 'not in', context.get('already_added_ids', [])), ('machine_id', '=', maquina_id)]"/>
                                 <field name="maquina_id"/>
                                 <field name="data"/>
                             </tree>
+
                             <form>
                                 <group>
                                     <field name="funcionario_id"
                                            widget="many2one"
                                            options="{'no_open': True}"
-                                           domain="[('machine_id', '=', context.get('default_maquina_id', False))]" />
+                                           domain="[('machine_id', '=', context.get('default_maquina_id', False)),
+                                           ('id', 'not in', parent.funcionario_ids)]" />
                                     <field name="maquina_id"/>
                                     <field name="data"/>
                                 </group>
