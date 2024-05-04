@@ -1,5 +1,5 @@
 {
-    'name': 'Foundation Skills',
+    'name': 'foundation_management',
     'version': '16.0.1.0.0',  # Formato correto1
     'summary': 'Manages foundations, machines, services, and measurements.',
     'sequence': 10,
@@ -14,8 +14,6 @@
         'account',
         'mail',
         'sale_management',
-        # 'website',
-        #'invoice',
         'stock',
         'product',
         'account',  # Para usar contas analíticas
@@ -35,14 +33,11 @@
         'views/foundation_estacas_view.xml',  # Load views for the Estacas model
         'views/foundation_relatorios_lista_view.xml',
         'views/foundation_maquina_registro_estacas.xml',
-'views/foundation_stock_move_wizard_view.xml',
+        'views/foundation_stock_move_wizard_view.xml',
         'views/foundation_saida_estoque_view.xml',  # Load views for the Maquina model
-
-
         'views/BACKUP.xml',  # Load menu definitions
         'views/foundation_chamada_maquina_registro.xml',
         'views/foundation_stock_extension_view.xml',
-
         'views/foundation_menus.xml',  # Load menu definitions
         'views/foundation_actions.xml',  # Load actions (this should come early, before other views)
         'views/sale_order_obra_extension.xml',
