@@ -1,9 +1,0 @@
-<field name="estacas_ids"
-       context="{
-       'default_foundation_maquina_registro_id': foundation_maquina_registro_id,
-       'default_sale_order_id': sale_order_id,
-        'default_service_template_id': service_id,
-        'default_service_id': service_template_id}">
-
-    <!-- o nome depois dos dois pontos é o do campo estacas_id-->
-     <!---->
