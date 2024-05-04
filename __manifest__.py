@@ -16,7 +16,6 @@
         'sale_management',
         'stock',
         'product',
-        'account',  # Para usar contas analíticas
         'hr',       # Se você estiver usando funcionalidades relacionadas a empregados
     ],
     'data': [
