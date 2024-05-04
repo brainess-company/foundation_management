@@ -53,7 +53,7 @@ class FoundationRelatorios(models.Model):
                                  string="Serivice id", readonly=True, store=True)
     variante_id = fields.Many2one('product.product', string="Variante")
     foundation_maquina_registro_id = fields.Many2one(
-        'foundation.maquina.registro', dstring='Registro de Máquina',
+        'foundation.maquina.registro', string='Registro de Máquina',
         required=True, help='Referência ao registro de máquina associado.')
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                   string="Operador", readonly=True, store=True)
