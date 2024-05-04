@@ -1,6 +1,3 @@
-"""
-Teste de docstring no manifest
-"""
 {
     'name': 'foundation_management',
     'version': '16.0.1.0.0',
