@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
         <!-- LISTA QUE APARECE NO NOTEBOOK -->
         <record id="view_foundation_estacas_tree" model="ir.ui.view">
             <field name="name">foundation.estacas.tree</field>
@@ -9,11 +8,9 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Estacas List">
                     <field name="data"/>
+                    <field name="service_id"/>
                     <field name="nome_estaca"/>
-                    <field name="service_template_id"/>
-                    <field name="display_medicao"/>
                     <field name="profundidade"/>
-                    <field name="unit_price"/>
                     <field name="sale_order_line_id"/>
                 </tree>
             </field>
@@ -29,10 +26,10 @@
                 <form string="Relatório de Estacas">
                     <sheet>
                         <group>
-                            <!--field name="variante_id"/-->
                             <field name="nome_obra"/>
                             <field name="sale_order_id"/>
-                            <field name="data"/>
+                            <field name="data" readonly="1"/>
+                            <field name="data" invisible="1"/>
                             <field name="variante_id" invisible="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="service_id"/>
@@ -50,14 +47,17 @@
                                     <form>
                                         <sheet>
                                             <group>
-                                                <field name="nome_estaca"/>
-                                                <field name="profundidade"/>
+                                                <!-- POPUP PARA ADICIONAR ESTACAS -->
+
                                                 <field name="data"/>
-                                                <field name="service_id"/>
+                                                <field name="service_id" readonly="1"/>
+                                                <field name="service_id" invisible="1"/>
                                                 <field name="variante_id" invisible="1"/>
                                                 <field name="sale_order_id" invisible="1"/>
                                                 <field name="foundation_maquina_registro_id" invisible="1"/>
                                                 <field name="service_template_id" invisible="1"/>
+                                                <field name="nome_estaca"/>
+                                                <field name="profundidade"/>
                                                 <field name="sale_order_line_id"
                                                        domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
                                                        context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
@@ -103,7 +103,7 @@
                 <tree string="Lista de Registros de Máquinas">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
-                    <field name="analytic_account_id"/>
+                    <field name="analytic_account_id" invisible="1"/>
                     <field name="requer_chamada_maquina" invisible="1"/>
                     <field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"
