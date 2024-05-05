@@ -70,78 +70,75 @@
                 </calendar>
             </field>
         </record>
-
-
-        <!-- Form View for Foundation Obra Service -->
-                <!-- Form View for inserting Estacas into Relatórios, including service details -->
-        <record id="view_FODASE" model="ir.ui.view">
-            <field name="name">FODASE</field>
+        <!-- Form View for inserting Estacas into Relatórios, including machine registration details -->
+        <record id="view_foundation_relatorio_maquina_form" model="ir.ui.view">
+            <field name="name">foundation.relatorio.maquina.form</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas">
-
-                    <header>
-                        <field name="data" invisible="1"/>
-                        <button name="action_confirm" type="object" string="Confirmar" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'in', ['conferido', 'cancelado'])]}"
-                                help="Confirma o relatório, marcando-o como conferido."/>
-                        <button name="action_draft" type="object" string="Rascunho"
-                                attrs="{'invisible': [('state', '=', 'rascunho')]}"
-                                help="Retorna o relatório para o estado de rascunho."/>
-                        <button name="action_cancel" type="object" string="Cancelar"
-                                attrs="{'invisible': [('state', '=', 'cancelado')]}"
-                                help="Cancela o relatório."/>
-                        <field name="state" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
-                    </header>
                     <sheet>
                         <group>
-                            <field name="data" readonly="1"/>
-                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-                            <field name="nome_obra" related="foundation_maquina_registro_id.nome_obra" readonly="1"/>
-                            <field name="nome_servico" related="foundation_maquina_registro_id.service_name" readonly="1"/>
-                            <field name="endereco_obra" related="foundation_maquina_registro_id.endereco" readonly="1"/>
-                            <field name="maquina_id" related="foundation_maquina_registro_id.maquina_id" readonly="1"/>
+                            <!--field name="variante_id"/-->
+                            <field name="nome_obra"/>
                             <field name="sale_order_id"/>
-                            <field name="service_template_id" related="foundation_maquina_registro_id.service_template_id"/>
+                            <field name="data"/>
+                            <field name="variante_id" invisible="1"/>
+                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
+                            <field name="service_id"/>
+                            <field name="service_template_id" invisible="1"/>
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': foundation_maquina_registro_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}">
-                                    <tree editable="bottom">
-                                        <field name="nome_estaca" readonly="1"/>
-                                        <field name="nome_estaca" readonly="1"/>
-                                        <field name="service_template_id" readonly="1"/>
-                                        <field name="sale_order_id" readonly="1"/>
-                                        <field name="profundidade" readonly="1"/>
 
-                                        <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
-                                        <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-                                    </tree>
+                                <field name="estacas_ids" context="{
+                                            'default_sale_order_id': sale_order_id,
+                                            'default_foundation_maquina_registro_id': active_id,
+                                            'default_service_template_id': service_template_id,
+                                            'default_service_id': service_id
+                                        }">
                                     <form>
-                                        <group>
-                                            <field name="nome_estaca" readonly="1"/>
-                                            <field name="profundidade" readonly="1"/>
-                                            <field name="sale_order_id" readonly="1"/>
-                                            <field name="service_template_id" readonly="1"/>
-                                            <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
-                                            <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
-                                        </group>
+                                        <sheet>
+                                            <group>
+                                                <field name="nome_estaca"/>
+                                                <field name="profundidade"/>
+                                                <field name="data"/>
+                                                <field name="service_id"/>
+                                                <field name="variante_id" invisible="1"/>
+                                                <field name="sale_order_id" invisible="1"/>
+                                                <field name="foundation_maquina_registro_id" invisible="1"/>
+                                                <field name="service_template_id" invisible="1"/>
+                                                <field name="sale_order_line_id"
+                                                       domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
+                                                       context="{'default_order_id': sale_order_id, 'form_view_ref':'sale.view_order_product_form'}"
+                                                       options="{'no_create': True, 'no_open': True}"/>
+
+                                                <!--, ('product_id.product_tmpl_id', '=', service_template_id)
+                                                field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image', 'size': [90, 90]}"/-->
+                                            </group>
+                                        </sheet>
                                     </form>
                                 </field>
                             </page>
                         </notebook>
-                        <group>
-                            <field name="assinatura" widget="signature" readonly="1"/>
-                        </group>
 
+                        <group>
+                            <field name="assinatura" widget="signature"/>
+                        </group>
+                        <footer>
+                            <button string="Salvar" type="object" name="action_save" class="oe_highlight"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
                     </sheet>
                 </form>
             </field>
         </record>
 
+
+
+
         <!-- FOUNDATION RELATORIO LISTA VIEW-->
         <record id="action_foundation_relatorios_lista_tree" model="ir.actions.act_window">
-            <field name="name">Relatorios</field>
+            <field name="name">Relatoriosj</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
             <field name="views" eval="[(ref('view_foundation_relatorios_lista_tree'), 'tree'), (ref('view_FODASE'), 'form'),(ref('view_foundation_relatorios_lista_kanban'), 'kanban'),(ref('view_foundation_relatorios_lista_calendar'), 'calendar')]"/>

@@ -8,10 +8,11 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Obra Service List Simples">
                     <field name="sale_order_id"/>
-                    <field name="service_name"/>
                     <field name="nome_obra"/>
+                    <field name="service_name"/>
+                    <field name="foundation_maquina_ids" widget="many2many_tags"
+                           string="Máquinas Associadas"/>
                     <field name="endereco"/>
-                    <!--field name="operador_id"/-->
                 </tree>
             </field>
         </record>
@@ -25,13 +26,11 @@
                     <sheet>
                         <group>
                             <field name="sale_order_id"/>
-                            <field name="service_name"/>
                             <field name="nome_obra"/>
+                            <field name="service_name"/>
+
                             <field name="foundation_maquina_ids" widget="many2many_tags"
                            string="Máquinas Associadas"/>
-                            <!--field name="foundation_maquina_id"/-->
-                            <!--field name="endereco"/-->
-                            <!--field name="operador_id"/-->
                         </group>
                     </sheet>
                     <!-- Inserir Chatter -->
