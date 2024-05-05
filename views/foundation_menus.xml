@@ -58,13 +58,12 @@
           parent="foundation_testes"
           sequence="20"/>
 
-        <menuitem id="menu_foundation_maquina_registro" name="BACKUP" parent="foundation_testes" action="action_tela_foundation_maquina_registro" sequence="30"/>
 
         <menuitem id="menu_instructions"
           name="Instruções de Uso"
           action="action_instructions"
-          parent="menu_foundation_maquina_registro"
-          sequence="40"/>
+          parent="foundation_testes"
+          sequence="30"/>
 
         <!-- Menu para acessar a página de ajuda -->
         <menuitem id="menu_chamadas"
