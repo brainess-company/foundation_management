@@ -31,7 +31,6 @@
         'views/foundation_estacas_view.xml',
         'views/foundation_relatorios_lista_view.xml',
         'views/foundation_maquina_registro_estacas.xml',
-
         'views/foundation_saida_estoque_view.xml',
         'views/foundation_chamada_maquina_registro.xml',
         'views/foundation_stock_extension_view.xml',
@@ -40,6 +39,7 @@
         'views/sale_order_obra_extension.xml',
     ],
     'demo': [],
+    'icon': 'static/description/foundation_management_icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,
