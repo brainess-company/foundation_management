@@ -39,7 +39,6 @@
         'views/sale_order_obra_extension.xml',
     ],
     'demo': [],
-    'icon': 'static/description/foundation_management_icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,
