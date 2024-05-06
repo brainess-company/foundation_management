@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-                        <!-- Ação de Redirecionamento -->
-        <record id="action_redirect_to_help" model="ir.actions.act_url">
-            <field name="name">Abrir Ajuda do Módulo</field>
-            <field name="type">ir.actions.act_url</field>
-            <field name="url">/foundation_management/help</field>
-            <field name="target">new</field>
-        </record>
 
-        <record model="ir.actions.act_url" id="action_module_description">
-            <field name="name">Download Descrição do Módulo</field>
-            <field name="type">ir.actions.act_url</field>
-            <field name="url">/foundation_management/static/description/instrucao_modulo.pdf</field>
-            <field name="target">new</field>
-        </record>
         <!-- Menu Principal para o Módulo de Gestão de Fundações -->
         <!-- Menu Principal para o Módulo de Gestão de Fundações -->
         <menuitem id="main_foundation_menu" name="Fundações" sequence="10"/>
@@ -23,6 +10,17 @@
         <menuitem id="foundation_maquina_menu" name="Máquinas" parent="main_foundation_engenharia" action="action_foundation_maquina" sequence="20"/>
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="main_foundation_engenharia" action="action_foundation_relatorios_lista_tree" sequence="30"/>
         <!-- menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)" parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/-->
+        <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
+        <menuitem id="menu_stock_saldo_by_location"
+                  name="Estoque em Obra"
+                  action="action_sale_order_saldo_tree"
+                  parent="main_foundation_engenharia"
+                  sequence="40"/>
+        <menuitem id="menu_chamada1"
+          name="Registros de Chamadas"
+          action="action_foundation_chamada"
+          parent="main_foundation_engenharia"
+          sequence="50"/>
 
         <!-- Submenu para Máquinas e Equipamentos -->
         <!-- Submenu para Estacas -->
@@ -41,53 +39,6 @@
                   action="action_foundation_maquina_registro_saida_tree"
                   parent="foundation_teste_menu"
                   sequence="30"/>
-
-        <!-- Submenu para Operador -->
-        <menuitem id="foundation_testes" name="Ajuda"  parent="main_foundation_menu" sequence="50"/>
-
-        <!-- Menu para acessar a página de ajuda -->
-        <menuitem id="menu_help_page"
-                  name="Ajuda do Módulo"
-                  action="action_redirect_to_help"
-                  parent="foundation_testes"
-                  sequence="10"/> <!-- Altere para o menu pai desejado -->
-
-        <menuitem id="menu_module_description_download"
-          name="Download Descrição"
-          action="action_module_description"
-          parent="foundation_testes"
-          sequence="20"/>
-
-
-        <menuitem id="menu_instructions"
-          name="Instruções de Uso"
-          action="action_instructions"
-          parent="foundation_testes"
-          sequence="30"/>
-
-        <!-- Menu para acessar a página de ajuda -->
-        <menuitem id="menu_chamadas"
-                  name="Chamadas"
-                  parent="main_foundation_menu"
-                  sequence="60"/> <!-- Altere para o menu pai desejado -->
-
-        <menuitem id="menu_chamada1"
-          name="Chamada 1"
-          action="action_foundation_chamada"
-          parent="menu_chamadas"
-          sequence="10"/>
-
-                <!-- Menu Item -->
-
-
-
-         <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
-        <menuitem id="menu_stock_saldo_by_location"
-                  name="saldo Estoque"
-                  action="action_sale_order_saldo_tree"
-                  parent="menu_chamadas"
-                  sequence="20"/>
-
 
 
 

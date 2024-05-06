@@ -25,7 +25,6 @@
         'views/foundation_saldo_estoque_view.xml',
         'views/foundation_maquina_view.xml',
         'views/foundation_obra_view.xml',
-        'views/template_instructions.xml',
         'views/foundation_medicao_view.xml',
         'views/foundation_obra_service_simples_view.xml',
         'views/foundation_estacas_view.xml',
