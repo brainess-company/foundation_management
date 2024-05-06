@@ -36,6 +36,9 @@ class FoundationMaquina(models.Model):
     available_employee_ids = fields.Many2many('hr.employee', compute='_compute_available_employees',
                                               store=False)
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
+    display_requer_chamada = fields.Char(string="Requer chamada?",
+                                            compute='_compute_display_requer_chamada',
+                                            store=False)
     status_maquina = fields.Selection([
         ('em_mobilizacao', 'Em Mobilização'),
         ('sem_obra', 'Sem Obra'),
@@ -73,3 +76,11 @@ class FoundationMaquina(models.Model):
     def _compute_available_employees(self):
         for machine in self:
             machine.available_employee_ids = [(6, 0, machine.employee_ids.ids)]
+
+    @api.depends('requer_chamada')
+    def _compute_display_requer_chamada(self):
+        for record in self:
+            if record.requer_chamada:  # Verifica se a máquina requer chamada
+                record.display_requer_chamada = "Sim"
+            else:
+                record.display_requer_chamada = "Não"

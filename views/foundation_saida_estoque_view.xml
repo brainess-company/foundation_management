@@ -81,6 +81,9 @@
             <field name="res_model">foundation.maquina.registro</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_foundation_maquina_registro_saida_tree"/>
+            <field name="help" type="html">
+                <p>Use os itens de estoque.</p>
+            </field>
         </record>
     </data>
 </odoo>

@@ -9,6 +9,9 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Maquina List">
                     <field name="nome_maquina"/>
+                    <field name="display_requer_chamada"
+                           decoration-info="display_requer_chamada == 'Sim'"
+                           decoration-muted="display_requer_chamada == 'Não'"/>
                     <field name="operador_id"/>
                     <field name="employee_count"/>
                     <field name="status_maquina"
@@ -34,9 +37,9 @@
                         <group>
                             <field name="nome_maquina"/>
                             <field name="available_employee_ids" invisible="1"/>
-                            <field name="operador_id"/>
                             <field name="requer_chamada"/>
                             <field name="employee_ids" widget="many2many_tags"/>
+                            <field name="operador_id"/>
                             <field name="status_maquina"/>
                             <field name="observacao"/>
                         </group>
@@ -57,6 +60,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina</field>
             <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Cadastre uma nova máquina e configure sua equipe aqui.</p>
+            </field>
         </record>
 
 
