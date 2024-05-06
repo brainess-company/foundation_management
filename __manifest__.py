@@ -1,5 +1,5 @@
 {
-    'name': 'foundation_management',
+    'name': 'Foundation Skills',
     'version': '16.0.1.0.0',
     'summary': 'Manages foundations, machines, services, and measurements.',
     'sequence': 10,

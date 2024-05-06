@@ -38,8 +38,8 @@ class Chamada(models.Model):
                             related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
 
-
-    data = fields.Date(string="Data da chamada", default=fields.Date.today, required=True, store=True)
+    data = fields.Date(
+        string="Data da chamada", default=fields.Date.today, required=True, store=True)
 
     foundation_service_id = fields.Many2one('foundation.obra.service', string="Serviço Relacionado")
 
