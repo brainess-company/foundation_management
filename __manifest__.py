@@ -19,6 +19,7 @@
         'hr',
     ],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/foundation_stock_move_wizard_view.xml',
         'views/foundation_chamada_view.xml',

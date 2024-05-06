@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Grupo de Engenharia -->
+        <record id="group_engenharia" model="res.groups">
+            <field name="name">Engenharia</field>
+        </record>
+
+        <!-- Grupo de Operadores -->
+        <record id="group_operadores" model="res.groups">
+            <field name="name">Operadores</field>
+        </record>
+
+    </data>
+</odoo>
