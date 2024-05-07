@@ -54,6 +54,9 @@ class Chamada(models.Model):
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina Associada")
     operador_id = fields.Many2one('hr.employee', string="Operador da Máquina",
                                   related='maquina_id.operador_id', readonly=True)
+    # Campo related para vincular diretamente ao user_id do operador
+    operador_user_id = fields.Many2one('res.users', string="Usuário do Operador",
+                                       related='operador_id.user_id', readonly=True, store=True)
     funcionario_ids = fields.Many2many('hr.employee', compute='_compute_funcionario_ids')
 
     @api.depends('lista_presenca_ids.funcionario_id')

@@ -57,6 +57,9 @@ class FoundationRelatorios(models.Model):
         required=True, help='Referência ao registro de máquina associado.')
     operador_id = fields.Many2one(related='foundation_maquina_registro_id.operador_id',
                                   string="Operador", readonly=True, store=True)
+    # Campo related para vincular diretamente ao user_id do operador
+    operador_user_id = fields.Many2one('res.users', string="Usuário do Operador",
+                                       related='operador_id.user_id', readonly=True, store=True)
 
     relatorio_number = fields.Char(string="Nome do Relatório")
     display_relatorio_name = fields.Char(compute="_compute_display_relatorio_name",

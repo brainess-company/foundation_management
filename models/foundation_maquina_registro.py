@@ -75,6 +75,9 @@ class FoundationMaquinaRegistro(models.Model):
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina")
     operador_id = fields.Many2one('hr.employee', string="Operador",
                                   related='maquina_id.operador_id', readonly=True, store=True)
+    # Campo related para vincular diretamente ao user_id do operador
+    operador_user_id = fields.Many2one('res.users', string="Usuário do Operador",
+                                       related='operador_id.user_id', readonly=True, store=True)
 
     # CAMPO INVERSO PARA MOSTRAR ESTACA RELACIONADA COM ESSE SERVIÇO
     estacas_ids = fields.One2many('foundation.estacas', 'foundation_maquina_registro_id',
