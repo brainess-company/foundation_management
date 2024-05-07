@@ -29,6 +29,7 @@ class FoundationEstacas(models.Model):
 
     _name = 'foundation.estacas'
     _description = 'Estacas utilizadas na obra'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Herdar de mail.thread e mail.activity.mixin
     _rec_name = 'nome_estaca'
 
     # CAMPOS PROPRIOS
@@ -76,7 +77,7 @@ class FoundationEstacas(models.Model):
     medicao_id = fields.Many2one('foundation.medicao',
                                  string="Medição Relacionada")
     nome_medicao = fields.Char(related='medicao_id.nome',
-                               string="Numero Medicao", readonly=True)
+                               string="Numero Medicao", readonly=True, tracking=True)
 
     # Campos relacionados para mostrar no calendário
     nome_obra = fields.Char(related='service_id.obra_id.nome_obra',
@@ -96,7 +97,7 @@ class FoundationEstacas(models.Model):
         string="Status do Relatório",
         related='relatorio_id.state',
         readonly=True,
-        store=True  # Opção de armazenar ou não o campo na base de dados
+        store=True  # Opção de armazenar ou não o campo na base de dados , tracking=True
     )
 
     # CAMPOS CALCULADOS

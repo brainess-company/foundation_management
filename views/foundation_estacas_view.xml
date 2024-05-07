@@ -67,21 +67,26 @@
                 <form string="Estaca Detalhes">
                     <sheet>
                         <group>
-                            <field name="data"/>
-                            <field name="medicao_id"/>
-                            <field name="nome_estaca"/>
-                            <field name="profundidade"/>
-                            <field name="relatorio_id"/>
+                            <field name="data" readonly="1"/>
+                            <field name="medicao_id" readonly="1"/>
+                            <field name="nome_estaca" readonly="1"/>
+                            <field name="profundidade" readonly="1"/>
+                            <field name="relatorio_id" readonly="1"/>
                             <field name="status_relatorio"/>
-                            <field name="service_template_id"/>
-                            <field name="sale_order_id"/>
-                            <field name="sale_order_line_id"/>
+                            <field name="service_template_id" options="{'no_open': True}"/>
+                            <field name="sale_order_id" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="sale_order_line_id" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="total_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <!--field name="signature" widget="signature" readonly="1"/-->
                             <!--field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/-->
                         </group>
                     </sheet>
+                                        <!-- Inserir Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
