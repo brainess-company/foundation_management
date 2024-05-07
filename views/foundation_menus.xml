@@ -15,6 +15,8 @@
         <menuitem id="menu_chamada1" name="Registros de Chamadas" action="action_foundation_chamada" parent="main_foundation_engenharia" sequence="50"/>
 
         <!-- Submenu para Máquinas e Equipamentos -->
+        <!--field groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/-->
+
         <!-- Submenu para Estacas -->
         <menuitem id="main_foundation_medicoes" name="Medições" parent="main_foundation_menu" sequence="30"/>
         <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_medicoes" action="action_foundation_estacas" sequence="10"/>
@@ -23,7 +25,7 @@
 
         <!-- Submenu para Operador -->
         <menuitem id="foundation_teste_menu" name="Operador" parent="main_foundation_menu" sequence="20"/>
-                <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="10"/>
+        <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="10"/>
         <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_chamada_tree" sequence="20"/>
         <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
         <menuitem id="menu_saida_estoque" name="Estoque" action="action_foundation_maquina_registro_saida_tree" parent="foundation_teste_menu" sequence="30"/>
