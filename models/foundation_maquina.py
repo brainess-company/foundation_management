@@ -31,6 +31,8 @@ class FoundationMaquina(models.Model):
         domain="[('id', 'in', available_employee_ids)]",
         tracking=True
     )
+    operador_user_id = fields.Many2one('res.users', string="Usuário do Operador",
+                                       related='operador_id.user_id', readonly=True, store=True)
     observacao = fields.Char("Observação")
     employee_ids = fields.One2many('hr.employee', 'machine_id', string="Funcionários", tracking=True)
     available_employee_ids = fields.Many2many('hr.employee', compute='_compute_available_employees',

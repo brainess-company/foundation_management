@@ -3,6 +3,16 @@
 
     <data>
 
+        <record id="rule_for_operators_maquina" model="ir.rule">
+            <field name="name">Visibility for Operators</field>
+            <field name="model_id" ref="foundation_management.model_foundation_maquina"/>
+            <field name="groups" eval="[(4, ref('foundation_management.group_operadores'))]"/>
+            <field name="domain_force">[('operador_user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
         <record id="rule_for_operators_maquina_registro" model="ir.rule">
             <field name="name">Visibility for Operators</field>
             <field name="model_id" ref="foundation_management.model_foundation_maquina_registro"/>
@@ -25,6 +35,7 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
+
         <record id="rule_for_operators_relatorios" model="ir.rule">
             <field name="name">Visibility for Operators</field>
             <field name="model_id" ref="foundation_management.model_foundation_relatorios"/>
@@ -35,5 +46,7 @@
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
+
+
     </data>
 </odoo>
