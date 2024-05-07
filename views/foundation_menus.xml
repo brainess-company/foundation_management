@@ -3,36 +3,31 @@
     <data>
 
         <!-- Menu Principal para o Módulo de Gestão de Fundações -->
-        <!-- Menu Principal para o Módulo de Gestão de Fundações -->
         <menuitem id="main_foundation_menu" name="Fundações" sequence="10"/>
-        <menuitem id="main_foundation_engenharia" name="Engenharia"  parent="main_foundation_menu" sequence="40"/>
+        <menuitem id="main_foundation_engenharia" name="Engenharia" parent="main_foundation_menu"
+                  groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_controle" sequence="40"/>
         <menuitem id="menu_foundation_obra_service_simples" name="Serviços" parent="main_foundation_engenharia" action="action_foundation_obra_service_simples" sequence="10"/>
         <menuitem id="foundation_maquina_menu" name="Máquinas" parent="main_foundation_engenharia" action="action_foundation_maquina" sequence="20"/>
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="main_foundation_engenharia" action="action_foundation_relatorios_lista_tree" sequence="30"/>
-        <!-- menuitem id="menu_foundation_obra_service_with_estacas" name="Obra Services (Estacas)" parent="foundation_obras_menu" action="action_foundation_obra_service_with_estacas" sequence="30"/-->
-        <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
         <menuitem id="menu_stock_saldo_by_location" name="Estoque em Obra" action="action_sale_order_saldo_tree" parent="main_foundation_engenharia" sequence="40"/>
         <menuitem id="menu_chamada1" name="Registros de Chamadas" action="action_foundation_chamada" parent="main_foundation_engenharia" sequence="50"/>
 
         <!-- Submenu para Máquinas e Equipamentos -->
         <!--field groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/-->
-
         <!-- Submenu para Estacas -->
-        <menuitem id="main_foundation_medicoes" name="Medições" parent="main_foundation_menu" sequence="30"/>
+        <menuitem id="main_foundation_medicoes" name="Medições" parent="main_foundation_menu"
+                  groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_controle"
+                  sequence="30"/>
         <menuitem id="foundation_estacas_menu" name="Estacas" parent="main_foundation_medicoes" action="action_foundation_estacas" sequence="10"/>
         <menuitem id="menu_foundation_obra" name="Obras" parent="main_foundation_medicoes" action="action_foundation_obra" sequence="20"/>
         <menuitem id="foundation_medicao_menu" name="Medições" parent="main_foundation_medicoes" action="action_foundation_medicao" sequence="30"/>
 
         <!-- Submenu para Operador -->
-        <menuitem id="foundation_teste_menu" name="Operador" parent="main_foundation_menu" sequence="20"/>
+        <menuitem id="foundation_teste_menu" name="Operador" parent="main_foundation_menu" sequence="20"
+                  groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/>
         <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="10"/>
         <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_chamada_tree" sequence="20"/>
-        <!-- Menu para a Ação (opcional, pode ser vinculado a outro lugar) -->
         <menuitem id="menu_saida_estoque" name="Estoque" action="action_foundation_maquina_registro_saida_tree" parent="foundation_teste_menu" sequence="30"/>
-
-
-
-
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->
         <record id="menu_sale_order_custom" model="ir.ui.menu">

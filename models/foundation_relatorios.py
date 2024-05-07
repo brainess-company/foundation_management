@@ -159,10 +159,11 @@ class FoundationRelatorios(models.Model):
         self.state = 'conferencia'
         # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {
-            'type': 'ir.actions.act_window',
+            'type': 'ir.actions.act_window_close',  # ir.actions.act_window PARA ABRIR O RELATORIO
             'name': 'Relatório Confirmado',
             'view_mode': 'form',
             'res_model': 'foundation.relatorios',
             'res_id': self.id,
             'target': 'current'
         }
+
