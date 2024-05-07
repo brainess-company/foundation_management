@@ -16,8 +16,8 @@
                     <field name="status_relatorio"/>
                     <field name="display_medicao"/>
                     <field name="profundidade"/>
-                    <field name="unit_price"/>
-                    <field name="total_price" readonly="1"/>
+                    <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                    <field name="total_price" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="observacao"/>
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>
@@ -51,8 +51,8 @@
             <field name="arch" type="xml">
                 <graph string="Graph View for Estacas" type="bar">
                     <field name="medicao_id" type="row"/>
-                    <field name="total_price" type="measure"/>
-                    <field name="profundidade" type="measure"/>
+                    <field name="total_price" type="measure" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                    <field name="profundidade" type="measure" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                 </graph>
             </field>
         </record>'
@@ -76,8 +76,8 @@
                             <field name="service_template_id"/>
                             <field name="sale_order_id"/>
                             <field name="sale_order_line_id"/>
-                            <field name="unit_price"/>
-                            <field name="total_price"/>
+                            <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="total_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <!--field name="signature" widget="signature" readonly="1"/-->
                             <!--field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image','size': [500, 500]}" readonly="1"/-->
                         </group>

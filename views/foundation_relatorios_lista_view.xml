@@ -80,15 +80,18 @@
                     <header>
                         <field name="data" invisible="1"/>
                         <button name="action_confirm" type="object" string="Confirmar" class="oe_highlight"
+                                groups="foundation_management.group_engenharia"
                                 attrs="{'invisible': [('state', 'in', ['conferido', 'cancelado'])]}"
                                 help="Confirma o relatório, marcando-o como conferido."/>
                         <button name="action_draft" type="object" string="Rascunho"
+                                groups="foundation_management.group_engenharia"
                                 attrs="{'invisible': [('state', '=', 'rascunho')]}"
                                 help="Retorna o relatório para o estado de rascunho."/>
                         <button name="action_cancel" type="object" string="Cancelar"
+                                groups="foundation_management.group_engenharia"
                                 attrs="{'invisible': [('state', '=', 'cancelado')]}"
                                 help="Cancela o relatório."/>
-                        <field name="state" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
+                        <field name="state" groups="foundation_management.group_engenharia" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
                     </header>
                     <sheet>
                         <group>

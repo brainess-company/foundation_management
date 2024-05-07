@@ -15,9 +15,9 @@
                     <field name="cliente_id"/>
                     <field name="invoice_address"/>
 
-                    <field name="valor_total"/>
-                    <field name="valor_faturado" readonly="1"/>
-                    <field name="valor_a_faturar" readonly="1"/>
+                    <field name="valor_total" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                    <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                    <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
 
 
                 </tree>
@@ -35,9 +35,9 @@
                             <field name="nome_obra"/>
                             <field name="invoice_address"/>
                             <field name="cliente_id" readonly="1"/>
-                            <field name="valor_total" readonly="1"/>
-                            <field name="valor_faturado" readonly="1"/>
-                            <field name="valor_a_faturar" readonly="1"/>
+                            <field name="valor_total" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                         </group>
                     </sheet>
                 </form>
