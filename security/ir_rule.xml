@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
     <data>
-        <record id="task_rule_for_operators" model="ir.rule">
-            <field name="name">Task Visibility for Operators</field>
-            <field name="model_id" ref="project.model_project_task"/>
+
+        <record id="rule_for_operators_maquina_registro" model="ir.rule">
+            <field name="name">Visibility for Operators</field>
+            <field name="model_id" ref="foundation_management.model_foundation_maquina_registro"/>
             <field name="groups" eval="[(4, ref('foundation_management.group_operadores'))]"/>
-            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="domain_force">[('operador_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_for_operators_chamada" model="ir.rule">
+            <field name="name">Visibility for Operators</field>
+            <field name="model_id" ref="foundation_management.model_foundation_chamada"/>
+            <field name="groups" eval="[(4, ref('foundation_management.group_operadores'))]"/>
+            <field name="domain_force">[('operador_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_for_operators_relatorios" model="ir.rule">
+            <field name="name">Visibility for Operators</field>
+            <field name="model_id" ref="foundation_management.model_foundation_relatorios"/>
+            <field name="groups" eval="[(4, ref('foundation_management.group_operadores'))]"/>
+            <field name="domain_force">[('operador_id', '=', user.id)]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>

@@ -20,8 +20,10 @@
     ],
     'data': [
         'security/security.xml',
+        'security/ir_rule.xml',
         'security/ir.model.access.csv',
-        # 'security/sale_order_rules.xml',
+
+        # 'security/sale_order_rules.xml'
         'views/foundation_stock_move_wizard_view.xml',
         'views/foundation_chamada_view.xml',
         'views/foundation_saldo_estoque_view.xml',
