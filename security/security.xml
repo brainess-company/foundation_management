@@ -11,5 +11,16 @@
             <field name="name">Operadores</field>
         </record>
 
+        <!-- Grupo de Controle -->
+        <record id="group_controle" model="res.groups">
+            <field name="name">Controle</field>
+        </record>
+
+        <!-- Grupo Diretoria -->
+        <record id="group_diretoria" model="res.groups">
+            <field name="name">Diretoria</field>
+        </record>
+
+
     </data>
 </odoo>
