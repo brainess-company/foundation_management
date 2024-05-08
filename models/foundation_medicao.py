@@ -43,6 +43,8 @@ class FoundationMedicao(models.Model):
 
     display_medicao = fields.Char(string="Medição", compute='_compute_display_medicao')
 
+    active = fields.Boolean(string="Ativo", default=True)
+
     def toggle_active(self):
         for record in self:
             if any(not estaca.sale_order_line_id.invoice_lines for estaca in record.estacas_ids):

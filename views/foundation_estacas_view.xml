@@ -18,7 +18,7 @@
                     <field name="profundidade"/>
                     <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="total_price" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
-                    <field name="observacao"/>
+                    <!--field name="observacao"/-->
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>
                 </tree>
