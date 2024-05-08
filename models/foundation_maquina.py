@@ -53,6 +53,8 @@ class FoundationMaquina(models.Model):
                                     compute='_compute_employee_count', store=True)
 
     department_id = fields.Many2one('hr.department', string='Departamento', readonly=True)
+    maintenance_equipment_id = fields.Many2one('maintenance.equipment',
+                                               string="Equipamento de Manutenção", readonly=True)
 
     @api.model
     def create(self, vals):
@@ -64,6 +66,14 @@ class FoundationMaquina(models.Model):
             'maquina_id': machine.id,  # Referência à máquina criada
         })
         machine.department_id = department.id
+
+        # Criar equipamento de manutenção associado à máquina
+        equipment = self.env['maintenance.equipment'].create({
+            'name': machine.nome_maquina,
+            'department_id': department.id,
+            'maquina_id': machine.id,
+        })
+        machine.maintenance_equipment_id = equipment.id
 
         return machine
 

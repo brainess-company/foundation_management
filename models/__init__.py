@@ -8,6 +8,7 @@ permitindo que eles sejam acessados mais facilmente em outros lugares dentro do 
 from . import foundation_obra_extension
 from . import foundation_stock_move_wizard
 from . import foundation_estacas
+from . import foundation_maintenance_equipment_extend
 from . import foundation_maquina
 from . import foundation_medicao
 from . import foundation_obra
@@ -19,7 +20,6 @@ from . import foundation_maquina_registro
 from . import foundation_analytic_account_foundation_maquina_registro
 from . import foundation_stock_extension
 from . import foundation_stock_quant_extend
-
 from . import foundation_employee_extend
 from . import foundation_hrdepartment_extend
 # from . import foundation_extension_sale_order_obra
