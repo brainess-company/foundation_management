@@ -88,6 +88,7 @@ class FoundationObra(models.Model):
 
             related_models = [
                 'foundation.relatorios',
+                'foundation.maquina.registro',
                 'foundation.medicao',
                 'foundation.estacas',
                 'foundation.chamada'

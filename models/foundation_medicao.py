@@ -45,11 +45,6 @@ class FoundationMedicao(models.Model):
 
     active = fields.Boolean(string="Ativo", default=True)
 
-    def toggle_active(self):
-        for record in self:
-            if any(not estaca.sale_order_line_id.invoice_lines for estaca in record.estacas_ids):
-                raise UserError("Algumas estacas não foram faturadas.")
-            record.active = not record.active
 
     @api.depends('nome')
     def _compute_display_medicao(self):

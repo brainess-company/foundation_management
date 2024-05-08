@@ -13,6 +13,7 @@
                         <field name="nome_obra" readonly="1"/>
                         <field name="maquina_id"/>
                         <field name="funcionario_ids" invisible="1"/>
+                        <field name="active" invisible="1"/>
 
                         <field name="operador_id"/>
                         <field name="endereco" readonly="1"/>
@@ -87,6 +88,7 @@
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="requer_chamada_maquina" invisible="1"/>
                     <field name="obra_id"/>
+                    <field name="active" invisible="1"/>
                     <field name="nome_obra" string="Nome da Obra"/>
                     <field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"

@@ -114,6 +114,7 @@
                     <field name="service_id"/>
                     <field name="service_template_id" invisible="1"/>
                     <field name="endereco"/>
+                    <field name="active" invisible="1"/>
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
                             context="{
