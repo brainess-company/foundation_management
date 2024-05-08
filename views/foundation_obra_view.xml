@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
-
-
         <!-- Tree View for Foundation Obra -->
         <record id="view_foundation_obra_tree" model="ir.ui.view">
             <field name="name">foundation.obra.tree</field>
             <field name="model">foundation.obra</field>
             <field name="arch" type="xml">
-                <tree string="Foundation Obra List">
+                <tree string="Foundation Obra List" create="false" edit="false">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                     <field name="cliente_id"/>
+                    <field name="active" invisible="1"/>
                     <field name="invoice_address"/>
                     <field name="valor_total" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
-                    <field name="active"/>
                 </tree>
-                <filter string="Ativos" domain="[('active', '=', True)]" help="Mostrar apenas registros ativos"/>
-                <filter string="Inativos" domain="[('active', '=', False)]" help="Mostrar apenas registros inativos"/>
             </field>
         </record>
+
         <!-- Form View for Foundation Obra -->
         <record id="view_foundation_obra_form" model="ir.ui.view">
             <field name="name">foundation.obra.form</field>
@@ -34,11 +30,11 @@
                             <field name="sale_order_id" readonly="1"/>
                             <field name="nome_obra"/>
                             <field name="invoice_address"/>
+                            <field name="active" invisible="1"/>
                             <field name="cliente_id" readonly="1"/>
                             <field name="valor_total" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
-                            <field name="active"/>
                         </group>
                     </sheet>
                     <footer>
@@ -50,22 +46,19 @@
                 </form>
             </field>
         </record>
-        <!-- FOUNDATION OBRA VIEW --> <!-- Ações para Obras de Fundação -->
-        <!-- MENU abrir arvore ou formulario -->
+
+        <!-- Action for Foundation Obra -->
         <record id="action_foundation_obra" model="ir.actions.act_window">
             <field name="name">Acompanhamento de Obras</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.obra</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_foundation_obra_tree"/>
             <field name="context">{"create": False}</field>
             <field name="help" type="html">
                 <p>Acompanhe o status das obras aqui.</p>
             </field>
         </record>
-
-
-
-
 
     </data>
 </odoo>
