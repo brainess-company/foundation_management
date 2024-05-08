@@ -24,21 +24,35 @@ Para instalar este módulo, você precisa:
 - [x] Incluir um status no formulario de maquina, Em mobilização, etc
 - [x] Quando uma sale order virar uma obra, criar uma account move para cada tipo de item e uma generica
 - [x] Lista de presenças (Nao fica salvo nada para o proximo dia, se nao, o operador não preenche, só dá ok e ja era)
-- [X] Cada relatorio deve ter um nome composto de Relatorio {1} - para cada foundation_maquina_registro
+- [X] Cada relatorio deve ter um nome composto de Relatorio para cada foundation_maquina_registro
 - [x] Colocar filtro de estacas por serviço no relatorio que o operador preenche
 
 - **Futuramente**:
+- [ ] Baixar medição em pdf para enviar ao cliente
+- [ ] Da pra fazer um endereço clicado abrir no google maps
+- [ ] Configurar profundidade minima e máxima
+- [ ] Tenho que criar um estoque de saída para a obra mesmo mas quando for feita uma transferencia para ele, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
+- [ ] incluir botão no kanbam para deixar a transferencia pronta
+- [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
+- [ ] Estudar o relacionamento com o portal do cliente
+- [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
+- [ ] Criar campo de calculo relativo no produto (area da base de um diametro da estaca) esse valor será multiplicado pela quantidade executada
+
+- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
+- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
+- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
+- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
+
 - [x] Opção de gerar medição pelos relatorios?
 - [x] Depois que o relatorio for salvo a assinatura fica read only
 - [x] Definir permissões de segurança
 - [x] Quando uma medição for excluida as estecas tem que ser desrelacionadas com a medição
 - [x] Remover botões de ação desnecessários
 - [x] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
-- [ ] Baixar medição em pdf para enviar ao cliente
-- [ ] Da pra fazer um endereço clicado abrir no google maps
 
 
 - **Urgente**:
+
 - [X] Falta incluir o proprio operador na lista de chamada
 - [X] Falta criar grupos de permissões
 - [X] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
@@ -50,22 +64,14 @@ Para instalar este módulo, você precisa:
 - [x] Falta incluir o operador na propria equipe
 - [X] criar departamento em manutenção automaticamente quando criar uma obra 
 - [x] Uma medição só pode gerar uma unica fatura
-- [ ] Tenho que criar um estoque de saída para a obra mesmo mas quando for feita uma transferencia para ele, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
-- [ ] incluir botão no kanbam para deixar a transferencia pronta
-- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
-- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
-- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-- [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
-- [ ] Estudar o relacionamento com o portal do cliente
-- [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
-- [ ] Criar campo de calculo realtivo no produto (area da base de um diametro da estaca) esse valor será multiplicado pela quantidade executada
 
 - **Urgente para entrega**:
-- [x] Falta criar grupos de permissões
-- [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
-- [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
 - [ ] Falta testar os efeitos cascata de deleções de arquivos (quando, arquivar um relatorio, deduzir as quantidades da sale order)
 - [ ] quando for feita uma transferencia para estoque de saída, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
 - [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order  Ou criar projeto no sistema
 - [ ] Uma medição só pode ser excluida se nao tiver uma fatura relacionada
+
+- [x] Falta criar grupos de permissões
+- [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
+- [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
+

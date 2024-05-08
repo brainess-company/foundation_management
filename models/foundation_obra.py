@@ -83,18 +83,15 @@ class FoundationObra(models.Model):
 
     def toggle_active(self):
         for record in self:
+            if record.valor_a_faturar != 0:
+                raise UserError("A obra não pode ser arquivada porque ainda há valores a faturar.")
+
             related_models = [
                 'foundation.relatorios',
                 'foundation.medicao',
                 'foundation.estacas',
                 'foundation.chamada'
             ]
-
-            # Verificar se há estacas não faturadas
-            medicoes = self.env['foundation.medicao'].search([('sale_order_id', '=', record.sale_order_id.id)])
-            for medicao in medicoes:
-                if any(not estaca.sale_order_line_id.invoice_lines for estaca in medicao.estacas_ids):
-                    raise UserError("Algumas estacas não foram faturadas.")
 
             # Arquivar/Restaurar a obra e os registros relacionados
             record.active = not record.active
