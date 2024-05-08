@@ -59,6 +59,12 @@ class Chamada(models.Model):
                                        related='operador_id.user_id', readonly=True, store=True)
     funcionario_ids = fields.Many2many('hr.employee', compute='_compute_funcionario_ids')
 
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
+
     @api.depends('lista_presenca_ids.funcionario_id')
     def _compute_funcionario_ids(self):
         for rec in self:

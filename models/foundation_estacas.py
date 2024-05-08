@@ -108,6 +108,11 @@ class FoundationEstacas(models.Model):
     # Campo computado para exibir o nome formatado da medição
     display_medicao = fields.Char(string="Nome da Medição",
                                   compute='_compute_display_medicao')
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
 
     @api.depends('nome_medicao')
     def _compute_display_medicao(self):

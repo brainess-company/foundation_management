@@ -4,7 +4,7 @@
     """
 import logging
 from odoo import models, fields, api
-
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)  # Configuração do logger
 
@@ -83,6 +83,21 @@ class FoundationObra(models.Model):
 
     def toggle_active(self):
         for record in self:
+            related_models = [
+                'foundation.relatorios',
+                'foundation.medicao',
+                'foundation.estacas',
+                'foundation.chamada'
+            ]
+
+            # Verificar se há estacas não faturadas
+            medicoes = self.env['foundation.medicao'].search([('sale_order_id', '=', record.sale_order_id.id)])
+            for medicao in medicoes:
+                if any(not estaca.sale_order_line_id.invoice_lines for estaca in medicao.estacas_ids):
+                    raise UserError("Algumas estacas não foram faturadas.")
+
+            # Arquivar/Restaurar a obra e os registros relacionados
             record.active = not record.active
-            related_records = self.env['foundation.maquina.registro'].search([('obra_id', '=', record.id)])
-            related_records.write({'active': record.active})
+            for model in related_models:
+                related_records = self.env[model].search([('sale_order_id', '=', record.sale_order_id.id)])
+                related_records.write({'active': record.active})

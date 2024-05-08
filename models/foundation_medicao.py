@@ -43,6 +43,11 @@ class FoundationMedicao(models.Model):
 
     display_medicao = fields.Char(string="Medição", compute='_compute_display_medicao')
 
+    def toggle_active(self):
+        for record in self:
+            if any(not estaca.sale_order_line_id.invoice_lines for estaca in record.estacas_ids):
+                raise UserError("Algumas estacas não foram faturadas.")
+            record.active = not record.active
 
     @api.depends('nome')
     def _compute_display_medicao(self):
@@ -61,7 +66,6 @@ class FoundationMedicao(models.Model):
         """calcula o valor total"""
         for record in self:
             record.valor_total = sum(estaca.total_price for estaca in record.estacas_ids)
-
 
     @api.depends('estacas_ids.total_price')
     def action_create_invoice(self):

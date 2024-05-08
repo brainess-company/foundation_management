@@ -70,6 +70,12 @@ class FoundationRelatorios(models.Model):
                                             related='maquina_id.requer_chamada',
                                             readonly=True, store=True)
 
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
+
     @api.depends('relatorio_number', 'service_id', 'nome_obra')
     def _compute_display_relatorio_name(self):
         """computa o nome do relatorio"""
