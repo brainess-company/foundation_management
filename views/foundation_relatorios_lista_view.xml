@@ -85,12 +85,13 @@
                                 help="Confirma o relatório, marcando-o como conferido."/>
                         <button name="action_draft" type="object" string="Rascunho"
                                 groups="foundation_management.group_engenharia"
-                                attrs="{'invisible': [('state', '=', 'rascunho')]}"
+                                attrs="{'invisible': [('state', 'in', ['rascunho', 'cancelado'])]}"
                                 help="Retorna o relatório para o estado de rascunho."/>
                         <button name="action_cancel" type="object" string="Cancelar"
                                 groups="foundation_management.group_engenharia"
                                 attrs="{'invisible': [('state', '=', 'cancelado')]}"
-                                help="Cancela o relatório."/>
+                                help="Cancela o relatório."
+                                confirm="Você tem certeza de que deseja cancelar este relatório? Esta ação não pode ser desfeita."/>
                         <field name="state" groups="foundation_management.group_engenharia" widget="statusbar" statusbar_visible="rascunho,conferencia,em_analise,conferido,cancelado"/>
                     </header>
                     <sheet>
