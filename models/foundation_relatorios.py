@@ -140,8 +140,13 @@ class FoundationRelatorios(models.Model):
         self.write({'state': 'conferido'})
 
     def action_cancel(self):
-        """action cancel relatorio"""
-        self.write({'state': 'cancelado'})
+        """Cancela o relatório e cancela as estacas associadas"""
+        for record in self:
+            for estaca in record.estacas_ids:
+                if estaca.sale_order_line_id:
+                    estaca.sale_order_line_id.qty_delivered -= estaca.profundidade
+                estaca.write({'active': False})
+            record.write({'state': 'cancelado'})
 
     def action_draft(self):
         """action draft relatorio"""
