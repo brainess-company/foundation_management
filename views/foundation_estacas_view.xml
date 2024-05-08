@@ -13,7 +13,14 @@
                     <field name="nome_estaca"/>
                     <field name="service_template_id"/>
                     <field name="relatorio_id"/>
-                    <field name="status_relatorio"/>
+                    <field name="nome_obra" invisible="1"/>
+                    <field name="status_relatorio" invisible="1"/>
+                    <field name="status_relatorio"
+                           decoration-success="status_relatorio == 'conferencia'"
+                           decoration-info="status_relatorio == 'conferido'"
+                           decoration-danger="status_relatorio == 'cancelado'"
+                           decoration-muted="status_relatorio == ' rascunho'"
+                    widget="badge" optional="show"/>
                     <field name="display_medicao"/>
                     <field name="profundidade"/>
                     <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
