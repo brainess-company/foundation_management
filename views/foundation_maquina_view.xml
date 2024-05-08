@@ -61,6 +61,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.maquina</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                  (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_maquina_tree')}),
+                                  (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_maquina_form')})]"/>
             <field name="help" type="html">
                 <p>Cadastre uma nova máquina e configure sua equipe aqui.</p>
             </field>

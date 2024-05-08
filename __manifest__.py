@@ -28,6 +28,7 @@
         'views/foundation_chamada_view.xml',
         'views/foundation_saldo_estoque_view.xml',
         'views/foundation_maquina_view.xml',
+        'views/foundation_maquina_equipment_view.xml',
         'views/foundation_obra_view.xml',
         'views/foundation_medicao_view.xml',
         'views/foundation_obra_service_simples_view.xml',

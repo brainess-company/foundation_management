@@ -96,3 +96,17 @@ class FoundationMaquina(models.Model):
                 record.display_requer_chamada = "Sim"
             else:
                 record.display_requer_chamada = "Não"
+
+
+    def action_view_maquina_equipments(self):
+        """Método para visualizar equipamentos relacionados a uma máquina."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Equipamentos',
+            'view_mode': 'kanban,tree,form',
+            'res_model': 'maintenance.equipment',
+            'domain': [('department_id', '=', self.department_id.id)],
+            'context': {'default_department_id': self.department_id.id},
+            'target': 'current',
+        }
