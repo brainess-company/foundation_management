@@ -86,19 +86,9 @@ class FoundationEstacas(models.Model):
     relatorio_id = fields.Many2one('foundation.relatorios',
                                    string="Relatório Associado")
     # Campo relacionado para o estado do relatório
-    status_relatorio = fields.Selection(
-        selection=[
-            ('rascunho', 'Rascunho'),
-            ('conferencia', 'Aguardando Conferência'),
-            ('em_analise', 'Em Análise'),
-            ('cancelado', 'Cancelado'),
-            ('conferido', 'Conferido')
-        ],
-        string="Status do Relatório",
-        related='relatorio_id.state',
-        readonly=True,
-        store=True  # Opção de armazenar ou não o campo na base de dados , tracking=True
-    )
+    status_relatorio = fields.Selection(related='relatorio_id.state', string="Status do Relatório",
+                                        readonly=True, store=True)
+    # Opção de armazenar ou não o campo na base de dados , tracking=True
 
     # CAMPOS CALCULADOS
     unit_price = fields.Float("Preço Unitário",
