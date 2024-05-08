@@ -14,13 +14,13 @@
                     <field name="nome_obra"/>
                     <field name="cliente_id"/>
                     <field name="invoice_address"/>
-
                     <field name="valor_total" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
-
-
+                    <field name="active"/>
                 </tree>
+                <filter string="Ativos" domain="[('active', '=', True)]" help="Mostrar apenas registros ativos"/>
+                <filter string="Inativos" domain="[('active', '=', False)]" help="Mostrar apenas registros inativos"/>
             </field>
         </record>
         <!-- Form View for Foundation Obra -->
@@ -38,8 +38,15 @@
                             <field name="valor_total" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="active"/>
                         </group>
                     </sheet>
+                    <footer>
+                        <button name="toggle_active" string="Arquivar" type="object"
+                                attrs="{'invisible': [('active', '=', False)]}" class="oe_highlight"/>
+                        <button name="toggle_active" string="Restaurar" type="object"
+                                attrs="{'invisible': [('active', '=', True)]}" class="oe_highlight"/>
+                    </footer>
                 </form>
             </field>
         </record>

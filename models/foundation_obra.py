@@ -47,6 +47,8 @@ class FoundationObra(models.Model):
                                      string="Valor ja Faturado", readonly=True)
     valor_a_faturar = fields.Monetary(compute="_compute_valor_a_faturar",
                                       string="Valores a Faturar", readonly=True)
+    # Campo active para controlar arquivamento
+    active = fields.Boolean(string="Ativo", default=True)
 
     @api.depends('sale_order_id.invoice_ids', 'sale_order_id.invoice_ids.state')
     def _compute_valor_faturado(self):
@@ -78,3 +80,9 @@ class FoundationObra(models.Model):
             record.valor_a_faturar = valor_a_faturar
             _logger.info(
                 f"Computed 'valor_a_faturar' for FoundationObra {record.id}: {valor_a_faturar}")
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
+            related_records = self.env['foundation.maquina.registro'].search([('obra_id', '=', record.id)])
+            related_records.write({'active': record.active})

@@ -39,20 +39,20 @@ Para instalar este módulo, você precisa:
 - [ ] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
 
 - **Urgente**:
-- [ ] Falta incluir o proprio operador na lista de chamada
+- [X] Falta incluir o proprio operador na lista de chamada
 - [ ] Falta testar os efeitos cascata de deleções de arquivos
-- [ ] Falta criar grupos de permissões
+- [X] Falta criar grupos de permissões
 - [ ] Uma medição só pode gerar uma unica fatura
 - [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
 - [ ] Estudar o relacionamento com o portal do cliente
-- [ ] organizar melhor o filtro do botao de criar relatorio
+- [X] organizar melhor o filtro do botao de criar relatorio
 - [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
-- [ ] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
-- [ ] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
-- [ ] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
+- [X] Colocar filtro para operador só colocar nome de quem está na equipe dele, assim as movimentações de equipe só seráo feitas sob aviso
+- [X] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
+- [X] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
 - [ ] Tenho que criar um estoque de saída para a obra mesmo mas quando for feita uma transferencia para ele, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
 - [ ] incluir botão no kanbam para deixar a transferencia pronta
-- [ ] criar departamento em manutenção automaticamente quando criar uma obra 
+- [X] criar departamento em manutenção automaticamente quando criar uma obra 
 - [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order 
 - [ ] Ou criar projeto no sistema
 - [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)

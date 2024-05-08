@@ -116,6 +116,8 @@ class FoundationMaquinaRegistro(models.Model):
     specific_stock_output_id = fields.Many2one('stock.location',
                                                related='sale_order_id.specific_stock_output_id',
                                                string="Local de Estoque de Saída", readonly=True)
+    # Campo active para controlar arquivamento
+    active = fields.Boolean(string="Ativo", default=True)
 
     def _create_or_update_analytic_accounts(self, service, maquinas):
         """CRUAR OU EDITAR CONTA ANALITICA"""
