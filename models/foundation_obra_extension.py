@@ -39,6 +39,8 @@ class SaleOrder(models.Model):
             _logger.info("Estoque Central criado: %s", central_stock.name)
         return central_stock
 
+
+
     def _create_specific_stock_location(self):
         """Cria um estoque específico para esta sale.order."""
         stock_name = f"ESTOQUE {self.nome_obra} - {self.name}"
@@ -63,6 +65,22 @@ class SaleOrder(models.Model):
         _logger.info("Estoque de saída criado para a Sale Order %s: %s", self.name, output_stock_name)
         return specific_output_stock
 
+    def _update_specific_output_stock_location_name(self):
+        """Atualiza apenas o nome do estoque de saída."""
+        output_stock_name = "SAÍDA DE ESTOQUE"
+        if self.specific_stock_output_id:
+            self.specific_stock_output_id.write({'name': output_stock_name})
+            _logger.info("Nome do Estoque de saída atualizado para a Sale Order %s: %s", self.name,
+                         output_stock_name)
+
+    def _update_specific_stock_location_name(self):
+        """Atualiza apenas o nome do estoque específico."""
+        stock_name = f"ESTOQUE {self.nome_obra} - {self.name}"
+        if self.specific_stock_location_id:
+            self.specific_stock_location_id.write({'name': stock_name})
+            _logger.info("Nome do Estoque específico atualizado para a Sale Order %s: %s",
+                         self.name, stock_name)
+            
     # Exemplo de uso destes métodos em create e write seria adaptado aqui
 
     def _create_foundation_obra_and_services(self):
@@ -179,25 +197,12 @@ class SaleOrder(models.Model):
         return order
 
     def write(self, vals):
+        res = super().write(vals)
+
         for order in self:
-            original_specific_location = order.specific_stock_location_id
-            original_output_location = order.specific_stock_output_id
-
-            res = super(SaleOrder, order).write(vals)
-
-            # Atualize os nomes apenas, mantendo os IDs intactos
-            if original_specific_location:
-                original_specific_location.write(
-                    {'name': f"ESTOQUE {order.nome_obra} - {order.name}"})
-            else:
-                specific_stock_location = order._create_specific_stock_location()
-                order.specific_stock_location_id = specific_stock_location.id
-
-            if original_output_location:
-                original_output_location.write({'name': "SAÍDA DE ESTOQUE"})
-            else:
-                specific_output_stock_location = order._create_specific_output_stock_location()
-                order.specific_stock_output_id = specific_output_stock_location.id
+            # Atualize apenas os nomes, mantendo os IDs intactos
+            order._update_specific_stock_location_name()
+            order._update_specific_output_stock_location_name()
 
             if 'state' in vals and vals.get('state') == 'sale':
                 order._ensure_central_stock_location()
