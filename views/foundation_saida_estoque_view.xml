@@ -46,7 +46,10 @@
             <field name="res_model">stock.quant</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="view_foundation_stock_quant_saida_kanban"/>
-            <field name="domain">[('location_id', '=', context.get('specific_stock_location_id'))]</field>
+            <field name="domain">[
+                ('location_id', '=', context.get('specific_stock_location_id')),
+                ('quantity', '>', 0)
+            ]</field>
         </record>
 
         <!-- Tree View para FoundationMaquinaRegistro -->
