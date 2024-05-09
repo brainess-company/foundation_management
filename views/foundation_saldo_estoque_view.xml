@@ -44,6 +44,7 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="nome_obra"/>
+                    <field name="specific_stock_location_id"/>
                     <field name="specific_stock_location_id" invisible="1"/>
                     <field name="state" invisible="1"/>
                     <button name="%(action_stock_quant_kanban)d"

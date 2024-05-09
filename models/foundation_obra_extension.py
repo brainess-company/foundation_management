@@ -39,39 +39,29 @@ class SaleOrder(models.Model):
             _logger.info("Estoque Central criado: %s", central_stock.name)
         return central_stock
 
-    def _create_or_update_specific_stock_location(self):
-        """Cria ou atualiza um estoque específico para esta sale.order."""
+    def _create_specific_stock_location(self):
+        """Cria um estoque específico para esta sale.order."""
         stock_name = f"ESTOQUE {self.nome_obra} - {self.name}"
-        if self.specific_stock_location_id:
-            self.specific_stock_location_id.write({'name': stock_name})
-            _logger.info("Estoque específico atualizado para a Sale Order %s: %s", self.name, stock_name)
-        else:
-            specific_stock = self.env['stock.location'].create({
-                'name': stock_name,
-                'usage': 'internal',
-                'location_id': False,  # Este estoque não deve ser aninhado
-                'company_id': False  # Sem associação de empresa
-            })
-            self.specific_stock_location_id = specific_stock.id
-            _logger.info("Estoque específico criado para a Sale Order %s: %s", self.name, stock_name)
-        return self.specific_stock_location_id
+        specific_stock = self.env['stock.location'].create({
+            'name': stock_name,
+            'usage': 'internal',
+            'location_id': False,  # Este estoque não deve ser aninhado
+            'company_id': False  # Sem associação de empresa
+        })
+        _logger.info("Estoque específico criado para a Sale Order %s: %s", self.name, stock_name)
+        return specific_stock
 
-    def _create_or_update_specific_output_stock_location(self):
-        """Cria ou atualiza um estoque de saída aninhado ao estoque específico."""
+    def _create_specific_output_stock_location(self):
+        """Cria um estoque de saída aninhado ao estoque específico."""
         output_stock_name = "SAÍDA DE ESTOQUE"
-        if self.specific_stock_output_id:
-            self.specific_stock_output_id.write({'name': output_stock_name})
-            _logger.info("Estoque de saída atualizado: %s", output_stock_name)
-        else:
-            specific_output_stock = self.env['stock.location'].create({
-                'name': output_stock_name,
-                'usage': 'production',  # Assume que este estoque será para saída de produção
-                'location_id': self.specific_stock_location_id.id,  # Aninhado sob o estoque específico
-                'company_id': False
-            })
-            self.specific_stock_output_id = specific_output_stock.id
-            _logger.info("Estoque de saída criado: %s", output_stock_name)
-        return self.specific_stock_output_id
+        specific_output_stock = self.env['stock.location'].create({
+            'name': output_stock_name,
+            'usage': 'production',  # Assume que este estoque será para saída de produção
+            'location_id': self.specific_stock_location_id.id,  # Aninhado sob o estoque específico
+            'company_id': False
+        })
+        _logger.info("Estoque de saída criado para a Sale Order %s: %s", self.name, output_stock_name)
+        return specific_output_stock
 
     # Exemplo de uso destes métodos em create e write seria adaptado aqui
 
@@ -172,21 +162,46 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         order = super().create(vals)
+
+        # Crie e associe um local de estoque específico
+        specific_stock_location = order._create_specific_stock_location()
+        order.specific_stock_location_id = specific_stock_location.id
+
+        # Crie e associe um local de saída específico
+        specific_output_stock_location = order._create_specific_output_stock_location()
+        order.specific_stock_output_id = specific_output_stock_location.id
+
+        # Realize outras operações após a criação dos estoques
         order._ensure_central_stock_location()
-        order._create_or_update_specific_stock_location()
         order._create_foundation_obra_and_services()
         order._create_or_update_analytic_accounts()
-        order._create_or_update_specific_output_stock_location()
 
         return order
 
     def write(self, vals):
-        res = super().write(vals)
-        if 'state' in vals and vals.get('state') == 'sale':
-            self._ensure_central_stock_location()
-            self._create_or_update_specific_stock_location()
-            self._create_foundation_obra_and_services()
-            self._create_or_update_analytic_accounts()
-            self._create_or_update_specific_output_stock_location()
+        for order in self:
+            original_specific_location = order.specific_stock_location_id
+            original_output_location = order.specific_stock_output_id
+
+            res = super(SaleOrder, order).write(vals)
+
+            # Atualize os nomes apenas, mantendo os IDs intactos
+            if original_specific_location:
+                original_specific_location.write(
+                    {'name': f"ESTOQUE {order.nome_obra} - {order.name}"})
+            else:
+                specific_stock_location = order._create_specific_stock_location()
+                order.specific_stock_location_id = specific_stock_location.id
+
+            if original_output_location:
+                original_output_location.write({'name': "SAÍDA DE ESTOQUE"})
+            else:
+                specific_output_stock_location = order._create_specific_output_stock_location()
+                order.specific_stock_output_id = specific_output_stock_location.id
+
+            if 'state' in vals and vals.get('state') == 'sale':
+                order._ensure_central_stock_location()
+                order._create_foundation_obra_and_services()
+                order._create_or_update_analytic_accounts()
 
         return res

@@ -52,7 +52,6 @@ Para instalar este módulo, você precisa:
 
 
 - **Urgente**:
-
 - [X] Falta incluir o proprio operador na lista de chamada
 - [X] Falta criar grupos de permissões
 - [X] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
@@ -70,6 +69,7 @@ Para instalar este módulo, você precisa:
 - [ ] quando for feita uma transferencia para estoque de saída, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
 - [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order  Ou criar projeto no sistema
 - [ ] Uma medição só pode ser excluida se nao tiver uma fatura relacionada
+- [ ] Todos os locais de estoque ficam com o mais recente criado
 
 - [x] Falta criar grupos de permissões
 - [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
