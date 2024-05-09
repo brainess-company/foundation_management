@@ -1,58 +1,130 @@
-import unittest
-from unittest.mock import patch
-from odoo.tests.common import TransactionCase
+import logging
+from odoo.exceptions import ValidationError, UserError
+from odoo.tests import common
 
-class TestFoundationEstacas(TransactionCase):
-    """
-    Classe de teste para FoundationEstacas para verificar a integridade
-    e o comportamento esperado das operações do modelo.
-    """
+_logger = logging.getLogger(__name__)
+
+
+class TestFoundationEstacas(common.TransactionCase):
 
     def setUp(self):
-        """
-        Configuração inicial para cada teste.
-        """
         super(TestFoundationEstacas, self).setUp()
-        self.FoundationEstacas = self.env['foundation.estacas']
-        self.SaleOrderLine = self.env['sale.order.line']
 
-        # Criar um serviço de obra mock
-        self.service = self.env['foundation.obra.service'].create({
-            'name': 'Service Test'
+        # Criação de uma empresa
+        self.company = self.env['res.company'].create({
+            'name': 'Empresa Teste',
+            'currency_id': self.env.ref('base.USD').id,
+            'fiscalyear_last_day': 31,
+            'fiscalyear_last_month': 12,
         })
 
-        # Criar uma ordem de venda mock
+        # Criação de um parceiro e usuário associado
+        self.partner = self.env['res.partner'].create({
+            'name': 'Parceiro Teste',
+            'company_id': self.company.id,
+        })
+
+        self.user = self.env['res.users'].create({
+            'login': 'test_environment_demo',
+            'partner_id': self.partner.id,
+            'notification_type': 'email',  # Define diretamente a seleção 'email'
+            'company_id': self.company.id,
+        })
+
+        # Criação de um serviço de obra
         self.sale_order = self.env['sale.order'].create({
-            'name': 'Sale Order Test'
+            'name': 'SO Teste',
+            'company_id': self.company.id,
         })
 
-        # Criar uma linha de ordem de venda mock
-        self.sale_order_line = self.SaleOrderLine.create({
+        self.obra_service = self.env['foundation.obra.service'].create({
+            'name': 'Serviço Teste',
+            'sale_order_id': self.sale_order.id,
+        })
+
+        self.sale_order_line = self.env['sale.order.line'].create({
             'order_id': self.sale_order.id,
-            'product_id': 1,  # Assume que existe um produto com id 1
-            'price_unit': 100.0,
-            'product_uom_qty': 0
+            'product_id': self.env['product.product'].create({
+                'name': 'Produto Teste'
+            }).id,
+            'price_unit': 10.0,
         })
 
-    @patch('odoo.addons.foundation_estacas.models.foundation_estacas._logger')
-    def test_create_estacas(self, mock_logger):
-        """
-        Testa a criação de uma estaca garantindo que a profundidade seja ajustada
-        corretamente e que os logs sejam registrados como esperado.
-        """
-        estaca = self.FoundationEstacas.create({
-            'nome_estaca': 'Estaca 1',
-            'profundidade': 10,
-            'data': '2021-01-01',
-            'observacao': 'Nenhuma',
-            'service_id': self.service.id,
-            'sale_order_line_id': self.sale_order_line.id
+        self.medicao = self.env['foundation.medicao'].create({
+            'nome': '1',
+            'sale_order_id': self.sale_order.id,
         })
 
-        # Verificar se a estaca foi criada corretamente
-        self.assertEqual(estaca.profundidade, 10)
-        self.assertEqual(estaca.sale_order_line_id.qty_delivered, 10)
-        mock_logger.info.assert_called_with("VALORES ENVVIADOS PARA CRIAR ESTACAS: %s", any())
+        self.maquina_registro = self.env['foundation.maquina.registro'].create({
+            'name': 'Registro Teste',
+        })
 
-if __name__ == '__main__':
-    unittest.main()
+        # Dados da estaca
+        self.estaca_vals = {
+            'nome_estaca': 'Estaca Teste',
+            'profundidade': 10.0,
+            'service_id': self.obra_service.id,
+            'sale_order_line_id': self.sale_order_line.id,
+            'foundation_maquina_registro_id': self.maquina_registro.id,
+        }
+
+    def test_create_estaca(self):
+        """Testa a criação de uma estaca e valida se a quantidade entregue é atualizada."""
+        estaca = self.env['foundation.estacas'].create(self.estaca_vals)
+        self.assertEqual(estaca.sale_order_line_id.qty_delivered, 10.0)
+        self.assertEqual(estaca.total_price, 100.0)
+
+    def test_write_estaca(self):
+        """Testa a atualização da profundidade de uma estaca e valida se a quantidade entregue é atualizada."""
+        estaca = self.env['foundation.estacas'].create(self.estaca_vals)
+        estaca.write({'profundidade': 20.0})
+        self.assertEqual(estaca.sale_order_line_id.qty_delivered, 20.0)
+        self.assertEqual(estaca.total_price, 200.0)
+
+    def test_create_estaca_invalid_profundidade(self):
+        """Testa a criação de uma estaca com profundidade inválida."""
+        with self.assertRaises(ValidationError):
+            self.env['foundation.estacas'].create({**self.estaca_vals, 'profundidade': 50.0})
+
+    def test_action_generate_medicao(self):
+        """Testa a geração de uma nova medição a partir das estacas selecionadas."""
+        estaca1 = self.env['foundation.estacas'].create({**self.estaca_vals, 'medicao_id': False})
+        estaca2 = self.env['foundation.estacas'].create({**self.estaca_vals, 'medicao_id': False})
+
+        action = estaca1.action_generate_medicao()
+        new_medicao = self.env['foundation.medicao'].browse(action['res_id'])
+
+        self.assertEqual(new_medicao.situacao, 'aguardando')
+        self.assertEqual(estaca1.medicao_id, new_medicao)
+        self.assertEqual(estaca2.medicao_id, new_medicao)
+
+    def test_action_generate_medicao_with_existing_medicao(self):
+        """Testa a tentativa de medir novamente uma estaca já medida."""
+        estaca = self.env['foundation.estacas'].create({**self.estaca_vals, 'medicao_id': self.medicao.id})
+        with self.assertRaises(UserError):
+            estaca.action_generate_medicao()
+
+    def test_toggle_active(self):
+        """Testa o método toggle_active para ativar/desativar uma estaca."""
+        estaca = self.env['foundation.estacas'].create(self.estaca_vals)
+        estaca.toggle_active()
+        self.assertFalse(estaca.active)
+        estaca.toggle_active()
+        self.assertTrue(estaca.active)
+
+    def test_display_medicao(self):
+        """Testa o cálculo do campo computado display_medicao."""
+        estaca = self.env['foundation.estacas'].create({**self.estaca_vals, 'medicao_id': self.medicao.id})
+        self.assertEqual(estaca.display_medicao, "Medição 1")
+
+        estaca.write({'medicao_id': False})
+        self.assertEqual(estaca.display_medicao, "")
+
+    def test_compute_line_values(self):
+        """Testa o cálculo dos campos computados unit_price e total_price."""
+        estaca = self.env['foundation.estacas'].create(self.estaca_vals)
+        self.assertEqual(estaca.unit_price, 10.0)
+        self.assertEqual(estaca.total_price, 100.0)
+
+        estaca.write({'profundidade': 20.0})
+        self.assertEqual(estaca.total_price, 200.0)
