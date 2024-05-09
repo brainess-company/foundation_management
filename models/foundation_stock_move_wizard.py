@@ -1,7 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
-
 class StockMoveWizard(models.TransientModel):
     _name = 'stock.move.wizard'
     _description = 'Assistente para criar movimento de estoque'
@@ -62,9 +61,9 @@ class StockMoveWizard(models.TransientModel):
 
         return {
             'type': 'ir.actions.act_window_close',
-            'name': 'Movimento de Estoque',
             'res_model': 'stock.move',
             'view_mode': 'form',
             'res_id': stock_move.id,
             'target': 'new',
+            'context': {'form_view_initial_mode': 'edit'}
         }
