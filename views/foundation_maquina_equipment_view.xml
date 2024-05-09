@@ -22,15 +22,7 @@
             </field>
         </record>
 
-        <!-- Ação para Ver Máquinas -->
-        <record id="action_foundation_maquina_equipment" model="ir.actions.act_window">
-            <field name="name">Máquinas</field>
-            <field name="res_model">foundation.maquina</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                                  (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_maquina_equipment_tree')}),
-                                  (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_maquina_equipment_form')})]"/>
-        </record>
+
 
         <!-- Kanban View para Equipamentos -->
         <record id="view_maquina_equipment_kanban" model="ir.ui.view">
@@ -109,6 +101,16 @@
                             type="object" class="oe_highlight"/>
                 </tree>
             </field>
+        </record>
+
+        <!-- Ação para Ver Máquinas -->
+        <record id="action_foundation_maquina_equipment" model="ir.actions.act_window">
+            <field name="name">Máquinas</field>
+            <field name="res_model">foundation.maquina</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                  (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_maquina_equipment_tree')}),
+                                  (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_maquina_equipment_form')})]"/>
         </record>
 
 
