@@ -1,12 +1,33 @@
 from odoo import models, fields, api
 
+
 class StockMoveWizard(models.TransientModel):
     _name = 'stock.move.wizard'
     _description = 'Assistente para criar movimento de estoque'
 
-    product_id = fields.Many2one('product.product', string="Produto", required=True)
+    product_id = fields.Many2one(
+        'product.product',
+        string="Produto",
+        required=True,
+        domain="[('id', 'in', available_product_ids)]"
+    )
     product_qty = fields.Float(string="Quantidade", default=1.0)
     maquina_registro_id = fields.Many2one('foundation.maquina.registro', string="Dados de Origem", required=True)
+    available_product_ids = fields.Many2many(
+        'product.product',
+        compute='_compute_available_product_ids',
+        store=False
+    )
+
+    @api.depends('maquina_registro_id')
+    def _compute_available_product_ids(self):
+        for wizard in self:
+            if wizard.maquina_registro_id:
+                stock_location_id = wizard.maquina_registro_id.specific_stock_location_id.id
+                quants = wizard.env['stock.quant'].search([('location_id', '=', stock_location_id)])
+                wizard.available_product_ids = quants.mapped('product_id')
+            else:
+                wizard.available_product_ids = self.env['product.product']
 
     def action_create_stock_move(self):
         self.ensure_one()
@@ -21,6 +42,7 @@ class StockMoveWizard(models.TransientModel):
         })
         stock_move._action_confirm()
         stock_move._action_assign()
+        stock_move.quantity_done = self.product_qty
         stock_move._action_done()
         return {
             'type': 'ir.actions.act_window',

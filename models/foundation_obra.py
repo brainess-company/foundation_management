@@ -84,7 +84,8 @@ class FoundationObra(models.Model):
     def toggle_active(self):
         for record in self:
             if record.valor_a_faturar != 0:
-                raise UserError("A obra não pode ser arquivada porque ainda há valores a faturar.")
+                raise UserError(
+                    "A obra não pode ser arquivada porque ainda há valores a faturar.")
 
             # Verifica se o estoque específico está vazio
             sale_order = record.sale_order_id
@@ -110,5 +111,6 @@ class FoundationObra(models.Model):
                 sale_order.specific_stock_output_id.write({'active': record.active})
 
             for model in related_models:
-                related_records = self.env[model].search([('sale_order_id', '=', record.sale_order_id.id)])
+                related_records = self.env[model].search(
+                    [('sale_order_id', '=', record.sale_order_id.id)])
                 related_records.write({'active': record.active})
