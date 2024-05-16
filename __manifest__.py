@@ -16,6 +16,7 @@
         'sale_management',
         'stock',
         'product',
+        'maintenance',
         'hr',
     ],
     'data': [
