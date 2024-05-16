@@ -109,9 +109,11 @@ class SaleOrder(models.Model):
             # Create a service for each unique product template
             template_lines = {}
             for line in order.order_line:
-                template = line.product_id.product_tmpl_id
-                if template not in template_lines:
-                    template_lines[template] = line
+                # Verifica se a linha não está em branco
+                if line.product_id:
+                    template = line.product_id.product_tmpl_id
+                    if template not in template_lines:
+                        template_lines[template] = line
 
             for template, line in template_lines.items():
                 if not foundation_obra_service.search([
