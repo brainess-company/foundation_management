@@ -58,6 +58,8 @@ class FoundationMaquina(models.Model):
                                                string="Equipamento de Manutenção", readonly=True)
     active = fields.Boolean(string="Ativo", default=True)
 
+    #foundation_obra_maquina_id = fields.Many2many('foundation.obra.maquina', string="Ativo", default=True)
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active

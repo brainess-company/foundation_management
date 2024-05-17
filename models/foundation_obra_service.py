@@ -94,7 +94,7 @@ class FoundationObraService(models.Model):
     def _create_machine_records(self, service, maquinas):
         _logger.debug("Creating machine records for service %s", service.id)
         maquina_registro = self.env['foundation.maquina.registro']
-        obra_maquina = self.env['foundation.obra.maquina']
+        obra_maquina = self.env['foundation.maquina.obra']
         for maquina in maquinas:
             _logger.debug("Processing machine %s", maquina.id)
             existing_record = maquina_registro.search(
