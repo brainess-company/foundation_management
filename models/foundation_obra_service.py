@@ -94,6 +94,7 @@ class FoundationObraService(models.Model):
     def _create_machine_records(self, service, maquinas):
         _logger.debug("Creating machine records for service %s", service.id)
         maquina_registro = self.env['foundation.maquina.registro']
+        obra_maquina = self.env['foundation.obra.maquina']
         for maquina in maquinas:
             _logger.debug("Processing machine %s", maquina.id)
             existing_record = maquina_registro.search(
@@ -112,5 +113,12 @@ class FoundationObraService(models.Model):
                 })
                 # Chamar o método para criar/atualizar a conta analítica
                 new_record._create_or_update_analytic_accounts(service, [maquina])
+
+                # Criação do registro em FoundationObraMaquina
+                _logger.info("Creating new obra machine record for machine %s", maquina.id)
+                obra_maquina.create({
+                    'sale_order_id': service.sale_order_id.id,
+                    'maquina_id': maquina.id,
+                })
 
 
