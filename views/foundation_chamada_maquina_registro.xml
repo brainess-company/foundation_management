@@ -79,7 +79,7 @@
             <field name="name">foundation.maquina.registro.tree</field>
             <field name="model">foundation.maquina.registro</field>
             <field name="arch" type="xml">
-                <tree string="Lista de Registros de Máquinas">
+                <tree string="Lista de Registros de Máquinas" delete="false">
                     <field name="data_registro"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>

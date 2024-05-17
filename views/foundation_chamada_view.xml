@@ -6,7 +6,7 @@
             <field name="name">foundation.chamada.tree</field>
             <field name="model">foundation.chamada</field>
             <field name="arch" type="xml">
-                <tree string="Registro de Chamadas">
+                <tree string="Registro de Chamadas" edit="false">
                     <field name="data"/>
                     <field name="nome_obra"/>
                     <field name="maquina_id"/>
