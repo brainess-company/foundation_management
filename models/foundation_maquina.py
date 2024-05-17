@@ -38,6 +38,7 @@ class FoundationMaquina(models.Model):
     available_employee_ids = fields.Many2many('hr.employee', compute='_compute_available_employees',
                                               store=False)
     requer_chamada = fields.Boolean("Requer Lista de Chamada", default=False, tracking=True)
+    chamada_automatica = fields.Boolean("Chamada Automática", default=False)
     display_requer_chamada = fields.Char(string="Requer chamada?",
                                             compute='_compute_display_requer_chamada',
                                             store=False)
