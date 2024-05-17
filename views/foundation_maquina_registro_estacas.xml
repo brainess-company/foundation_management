@@ -29,6 +29,7 @@
                             <field name="nome_obra"/>
                             <field name="sale_order_id"/>
                             <field name="data" readonly="1"/>
+                            <field name="maquina_id" readonly="1"/>
                             <field name="data" invisible="1"/>
                             <field name="variante_id" invisible="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
