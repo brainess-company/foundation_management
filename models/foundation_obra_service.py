@@ -114,11 +114,17 @@ class FoundationObraService(models.Model):
                 # Chamar o método para criar/atualizar a conta analítica
                 new_record._create_or_update_analytic_accounts(service, [maquina])
 
-                # Criação do registro em FoundationObraMaquina
+            # Verificação e criação do registro em FoundationObraMaquina
+            existing_obra_maquina_record = obra_maquina.search(
+                [('sale_order_id', '=', service.sale_order_id.id),
+                 ('maquina_id', '=', maquina.id)], limit=1)
+            if not existing_obra_maquina_record:
                 _logger.info("Creating new obra machine record for machine %s", maquina.id)
                 obra_maquina.create({
                     'sale_order_id': service.sale_order_id.id,
                     'maquina_id': maquina.id,
                 })
-
-
+            else:
+                _logger.info(
+                    "Obra machine record for machine %s and sale order %s already exists",
+                    maquina.id, service.sale_order_id.id)
