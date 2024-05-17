@@ -177,13 +177,12 @@ class FoundationMaquinaRegistro(models.Model):
             else:
                 record.display_has_today_chamada = ""  # Deixa em branco se não requer chamada
 
+    @api.depends('maquina_id')
     def _compute_has_today_chamada(self):
-        """calcula se tem chamada registrada hoje"""
+        """Calcula se há chamada registrada hoje para a máquina"""
         for record in self:
             today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_maquina_obra_id', '=', record.id),
+                ('maquina_id', '=', record.maquina_id.id),
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)
-            _logger.info(
-                f"Computing has_today_chamada for record {record.id}: {record.has_today_chamada}")
