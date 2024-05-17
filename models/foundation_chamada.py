@@ -33,7 +33,7 @@ class Chamada(models.Model):
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     sale_order_id = fields.Many2one('sale.order',
                                     string="Ordem de Venda", related='obra_id.sale_order_id',
-                                    readonly=True, store=True)
+                                    readonly=True, store=True, required=True)
     nome_obra = fields.Char("Nome da Obra",
                             related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
@@ -83,7 +83,11 @@ class Chamada(models.Model):
             Este método garante que a ação seja chamada em um único registro.
         """
         self.ensure_one()  # Garantir que está sendo chamado em um único registro
+        if not self.sale_order_id and self.obra_id:
+            self.sale_order_id = self.obra_id.sale_order_id
         return {'type': 'ir.actions.act_window_close'}
+
+        # return {'type': 'ir.actions.act_window_close'}
 
     @api.model
     def default_get(self, fields_list):

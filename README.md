@@ -72,6 +72,7 @@ Para instalar este módulo, você precisa:
 - [ ] Verificar se uma máquina tem uma chamada relacionada hoje
 - [ ] se ja tem uma chamada relacionada com a obra e a máquina, ocultar o botão de fazer chamada
 - [ ] criei um boleano para verificar se vai ser necessário enviar chamada automática
+- [ ]  QUANDO CANCELAR UMA SALE ORDER TEM Q ARQUIVAR A OBRA
 - 
 - [x] Todos os locais de estoque ficam com o mais recente criado
 - [x] Falta criar grupos de permissões

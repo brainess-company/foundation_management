@@ -181,7 +181,7 @@ class FoundationMaquinaRegistro(models.Model):
         """calcula se tem chamada registrada hoje"""
         for record in self:
             today_chamadas = self.env['foundation.chamada'].search([
-                ('foundation_maquina_registro_id', '=', record.id),
+                ('foundation_maquina_obra_id', '=', record.id),
                 ('data', '=', date.today())
             ])
             record.has_today_chamada = bool(today_chamadas)
