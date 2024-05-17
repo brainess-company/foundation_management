@@ -27,6 +27,7 @@
         # 'security/sale_order_rules.xml'
         'views/foundation_stock_move_wizard_view.xml',
         'views/foundation_chamada_view.xml',
+        'views/chamada.xml',
         'views/foundation_saldo_estoque_view.xml',
         'views/foundation_maquina_view.xml',
         'views/foundation_maquina_equipment_view.xml',

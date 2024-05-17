@@ -28,7 +28,7 @@ class Chamada(models.Model):
     lista_presenca_ids = fields.One2many('foundation.lista.presenca', 'chamada_id',
                                          string="Lista de Presença")
     foundation_obra_service_id = fields.Many2one('foundation.obra.service',
-                                                 string="Serviço na Obra", required=True)
+                                                 string="Serviço na Obra")
 
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     sale_order_id = fields.Many2one('sale.order',
@@ -46,7 +46,7 @@ class Chamada(models.Model):
     foundation_maquina_registro_id = fields.Many2one(
         'foundation.maquina.registro',
         string='Registro de Máquina',
-        required=True,  # Assuming this field is required
+        required=False,  # Assuming this field is required
         help='Referência ao registro de máquina associado.'
     )
 
