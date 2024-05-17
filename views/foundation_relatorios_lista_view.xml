@@ -7,9 +7,9 @@
             <field name="name">foundation.relatorios.lista.tree</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
-                <tree string="Lista de relatorios">
+                <tree string="Lista de relatorios" create="false" edit="false" delete="false">
                     <field name="data"/>
-                    <field name="foundation_maquina_registro_id"/>
+                    <field name="foundation_maquina_registro_id" invisible="1"/>
                     <field name="maquina_id"/>
                     <field name="display_relatorio_name"/>
                     <field name="state"
@@ -75,7 +75,7 @@
             <field name="name">fodase.form</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
-                <form string="Relatório de Estacas">
+                <form string="Relatório de Estacas" create="false" delete="false">
 
                     <header>
                         <field name="data" invisible="1"/>

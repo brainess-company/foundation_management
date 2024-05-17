@@ -6,7 +6,7 @@
             <field name="name">foundation.obra.tree</field>
             <field name="model">foundation.obra</field>
             <field name="arch" type="xml">
-                <tree string="Foundation Obra List" create="false" edit="false">
+                <tree string="Foundation Obra List" create="false" edit="false" delete="false">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
                     <field name="cliente_id"/>
@@ -24,7 +24,7 @@
             <field name="name">foundation.obra.form</field>
             <field name="model">foundation.obra</field>
             <field name="arch" type="xml">
-                <form string="Foundation Obra">
+                <form string="Foundation Obra" edit="false" delete="false">
                     <sheet>
                         <group>
                             <field name="sale_order_id" readonly="1"/>

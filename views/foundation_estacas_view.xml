@@ -11,6 +11,7 @@
                 <tree string="Foundation Estacas List">
                     <field name="data"/>
                     <field name="nome_estaca"/>
+                    <field name="nome_obra"/>
                     <field name="service_template_id"/>
                     <field name="relatorio_id"/>
                     <field name="nome_obra" invisible="1"/>
@@ -77,6 +78,7 @@
                             <field name="data" readonly="1"/>
                             <field name="medicao_id" readonly="1"/>
                             <field name="nome_estaca" readonly="1"/>
+                            <field name="nome_obra" readonly="1"/>
                             <field name="profundidade" readonly="1"/>
                             <field name="relatorio_id" readonly="1"/>
                             <field name="status_relatorio"/>
