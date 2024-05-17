@@ -55,6 +55,11 @@ class FoundationMaquina(models.Model):
     department_id = fields.Many2one('hr.department', string='Departamento', readonly=True)
     maintenance_equipment_id = fields.Many2one('maintenance.equipment',
                                                string="Equipamento de Manutenção", readonly=True)
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
 
     @api.model
     def create(self, vals):
