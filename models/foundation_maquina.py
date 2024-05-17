@@ -118,3 +118,8 @@ class FoundationMaquina(models.Model):
             'context': {'default_department_id': self.department_id.id},
             'target': 'current',
         }
+
+    @api.onchange('requer_chamada')
+    def _onchange_requer_chamada(self):
+        if self.requer_chamada:
+            self.chamada_automatica = False

@@ -113,25 +113,33 @@ class FoundationRelatorios(models.Model):
 
         # Verificação de 'chamada_automatica'
         if maquina_registro.maquina_id and maquina_registro.maquina_id.chamada_automatica:
-            # Se a máquina requer chamada automática, criar uma nova chamada
-            chamada_vals = {
-                'foundation_maquina_registro_id': maquina_registro.id,
-                'data': fields.Date.today(),
-                'foundation_obra_service_id': maquina_registro.service_id.id,
-                'maquina_id': maquina_registro.maquina_id.id,
-                'obra_id': maquina_registro.service_id.obra_id.id,
-                'nome_obra': maquina_registro.nome_obra,
-                'endereco': maquina_registro.endereco,
-            }
-            nova_chamada = self.env['foundation.chamada'].create(chamada_vals)
+            # Verificar se já existe uma chamada para a máquina na data de hoje
+            hoje = fields.Date.today()
+            chamada_existente = self.env['foundation.chamada'].search([
+                ('maquina_id', '=', maquina_registro.maquina_id.id),
+                ('data', '=', hoje)
+            ], limit=1)
 
-            # Adicionar o operador da máquina à chamada, se disponível
-            if maquina_registro.maquina_id.operador_id:
-                self.env['foundation.lista.presenca'].create({
-                    'chamada_id': nova_chamada.id,
-                    'funcionario_id': maquina_registro.maquina_id.operador_id.id,
-                    'data': fields.Date.today(),
-                })
+            if not chamada_existente:
+                # Se não existe chamada para a máquina hoje, criar uma nova chamada
+                chamada_vals = {
+                    'foundation_maquina_registro_id': maquina_registro.id,
+                    'data': hoje,
+                    'foundation_obra_service_id': maquina_registro.service_id.id,
+                    'maquina_id': maquina_registro.maquina_id.id,
+                    'obra_id': maquina_registro.service_id.obra_id.id,
+                    'nome_obra': maquina_registro.nome_obra,
+                    'endereco': maquina_registro.endereco,
+                }
+                nova_chamada = self.env['foundation.chamada'].create(chamada_vals)
+
+                # Adicionar o operador da máquina à chamada, se disponível
+                if maquina_registro.maquina_id.operador_id:
+                    self.env['foundation.lista.presenca'].create({
+                        'chamada_id': nova_chamada.id,
+                        'funcionario_id': maquina_registro.maquina_id.operador_id.id,
+                        'data': hoje,
+                    })
 
         return new_record
 
