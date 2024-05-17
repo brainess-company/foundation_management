@@ -108,12 +108,12 @@ class FoundationRelatorios(models.Model):
 
         new_record = super(FoundationRelatorios, self).create(vals)
 
-        # Obter o registro de máquina associado para verificar se requer chamada
+        # Obter o registro de máquina associado para verificar se chamada_automatica está ativado
         maquina_registro = new_record.foundation_maquina_registro_id
 
-        # Corrigindo a verificação de 'requer_chamada'
-        if maquina_registro.maquina_id and not maquina_registro.maquina_id.requer_chamada:
-            # Se a máquina não requer chamada, criar uma nova chamada
+        # Verificação de 'chamada_automatica'
+        if maquina_registro.maquina_id and maquina_registro.maquina_id.chamada_automatica:
+            # Se a máquina requer chamada automática, criar uma nova chamada
             chamada_vals = {
                 'foundation_maquina_registro_id': maquina_registro.id,
                 'data': fields.Date.today(),

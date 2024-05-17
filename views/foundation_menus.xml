@@ -26,10 +26,9 @@
         <menuitem id="foundation_teste_menu" name="Operador" parent="main_foundation_menu" sequence="20"
                   groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/>
         <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="10"/>
-        <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_registro_chamada_tree" sequence="20"/>
+        <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_obra_chamada_tree" sequence="20"/>
         <menuitem id="menu_saida_estoque" name="Estoque" action="action_foundation_maquina_registro_saida_tree" parent="foundation_teste_menu" sequence="30"/>
         <menuitem id="menu_equipamentos_maquina" name="Equipamentos" action="action_foundation_maquina_equipment" parent="foundation_teste_menu" sequence="40"/>
-        <menuitem id="menu_chamada2" name="Chamada2" action="action_open_foundation_maquina_obra_chamada_tree" parent="foundation_teste_menu" sequence="50"/>
 
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->
