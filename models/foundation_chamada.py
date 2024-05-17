@@ -61,6 +61,13 @@ class Chamada(models.Model):
 
     active = fields.Boolean(string="Ativo", default=True)
 
+    foundation_obra_maquina_id = fields.Many2one(
+        'foundation.obra.maquina',
+        string='Máquina Obra',
+        required=True,  # Assuming this field is required
+        help='Referência ao registro de máquina obra associado.'
+    )
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active
