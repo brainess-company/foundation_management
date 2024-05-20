@@ -86,10 +86,9 @@ class FoundationRelatorios(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals.get('assinatura'):
-            raise UserError("A assinatura é obrigatória para a criação de um relatório.")
-
-            # Obter o service_id associado ao registro de máquina
+        #if not vals.get('assinatura'):
+         #   raise UserError("A assinatura é obrigatória para a criação de um relatório.")
+            #  Obter o service_id associado ao registro de máquina
         if vals.get('foundation_maquina_registro_id'):
             maquina_registro = self.env['foundation.maquina.registro'].browse(
                 vals.get('foundation_maquina_registro_id'))
@@ -170,11 +169,6 @@ class FoundationRelatorios(models.Model):
         """action save relatorio"""
         _logger.info('CONTEXTO ATUAL ACTION SAVE DE FOUNDATION RL: %s', self.env.context)
         self.ensure_one()
-        if not self.assinatura:
-            # raise UserError("A assinatura é necessária para salvar o relatório.")
-            raise UserError(
-                translate._("A assinatura é obrigatória para a criação de um relatório."))
-        _logger.info('CONTEXTO ATUAL ATUAL PARA CRIAR RELATORIO 2: %s', self.env.context)
         self.state = 'conferencia'
         # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {

@@ -73,6 +73,10 @@ Para instalar este módulo, você precisa:
 - [ ] se ja tem uma chamada relacionada com a obra e a máquina, ocultar o botão de fazer chamada
 - [ ] criei um boleano para verificar se vai ser necessário enviar chamada automática
 - [ ]  QUANDO CANCELAR UMA SALE ORDER TEM Q ARQUIVAR A OBRA
+- [ ] A assinatura do relatorio não precisa mais ser obrigatória (aparecer aviso apenas)
+- [ ] Campo verdadeiro ou falso se está com assinatura ou não
+- [ ] Não pode fazer medição se o relatório não tiver assinatura
+- [ ] Uma nova tela apenas com os relatorios que não tem assinatura
 - 
 - [x] Todos os locais de estoque ficam com o mais recente criado
 - [x] Falta criar grupos de permissões
