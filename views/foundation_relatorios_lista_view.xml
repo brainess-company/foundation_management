@@ -7,7 +7,8 @@
             <field name="name">foundation.relatorios.lista.tree</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
-                <tree string="Lista de relatorios" create="false" edit="false" delete="false">
+                <tree string="Lista de relatorios" create="false" edit="false" delete="false" decoration-danger="has_assinatura == False">
+                    <field name="has_assinatura" invisible="1"/>
                     <field name="data"/>
                     <field name="foundation_maquina_registro_id" invisible="1"/>
                     <field name="maquina_id"/>
