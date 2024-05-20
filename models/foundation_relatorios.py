@@ -161,8 +161,11 @@ class FoundationRelatorios(models.Model):
         return new_record
 
     def action_confirm(self):
-        """action confirm relatorio"""
-        self.write({'state': 'conferido'})
+        """Confirma o relatório se houver uma assinatura"""
+        for record in self:
+            if not record.has_assinatura:
+                raise UserError("Um relatório sem assinatura não pode ser conferido.")
+            record.write({'state': 'conferido'})
 
     def action_cancel(self):
         """Cancela o relatório e cancela as estacas associadas"""
