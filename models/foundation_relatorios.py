@@ -1,10 +1,6 @@
 """Lançamento em lote de estacas"""
-import logging
 from odoo import models, fields, api
 from odoo.exceptions import UserError
-from odoo.tools import translate
-
-_logger = logging.getLogger(__name__)
 
 
 class FoundationRelatorios(models.Model):
@@ -72,9 +68,17 @@ class FoundationRelatorios(models.Model):
 
     active = fields.Boolean(string="Ativo", default=True)
 
+    has_assinatura = fields.Boolean(string="Tem Assinatura", compute="_compute_has_assinatura",
+                                    store=True)
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active
+
+    @api.depends('assinatura')
+    def _compute_has_assinatura(self):
+        for record in self:
+            record.has_assinatura = bool(record.assinatura)
 
     @api.depends('relatorio_number', 'service_id', 'nome_obra')
     def _compute_display_relatorio_name(self):
@@ -167,7 +171,6 @@ class FoundationRelatorios(models.Model):
 
     def action_save(self):
         """action save relatorio"""
-        _logger.info('CONTEXTO ATUAL ACTION SAVE DE FOUNDATION RL: %s', self.env.context)
         self.ensure_one()
         self.state = 'conferencia'
         # Supondo que haja um campo de estado para controlar a confirmação do relatório

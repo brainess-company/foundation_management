@@ -36,6 +36,7 @@
         'views/foundation_obra_service_simples_view.xml',
         'views/foundation_estacas_view.xml',
         'views/foundation_relatorios_lista_view.xml',
+        'views/foundation_relatorios_without_signature.xml',
         'views/foundation_maquina_registro_estacas.xml',
         'views/foundation_saida_estoque_view.xml',
         'views/foundation_chamada_maquina_registro.xml',
