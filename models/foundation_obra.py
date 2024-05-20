@@ -99,7 +99,8 @@ class FoundationObra(models.Model):
                 'foundation.medicao',
                 'foundation.estacas',
                 'foundation.chamada',
-                'account.analytic.account'
+                'account.analytic.account',
+                'foundation.obra.service'
             ]
 
             # Arquivar/Restaurar a obra e os registros relacionados
