@@ -38,6 +38,9 @@
                     <field name="nome_obra"/>
                     <field name="state"/>
                     <field name="data"/>
+                    <!--field name="estaca_ids" invisible="1"/-->
+                    <field name="total_estacas_price"/>
+
 
                     <templates>
                         <t t-name="kanban-box">
@@ -63,10 +66,12 @@
             <field name="arch" type="xml">
                 <calendar string="Calendar View for Relatorios" date_start="data" color="nome_obra">
                     <field name="nome_obra"/>
+                    <!--field name="estaca_ids" invisible="1"/-->
+                    <field name="total_estacas_price"/>
+                    <field name="service_template_id"/>
                     <field name="data"/>
-
-                    <!--field name="nome_maquina"/-->
-                    <!--field name="nome_operador"/-->
+                    <field name="maquina_id"/>
+                    <field name="operador_id"/>
                     <field name="nome_obra"/>
                 </calendar>
             </field>

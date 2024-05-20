@@ -70,6 +70,20 @@ class FoundationRelatorios(models.Model):
 
     has_assinatura = fields.Boolean(string="Tem Assinatura", compute="_compute_has_assinatura",
                                     store=True)
+    total_estacas_price = fields.Float(
+        string="Valor Produzido",
+        compute="_compute_total_estacas_price",
+        store=True
+    )
+
+    @api.depends('estacas_ids.total_price')
+    def _compute_total_estacas_price(self):
+        """
+        Calcula a soma dos total_price de todas as estacas associadas ao relatório.
+        """
+        for record in self:
+            total = sum(estaca.total_price for estaca in record.estacas_ids)
+            record.total_estacas_price = total
 
     def toggle_active(self):
         for record in self:
