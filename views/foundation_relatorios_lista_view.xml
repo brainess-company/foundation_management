@@ -64,7 +64,7 @@
             <field name="name">foundation.relatorios.calendar</field>
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
-                <calendar string="Calendar View for Relatorios" date_start="data" color="nome_obra">
+                <calendar string="Calendar View for Relatorios" date_start="data" color="nome_obra" create="false" delete="false">
                     <field name="nome_obra"/>
                     <!--field name="estaca_ids" invisible="1"/-->
                     <field name="total_estacas_price"/>
