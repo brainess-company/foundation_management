@@ -77,11 +77,8 @@ class FoundationObraService(models.Model):
                                                  string="Local de Estoque Específico",
                                                  readonly=True, store=True)
 
-    active = fields.Boolean(string="Ativo", default=True)
+    active = fields.Boolean("Active da Obra", related='obra_id.active', readonly=True)
 
-    def toggle_active(self):
-        for record in self:
-            record.active = not record.active
 
 
     @api.model
