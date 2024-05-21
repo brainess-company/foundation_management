@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_foundation_employee_assignment_tree" model="ir.ui.view">
+        <field name="name">foundation.employee.assignment.tree</field>
+        <field name="model">foundation.employee.assignment</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Assignments">
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="machine_id"/>
+                <field name="operador_id"/>
+                <field name="machine_status"/>
+                <field name="is_present"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_foundation_employee_assignment_form" model="ir.ui.view">
+        <field name="name">foundation.employee.assignment.form</field>
+        <field name="model">foundation.employee.assignment</field>
+        <field name="arch" type="xml">
+            <form string="Employee Assignment">
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                        <field name="employee_id"/>
+                        <field name="machine_id"/>
+                        <field name="operador_id"/>
+                        <field name="machine_status"/>
+                        <field name="is_present"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_foundation_employee_assignment_calendar" model="ir.ui.view">
+        <field name="name">foundation.employee.assignment.calendar</field>
+        <field name="model">foundation.employee.assignment</field>
+        <field name="arch" type="xml">
+            <calendar string="Employee Assignments" date_start="date">
+                <field name="employee_id"/>
+                <field name="machine_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_foundation_employee_assignment" model="ir.actions.act_window">
+        <field name="name">Employee Assignments</field>
+        <field name="res_model">foundation.employee.assignment</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first employee assignment
+            </p>
+        </field>
+        <field name="context">{"create": False}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_employee_assignment_tree')}),
+                                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_employee_assignment_form')}),
+                                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_foundation_employee_assignment_calendar')})]"/>
+    </record>
+
+</odoo>
