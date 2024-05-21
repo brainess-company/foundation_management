@@ -16,6 +16,7 @@ class FoundationObra(models.Model):
     """
     _name = 'foundation.obra'
     _description = 'Informações sobre a obra'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'nome_obra'
 
     # CAMPOS PRÓPRIOS

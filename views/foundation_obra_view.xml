@@ -11,6 +11,7 @@
                     <field name="nome_obra"/>
                     <field name="cliente_id"/>
                     <field name="active" invisible="1"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="invoice_address"/>
                     <field name="valor_total" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="valor_faturado" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
@@ -37,6 +38,12 @@
                             <field name="valor_a_faturar" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                         </group>
                     </sheet>
+                                                            <!-- Inserir Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                     <footer>
                         <button name="toggle_active" string="Arquivar" type="object"
                                 attrs="{'invisible': [('active', '=', False)]}" class="oe_highlight"/>

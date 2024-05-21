@@ -9,11 +9,9 @@
             <field name="arch" type="xml">
                 <tree string="Maquinas List" delete="false">
                     <field name="nome_maquina"/>
-                    <field name="display_requer_chamada" string="Requer chamada?"
-                           decoration-info="display_requer_chamada == 'Sim'"
-                           decoration-muted="display_requer_chamada == 'Não'"/>
                     <field name="operador_id"/>
                     <field name="employee_count"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="status_maquina"
                            decoration-success="status_maquina == 'disponivel'"
                            decoration-info="status_maquina == 'em_mobilizacao'"
@@ -21,7 +19,10 @@
                            decoration-warning="status_maquina == 'parada'"
                            decoration-muted="status_maquina == ' sem_obra'"
                     widget="badge" optional="show"/>
-                    <field name="observacao"/>
+                    <field name="display_requer_chamada" string="Requer chamada?"
+                           decoration-info="display_requer_chamada == 'Sim'"
+                           decoration-muted="display_requer_chamada == 'Não'"/>
+                    <!--field name="observacao"/-->
 
                 </tree>
             </field>
@@ -49,6 +50,7 @@
                     <!-- Inserir Chatter -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids"/>
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                 </form>
