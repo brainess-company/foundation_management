@@ -39,7 +39,7 @@
         'views/foundation_relatorios_without_signature.xml',
         'views/foundation_maquina_registro_estacas.xml',
         'views/foundation_saida_estoque_view.xml',
-        'views/foundation_chamada_maquina_registro.xml',
+        # 'views/foundation_chamada_maquina_registro.xml',
         'views/foundation_stock_extension_view.xml',
         'views/foundation_menus.xml',
         'views/foundation_actions.xml',
