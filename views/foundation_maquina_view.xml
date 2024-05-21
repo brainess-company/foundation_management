@@ -10,7 +10,8 @@
                 <tree string="Maquinas List" delete="false">
                     <field name="nome_maquina"/>
                     <field name="operador_id"/>
-                    <field name="employee_count"/>
+                    <field name="employee_count" optional="show"/>
+                    <field name="employee_ids" widget="many2many_tags" optional="show"/>
                     <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="status_maquina"
                            decoration-success="status_maquina == 'disponivel'"
