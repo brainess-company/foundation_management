@@ -10,7 +10,7 @@ class FoundationEmployeeAssignment(models.Model):
     date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
     employee_id = fields.Many2one('hr.employee', string="Funcionário", required=True, tracking=True)
     machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True, tracking=True)
-    operador_id = fields.Many2one('hr.employee', related='machine_id.operador', string="Operador", readonly=True)
+    operador_id = fields.Many2one('hr.employee', related='machine_id.operador_id', string="Operador", readonly=True)
     machine_status = fields.Selection(related='machine_id.status_maquina', string="Status da Máquina", readonly=True)
     is_present = fields.Boolean("Presente Hoje", compute='_compute_is_present', store=True)
 
@@ -43,5 +43,5 @@ class FoundationEmployeeAssignment(models.Model):
         """ Personalize a exclusão para evitar a exclusão de registros de dias anteriores. """
         for record in self:
             if record.date < fields.Date.today():
-                raise UserError(_("Não é possível excluir registros de atribuições de dias anteriores."))
+                raise UserError("Não é possível excluir registros de atribuições de dias anteriores.")
         return super(FoundationEmployeeAssignment, self).unlink()

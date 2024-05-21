@@ -21,6 +21,7 @@ from . import foundation_analytic_account_foundation_maquina_registro
 from . import foundation_stock_extension
 from . import foundation_stock_quant_extend
 from . import foundation_employee_extend
+from . import foundation_employee_assignment
 from . import foundation_hrdepartment_extend
 from . import foundation_extend_stock_picking
 from . import foundation_maquina_obra

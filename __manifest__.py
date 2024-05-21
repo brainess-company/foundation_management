@@ -44,6 +44,7 @@
         'views/foundation_menus.xml',
         'views/foundation_actions.xml',
         'views/sale_order_obra_extension.xml',
+        'data/foundation_cron.xml',
     ],
     'demo': [],
     'installable': True,
