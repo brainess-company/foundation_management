@@ -99,8 +99,9 @@ class FoundationObra(models.Model):
                 'foundation.medicao',
                 'foundation.estacas',
                 'foundation.chamada',
-                'account.analytic.account',
-                'foundation.obra.service'
+                'foundation.obra.service',
+                'account.analytic.account'
+
             ]
 
 
@@ -124,14 +125,12 @@ class FoundationObra(models.Model):
                         _logger.info(f"(foundation.obra.service)Not Record active {record.active}")
                         for service_record in related_records:
                             service_record.write({'foundation_maquina_ids': [(5, 0, 0)]})
+                            #service_record.write({'active': record.active})
                     else:
                         _logger.info(f"(foundation.obra.service)Record active {record.active}")
                         for service_record in related_records:
-                            service_record.write({'active': record.active})
+                            # service_record.write({'active': record.active})
                             _logger.info(f"{service_record} - {record.active}")
-
-
-
 
 
 
