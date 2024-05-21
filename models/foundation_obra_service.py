@@ -77,6 +77,13 @@ class FoundationObraService(models.Model):
                                                  string="Local de Estoque Específico",
                                                  readonly=True, store=True)
 
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
+
+
     @api.model
     def create(self, vals):
         _logger.debug("Creating new FoundationObraService record with values: %s", vals)

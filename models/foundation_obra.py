@@ -103,8 +103,10 @@ class FoundationObra(models.Model):
                 'foundation.obra.service'
             ]
 
+
             # Arquivar/Restaurar a obra e os registros relacionados
             record.active = not record.active
+            _logger.info(f"Cada registro recebe {record.active}")
 
             # Atualiza a visibilidade dos estoques específicos
             if sale_order.specific_stock_location_id:
@@ -116,3 +118,27 @@ class FoundationObra(models.Model):
                 related_records = self.env[model].search(
                     [('sale_order_id', '=', record.sale_order_id.id)])
                 related_records.write({'active': record.active})
+                # Limpa o campo foundation_maquina_ids do modelo 'foundation.obra.service'
+                if model == 'foundation.obra.service':
+                    if not record.active:
+                        _logger.info(f"(foundation.obra.service)Not Record active {record.active}")
+                        for service_record in related_records:
+                            service_record.write({'foundation_maquina_ids': [(5, 0, 0)]})
+                    else:
+                        _logger.info(f"(foundation.obra.service)Record active {record.active}")
+                        for service_record in related_records:
+                            service_record.write({'active': record.active})
+                            _logger.info(f"{service_record} - {record.active}")
+
+
+
+
+
+
+            # dsadas
+            # Desarquiva os registros relacionados
+            #if not record.active:
+            #    for model in desarquivar:
+            #        related_records = self.env[model].search(
+            #            [('sale_order_id', '=', record.sale_order_id.id), ('active', '=', False)])
+            #        related_records.write({'active': True})
