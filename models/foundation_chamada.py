@@ -33,7 +33,7 @@ class Chamada(models.Model):
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     sale_order_id = fields.Many2one('sale.order',
                                     string="Ordem de Venda", related='obra_id.sale_order_id',
-                                    readonly=True, store=True, required=True)
+                                    readonly=True, store=True, required=False)
     nome_obra = fields.Char("Nome da Obra",
                             related='obra_id.nome_obra', readonly=True, store=True)
     endereco = fields.Char("Endereço", related='obra_id.endereco', readonly=True, store=True)
