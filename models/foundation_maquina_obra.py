@@ -51,6 +51,7 @@ class FoundationMaquinaObra(models.Model):
 
     # RELACIONA ESSA TABELA COM A DE SERVIÇO
     # CAMPOS PRÓPRIOS
+    obra_id = fields.Many2one('foundation.obra', string="Obra")
     nome_obra = fields.Char(related='sale_order_id.nome_obra',
                             store=True, readonly=True, string="Nome da Obra")
 
