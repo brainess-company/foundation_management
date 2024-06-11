@@ -25,6 +25,7 @@
         'security/ir.model.access.csv',
 
         # 'security/sale_order_rules.xml'
+        'views/product_views.xml',
         'views/foundation_stock_move_wizard_view.xml',
         'views/foundation_chamada_view.xml',
         'views/chamada.xml',
