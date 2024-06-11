@@ -129,59 +129,73 @@ class SaleOrder(models.Model):
         """ Cria ou atualiza contas analíticas baseadas na ordem de venda e em cada template de produto único """
         AnalyticAccount = self.env['account.analytic.account']
         plan_model = self.env['account.analytic.plan']
-        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
+        company_model = self.env['res.company']
 
-        if not expense_plan:
-            expense_plan = plan_model.create({'name': 'DESPESAS'})
-            _logger.info("Plano 'DESPESAS' criado: %s", expense_plan.id)
+        # Iterar sobre todas as empresas cadastradas
+        companies = company_model.search([])
+        for company in companies:
+            expense_plan = plan_model.search(
+                [('name', '=', 'DESPESAS'), ('company_id', '=', company.id)], limit=1)
+            if not expense_plan:
+                expense_plan = plan_model.create({'name': 'DESPESAS', 'company_id': company.id})
+                _logger.info("Plano 'DESPESAS' criado para a empresa %s: %s", company.name,
+                             expense_plan.id)
 
-        # Conta geral para a Sale Order
-        general_account_name = f"{self.nome_obra} - {self.name}"
-        general_account = AnalyticAccount.search([
-            ('name', '=', general_account_name),
-            ('sale_order_id', '=', self.id)
-        ], limit=1)
+            # Conta geral para a Sale Order
+            general_account_name = f"{self.nome_obra} - {self.name}"
+            general_account = AnalyticAccount.search([
+                ('name', '=', general_account_name),
+                ('sale_order_id', '=', self.id),
+                ('company_id', '=', company.id)
+            ], limit=1)
 
-        if not general_account:
-            general_account = AnalyticAccount.create({
-                'name': general_account_name,
-                'company_id': self.company_id.id,
-                'partner_id': self.partner_id.id,
-                'sale_order_id': self.id,
-                'plan_id': expense_plan.id  # Definindo plan_id aqui
-            })
-            _logger.info("Conta analítica criada para a ordem de venda: %s", general_account.name)
-        else:
-            _logger.info("Conta analítica geral já existe e foi atualizada: %s",
-                         general_account.name)
+            if not general_account:
+                general_account = AnalyticAccount.create({
+                    'name': general_account_name,
+                    'company_id': company.id,
+                    'partner_id': self.partner_id.id,
+                    'sale_order_id': self.id,
+                    'plan_id': expense_plan.id  # Definindo plan_id aqui
+                })
+                _logger.info("Conta analítica criada para a ordem de venda na empresa %s: %s",
+                             company.name, general_account.name)
+            else:
+                _logger.info("Conta analítica geral já existe e foi atualizada na empresa %s: %s",
+                             company.name, general_account.name)
 
-        # Contas para cada template de produto distinto
-        product_templates = {line.product_id.product_tmpl_id for line in self.order_line}
-        for template in product_templates:
-            if template.name:
-                account_name = f"{self.nome_obra} - {template.name} - {self.name}"
-                analytic_account = AnalyticAccount.search([
-                    ('name', '=', account_name),
-                    ('sale_order_id', '=', self.id)
-                ], limit=1)
+            # Contas para cada template de produto distinto
+            product_templates = {line.product_id.product_tmpl_id for line in self.order_line}
+            for template in product_templates:
+                if template.criar_conta_analitica:  # Verifica se criar_conta_analitica é True
+                    if template.name:
+                        account_name = f"{self.nome_obra} - {template.name} - {self.name}"
+                        analytic_account = AnalyticAccount.search([
+                            ('name', '=', account_name),
+                            ('sale_order_id', '=', self.id),
+                            ('company_id', '=', company.id)
+                        ], limit=1)
 
-                if not analytic_account:
-                    analytic_account = AnalyticAccount.create({
-                        'name': account_name,
-                        'company_id': self.company_id.id,
-                        'partner_id': self.partner_id.id,
-                        'plan_id': expense_plan.id,  # Definindo plan_id aqui
-                        'sale_order_id': self.id
-                    })
-                    _logger.info("Conta analítica criada: %s", analytic_account.name)
-                else:
-                    analytic_account.write({
-                        'company_id': self.company_id.id,  # Atualize campos relevantes se necessário
-                        'partner_id': self.partner_id.id,
-                        'plan_id': expense_plan.id  # Assegurar que plan_id é atualizado se necessário
-                    })
-                    _logger.info("Conta analítica já existe e foi atualizada: %s",
-                                 analytic_account.name)
+                        if not analytic_account:
+                            analytic_account = AnalyticAccount.create({
+                                'name': account_name,
+                                'company_id': company.id,
+                                'partner_id': self.partner_id.id,
+                                'plan_id': expense_plan.id,  # Definindo plan_id aqui
+                                'sale_order_id': self.id
+                            })
+                            _logger.info("Conta analítica criada para o produto na empresa %s: %s",
+                                         company.name, analytic_account.name)
+                        else:
+                            analytic_account.write({
+                                'company_id': company.id,
+                                # Atualize campos relevantes se necessário
+                                'partner_id': self.partner_id.id,
+                                'plan_id': expense_plan.id
+                                # Assegurar que plan_id é atualizado se necessário
+                            })
+                            _logger.info(
+                                "Conta analítica já existe e foi atualizada para o produto na empresa %s: %s",
+                                company.name, analytic_account.name)
 
     @api.model
     def create(self, vals):
