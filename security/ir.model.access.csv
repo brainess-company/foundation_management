@@ -49,3 +49,27 @@ access_foundation_estacas_controle,controle_foundation_estacas,model_foundation_
 access_foundation_extend_stock_picking_controle,controle_foundation_extend_stock_pickin,model_stock_picking,group_controle,1,1,1,1
 access_foundation_maquina_obra_controle,controle_foundation_maquina_obra,model_foundation_maquina_obra,group_controle,1,1,1,1
 access_foundation_employee_assignment_controle,controle_foundation_employee_assignment,model_foundation_employee_assignment,group_controle,1,0,0,0
+
+
+access_foundation_obra_admin,Administração - Fundações de Obras,model_foundation_obra,group_administrador,1,1,1,1
+access_foundation_stock_move_wizard_admin,Administração - Movimentação de Estoque,model_stock_move_wizard,group_administrador,1,1,1,1
+access_foundation_estacas_admin,Administração - Estacas,model_foundation_estacas,group_administrador,1,1,1,1
+access_maintenance_equipment_admin,Administração - Equipamentos de Manutenção,model_maintenance_equipment,group_administrador,1,1,1,1
+access_foundation_maquina_admin,Administração - Máquinas,model_foundation_maquina,group_administrador,1,1,1,1
+access_foundation_medicao_admin,Administração - Medição,model_foundation_medicao,group_administrador,1,1,1,1
+access_foundation_obra_admin,Administração - Obras,model_foundation_obra,group_administrador,1,1,1,1
+access_foundation_obra_service_admin,Administração - Serviços de Obras,model_foundation_obra_service,group_administrador,1,1,1,1
+access_foundation_chamada_admin,Administração - Chamadas,model_foundation_chamada,group_administrador,1,1,1,1
+access_foundation_relatorios_admin,Administração - Relatórios,model_foundation_relatorios,group_administrador,1,1,1,1
+access_foundation_lista_presenca_admin,Administração - Lista de Presença,model_foundation_lista_presenca,group_administrador,1,1,1,1
+access_foundation_maquina_registro_admin,Administração - Registro de Máquinas,model_foundation_maquina_registro,group_administrador,1,1,1,1
+access_account_analytic_account_admin,Administração - Conta Analítica,model_account_analytic_account,group_administrador,1,1,1,1
+access_stock_move_admin,Administração - Estoque,model_stock_move,group_administrador,1,1,1,1
+access_stock_quant_admin,Administração - Quantidade de Estoque,model_stock_quant,group_administrador,1,1,1,1
+access_hr_employee_admin,Administração - Funcionários,model_hr_employee,group_administrador,1,1,1,1
+access_foundation_employee_assignment_admin,Administração - Atribuição de Funcionários,model_foundation_employee_assignment,group_administrador,1,1,1,1
+access_hr_department_admin,Administração - Departamento de RH,model_hr_department,group_administrador,1,1,1,1
+access_stock_picking_admin,Administração - Ampliação de Transferência de Estoque,model_stock_picking,group_administrador,1,1,1,1
+access_foundation_maquina_obra_admin,Administração - Máquinas em Obra,model_foundation_maquina_obra,group_administrador,1,1,1,1
+access_product_template_admin,Administração - Template de Produto,model_product_template,group_administrador,1,1,1,1
+

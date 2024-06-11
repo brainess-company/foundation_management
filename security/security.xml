@@ -21,6 +21,10 @@
         <record id="group_diretoria" model="res.groups">
             <field name="name">Diretoria</field>
         </record>
+        <!-- Grupo Adm -->
+        <record id="group_administrador" model="res.groups">
+            <field name="name">Administrador</field>
+        </record>
 
     </data>
 </odoo>
