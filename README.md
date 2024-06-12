@@ -84,4 +84,6 @@ Para instalar este módulo, você precisa:
 - [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
 
 - [ ] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
-- [ ] Modulo estoque_extend_foundation_
+- [ ] Modulo estoque_extend_foundation
+- [ ] Modulo conta analitica extend
+-**Cada modulo extende sale order**

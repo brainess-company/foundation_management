@@ -9,11 +9,12 @@ class SaleOrder(models.Model):
     Herdaa o sale order e quando confirmado:
     cria estoque central
     cria estoque para a obra
-    cria um registro na tabela foundation obra
+    cria um registro na tabela foundation obra vinvulado com a sale order
     cria varios registros em foundation obra service, um pra cada serviço
     cria ou atualiza plano de conta e contas analiticas e conta analitica para cada serviço distinto
         e vincula cada conta analitoca com a sale order, isso para todas as empresas no sistema
         o usurio q confirma a sale order tem q ter permissão em todas as empresas
+    todo verificar as views impactadas
     """
     _inherit = 'sale.order'
     nome_obra = fields.Char("Nome da Obra", required=True)
