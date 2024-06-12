@@ -70,6 +70,12 @@ class FoundationObraService(models.Model):
         'service_id',  # Campo inverso em FoundationMaquinaRegistro
         string="Registros de Máquinas"
     )
+    criar_conta_analitica = fields.Boolean(
+        string="Criar Conta Analítica",
+        related='service_template_id.criar_conta_analitica',
+        readonly=True,
+        store=True
+    )
 
     # Novo campo relacionado para acessar o local específico de estoque
     specific_stock_location_id = fields.Many2one('stock.location',
