@@ -88,15 +88,6 @@ class SaleOrder(models.Model):
         foundation_obra = self.env['foundation.obra']
         foundation_obra_service = self.env['foundation.obra.service']
         # Assuming this is how you access the machine model
-        plan_model = self.env['account.analytic.plan']
-
-        _logger.info("Checking for existing 'DESPESAS' plan")
-        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
-        if not expense_plan:
-            _logger.info("'DESPESAS' plan not found, creating new one")
-            expense_plan = plan_model.create({
-                'name': 'DESPESAS'
-            })
 
         for order in self:
             # Ensure there is an 'obra' for the sale order
