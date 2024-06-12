@@ -83,3 +83,5 @@ Para instalar este módulo, você precisa:
 - [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
 - [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
 
+- [ ] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
+- [ ] Modulo estoque_extend_foundation_
