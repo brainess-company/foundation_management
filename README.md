@@ -86,4 +86,4 @@ Para instalar este módulo, você precisa:
 - [ ] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
 - [ ] Modulo estoque_extend_foundation
 - [ ] Modulo conta analitica extend
--**Cada modulo extende sale order**
+-**Cada modulo extende sale order e o analitico e estoque tem que herder **

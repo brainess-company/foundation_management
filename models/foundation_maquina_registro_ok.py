@@ -79,62 +79,10 @@ class FoundationMaquinaRegistro(models.Model):
         store=True
     )
 
-    # Adicionando novo campo para armazenar o ID da conta analítica
-    analytic_account_id = fields.Many2one(
-        'account.analytic.account',
-        string="Conta Analítica",
-        readonly=True,
-        help="Referência à conta analítica criada para este registro de máquina."
-    )
 
-    # Novos campos para locais de estoque específicos e de saída
-    specific_stock_location_id = fields.Many2one('stock.location',
-                                                 related='sale_order_id.specific_stock_location_id',
-                                                 string="Local de Estoque Específico",
-                                                 readonly=True)
-    specific_stock_output_id = fields.Many2one('stock.location',
-                                               related='sale_order_id.specific_stock_output_id',
-                                               string="Local de Estoque de Saída", readonly=True)
     # Campo active para controlar arquivamento
     active = fields.Boolean(string="Ativo", default=True)
 
-    def _create_or_update_analytic_accounts(self, service, maquinas):
-        """CRUAR OU EDITAR CONTA ANALITICA"""
-        maquina_registro_model = self.env['foundation.maquina.registro']
-        analytic_account_model = self.env['account.analytic.account']
-        plan_model = self.env['account.analytic.plan']
-
-        expense_plan = plan_model.search([('name', '=', 'DESPESAS')], limit=1)
-
-
-        # LOOP PARA MAIS DE UMA MAQUINA NO MESMO SERVIÇO
-        for maquina in maquinas:
-            maquina_registro = self.env['foundation.maquina.registro'].search(
-                [('service_id', '=', service.id), ('maquina_id', '=', maquina.id)], limit=1)
-            if not maquina_registro:
-                maquina_registro = self.env['foundation.maquina.registro'].create({
-                    'service_id': service.id,
-                    'maquina_id': maquina.id,
-                })
-
-            account_name = f"{service.nome_obra} - {service.service_name} - {maquina.nome_maquina}"
-
-            existing_account = self.env['account.analytic.account'].search(
-                [('foundation_maquina_registro_id', '=', maquina_registro.id)], limit=1)
-
-            if existing_account:
-                existing_account.write({
-                    'name': account_name
-                })
-            else:
-                new_account = self.env['account.analytic.account'].create({
-                    'name': account_name,
-                    'partner_id': service.obra_id.partner_id.id if service.obra_id.partner_id else None,
-                    'company_id': self.env.company.id,
-                    'plan_id': expense_plan.id,
-                    'foundation_maquina_registro_id': maquina_registro.id
-                })
-                maquina_registro.analytic_account_id = new_account.id
 
     @api.depends('has_today_chamada', 'requer_chamada_maquina')
     def _compute_display_has_today_chamada(self):

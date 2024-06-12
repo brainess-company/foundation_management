@@ -104,7 +104,7 @@
                 <tree string="Lista de Registros de Máquinas">
                     <field name="sale_order_id"/>
                     <field name="nome_obra"/>
-                    <field name="analytic_account_id" invisible="1"/>
+                    <!-- field name="analytic_account_id" invisible="1"/-->
                     <field name="requer_chamada_maquina" invisible="1"/>
                     <field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"

@@ -54,8 +54,7 @@ class FoundationMaquina(models.Model):
                                     compute='_compute_employee_count', store=True)
 
     department_id = fields.Many2one('hr.department', string='Departamento', readonly=True)
-    maintenance_equipment_id = fields.Many2one('maintenance.equipment',
-                                               string="Equipamento de Manutenção", readonly=True)
+    #maintenance_equipment_id = fields.Many2one('maintenance.equipment',string="Equipamento de Manutenção", readonly=True)
     active = fields.Boolean(string="Ativo", default=True)
 
     #foundation_obra_maquina_id = fields.Many2many('foundation.obra.maquina', string="Ativo", default=True)
@@ -67,23 +66,18 @@ class FoundationMaquina(models.Model):
     @api.model
     def create(self, vals):
         machine = super(FoundationMaquina, self).create(vals)
-
-        # Criar um novo departamento para a máquina
-        department = self.env['hr.department'].create({
-            'name': machine.nome_maquina + ' Department',
-            'maquina_id': machine.id,  # Referência à máquina criada
-        })
-        machine.department_id = department.id
-
-        # Criar equipamento de manutenção associado à máquina
-        equipment = self.env['maintenance.equipment'].create({
-            'name': machine.nome_maquina,
-            'department_id': department.id,
-            'maquina_id': machine.id,
-        })
-        machine.maintenance_equipment_id = equipment.id
-
+        machine._create_department()
         return machine
+
+    def _create_department(self):
+        """Cria um novo departamento para a máquina."""
+        department = self.env['hr.department'].create({
+            'name': self.nome_maquina + ' Department',
+            'maquina_id': self.id,  # Referência à máquina criada
+        })
+        self.department_id = department.id
+
+
 
     # Outros campos...
 
