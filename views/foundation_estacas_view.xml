@@ -30,6 +30,7 @@
                     <field name="sale_order_id" readonly="1"/>
                     <field name="sale_order_line_id"/>
                 </tree>
+                <!--filter name="without_medicao" string="Sem Medição" domain="[('medicao_id','=',False)]"/-->
             </field>
         </record>
 
@@ -100,31 +101,48 @@
             </field>
         </record>
 
+        <!-- Search View for Foundation Estacas -->
+        <record id="view_foundation_estacas_search" model="ir.ui.view">
+            <field name="name">foundation.estacas.search</field>
+            <field name="model">foundation.estacas</field>
+            <field name="arch" type="xml">
+                <search string="Search Estacas">
+                    <field name="nome_estaca"/>
+                    <field name="nome_obra"/>
+                    <field name="service_template_id"/>
+                    <field name="relatorio_id"/>
+                    <field name="nome_obra"/>
+                    <field name="status_relatorio"/>
+                    <field name="profundidade"/>
+                    <field name="sale_order_id"/>
+                    <field name="sale_order_line_id"/>
+                </search>
+            </field>
+        </record>
+
         <!-- FOUNDATION ESTACAS VIEW -->
         <!-- Ações para Pilares de Fundação -->
         <record id="action_foundation_estacas" model="ir.actions.act_window">
-    <field name="name">Estacas</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="res_model">foundation.estacas</field>
-    <field name="view_mode">tree,form,calendar,graph</field>
-    <field name="context">{"create": False}</field> <!-- Disables the creation of new records -->
-    <field name="help" type="html">
-        <p class="o_view_nocontent_smiling_face">
-            Create the first estaca
-        </p>
-        <p>
-            Use the calendar to schedule your estacas. Use the graph view to analyze the estacas.
-        </p>
-    </field>
-    <field name="view_ids" eval="[(5, 0, 0),
-                                  (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_estacas2_tree')}),
-                                  (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_estacas_form')}),
-                                  (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_foundation_estacas_calendar')}),
-                                  (0, 0, {'view_mode': 'graph', 'view_id': ref('view_foundation_estacas_graph')})]"/>
-</record>
-
-
-
+            <field name="name">Estacas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foundation.estacas</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{"create": False}</field> <!-- Disables the creation of new records -->
+            <field name="search_view_id" ref="view_foundation_estacas_search"/> <!-- inseri referencia a pesquisa -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first estaca
+                </p>
+                <p>
+                    Use the calendar to schedule your estacas. Use the graph view to analyze the estacas.
+                </p>
+            </field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_estacas2_tree')}),
+                                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_foundation_estacas_form')}),
+                                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_foundation_estacas_calendar')}),
+                                          (0, 0, {'view_mode': 'graph', 'view_id': ref('view_foundation_estacas_graph')})]"/>
+        </record>
 
     </data>
 </odoo>
