@@ -1,16 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- data/cron.xml -->
 <odoo>
     <data noupdate="1">
-        <!-- Definição do Cron Job -->
-        <record id="ir_cron_foundation_daily_assignments" model="ir.cron">
-            <field name="name">Create Daily Employee Assignments</field>
+        <!-- Cron job para criar registros diários -->
+        <record id="ir_cron_create_daily_assignments" model="ir.cron">
+            <field name="name">Create Daily Assignments</field>
             <field name="model_id" ref="model_foundation_employee_assignment"/>
             <field name="state">code</field>
             <field name="code">model.create_daily_assignments()</field>
+            <field name="active">True</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field name="doall" eval="False"/>
-            <field name="active" eval="True"/>
+            <field name="doall">False</field>
         </record>
     </data>
 </odoo>
