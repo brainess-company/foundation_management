@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 class FoundationEmployeeAssignment(models.Model):
     _name = 'foundation.employee.assignment'
@@ -8,8 +8,8 @@ class FoundationEmployeeAssignment(models.Model):
     _rec_name = 'employee_id'
 
     date = fields.Date("Data", required=True, default=fields.Date.context_today, tracking=True)
-    employee_id = fields.Many2one('hr.employee', string="Funcionário", required=True, tracking=True)
-    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=True, tracking=True)
+    employee_id = fields.Many2one('hr.employee', string="Funcionário", required=False, tracking=True)
+    machine_id = fields.Many2one('foundation.maquina', string="Máquina", required=False, tracking=True)
     operador_id = fields.Many2one('hr.employee', related='machine_id.operador_id', string="Operador", readonly=True)
     machine_status = fields.Selection(related='machine_id.status_maquina', string="Status da Máquina", readonly=True)
     is_present = fields.Boolean("Presente Hoje", compute='_compute_is_present', store=True)
