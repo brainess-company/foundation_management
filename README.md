@@ -83,7 +83,12 @@ Para instalar este módulo, você precisa:
 - [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
 - [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
 
-- [ ] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
-- [ ] Modulo estoque_extend_foundation
-- [ ] Modulo conta analitica extend
--**Cada modulo extende sale order e o analitico e estoque tem que herder **
+- [x] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
+- [x] Modulo estoque_extend_foundation
+- [x] Modulo conta analitica extend
+- [ ] Desvincular a dependencia do relatório com a chamada
+- [ ] não pode ter mais de uma chamada para mesma equipe na mesma data
+- [ ] o relatório deve buscar e relacionar com o primeiro / unico registro de chamada do mesmo dia
+-**Cada modulo extende sale order e o analitico e estoque tem que herdar**
+-**Remover a exibição condicional do botão de chamada, incluir botão de criar chamada no relatório**
+- Incluir botão se tem relatório na lista de chamdas da obra pra saber se teve produção ou não

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- operador → criar chamada -->
     <data>
     <record id="view_chamada_maquina_obra_form" model="ir.ui.view">
         <field name="name">foundation.chamada.form</field>
@@ -9,17 +10,17 @@
                 <sheet>
                     <group>
                         <field name="data"/>
-                        <field name="foundation_maquina_obra_id" widget="many2one" options="{'no_open': True}"/>
+                        <field name="foundation_maquina_obra_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                         <field name="nome_obra" readonly="1"/>
-                        <field name="maquina_id"/>
-                        <field name="obra_id"/>
+                        <field name="maquina_id" invisible="1"/>
+                        <field name="maquina_id" readonly="1"/>
+                        <field name="obra_id" invisible="1"/>
                         <field name="sale_order_id"/>
                         <field name="funcionario_ids" invisible="1"/>
                         <field name="active" invisible="1"/>
-
                         <field name="operador_id"/>
                         <field name="endereco" readonly="1"/>
-                        <field name="foundation_maquina_registro_id" readonly="1"/>
+                        <field name="foundation_maquina_registro_id" invisible="1"/>
                     </group>
                     <notebook>
                         <page string="Funcionários Presentes">
@@ -81,17 +82,19 @@
             <field name="model">foundation.maquina.obra</field>
             <field name="arch" type="xml">
                 <tree string="Lista de Registros de Máquinas" delete="false">
-                    <field name="maquina_id"/>
-                    <field name="obra_id"/>
-                    <field name="operador_id"/>
+                    <field name="maquina_id" invisible="1"/>
+                    <field name="maquina_id" readonly="1"/>
+                    <field name="obra_id" invisible="1"/>
+                    <field name="operador_id" invisible="1"/>
+                    <field name="operador_id" readonly="1"/>
                     <field name="sale_order_id"/>
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="requer_chamada_maquina" invisible="1"/>
                     <field name="nome_obra"/>
-                    <field name="display_has_today_chamada"
+                    <!--field name="display_has_today_chamada"
                    decoration-success="display_has_today_chamada == 'Sim'"
                    decoration-danger="display_has_today_chamada == 'Não'"
-                    widget="badge" optional="show"/>  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
+                    widget="badge" optional="show"/-->  <!-- se eu remover widget e opcianal apenas texto muda a cor -->
                     <button name="%(action_open_chamada_obra_form)d" type="action"
                             string="Registrar Chamada" icon="fa-calendar"
                             context="{
@@ -101,7 +104,7 @@
                                 'default_sale_order_id': sale_order_id,
                                 'default_operador_id': operador_id,
                                 'default_foundation_maquina_obra_id': id
-                            }"  attrs="{'invisible': ['|', ('requer_chamada_maquina', '=', False), ('has_today_chamada', '=', True)]}"/>
+                            }"  attrs="{'invisible': [('requer_chamada_maquina', '=', False)]}"/>
 
 
                 </tree>
