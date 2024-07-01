@@ -64,7 +64,7 @@ class Chamada(models.Model):
     foundation_maquina_obra_id = fields.Many2one(
         'foundation.maquina.obra',
         string='Máquina Obra',
-        required=True,  # Assuming this field is required
+        required=False,  # Assuming this field is required
         help='Referência ao registro de máquina obra associado.'
     )
 

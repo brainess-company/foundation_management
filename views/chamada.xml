@@ -71,6 +71,8 @@
                 'default_maquina_id': context.get('default_maquina_id', ''),
                 'default_obra_id': context.get('default_obra_id', ''),
                 'default_sale_order_id': context.get('default_sale_order_id', ''),
+                'default_foundation_maquina_obra_id': context.get('default_foundation_maquina_obra_id', ''),
+
                 'default_operador_id': context.get('default_operador_id', '')
             }</field>
         </record>
@@ -103,7 +105,7 @@
                                 'default_maquina_id': maquina_id,
                                 'default_sale_order_id': sale_order_id,
                                 'default_operador_id': operador_id,
-                                'default_foundation_maquina_obra_id': id
+                                'default_foundation_maquina_obra_id': active_id
                             }"  attrs="{'invisible': [('requer_chamada_maquina', '=', False)]}"/>
 
 

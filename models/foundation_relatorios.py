@@ -76,6 +76,19 @@ class FoundationRelatorios(models.Model):
         store=True
     )
 
+    chamada_existente = fields.Boolean(string="Chamada Existente",
+                                       compute="_compute_chamada_existente")
+
+    @api.depends('data', 'foundation_maquina_registro_id')
+    def _compute_chamada_existente(self):
+        for record in self:
+            chamadas = self.env['foundation.chamada'].search([
+                ('data', '=', record.data),
+                ('foundation_maquina_registro_id', '=', record.foundation_maquina_registro_id.id)
+            ])
+            record.chamada_existente = bool(chamadas)
+
+
     @api.depends('estacas_ids.total_price')
     def _compute_total_estacas_price(self):
         """
@@ -192,7 +205,7 @@ class FoundationRelatorios(models.Model):
         self.state = 'conferencia'
         # Supondo que haja um campo de estado para controlar a confirmação do relatório
         return {
-            'type': 'ir.actions.act_window_close',  # ir.actions.act_window PARA ABRIR O RELATORIO
+            'type': 'ir.actions.act_window',  # ir.actions.act_window PARA ABRIR O RELATORIO ou ir.actions.act_window_close PARA FECHAR O RELATORIO
             'name': 'Relatório Confirmado',
             'view_mode': 'form',
             'res_model': 'foundation.relatorios',

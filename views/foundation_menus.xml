@@ -28,6 +28,7 @@
                   groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/>
         <menuitem id="menu_foundation_add_estacas" name="Criar Relatorio" parent="foundation_teste_menu" action="action_foundation_maquina_registro_tree" sequence="10"/>
         <menuitem id="menu_foundation_chamada" name="Fazer Chamada" parent="foundation_teste_menu" action="action_open_foundation_maquina_obra_chamada_tree" sequence="20"/>
+        <menuitem id="menu_foundation_chamada2" name="Fazer Chamada2" parent="foundation_teste_menu" action="action_open_foundation_maquina_obra_chamada2_tree" sequence="30"/>
         <menuitem id="menu_foundation_relatorios_without_signature" name="Ver Relatorios" parent="foundation_teste_menu" action="action_foundation_relatorios_without_signature_tree" sequence="30"/>
         <!-- menuitem id="menu_equipamentos_maquina" name="Equipamentos" action="action_foundation_maquina_equipment" parent="foundation_teste_menu" sequence="50"/-->
 
