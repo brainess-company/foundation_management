@@ -79,14 +79,15 @@ class FoundationRelatorios(models.Model):
     chamada_existente = fields.Boolean(string="Chamada Existente",
                                        compute="_compute_chamada_existente")
 
-    @api.depends('data', 'foundation_maquina_registro_id')
+    @api.depends('data', 'maquina_id')
     def _compute_chamada_existente(self):
+        """Computa se já existe uma chamada para a mesma data e máquina"""
         for record in self:
-            chamadas = self.env['foundation.chamada'].search([
+            chamada = self.env['foundation.chamada'].search([
                 ('data', '=', record.data),
-                ('foundation_maquina_registro_id', '=', record.foundation_maquina_registro_id.id)
-            ])
-            record.chamada_existente = bool(chamadas)
+                ('maquina_id', '=', record.maquina_id.id)
+            ], limit=1)
+            record.chamada_existente = bool(chamada)
 
 
     @api.depends('estacas_ids.total_price')
