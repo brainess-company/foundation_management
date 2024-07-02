@@ -28,18 +28,22 @@ class FoundationEmployeeAssignment(models.Model):
 
     @api.model
     def create_daily_assignments(self):
-        """ Criar registros diários de atribuição para cada funcionário ativo em uma máquina. """
+        """ Criar registros diários de atribuição para cada funcionário ativo em uma máquina em cada empresa. """
         today = fields.Date.today()
-        assignments = self.search([('date', '=', today)])
-        if not assignments:
-            employees = self.env['hr.employee'].search([('active', '=', True)])
-            for employee in employees:
-                self.create({
-                    'date': today,
-                    'employee_id': employee.id,
-                    'machine_id': employee.machine_id.id  # Assumindo que 'machine_id' é um campo em 'hr.employee'
-                })
-
+        companies = self.env['res.company'].search([])
+        for company in companies:
+            assignments = self.search([('date', '=', today), ('company_id', '=', company.id)])
+            if not assignments:
+                employees = self.env['hr.employee'].search(
+                    [('active', '=', True), ('company_id', '=', company.id)])
+                for employee in employees:
+                    self.create({
+                        'date': today,
+                        'employee_id': employee.id,
+                        'machine_id': employee.machine_id.id,
+                        # Assumindo que 'machine_id' é um campo em 'hr.employee'
+                        'company_id': company.id
+                    })
     @api.model
     def unlink(self):
         """ Personalize a exclusão para evitar a exclusão de registros de dias anteriores. """
