@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="foundation_relatorios_view_activity" model="ir.ui.view">
+        <field name="name">foundation.relatorios.activity</field>
+        <field name="model">foundation.relatorios</field>
+        <field name="arch" type="xml">
+            <activity string="Relatorios">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="display_relatorio_name" display="full"/>
+                            <field name="state" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
 
         <!-- Tree View for Foundation Relatorios lista -->
         <record id="view_foundation_relatorios_lista_tree" model="ir.ui.view">
@@ -158,7 +174,7 @@
             <field name="name">Relatórios</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">foundation.relatorios</field>
-            <field name="view_mode">tree,form,kanban,calendar</field>
+            <field name="view_mode">tree,form,kanban,calendar,activity</field>
             <field name="target">current</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
@@ -170,7 +186,8 @@
                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('view_foundation_relatorios_lista_tree')}),
                                           (0, 0, {'view_mode': 'form', 'view_id': ref('view_fodase_form')}),
                                           (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_foundation_relatorios_lista_kanban')}),
-                                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_foundation_relatorios_lista_calendar')})]"/>
+                                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_foundation_relatorios_lista_calendar')}),
+                                          (0, 0, {'view_mode': 'activity', 'view_id': ref('foundation_relatorios_view_activity')})]"/>
         </record>
 
 

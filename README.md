@@ -18,77 +18,38 @@ Para instalar este módulo, você precisa:
    git clone https://github.com/brainess-company/foundation_management.git
 
 ## issues
-- [x] Incluir gerenciamento de equipe onde cada funcionario está relacionado a uma equipe (Máquina)
-- [x] E quando for pra ter mais de uma maquina relacionada a um serviço?
-- [x] Pra cada serviço só pode ter uma máquina relacionada mas não é assim que deve funcionar
-- [x] Incluir um status no formulario de maquina, Em mobilização, etc
-- [x] Quando uma sale order virar uma obra, criar uma account move para cada tipo de item e uma generica
-- [x] Lista de presenças (Nao fica salvo nada para o proximo dia, se nao, o operador não preenche, só dá ok e ja era)
-- [X] Cada relatorio deve ter um nome composto de Relatorio para cada foundation_maquina_registro
-- [x] Colocar filtro de estacas por serviço no relatorio que o operador preenche
 
 - **Futuramente**:
 - [ ] Baixar medição em pdf para enviar ao cliente
-- [ ] Da pra fazer um endereço clicado abrir no google maps
 - [ ] Configurar profundidade minima e máxima
-- [ ] Tenho que criar um estoque de saída para a obra mesmo mas quando for feita uma transferencia para ele, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
 - [ ] incluir botão no kanbam para deixar a transferencia pronta
 - [ ] Métrica chamada unidades de trabalho, e trabalhadores distintos no período, verificar correlações
 - [ ] Estudar o relacionamento com o portal do cliente
 - [ ] No portal do cliente aparece todos os projetos relacionados com o cliente se o modulo de fundações criar um projeto o cliente pode acompanhar
 - [ ] Criar campo de calculo relativo no produto (area da base de um diametro da estaca) esse valor será multiplicado pela quantidade executada
 
-- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
-- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-- [ ] Vincular purchase_order com maintenance_request (uma unica manutenção pode ter varios pedidos de compras relacionados)
-- [ ] Quando o Lucas fizer uma purchase_order selecionar com qual ou quais manutenções essa compra está relacionada.
-
-- [x] Opção de gerar medição pelos relatorios?
-- [x] Depois que o relatorio for salvo a assinatura fica read only
-- [x] Definir permissões de segurança
-- [x] Quando uma medição for excluida as estecas tem que ser desrelacionadas com a medição
-- [x] Remover botões de ação desnecessários
-- [x] No cadastro de máquinas a adriana seleciona se a maquina precisa de lista de chamada
-
 
 - **Urgente**:
-- [X] Falta incluir o proprio operador na lista de chamada
-- [X] Falta criar grupos de permissões
-- [X] Quando criar conta analitica automaticamente criar um estoque central se não houver e associar todas as empresas a e automaticamente criar um estoque para a obra
-- [X] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
+
 - [x] Uma estaca só pode ser medida se o relatorio relacionado estiver no estágio confirmado
 - [x] Uma medição só pode gerar uma unica fatura
 - [x] Criar um campo e foundation_team na tabela de funcionarios ao invés de res_partner e associar a tabela foundation team com esse campo
-- [x] Falta incluir o proprio operador na lista de chamada
-- [x] Falta incluir o operador na propria equipe
-- [X] criar departamento em manutenção automaticamente quando criar uma obra 
-- [x] Uma medição só pode gerar uma unica fatura
+- [X] criar departamento em manutenção automaticamente quando criar uma obra
 
 - **Urgente para entrega**:
-- [ ] Falta testar os efeitos cascata de deleções de arquivos (quando, arquivar um relatorio, deduzir as quantidades da sale order)
-- [ ] quando for feita uma transferencia para estoque de saída, a entrega seja feita automatica, e ele deve receber o campo da conta analitica da maquina serviço obra relacionada
-- [ ] Criar view para departamento criado, o luigi precisa ver quais serviços serão executados na obra, o departamento precisa estar vinculado com a sale_order  Ou criar projeto no sistema
 - [ ] Uma medição só pode ser excluida se nao tiver uma fatura relacionada
-- [ ] Verificar se uma máquina tem uma chamada relacionada hoje
-- [ ] se ja tem uma chamada relacionada com a obra e a máquina, ocultar o botão de fazer chamada
-- [ ] criei um boleano para verificar se vai ser necessário enviar chamada automática
 - [ ]  QUANDO CANCELAR UMA SALE ORDER TEM Q ARQUIVAR A OBRA
-- [ ] A assinatura do relatorio não precisa mais ser obrigatória (aparecer aviso apenas)
-- [ ] Campo verdadeiro ou falso se está com assinatura ou não
 - [ ] Não pode fazer medição se o relatório não tiver assinatura
-- [ ] Uma nova tela apenas com os relatorios que não tem assinatura
-- 
-- [x] Todos os locais de estoque ficam com o mais recente criado
-- [x] Falta criar grupos de permissões
+-
 - [x] Entrega de obra a adriana tem que finalizar a obra na lista de obras, aí arquiva todos os registros relacionados
 - [x] criar departamento em manutenção automaticamente quando criar uma obra e vincular a sale order e mostrar no kanban
 
-- [x] Separar o modulo de equipamento_extend_foundation, ele herda maintanence e sale order e cria iten no menu
-- [x] Modulo estoque_extend_foundation
-- [x] Modulo conta analitica extend
-- [ ] Desvincular a dependencia do relatório com a chamada
-- [ ] não pode ter mais de uma chamada para mesma equipe na mesma data
+- [ ] não pode ter mais de uma chamada para mesma maquina na mesma data
 - [ ] o relatório deve buscar e relacionar com o primeiro / unico registro de chamada do mesmo dia
 -**Cada modulo extende sale order e o analitico e estoque tem que herdar**
--**Remover a exibição condicional do botão de chamada, incluir botão de criar chamada no relatório**
+
 - Incluir botão se tem relatório na lista de chamdas da obra pra saber se teve produção ou não
+
+- **Urgente para entrega**:
+- [ ] Criar campo computado que verifica se o funcionario tava presente no dia em employee_assignment
+- [ ]

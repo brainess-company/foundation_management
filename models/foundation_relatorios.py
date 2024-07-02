@@ -6,6 +6,7 @@ from odoo.exceptions import UserError
 class FoundationRelatorios(models.Model):
     """FALTA CRIAR AS OUTRAS ACTIONS PARA OS STATUS E INCLUIR BOTOUS NO FORMULARIO"""
     _name = 'foundation.relatorios'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Relatórios de Fundação'
     _rec_name = 'display_relatorio_name'
 
@@ -81,6 +82,9 @@ class FoundationRelatorios(models.Model):
     display_chamada_existente = fields.Char(string="Chamada feita?",
                                          compute='_compute_display_chamada_existente',
                                          store=False)
+    # Adicionando o campo activity_ids
+    activity_ids = fields.One2many('mail.activity', 'res_id', string="Atividades",
+                                   domain=[('res_model', '=', 'foundation.relatorios')])
 
     @api.depends('chamada_existente')
     def _compute_display_chamada_existente(self):
