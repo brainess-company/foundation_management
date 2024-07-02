@@ -11,7 +11,7 @@ class ListaPresenca(models.Model):
 
     chamada_id = fields.Many2one('foundation.chamada', string="Chamada", required=True)
     funcionario_id = fields.Many2one('hr.employee', string="Funcionário", required=True)
-    data = fields.Date(string="Data da Lista de Presenca", default=fields.Date.today)
+    data = fields.Date(string="Data da Lista de Presença", related='chamada_id.data', store=True, readonly=True)
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina Alocada",
                                  compute='_compute_maquina_id', store=True)
 
