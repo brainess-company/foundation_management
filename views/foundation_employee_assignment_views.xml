@@ -10,6 +10,7 @@
                 <field name="employee_id"/>
                 <field name="machine_id"/>
                 <field name="operador_id"/>
+                <field name="company_id"/>
                 <field name="machine_status"/>
                 <field name="is_present"/>
             </tree>

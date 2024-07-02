@@ -13,6 +13,8 @@ class FoundationEmployeeAssignment(models.Model):
     operador_id = fields.Many2one('hr.employee', related='machine_id.operador_id', string="Operador", readonly=True)
     machine_status = fields.Selection(related='machine_id.status_maquina', string="Status da Máquina", readonly=True)
     is_present = fields.Boolean("Presente Hoje", compute='_compute_is_present', store=True)
+    company_id = fields.Many2one('res.company', string="Empresa", related='employee_id.company_id',
+                                 store=True, readonly=True)
 
     @api.depends('employee_id', 'date')
     def _compute_is_present(self):
