@@ -16,23 +16,41 @@ class ReportWizard(models.TransientModel):
             ('data', '<=', self.date_end)
         ])
 
+        # Dicionário para armazenar a contagem de dias únicos de presença por funcionário, obra e empresa
+        presence_count = {}
+
+        for chamada in chamadas:
+            for lista_presenca in chamada.lista_presenca_ids:
+                funcionario_id = lista_presenca.funcionario_id.id
+                obra_id = chamada.obra_id.id
+                company_id = lista_presenca.company_id.id
+                data_presenca = chamada.data
+
+                key = (funcionario_id, obra_id, company_id)
+                if key not in presence_count:
+                    presence_count[key] = set()
+                presence_count[key].add(data_presenca)
+
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output)
         sheet = workbook.add_worksheet()
 
         # Adicionar cabeçalhos
-        headers = ['Obra', 'Funcionário', 'Data', 'Presença']
+        headers = ['Funcionário', 'Obra', 'Empresa', 'Quantidade de Dias']
         for col_num, header in enumerate(headers):
             sheet.write(0, col_num, header)
 
         row = 1
-        for chamada in chamadas:
-            for lista_presenca in chamada.lista_presenca_ids:
-                sheet.write(row, 0, chamada.nome_obra)
-                sheet.write(row, 1, lista_presenca.funcionario_id.name)
-                sheet.write(row, 2, chamada.data.strftime('%Y-%m-%d'))
-                sheet.write(row, 3, 'Presente')
-                row += 1
+        for key, days in presence_count.items():
+            funcionario_id, obra_id, company_id = key
+            funcionario = self.env['hr.employee'].browse(funcionario_id)
+            obra = self.env['foundation.obra'].browse(obra_id)
+            company = self.env['res.company'].browse(company_id)
+            sheet.write(row, 0, funcionario.name)
+            sheet.write(row, 1, obra.nome_obra)
+            sheet.write(row, 2, company.name)
+            sheet.write(row, 3, len(days))
+            row += 1
 
         workbook.close()
         output.seek(0)
