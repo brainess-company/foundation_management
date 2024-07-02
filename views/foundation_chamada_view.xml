@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Tree View for Foundation Chamada -->
+            <!-- Tree View for Foundation Chamada -->
+            <!-- Tree View for Foundation Chamada -->
         <record id="view_foundation_chamada_tree" model="ir.ui.view">
             <field name="name">foundation.chamada.tree</field>
             <field name="model">foundation.chamada</field>
             <field name="arch" type="xml">
                 <tree string="Registro de Chamadas" edit="false">
+                    <header>
+                        <button name="%(action_report_wizard)d" type="action" string="Gfip" class="btn-primary"/>
+                    </header>
                     <field name="data"/>
                     <field name="nome_obra"/>
                     <field name="maquina_id"/>

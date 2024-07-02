@@ -7,6 +7,7 @@ permitindo que eles sejam acessados mais facilmente em outros lugares dentro do 
 
 from . import sale_order  #foundation_obra_extension
 from . import foundation_estacas
+from . import foundation_gfip_wizard
 from . import foundation_maquina
 from . import foundation_medicao
 from . import foundation_obra

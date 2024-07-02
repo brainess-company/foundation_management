@@ -9,9 +9,8 @@
         <menuitem id="menu_foundation_obra_service_simples" name="Serviços" parent="main_foundation_engenharia" action="action_foundation_obra_service_simples" sequence="10"/>
         <menuitem id="foundation_maquina_menu" name="Máquinas" parent="main_foundation_engenharia" action="action_foundation_maquina" sequence="20"/>
         <menuitem id="menu_foundation_relatorios_lista_form" name="Relatórios" parent="main_foundation_engenharia" action="action_foundation_relatorios_lista_tree" sequence="30"/>
-
-        <menuitem id="menu_chamada1" name="Registros de Chamadas" action="action_foundation_chamada" parent="main_foundation_engenharia" sequence="50"/>
-        <menuitem id="menu_foundation_employee_assignment" name="Histórico Equipes" action="action_foundation_employee_assignment" parent="main_foundation_engenharia" sequence="60"/>
+        <menuitem id="menu_chamada1" name="Registros de Chamadas" action="action_foundation_chamada" parent="main_foundation_engenharia" sequence="40"/>
+        <menuitem id="menu_foundation_employee_assignment" name="Histórico Equipes" action="action_foundation_employee_assignment" parent="main_foundation_engenharia" sequence="50"/>
 
         <!-- Submenu para Máquinas e Equipamentos -->
         <!--field groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores,foundation_management.group_controle"/-->

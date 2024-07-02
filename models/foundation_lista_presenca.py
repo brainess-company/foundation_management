@@ -14,6 +14,8 @@ class ListaPresenca(models.Model):
     data = fields.Date(string="Data da Lista de Presença", related='chamada_id.data', store=True, readonly=True)
     maquina_id = fields.Many2one('foundation.maquina', string="Máquina Alocada",
                                  compute='_compute_maquina_id', store=True)
+    company_id = fields.Many2one('res.company', string="Empresa", related='funcionario_id.company_id',
+                                 store=True, readonly=True)
 
     @api.depends('funcionario_id')
     def _compute_maquina_id(self):
