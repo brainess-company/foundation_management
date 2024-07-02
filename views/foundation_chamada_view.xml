@@ -25,11 +25,13 @@
                 <form string="Detalhes da Chamada">
                     <sheet>
                         <group>
-                            <field name="data"/>
-                            <field name="foundation_obra_service_id"/>
-                            <field name="obra_id"/>
+                            <field name="data" readonly="1"/>
+                            <field name="data" invisible="1"/>
+                            <field name="obra_id" readonly="1"/>
+                            <field name="obra_id" invisible="1"/>
                             <field name="sale_order_id"/>
-                            <field name="maquina_id"/>
+                            <field name="maquina_id" readonly="1"/>
+                            <field name="maquina_id" invisible="1"/>
                             <field name="operador_id"/>
                             <field name="nome_obra"/>
                             <field name="endereco"/>
