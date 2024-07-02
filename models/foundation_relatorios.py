@@ -78,6 +78,17 @@ class FoundationRelatorios(models.Model):
 
     chamada_existente = fields.Boolean(string="Chamada Existente",
                                        compute="_compute_chamada_existente")
+    display_chamada_existente = fields.Char(string="Chamada feita?",
+                                         compute='_compute_display_chamada_existente',
+                                         store=False)
+
+    @api.depends('chamada_existente')
+    def _compute_display_chamada_existente(self):
+        for record in self:
+            if record.chamada_existente:  # Verifica se a máquina requer chamada
+                record.display_chamada_existente = "Sim"
+            else:
+                record.display_chamada_existente = "Não"
 
     @api.depends('data', 'maquina_id')
     def _compute_chamada_existente(self):

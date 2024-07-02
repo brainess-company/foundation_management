@@ -103,7 +103,11 @@
                     <sheet>
                         <group>
                             <field name="data" readonly="1"/>
-                            <field name="chamada_existente" readonly="1"/>
+                            <field name="chamada_existente" invisible="1"/>
+                            <field name="display_chamada_existente"
+                           decoration-success="display_chamada_existente == 'Sim'"
+                           decoration-danger="display_chamada_existente == 'Não'"
+                    widget="badge" optional="show"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                             <field name="nome_obra" related="foundation_maquina_registro_id.nome_obra" readonly="1"/>
                             <field name="nome_servico" related="foundation_maquina_registro_id.service_name" readonly="1"/>
