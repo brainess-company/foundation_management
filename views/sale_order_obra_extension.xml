@@ -13,6 +13,9 @@
                 <field name="client_order_ref" position="after">
                     <field name="nome_obra"/>
                 </field>
+                <field name="partner_id" position="after">
+                    <field name="cei"/>
+                </field>
             </field>
         </record>
 
