@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_form_inherit_engineering_service" model="ir.ui.view">
+        <field name="name">product.form.inherit.engineering.service</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Adiciona o checkbox no formulário de produto, mas só exibe se o produto for do tipo 'serviço' -->
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="is_engineering_service" attrs="{'invisible': [('type', '!=', 'service')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
