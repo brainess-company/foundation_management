@@ -40,6 +40,7 @@
                             <field name="nome_maquina"/>
                             <field name="available_employee_ids" invisible="1"/>
                             <field name="requer_chamada"/>
+                            <field name="maquina_engenharia"/>
                             <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"/>
                             <field name="operador_id" string="Definir operador" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="operador_id" options="{'no_open': True}" readonly="1" groups="foundation_management.group_operadores,foundation_management.group_controle"/>
