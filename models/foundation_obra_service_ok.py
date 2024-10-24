@@ -57,7 +57,8 @@ class FoundationObraService(models.Model):
         readonly=True, store=True
     )
     foundation_maquina_ids = fields.Many2many('foundation.maquina',
-                                              string="Máquinas Associadas")
+                                              string="Máquinas Associadas",
+                                              domain="[('maquina_engenharia', '=', True)]")
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     sale_order_id = fields.Many2one('sale.order', string="Ordem de Venda",
                                     related='obra_id.sale_order_id',

@@ -29,9 +29,10 @@
                             <field name="sale_order_id"/>
                             <field name="nome_obra"/>
                             <field name="service_name"/>
-
+                            <field name="is_engineering_service" invisible="1"/>
+                            <!-- Mostra o campo apenas se is_engineering_service for True -->
                             <field name="foundation_maquina_ids" widget="many2many_tags"
-                           string="Máquinas Associadas"/>
+                                   string="Máquinas Associadas"/>
                         </group>
                     </sheet>
                     <!-- Inserir Chatter -->
