@@ -51,6 +51,11 @@ class FoundationObraService(models.Model):
                                           readonly=True, store=True)
     service_name = fields.Char("Nome do Serviço",
                                related='variante_id.name', store=True)
+    is_engineering_service = fields.Boolean(
+        string="É Serviço de Engenharia",
+        related='service_template_id.is_engineering_service',
+        readonly=True, store=True
+    )
     foundation_maquina_ids = fields.Many2many('foundation.maquina',
                                               string="Máquinas Associadas")
     obra_id = fields.Many2one('foundation.obra', string="Obra")

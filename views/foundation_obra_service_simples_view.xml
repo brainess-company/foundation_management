@@ -13,6 +13,7 @@
                     <field name="foundation_maquina_ids" widget="many2many_tags"
                            string="Máquinas Associadas"/>
                     <field name="endereco"/>
+                    <field name="is_engineering_service" invisible="1"/>
                 </tree>
             </field>
         </record>
