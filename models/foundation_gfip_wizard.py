@@ -28,9 +28,10 @@ class ReportWizard(models.TransientModel):
                 sale_order = chamada.sale_order_id
                 cnpj = sale_order.partner_id.company_registry
                 cei = sale_order.cei
+                cnpj_gfip = sale_order.cnpj_gfip
                 data_presenca = chamada.data
 
-                key = (funcionario_id, obra_id, company_id, maquina_id, cnpj, cei)
+                key = (funcionario_id, obra_id, company_id, maquina_id, cnpj, cei, cnpj_gfip)
                 if key not in presence_count:
                     presence_count[key] = set()
                 presence_count[key].add(data_presenca)
@@ -40,13 +41,13 @@ class ReportWizard(models.TransientModel):
         sheet = workbook.add_worksheet()
 
         # Adicionar cabeçalhos
-        headers = ['Funcionário', 'Obra', 'Empresa', 'Máquina', 'CNPJ', 'CEI', 'Quantidade de Dias']
+        headers = ['Funcionário', 'Obra', 'Empresa', 'Máquina', 'CNPJ Cliente', 'CEI', 'CNPJ Obra', 'Quantidade de Dias']
         for col_num, header in enumerate(headers):
             sheet.write(0, col_num, header)
 
         row = 1
         for key, days in presence_count.items():
-            funcionario_id, obra_id, company_id, maquina_id, cnpj, cei = key
+            funcionario_id, obra_id, company_id, maquina_id, cnpj, cei, cnpj_gfip = key
             funcionario = self.env['hr.employee'].browse(funcionario_id)
             obra = self.env['foundation.obra'].browse(obra_id)
             company = self.env['res.company'].browse(company_id)
@@ -57,7 +58,8 @@ class ReportWizard(models.TransientModel):
             sheet.write(row, 3, maquina.nome_maquina)
             sheet.write(row, 4, cnpj)
             sheet.write(row, 5, cei)
-            sheet.write(row, 6, len(days))
+            sheet.write(row, 6, cnpj_gfip)
+            sheet.write(row, 7, len(days))
             row += 1
 
         workbook.close()
