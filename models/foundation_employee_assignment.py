@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
+from pytz import timezone, UTC
+from datetime import datetime
 
 class FoundationEmployeeAssignment(models.Model):
     _name = 'foundation.employee.assignment'
@@ -29,16 +31,26 @@ class FoundationEmployeeAssignment(models.Model):
     @api.model
     def create_daily_assignments(self):
         """ Criar registros diários de atribuição para cada funcionário ativo em uma máquina em cada empresa. """
+
         today = fields.Date.today()
         companies = self.env['res.company'].search([])
         for company in companies:
-            assignments = self.search([('date', '=', today), ('company_id', '=', company.id)])
+            # Obter o fuso horário da empresa (ou usuário, se preferir)
+            tz = company.tz or 'UTC'  # Define 'UTC' como padrão caso o fuso horário não esteja configurado
+            local_tz = timezone(tz)
+
+            # Pegar a data de hoje no fuso horário da empresa
+            now_utc = datetime.now(UTC)  # Pega a data/hora atual no fuso UTC
+            today_local = now_utc.astimezone(
+                local_tz).date()  # Converte para o fuso local e obtém a data
+
+            assignments = self.search([('date', '=', today_local), ('company_id', '=', company.id)])
             if not assignments:
                 employees = self.env['hr.employee'].search(
                     [('active', '=', True), ('company_id', '=', company.id)])
                 for employee in employees:
                     self.create({
-                        'date': today,
+                        'date': today_local,
                         'employee_id': employee.id,
                         'machine_id': employee.machine_id.id,
                         # Assumindo que 'machine_id' é um campo em 'hr.employee'

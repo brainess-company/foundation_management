@@ -13,7 +13,7 @@
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
             <field name="doall">False</field>
-            <!--field name="nextcall">2024-06-19 14:06:00</field--> <!-- Defina a hora de execução aqui -->
+            <field name="nextcall">2024-10-25 20:05:00</field> <!-- Defina a hora de execução aqui -->
             <!-- Adicionar 3 horas ao horário atual -->
         </record>
     </data>
