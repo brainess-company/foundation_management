@@ -13,6 +13,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
     nome_obra = fields.Char("Nome da Obra", required=False)
     cei = fields.Char("CEI", required=False)
+    cnpj_gfip = fields.Char("Cnpj Gfip", required=False)
 
 
     # Exemplo de uso destes métodos em create e write seria adaptado aqui
