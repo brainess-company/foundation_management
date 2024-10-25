@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <!-- Categoria de Fundações -->
+        <record id="category_fundacoes" model="ir.module.category">
+            <field name="name">Fundações</field>
+            <field name="description">Permissões para o módulo de fundações</field>
+            <field name="sequence">10</field>
+        </record>
 
         <!-- Grupo de Engenharia -->
         <record id="group_engenharia" model="res.groups">
             <field name="name">Engenharia</field>
+            <field name="category_id" ref="category_fundacoes"/>
         </record>
 
         <!-- Grupo de Operadores -->
         <record id="group_operadores" model="res.groups">
             <field name="name">Operadores</field>
+            <field name="category_id" ref="category_fundacoes"/>
         </record>
 
         <!-- Grupo de Controle -->
         <record id="group_controle" model="res.groups">
             <field name="name">Controle</field>
+            <field name="category_id" ref="category_fundacoes"/>
         </record>
 
         <!-- Grupo Diretoria -->
         <record id="group_diretoria" model="res.groups">
             <field name="name">Diretoria</field>
+            <field name="category_id" ref="category_fundacoes"/>
         </record>
-        <!-- Grupo Adm -->
+
+        <!-- Grupo Administrador -->
         <record id="group_administrador" model="res.groups">
             <field name="name">Administrador</field>
+            <field name="category_id" ref="category_fundacoes"/>
         </record>
 
     </data>
