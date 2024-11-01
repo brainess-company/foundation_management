@@ -30,6 +30,11 @@
         <menuitem id="menu_foundation_relatorios_without_signature" name="Ver Relatorios" parent="foundation_teste_menu" action="action_foundation_relatorios_without_signature_tree" sequence="30"/>
         <!-- menuitem id="menu_equipamentos_maquina" name="Equipamentos" action="action_foundation_maquina_equipment" parent="foundation_teste_menu" sequence="50"/-->
 
+        <!-- Configuração (Novo submenu) -->
+        <menuitem id="main_foundation_config" name="Configuração" parent="main_foundation_menu" sequence="60"
+                  groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_controle"/>
+
+
 
         <!-- iNSERE UM ITEM No menu principal do Sale Order -->
         <record id="menu_sale_order_custom" model="ir.ui.menu">
