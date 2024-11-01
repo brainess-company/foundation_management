@@ -35,8 +35,10 @@
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas sem Assinatura" create="false" delete="false">
+                    <field name="state" invisible="1"/>
                     <header groups="foundation_management.group_diretoria,foundation_management.group_engenharia">
                         <field name="data" invisible="1"/>
+
                         <button name="action_confirm" type="object" string="Confirmar" class="oe_highlight"
                                 groups="foundation_management.group_engenharia"
                                 attrs="{'invisible': [('state', 'in', ['conferido', 'cancelado'])]}"
@@ -65,19 +67,21 @@
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': foundation_maquina_registro_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}">
+                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': foundation_maquina_registro_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}"
+                                attrs="{'readonly': [('state', 'in', ['conferido', 'cancelado'])]}">>
+
                                     <tree editable="bottom">
-                                        <field name="nome_estaca" readonly="1"/>
+                                        <field name="nome_estaca"/>
                                         <field name="service_template_id" readonly="1"/>
                                         <field name="sale_order_id" invisible="1"/>
-                                        <field name="profundidade" readonly="1"/>
+                                        <field name="profundidade"/>
                                         <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
                                         <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                     </tree>
                                     <form>
                                         <group>
-                                            <field name="nome_estaca" readonly="1"/>
-                                            <field name="profundidade" readonly="1"/>
+                                            <field name="nome_estaca"/>
+                                            <field name="profundidade"/>
                                             <field name="sale_order_id" readonly="1"/>
                                             <field name="service_template_id" readonly="1" options="{'no_open': True}"/>
                                             <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>

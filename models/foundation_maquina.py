@@ -54,7 +54,7 @@ class FoundationMaquina(models.Model):
     employee_count = fields.Integer(string="Número de Funcionários",
                                     compute='_compute_employee_count', store=True)
 
-    department_id = fields.Many2one('hr.department', string='Departamento', readonly=True)
+    department_id = fields.Many2one('hr.department', string='Departamento')
     #maintenance_equipment_id = fields.Many2one('maintenance.equipment',string="Equipamento de Manutenção", readonly=True)
     active = fields.Boolean(string="Ativo", default=True)
 

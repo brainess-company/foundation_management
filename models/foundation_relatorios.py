@@ -229,3 +229,30 @@ class FoundationRelatorios(models.Model):
             'target': 'current'
         }
 
+    def action_duplicate(self):
+        """Duplica o relatório atual."""
+        self.ensure_one()  # Garante que apenas um registro seja processado
+
+        # Cria um dicionário com os valores do registro atual, exceto o ID
+        vals = {
+            'data': self.data,
+            'foundation_maquina_registro_id': self.foundation_maquina_registro_id.id,
+            'assinatura': self.assinatura,
+            # Adicione aqui outros campos que deseja duplicar
+            # Exemplo: 'relatorio_number': self.relatorio_number,
+            # Mas não inclua o 'id', pois será um novo registro
+        }
+
+        # Cria um novo registro usando os valores definidos acima
+        new_record = self.create(vals)
+
+        # Retorna uma ação para abrir o novo registro
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Relatório Duplicado',
+            'view_mode': 'form',
+            'res_model': 'foundation.relatorios',
+            'res_id': new_record.id,
+            'target': 'current'
+        }
+
