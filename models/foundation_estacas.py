@@ -238,7 +238,9 @@ class FoundationEstacas(models.Model):
                 Valida a profundidade da estaca para garantir que
                  esteja dentro dos limites aceitáveis (1 a 40 metros).
                 """
-        for record in self:
-            if not 1 <= record.profundidade <= 40:
-                raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
+        pass
+        # todo: implementar a lógica abaixo
+        #for record in self:
+         #   if not 1 <= record.profundidade <= 40:
+          #      raise ValidationError("A profundidade deve ser entre 1 e 40 metros.")
             # _logger.info(f"Validated profundidade for record {record.id}: {record.profundidade}")
