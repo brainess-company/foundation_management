@@ -98,6 +98,20 @@
             <field name="model">foundation.relatorios</field>
             <field name="arch" type="xml">
                 <form string="Relatório de Estacas" create="false" delete="false">
+                    <!-- Botão Ação com Opção de Duplicar -->
+                    <header>
+                        <button name="action_duplicate"
+                                type="object"
+                                string="Duplicar"
+                                icon="fa-copy"
+                                class="oe_highlight"/>
+
+                        <!-- Menu de Ações como nas cotações -->
+                        <menuitem name="action_duplicate"
+                                  type="object"
+                                  string="Duplicar"
+                                  icon="fa-copy"/>
+                    </header>
 
                     <header>
                         <field name="data" invisible="1"/>
@@ -134,21 +148,22 @@
                         </group>
                         <notebook>
                             <page string="Estacas">
-                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': foundation_maquina_registro_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}">
+                                <field name="estacas_ids" context="{'default_foundation_maquina_registro_id': foundation_maquina_registro_id, 'default_sale_order_id': sale_order_id, 'default_service_template_id': service_template_id}"
+                                        attrs="{'readonly': [('assinatura', '!=', False)]}">>
                                     <tree editable="bottom">
-                                        <field name="nome_estaca" readonly="1"/>
-                                        <field name="service_template_id" readonly="1"/>
+                                        <field name="nome_estaca"/>
+                                        <field name="service_template_id"/>
                                         <field name="sale_order_id" invisible="1"/>
-                                        <field name="profundidade" readonly="1"/>
+                                        <field name="profundidade"/>
                                         <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
                                         <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                     </tree>
                                     <form>
                                         <group>
-                                            <field name="nome_estaca" readonly="1"/>
-                                            <field name="profundidade" readonly="1"/>
-                                            <field name="sale_order_id" readonly="1"/>
-                                            <field name="service_template_id" readonly="1" options="{'no_open': True}"/>
+                                            <field name="nome_estaca"/>
+                                            <field name="profundidade"/>
+                                            <field name="sale_order_id"/>
+                                            <field name="service_template_id" options="{'no_open': True}"/>
                                             <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
                                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                         </group>
@@ -157,10 +172,11 @@
                             </page>
                         </notebook>
                         <group>
-                            <field name="assinatura" widget="signature" readonly="1"/>
+                            <field name="assinatura" widget="signature" attrs="{'readonly': [('assinatura', '!=', False)]}"/>
                         </group>
 
                     </sheet>
+
                 </form>
             </field>
         </record>

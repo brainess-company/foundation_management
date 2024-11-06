@@ -230,29 +230,64 @@ class FoundationRelatorios(models.Model):
         }
 
     def action_duplicate(self):
-        """Duplica o relatório atual."""
+        """Duplica o relatório atual junto com as estacas associadas, exceto o campo assinatura e os IDs."""
         self.ensure_one()  # Garante que apenas um registro seja processado
 
-        # Cria um dicionário com os valores do registro atual, exceto o ID
+        # Cria um dicionário com os campos do relatório, excluindo o 'id' e 'assinatura'
         vals = {
             'data': self.data,
             'foundation_maquina_registro_id': self.foundation_maquina_registro_id.id,
-            'assinatura': self.assinatura,
-            # Adicione aqui outros campos que deseja duplicar
-            # Exemplo: 'relatorio_number': self.relatorio_number,
-            # Mas não inclua o 'id', pois será um novo registro
+            'state': self.state,  # Substitua 'campo1' pelo nome real do campo
+            'nome_servico': self.nome_servico,  # Adicione todos os outros campos relevantes
+            'maquina_id': self.maquina_id.id,  # Adicione todos os outros campos relevantes
+            'nome_obra': self.nome_obra,  # Adicione todos os outros campos relevantes
+            'endereco_obra': self.endereco_obra,  # Adicione todos os outros campos relevantes'campo2': self.campo2,  # Adicione todos os outros campos relevantes
+            'sale_order_id': self.sale_order_id.id,  # Adicione todos os outros campos relevantes
+            'service_template_id': self.service_template_id.id,  # Adicione todos os outros campos relevantes
+            'service_id': self.service_id.id,  # Adicione todos os outros campos relevantes
+            'variante_id': self.variante_id.id,  # Adicione todos os outros campos relevantes
+            'operador_id': self.operador_id.id,  # Adicione todos os outros campos relevantes
+            'operador_user_id': self.operador_user_id.id,  # Adicione todos os outros campos relevantes
+            'requer_chamada_maquina': self.requer_chamada_maquina
+            # Adicione mais campos conforme necessário...
         }
 
-        # Cria um novo registro usando os valores definidos acima
-        new_record = self.create(vals)
+        # Cria o novo relatório sem os campos de ID e assinatura
+        new_report = self.create(vals)
 
-        # Retorna uma ação para abrir o novo registro
+        # Duplicando as estacas associadas ao relatório
+        for estaca in self.estacas_ids:
+            # Define o dicionário com os campos das estacas, sem 'id' e 'assinatura'
+            estaca_vals = {
+                'nome_estaca': estaca.nome_estaca,  # Substitua pelo nome real do campo
+                'profundidade': estaca.profundidade,  # Adicione outros campos conforme necessário
+                'data': estaca.data,  # Exemplo de campo adicional
+                'relatorio_id': new_report.id,
+                'service_id': estaca.service_id.id,  # Associa a nova estaca ao novo relatório
+                'observacao': estaca.observacao,   # Associa a nova estaca ao novo relatório
+                'sale_order_id': estaca.sale_order_id.id,   # Associa a nova estaca ao novo relatório
+                'sale_order_line_id': estaca.sale_order_line_id.id,  # Associa a nova estaca ao novo relatório
+                'variante_id': estaca.variante_id.id,   # Associa a nova estaca ao novo relatório
+                'service_template_id': estaca.service_template_id.id,   # Associa a nova estaca ao novo relatório'foundation_relatario_id': new_report.id,  # Associa a nova estaca ao novo relatório
+                'foundation_maquina_registro_id': estaca.foundation_maquina_registro_id.id
+
+                # Continue adicionando campos específicos das estacas
+            }
+
+            # Cria a nova estaca associada ao novo relatório
+            self.env['foundation.estacas'].create(estaca_vals)
+
+        # Retorna uma ação para abrir o novo registro no modo de edição
         return {
             'type': 'ir.actions.act_window',
             'name': 'Relatório Duplicado',
             'view_mode': 'form',
             'res_model': 'foundation.relatorios',
-            'res_id': new_record.id,
-            'target': 'current'
+            'res_id': new_report.id,
+            'target': 'current',  # Abre o registro no modo de edição
+            'flags': {'initial_mode': 'edit'}  # Abre diretamente no modo de edição
         }
+
+
+
 
