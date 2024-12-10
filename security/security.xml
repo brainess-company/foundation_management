@@ -38,5 +38,11 @@
             <field name="category_id" ref="category_fundacoes"/>
         </record>
 
+        <!-- Grupo de Localizacao Maquinas -->
+        <record id="group_adm_localizacao" model="res.groups">
+            <field name="name">Gerenciar Locais de Maquinas</field>
+            <field name="category_id" ref="category_fundacoes"/>
+        </record>
+
     </data>
 </odoo>

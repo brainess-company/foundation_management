@@ -54,6 +54,13 @@ class FoundationMaquina(models.Model):
     employee_count = fields.Integer(string="Número de Funcionários",
                                     compute='_compute_employee_count', store=True)
 
+    obra_id = fields.Many2one(
+        'foundation.obra',
+        string="Obra Atual",
+        ondelete='set null',
+        help="A obra atual associada à máquina.",  tracking=True
+    )
+
     department_id = fields.Many2one('hr.department', string='Departamento')
     #maintenance_equipment_id = fields.Many2one('maintenance.equipment',string="Equipamento de Manutenção", readonly=True)
     active = fields.Boolean(string="Ativo", default=True)
@@ -68,7 +75,39 @@ class FoundationMaquina(models.Model):
     def create(self, vals):
         machine = super(FoundationMaquina, self).create(vals)
         machine._create_department()
+        machine._log_historico(vals.get('obra_id'), vals.get('status_maquina'))
         return machine
+
+    def write(self, vals):
+        for record in self:
+            previous_obra_id = record.obra_id.id
+            previous_status = record.status_maquina
+
+            # Chama o método original
+            result = super(FoundationMaquina, record).write(vals)
+
+            # Rastrear alterações em obra_id e status_maquina
+            new_obra_id = vals.get('obra_id', record.obra_id.id)
+            new_status = vals.get('status_maquina', record.status_maquina)
+
+            if previous_obra_id != new_obra_id or previous_status != new_status:
+                record._log_historico(new_obra_id, new_status)
+
+        return result
+
+    def _log_historico(self, obra_id, status_maquina):
+        """
+        Cria um registro no histórico de máquina.
+        """
+        now = fields.Datetime.now()
+        self.env['foundation.maquina.obra.rel'].create({
+            'maquina_id': self.id,
+            'obra_id': obra_id,
+            'status_maquina': status_maquina,
+            'data_registro': now,
+            'observacao': "Mudança de obra/status."
+        })
+
 
     def _create_department(self):
         """Cria um novo departamento para a máquina."""
@@ -118,3 +157,18 @@ class FoundationMaquina(models.Model):
     def _onchange_requer_chamada(self):
         if self.requer_chamada:
             self.chamada_automatica = False
+
+    """@api.onchange('obra_id')
+    def _onchange_obra_id(self):
+        for record in self:
+            now = fields.Datetime.now()
+
+            # Criar registro no histórico com a obra anterior
+            self.env['foundation.maquina.obra.rel'].create({
+                'maquina_id': record.id,
+                'obra_id': record.obra_id.id if record.obra_id else False,
+                'data_registro': now,
+                'observacao': "Mudança de obra associada."
+            })"""
+
+

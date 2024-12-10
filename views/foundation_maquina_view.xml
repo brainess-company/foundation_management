@@ -46,6 +46,7 @@
                             <field name="operador_id" options="{'no_open': True}" readonly="1" groups="foundation_management.group_operadores,foundation_management.group_controle"/>
                             <field name="status_maquina"/>
                             <field name="chamada_automatica" attrs="{'invisible': [('requer_chamada', '=', True)]}"/>
+                            <field name="obra_id" string="Obra Atual" options="{'no_create': True}" widget="many2one" context="{'show_address': True}"/>
                             <field name="observacao"/>
                         </group>
                     </sheet>

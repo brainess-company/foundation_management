@@ -59,4 +59,7 @@ access_foundation_employee_assignment_admin,Administração - Atribuição de Fu
 access_hr_department_admin,Administração - Departamento de RH,model_hr_department,group_administrador,1,1,1,1
 access_foundation_maquina_obra_admin,Administração - Máquinas em Obra,model_foundation_maquina_obra,group_administrador,1,1,1,1
 
+access_foundation_maquina_obra_rel_adm,Administrar Locais de Máquinas,model_foundation_maquina_obra_rel,group_adm_localizacao,1,1,1,1
+
+
 

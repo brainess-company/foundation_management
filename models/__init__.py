@@ -21,4 +21,5 @@ from . import foundation_employee_assignment
 from . import foundation_hrdepartment_extend
 from . import foundation_maquina_obra
 from . import product_template
+from . import foundation_maquina_obra_rel
 
