@@ -3,38 +3,33 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
 class SaleOrder(models.Model):
     """
-    cria um registro na tabela foundation obra vinvulado com a sale order
-    cria varios registros em foundation obra service, um pra cada serviço
-
+    Cria um registro na tabela foundation obra vinculado com a sale order
+    Cria vários registros em foundation obra service, um para cada serviço
     """
     _inherit = 'sale.order'
+
     nome_obra = fields.Char("Nome da Obra", required=False)
     cei = fields.Char("CEI", required=False)
-    cnpj_gfip = fields.Char("Cnpj Gfip", required=False)
-
-
-    # Exemplo de uso destes métodos em create e write seria adaptado aqui
+    cnpj_gfip = fields.Char("CNPJ GFIP", required=False)
 
     def _create_foundation_obra_and_services(self):
         """
-        cria uma nova obra em foundation_obra com o nome na sale order
+        Cria uma nova obra em foundation_obra com o nome na sale order
         """
         foundation_obra = self.env['foundation.obra']
         foundation_obra_service = self.env['foundation.obra.service']
-        # Assuming this is how you access the machine model
 
         for order in self:
-            # Ensure there is an 'obra' for the sale order
+            # Verifica se já existe uma obra associada a esta ordem
             obra = foundation_obra.search([('sale_order_id', '=', order.id)], limit=1)
             if not obra:
                 obra = foundation_obra.create({
                     'sale_order_id': order.id
                 })
 
-            # Create a service for each unique product template
+            # Cria um serviço para cada template de produto único
             template_lines = {}
             for line in order.order_line:
                 # Verifica se a linha não está em branco
@@ -53,15 +48,11 @@ class SaleOrder(models.Model):
                         'obra_id': obra.id
                     })
 
-    @api.model
-    def create(self, vals):
-        order = super().create(vals)
-        order._create_foundation_obra_and_services()
-        return order
-
-    def write(self, vals):
-        res = super().write(vals)
+    def action_confirm(self):
+        """
+        Sobrescreve o método de confirmação para disparar a criação de obra e serviços
+        """
+        res = super(SaleOrder, self).action_confirm()
         for order in self:
-            if 'state' in vals and vals.get('state') == 'sale':
-                order._create_foundation_obra_and_services()
+            order._create_foundation_obra_and_services()
         return res
