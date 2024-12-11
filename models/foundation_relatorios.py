@@ -284,6 +284,7 @@ class FoundationRelatorios(models.Model):
             'view_mode': 'form',
             'res_model': 'foundation.relatorios',
             'res_id': new_report.id,
+            'view_id': self.env.ref('foundation_management.view_foundation_relatorios_without_signature_form').id,
             'target': 'current',  # Abre o registro no modo de edição
             'flags': {'initial_mode': 'edit'}  # Abre diretamente no modo de edição
         }
