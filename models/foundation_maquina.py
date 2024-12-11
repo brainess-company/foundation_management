@@ -99,15 +99,23 @@ class FoundationMaquina(models.Model):
         """
         Cria um registro no histórico de máquina.
         """
-        now = fields.Datetime.now()
+        # Obtém a data atual no formato de data
+        data_atual = fields.Date.today()
+
+        # Determina a observação
+        observacao = self.observacao if self.observacao else "Mudança de obra/status."
+
+        # Busca o registro completo da obra, se necessário
+        obra = self.env['foundation.obra'].browse(obra_id) if obra_id else None
+
         self.env['foundation.maquina.obra.rel'].create({
             'maquina_id': self.id,
             'obra_id': obra_id,
+            'sale_order_id': obra.sale_order_id.id if obra and obra.sale_order_id else False,
             'status_maquina': status_maquina,
-            'data_registro': now,
-            'observacao': "Mudança de obra/status."
+            'data_registro': data_atual,  # Apenas a data
+            'observacao': observacao,  # Observação condicional
         })
-
 
     def _create_department(self):
         """Cria um novo departamento para a máquina."""

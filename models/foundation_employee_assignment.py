@@ -17,6 +17,13 @@ class FoundationEmployeeAssignment(models.Model):
     is_present = fields.Boolean("Presente Hoje", compute='_compute_is_present', store=True)
     company_id = fields.Many2one('res.company', string="Empresa", related='employee_id.company_id',
                                  store=True, readonly=True)
+    # Campo relacionado ao sale_order_id da máquina
+    sale_order_id = fields.Many2one(
+        'sale.order', string="Ordem de Venda",
+        help="Ordem de Venda associada à obra no momento do registro."
+    )
+    obra_name = fields.Char(string="Nome da Obra", readonly=True,
+                            help="Nome da obra associada à máquina.")
 
     @api.depends('employee_id', 'date')
     def _compute_is_present(self):
@@ -31,27 +38,42 @@ class FoundationEmployeeAssignment(models.Model):
     @api.model
     def create_daily_assignments(self):
         """ Criar registros diários de atribuição para cada funcionário ativo em uma máquina em cada empresa. """
-
         companies = self.env['res.company'].search([])
         for company in companies:
             today = fields.Date.today()
 
+            # Verificar se já existem registros para hoje nesta empresa
             assignments = self.search([('date', '=', today), ('company_id', '=', company.id)])
             if not assignments:
+                # Buscar funcionários ativos da empresa
                 employees = self.env['hr.employee'].search(
-                    [('active', '=', True), ('company_id', '=', company.id)])
+                    [('active', '=', True), ('company_id', '=', company.id)]
+                )
                 for employee in employees:
+                    # Obter a máquina associada ao funcionário
+                    machine = employee.machine_id
+                    sale_order_id = None
+                    obra_name = None
+
+                    # Se a máquina estiver associada a uma obra, obtenha os dados
+                    if machine and machine.obra_id:
+                        sale_order_id = machine.obra_id.sale_order_id.id
+                        obra_name = machine.obra_id.sale_order_id.nome_obra if machine.obra_id.sale_order_id else False
+
+                    # Criar o registro de atribuição
                     self.create({
                         'date': today,
                         'employee_id': employee.id,
-                        'machine_id': employee.machine_id.id,
-                        # Assumindo que 'machine_id' é um campo em 'hr.employee'
-                        'company_id': company.id
+                        'machine_id': machine.id if machine else False,
+                        'company_id': company.id,
+                        'sale_order_id': sale_order_id,
+                        'obra_name': obra_name,
                     })
-    @api.model
+    """@api.model
     def unlink(self):
-        """ Personalize a exclusão para evitar a exclusão de registros de dias anteriores. """
+
+
         for record in self:
             if record.date < fields.Date.today():
                 raise UserError("Não é possível excluir registros de atribuições de dias anteriores.")
-        return super(FoundationEmployeeAssignment, self).unlink()
+        return super(FoundationEmployeeAssignment, self).unlink()"""

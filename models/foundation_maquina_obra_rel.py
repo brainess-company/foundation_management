@@ -1,5 +1,3 @@
-import logging
-from datetime import date
 from odoo import models, fields, api
 
 
@@ -11,7 +9,6 @@ class FoundationMaquinaObraRel(models.Model):
     obra_id = fields.Many2one('foundation.obra', string="Obra", ondelete='set null', help="Obra associada à máquina. Vazio se a máquina não estiver vinculada a nenhuma obra.")
     sale_order_id = fields.Many2one(
         'sale.order', string="Ordem de Venda",
-        related='obra_id.sale_order_id', store=True, readonly=True,
         help="Ordem de Venda associada à obra no momento do registro."
     )
     status_maquina = fields.Selection([
@@ -23,3 +20,28 @@ class FoundationMaquinaObraRel(models.Model):
     ], string="Status da Máquina")
     data_registro = fields.Datetime(string="Data do Registro", required=True, default=fields.Datetime.now)
     observacao = fields.Text(string="Observação", help="Detalhes adicionais sobre o registro.")
+
+    @api.model
+    def create(self, vals):
+        """
+        Sobrescreve o método `create` para evitar recursão infinita.
+        """
+        record = super(FoundationMaquinaObraRel, self).create(vals)
+
+        # Verifica se a criação do histórico já está sendo feita
+        if 'maquina_id' in vals and vals.get('obra_id') and vals.get('status_maquina'):
+            # Garante que não haja duplicação
+            if not self.search([
+                ('maquina_id', '=', vals['maquina_id']),
+                ('obra_id', '=', vals['obra_id']),
+                ('status_maquina', '=', vals['status_maquina']),
+            ]):
+                self.env['foundation.maquina.obra.rel'].sudo().create({
+                    'maquina_id': vals['maquina_id'],
+                    'obra_id': vals['obra_id'],
+                    'status_maquina': vals['status_maquina'],
+                    'data_registro': fields.Datetime.now(),
+                    'observacao': vals.get('observacao', ''),
+                })
+
+        return record
