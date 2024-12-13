@@ -22,7 +22,7 @@
     'data': [
         'security/security.xml',
         'security/ir_rule.xml',
-        'security/ir.model.access.csv',
+
 
         # 'security/sale_order_rules.xml'
         #'views/product_views.xml',
@@ -50,6 +50,7 @@
         'views/sale_order_obra_extension.xml',
         'views/product_template.xml',
         'data/foundation_cron.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'installable': True,
