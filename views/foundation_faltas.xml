@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View (Lista de Faltas) -->
+    <record id="view_foundation_lista_faltas_tree" model="ir.ui.view">
+        <field name="name">foundation.lista.faltas.tree</field>
+        <field name="model">foundation.lista.faltas</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="funcionario_id"/>
+                <field name="maquina_id"/>
+                <field name="data"/>
+                <field name="chamada_id" invisible="1"/>
+                <field name="observacao"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View (Detalhes de uma Falta) -->
+    <record id="view_foundation_lista_faltas_form" model="ir.ui.view">
+        <field name="name">foundation.lista.faltas.form</field>
+        <field name="model">foundation.lista.faltas</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="funcionario_id"/>
+                        <field name="maquina_id" readonly="1"/>
+                        <field name="data" readonly="1"/>
+                        <field name="chamada_id" readonly="1"/>
+                        <field name="observacao"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action para Abrir a Lista de Faltas -->
+    <record id="action_foundation_lista_faltas" model="ir.actions.act_window">
+        <field name="name">Lista de Faltas</field>
+        <field name="res_model">foundation.lista.faltas</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Aqui você pode visualizar e gerenciar as faltas dos funcionários vinculadas às máquinas nas chamadas.
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

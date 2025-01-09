@@ -68,6 +68,9 @@ class Chamada(models.Model):
         help='Referência ao registro de máquina obra associado.'
     )
 
+    faltas_ids = fields.One2many('foundation.lista.faltas', 'chamada_id', string="Lista de Faltas",
+                                 compute='_compute_faltas', store=True)
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active
@@ -103,3 +106,18 @@ class Chamada(models.Model):
                     'data': fields.Date.today(),
                 })]
         return res
+
+    @api.depends('lista_presenca_ids', 'maquina_id')
+    def _compute_faltas(self):
+        for chamada in self:
+            # Obter todos os funcionários associados à máquina
+            funcionarios_maquina = self.env['hr.employee'].search(
+                [('machine_id', '=', chamada.maquina_id.id)])
+            # IDs dos funcionários presentes na chamada
+            funcionarios_presentes = chamada.lista_presenca_ids.mapped('funcionario_id.id')
+            # Identificar faltantes
+            faltantes = funcionarios_maquina.filtered(lambda f: f.id not in funcionarios_presentes)
+            # Criar registros de faltas
+            chamada.faltas_ids = [(5, 0, 0)]  # Limpar registros existentes
+            chamada.faltas_ids = [(0, 0, {'funcionario_id': f.id}) for f in faltantes]
+
