@@ -28,6 +28,7 @@
                         <group>
                             <field name="nome_obra"/>
                             <field name="sale_order_id"/>
+                            <field name="cod_sale_order"/>
                             <field name="data"/>
                             <field name="maquina_id" readonly="1"/>
                             <field name="data" invisible="1"/>
@@ -105,6 +106,7 @@
             <field name="arch" type="xml">
                 <tree string="Lista de Registros de Máquinas">
                     <field name="sale_order_id"/>
+                    <!-- field name="sale_order_id" groups="foundation_management.group_engenharia,foundation_management.group_controle,foundation_management.group_diretoria,foundation_management.group_administrador,foundation_management.group_adm_localizacao"/ -->
                     <field name="nome_obra"/>
                     <!-- field name="analytic_account_id" invisible="1"/-->
                     <field name="requer_chamada_maquina" invisible="1"/>

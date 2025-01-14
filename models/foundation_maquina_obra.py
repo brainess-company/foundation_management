@@ -54,6 +54,8 @@ class FoundationMaquinaObra(models.Model):
     obra_id = fields.Many2one('foundation.obra', string="Obra")
     nome_obra = fields.Char(related='sale_order_id.nome_obra',
                             store=True, readonly=True, string="Nome da Obra")
+    cod_sale_order = fields.Char(related='sale_order_id.name',
+                            store=True, readonly=True, string="Ordem de Venda")
 
 
     # RELACIONA ESSA TABELA FOUNDATION OBRA COM  UMA SALE ORDER

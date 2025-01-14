@@ -21,7 +21,7 @@
     ],
     'data': [
         'security/security.xml',
-        'security/ir_rule.xml',
+
 
 
         # 'security/sale_order_rules.xml'
@@ -52,6 +52,7 @@
         'views/product_template.xml',
         'data/foundation_cron.xml',
         'security/ir.model.access.csv',
+        'security/ir_rule.xml',
     ],
     'demo': [],
     'installable': True,

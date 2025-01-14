@@ -41,6 +41,8 @@ class FoundationRelatorios(models.Model):
     sale_order_id = fields.Many2one('sale.order', string="Sale Order",
                                     related='foundation_maquina_registro_id.sale_order_id',
                                     readonly=True, store=True)
+    cod_sale_order = fields.Char(related='sale_order_id.name',
+                                 store=True, readonly=True, string="Ordem de Venda")
     service_template_id = fields.Many2one('product.template',
                                           string="Template do Serviço",
                                           related='service_id.service_template_id',

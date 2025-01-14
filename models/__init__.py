@@ -6,6 +6,7 @@ permitindo que eles sejam acessados mais facilmente em outros lugares dentro do 
 """
 
 from . import sale_order  #foundation_obra_extension
+from . import sale_order_line
 from . import foundation_estacas
 from . import foundation_gfip_wizard
 from . import foundation_maquina
@@ -20,6 +21,8 @@ from . import foundation_employee_extend
 from . import foundation_employee_assignment
 from . import foundation_hrdepartment_extend
 from . import foundation_maquina_obra
+from . import product_product
 from . import product_template
 from . import foundation_maquina_obra_rel
 from . import foundation_lista_faltas
+from . import res_users

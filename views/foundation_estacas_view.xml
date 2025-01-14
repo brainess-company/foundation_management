@@ -84,8 +84,8 @@
                             <field name="relatorio_id" readonly="1"/>
                             <field name="status_relatorio"/>
                             <field name="service_template_id" options="{'no_open': True}"/>
-                            <field name="sale_order_id" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
-                            <field name="sale_order_line_id" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
+                            <field name="sale_order_id" groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores"/>
+                            <field name="sale_order_line_id" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_operadores"/>
                             <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <field name="total_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                             <!--field name="signature" widget="signature" readonly="1"/-->

@@ -41,6 +41,8 @@ class FoundationMaquinaRegistro(models.Model):
                                     string="Ordem de Venda", readonly=True, store=True)
     nome_obra = fields.Char(related='service_id.nome_obra',
                             string="Nome da Obra", readonly=True, store=True)
+    cod_sale_order = fields.Char(related='sale_order_id.name',
+                                 store=True, readonly=True, string="Ordem de Venda")
     endereco = fields.Char(related='service_id.endereco',
                            string="Endereço", readonly=True,  store=True)
 

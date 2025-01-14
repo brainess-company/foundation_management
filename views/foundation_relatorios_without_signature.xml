@@ -63,6 +63,7 @@
                             <field name="endereco_obra" related="foundation_maquina_registro_id.endereco" readonly="1"/>
                             <field name="maquina_id" related="foundation_maquina_registro_id.maquina_id" readonly="1" options="{'no_open': True}" />
                             <field name="sale_order_id" options="{'no_open': True}" />
+                            <field name="cod_sale_order"/>
                             <field name="service_template_id" related="foundation_maquina_registro_id.service_template_id" invisible="1"/>
                         </group>
                         <notebook>
@@ -75,7 +76,7 @@
                                         <field name="service_template_id" readonly="1"/>
                                         <field name="sale_order_id" invisible="1"/>
                                         <field name="profundidade"/>
-                                        <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}"/>
+                                        <field name="sale_order_line_id" domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]" options="{'no_create': False, 'no_open': True}" groups="base.group_user"/>
                                         <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>
                                     </tree>
                                     <form>

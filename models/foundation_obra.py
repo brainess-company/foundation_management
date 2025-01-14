@@ -22,6 +22,9 @@ class FoundationObra(models.Model):
     # CAMPOS PRÓPRIOS
     nome_obra = fields.Char(related='sale_order_id.nome_obra',
                             store=True, readonly=True, string="Nome da Obra")
+    cod_sale_order = fields.Char(related='sale_order_id.name',
+                                 store=True, readonly=True, string="Ordem de Venda")
+
     endereco = fields.Char("Endereço")
 
     # RELACIONA ESSA TABELA FOUNDATION OBRA COM  UMA SALE ORDER
