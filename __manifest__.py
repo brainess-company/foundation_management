@@ -21,18 +21,10 @@
     ],
     'data': [
         'security/security.xml',
-
-
-
-        # 'security/sale_order_rules.xml'
-        #'views/product_views.xml',
-        #'views/foundation_stock_move_wizard_view.xml',
         'views/gfip.xml',
         'views/foundation_chamada_view.xml',
         'views/chamada2.xml',
-        #'views/foundation_saldo_estoque_view.xml',
         'views/foundation_maquina_view.xml',
-        #'views/foundation_maquina_equipment_view.xml',
         'views/foundation_obra_view.xml',
         'views/foundation_medicao_view.xml',
         'views/foundation_obra_service_simples_view.xml',
@@ -40,12 +32,8 @@
         'views/foundation_relatorios_lista_view.xml',
         'views/foundation_relatorios_without_signature.xml',
         'views/foundation_maquina_registro_estacas.xml',
-        #'views/foundation_saida_estoque_view.xml',
         'views/foundation_employee_assignment_views.xml',
         'views/foundation_faltas.xml',
-        # 'views/foundation_chamada_maquina_registro.xml',
-        #'views/foundation_stock_extension_view.xml',
-
         'views/foundation_menus.xml',
         'views/foundation_actions.xml',
         'views/sale_order_obra_extension.xml',
