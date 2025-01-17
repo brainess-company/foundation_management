@@ -239,7 +239,7 @@ class FoundationRelatorios(models.Model):
         vals = {
             'data': self.data,
             'foundation_maquina_registro_id': self.foundation_maquina_registro_id.id,
-            'state': self.state,  # Substitua 'campo1' pelo nome real do campo
+            'state': "rascunho",  # Substitua 'campo1' pelo nome real do campo
             'nome_servico': self.nome_servico,  # Adicione todos os outros campos relevantes
             'maquina_id': self.maquina_id.id,  # Adicione todos os outros campos relevantes
             'nome_obra': self.nome_obra,  # Adicione todos os outros campos relevantes
