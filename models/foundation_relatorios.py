@@ -42,7 +42,7 @@ class FoundationRelatorios(models.Model):
                                     related='foundation_maquina_registro_id.sale_order_id',
                                     readonly=True, store=True)
     cod_sale_order = fields.Char(related='sale_order_id.name',
-                                 store=True, readonly=True, string="Ordem de Venda")
+                                 store=True, readonly=True, string="Cod. Ordem de Venda")
     service_template_id = fields.Many2one('product.template',
                                           string="Template do Serviço",
                                           related='service_id.service_template_id',
@@ -250,7 +250,9 @@ class FoundationRelatorios(models.Model):
             'variante_id': self.variante_id.id,  # Adicione todos os outros campos relevantes
             'operador_id': self.operador_id.id,  # Adicione todos os outros campos relevantes
             'operador_user_id': self.operador_user_id.id,  # Adicione todos os outros campos relevantes
-            'requer_chamada_maquina': self.requer_chamada_maquina
+            'requer_chamada_maquina': self.requer_chamada_maquina,
+            'assinatura': False
+            # 'assinatura': self.assinatura
             # Adicione mais campos conforme necessário...
         }
 
