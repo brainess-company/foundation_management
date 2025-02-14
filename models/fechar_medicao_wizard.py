@@ -58,8 +58,16 @@ class FecharMedicaoWizard(models.TransientModel):
             'data': fields.Date.today(),
             'situacao': 'aguardando',
             'sale_order_id': self.obra_id.sale_order_id.id,
-            'estacas_ids': [(6, 0, self.estacas_ids.ids)]
         })
+
+        # Associar cada estaca à nova medição, apenas se não foi previamente medida
+        for estaca in self.estacas_ids:
+            if not estaca.medicao_id:
+                estaca.medicao_id = medicao.id
+            else:
+                raise UserError(
+                    f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente."
+                )
 
         # Redireciona para a view da medição criada
         return {
