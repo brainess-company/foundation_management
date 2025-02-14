@@ -116,10 +116,6 @@ class FoundationRelatorios(models.Model):
             total = sum(estaca.total_price for estaca in record.estacas_ids)
             record.total_estacas_price = total
 
-    def toggle_active(self):
-        for record in self:
-            record.active = not record.active
-
     @api.depends('assinatura')
     def _compute_has_assinatura(self):
         for record in self:
@@ -292,6 +288,17 @@ class FoundationRelatorios(models.Model):
             'target': 'current',  # Abre o registro no modo de edição
             'flags': {'initial_mode': 'edit'}  # Abre diretamente no modo de edição
         }
+
+
+    # Método para atualizar o campo active das estacas relacionadas
+    def write(self, vals):
+        res = super(FoundationRelatorios, self).write(vals)
+        if 'active' in vals:
+            # Atualiza o campo active das estacas relacionadas
+            for relatorio in self:
+                relatorio.estacas_ids.write({'active': vals['active']})
+        return res
+
 
 
 

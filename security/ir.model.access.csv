@@ -14,6 +14,7 @@ access_foundation_employee_assignment_eng,eng_foundation_employee_assignment,mod
 access_report_wizard_eng,eng_report_wizard,model_report_wizard,group_engenharia,1,1,1,1
 access_hr_employee_eng,eng_hr_employee,model_hr_employee,group_engenharia,1,1,1,1
 access_foundation_lista_faltas_eng,eng_foundation_lista_faltas,model_foundation_lista_faltas,group_engenharia,1,1,1,1
+access_fechar_medicao_wizard_eng,eng_fechar_medicao_wizard,model_fechar_medicao_wizard,group_engenharia,1,1,1,1
 
 access_foundation_obra_diretoria,diretoria_foundation_obra,model_foundation_obra,group_diretoria,1,0,0,0
 access_foundation_maquina_diretoria,diretoria_foundation_maquina,model_foundation_maquina,group_diretoria,1,0,0,0
@@ -66,6 +67,7 @@ access_hr_employee_admin,Administração - Funcionários,model_hr_employee,group
 access_foundation_employee_assignment_admin,Administração - Atribuição de Funcionários,model_foundation_employee_assignment,group_administrador,1,1,1,1
 access_hr_department_admin,Administração - Departamento de RH,model_hr_department,group_administrador,1,1,1,1
 access_foundation_maquina_obra_admin,Administração - Máquinas em Obra,model_foundation_maquina_obra,group_administrador,1,1,1,1
+access_fechar_medicao_wizard_adm,adm_fechar_medicao_wizard,model_fechar_medicao_wizard,group_administrador,1,1,1,1
 
 access_foundation_maquina_obra_rel_adm,Administrar Locais de Máquinas,model_foundation_maquina_obra_rel,group_adm_localizacao,1,1,1,1
 

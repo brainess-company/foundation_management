@@ -26,3 +26,4 @@ from . import product_template
 from . import foundation_maquina_obra_rel
 from . import foundation_lista_faltas
 from . import res_users
+from . import fechar_medicao_wizard

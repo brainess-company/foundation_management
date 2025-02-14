@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Wizard View for Fechar Medição -->
+        <record id="view_fechar_medicao_wizard_form" model="ir.ui.view">
+            <field name="name">fechar.medicao.wizard.form</field>
+            <field name="model">fechar.medicao.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Fechar Medição">
+                    <sheet>
+                        <group>
+                            <field name="obra_id" required="1"/>
+                            <field name="estacas_ids" readonly="1">
+                                <tree>
+                                    <field name="nome_estaca"/>
+                                    <field name="profundidade"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price"/>
+                                </tree>
+                            </field>
+                            <field name="valor_total" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                        <button string="Criar Medição" class="btn-primary" type="object" name="action_criar_medicao"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_fechar_medicao_wizard" model="ir.actions.act_window">
+            <field name="name">Fechar Medição</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fechar.medicao.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- Herança do menu principal "Medições" -->
+        <record id="main_foundation_medicoes_inherit" model="ir.ui.menu">
+            <field name="name">Medições</field>
+            <field name="action" eval="False"/>
+        </record>
+
+        <!-- Adicionar o novo item de menu "Fechar Medição" -->
+        <menuitem id="menu_fechar_medicao_wizard" name="Fechar Medição" parent="main_foundation_medicoes" action="action_fechar_medicao_wizard" sequence="40"/>
+
+    </data>
+</odoo>

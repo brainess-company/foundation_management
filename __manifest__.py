@@ -39,6 +39,7 @@
         'views/sale_order_obra_extension.xml',
         'views/product_template.xml',
         'data/foundation_cron.xml',
+        'views/fechar_medicao_wizard.xml',
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
     ],
