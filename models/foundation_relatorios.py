@@ -286,9 +286,16 @@ class FoundationRelatorios(models.Model):
             'res_id': new_report.id,
             'view_id': self.env.ref('foundation_management.view_foundation_relatorios_without_signature_form').id,
             'target': 'current',  # Abre o registro no modo de edição
-            'flags': {'initial_mode': 'edit'}  # Abre diretamente no modo de edição
-        }
+            'flags': {'initial_mode': 'edit'},  # Abre diretamente no modo de edição
+            'context': {
+                'default_sale_order_id': new_report.sale_order_id.id,
+                'default_foundation_maquina_registro_id': new_report.foundation_maquina_registro_id.id,
+                'default_service_template_id': new_report.service_template_id.id,
+                'default_service_id': new_report.service_id.id,
+                'default_data': new_report.data
 
+            }
+        }
 
     # Método para atualizar o campo active das estacas relacionadas
     def write(self, vals):
