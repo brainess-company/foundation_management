@@ -32,7 +32,7 @@ class FecharMedicaoWizard(models.TransientModel):
         for wizard in self:
             wizard.valor_total = sum(estaca.total_price for estaca in wizard.estacas_ids)
 
-    def action_generate_medicao(self):
+    def action_criar_medicao(self):
         """
         Gera uma nova medição para a ordem de venda associada
         a todas as estacas selecionadas.
