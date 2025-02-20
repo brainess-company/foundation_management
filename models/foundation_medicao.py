@@ -143,3 +143,11 @@ class FoundationMedicao(models.Model):
         """computa a quantidade de faturas relacionadas"""
         for record in self:
             record.invoice_count = 1 if record.invoice_id else 0
+
+    def unlink(self):
+        """Exclui a fatura associada antes de excluir a medição."""
+        for record in self:
+            if record.invoice_id:
+                record.invoice_id.unlink()  # Exclui a fatura antes de excluir a medição
+        return super(FoundationMedicao, self).unlink()
+

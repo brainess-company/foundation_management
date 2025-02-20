@@ -15,6 +15,7 @@ access_report_wizard_eng,eng_report_wizard,model_report_wizard,group_engenharia,
 access_hr_employee_eng,eng_hr_employee,model_hr_employee,group_engenharia,1,1,1,1
 access_foundation_lista_faltas_eng,eng_foundation_lista_faltas,model_foundation_lista_faltas,group_engenharia,1,1,1,1
 access_fechar_medicao_wizard_eng,eng_fechar_medicao_wizard,model_fechar_medicao_wizard,group_engenharia,1,1,1,1
+access_account_move_eng,eng_account_move,model_account_move,group_engenharia,1,1,1,1
 
 access_foundation_obra_diretoria,diretoria_foundation_obra,model_foundation_obra,group_diretoria,1,0,0,0
 access_foundation_maquina_diretoria,diretoria_foundation_maquina,model_foundation_maquina,group_diretoria,1,0,0,0
