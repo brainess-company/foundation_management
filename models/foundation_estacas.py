@@ -100,6 +100,10 @@ class FoundationEstacas(models.Model):
                                   compute='_compute_display_medicao')
     active = fields.Boolean(string="Ativo", default=True)
 
+    # Campo relacionado para o campo 'active' do relatório
+    active_relatorio = fields.Boolean(related='relatorio_id.active', string="Relatório Ativo?",
+                                      readonly=True)
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active

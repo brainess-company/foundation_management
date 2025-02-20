@@ -22,6 +22,7 @@
                            decoration-danger="status_relatorio == 'cancelado'"
                            decoration-muted="status_relatorio == ' rascunho'"
                     widget="badge" optional="show"/>
+                    <field name="active_relatorio"/>
                     <field name="display_medicao"/>
                     <field name="profundidade"/>
                     <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
@@ -113,6 +114,7 @@
                     <field name="relatorio_id"/>
                     <field name="nome_obra"/>
                     <field name="status_relatorio"/>
+                    <field name="active_relatorio"/>
                     <field name="profundidade"/>
                     <field name="sale_order_id"/>
                     <field name="sale_order_line_id"/>
