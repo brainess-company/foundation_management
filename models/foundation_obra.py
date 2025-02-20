@@ -91,20 +91,13 @@ class FoundationObra(models.Model):
                 raise UserError(
                     "A obra não pode ser arquivada porque ainda há valores a faturar.")
 
-            # Verifica se o estoque específico está vazio
-            sale_order = record.sale_order_id
-            if sale_order.specific_stock_location_id and sale_order.specific_stock_location_id.quant_ids:
-                raise UserError(
-                    "A obra não pode ser arquivada porque o estoque específico da ordem de venda ainda não está vazio.")
-
             related_models = [
                 'foundation.relatorios',
                 'foundation.maquina.registro',
                 'foundation.medicao',
                 'foundation.estacas',
                 'foundation.chamada',
-                'foundation.obra.service',
-                'account.analytic.account'
+                'foundation.obra.service'
 
             ]
 
@@ -112,12 +105,6 @@ class FoundationObra(models.Model):
             # Arquivar/Restaurar a obra e os registros relacionados
             record.active = not record.active
             _logger.info(f"Cada registro recebe {record.active}")
-
-            # Atualiza a visibilidade dos estoques específicos
-            if sale_order.specific_stock_location_id:
-                sale_order.specific_stock_location_id.write({'active': record.active})
-            if sale_order.specific_stock_output_id:
-                sale_order.specific_stock_output_id.write({'active': record.active})
 
             for model in related_models:
                 related_records = self.env[model].search(
