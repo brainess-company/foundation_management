@@ -182,8 +182,7 @@ class FoundationEstacas(models.Model):
         Gera uma nova medição para a ordem de venda associada
         a todas as estacas selecionadas.
         Valida se todas as estacas pertencem à mesma ordem de venda,
-        se todas têm o relatório com status 'conferido' e se o relatório está ativo,
-        e se a própria estaca está ativa, antes de criar uma medição,
+        e se todas têm o relatório com status 'conferido', antes de criar uma medição,
         associando-a às estacas que ainda não foram medidas.
 
         Returns:
@@ -192,30 +191,16 @@ class FoundationEstacas(models.Model):
         if not self:
             return {'type': 'ir.actions.act_window_close'}
 
-        # Filtra as estacas que têm o relatório com status 'conferido', o campo 'active' igual a True na estaca
-        # e o campo 'active_relatorio' igual a True no relatório
-        estacas_filtradas = self.filtered(
-            lambda
-                estaca: estaca.status_relatorio == 'conferido' and estaca.active_relatorio and estaca.active
-        )
-
         # Verifica se todas as estacas selecionadas são da mesma sale_order
-        sale_orders = estacas_filtradas.mapped('service_id.sale_order_id')
+        sale_orders = self.mapped('service_id.sale_order_id')
         if len(sale_orders) > 1:
             raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
-        # Verifica se há estacas filtradas
-        if not estacas_filtradas:
-            raise UserError(
-                "Nenhuma estaca com relatório conferido, ativo e estaca ativa foi encontrada.")
-
-        # Verifica se todas as estacas têm relatórios conferidos e estão ativas
-        all_conferido = all(
-            estaca.status_relatorio == 'conferido' and estaca.active_relatorio and estaca.active for
-            estaca in estacas_filtradas)
+        # Verifica se todas as estacas têm relatórios conferidos
+        all_conferido = all(estaca.status_relatorio == 'conferido' for estaca in self)
         if not all_conferido:
             raise UserError(
-                "Todas as estacas selecionadas devem ter relatórios com status 'Conferido', ativos e estacas ativas.")
+                "Todas as estacas selecionadas devem ter relatórios com status 'Conferido'.")
 
         sale_order = sale_orders[0]
         if not sale_order:
@@ -235,7 +220,7 @@ class FoundationEstacas(models.Model):
         })
 
         # Associar cada estaca à nova medição, apenas se não foi previamente medida
-        for estaca in estacas_filtradas:
+        for estaca in self:
             if not estaca.medicao_id:
                 estaca.medicao_id = new_medicao.id
             else:
