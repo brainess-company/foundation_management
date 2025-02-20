@@ -36,6 +36,12 @@ class FecharMedicaoWizard(models.TransientModel):
         self.ensure_one()
         if not self.estacas_ids:
             raise UserError("Não há estacas sem medição para a obra selecionada.")
+        #todo como o campo de relatorio ativo está gravado na tabela de estacas  ele acaba não
+        # sendo atualizado conforme o dado real
+
+        # 1ª Verificação: Todas as estacas devem ter relatórios ativos (active = True)
+        if not all(estaca.status_relatorio.active for estaca in self.estacas_ids):
+            raise UserError("Todas as estacas selecionadas devem ter relatórios ativos.")
 
         # Verifica se todas as estacas têm o status do relatório como 'conferido'
         if not all(estaca.status_relatorio == 'conferido' for estaca in self.estacas_ids):
