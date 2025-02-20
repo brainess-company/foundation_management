@@ -33,54 +33,75 @@ class FecharMedicaoWizard(models.TransientModel):
             wizard.valor_total = sum(estaca.total_price for estaca in wizard.estacas_ids)
 
     def action_criar_medicao(self):
-        self.ensure_one()
-        if not self.estacas_ids:
-            raise UserError("Não há estacas sem medição para a obra selecionada.")
-        #todo como o campo de relatorio ativo está gravado na tabela de estacas  ele acaba não
-        # sendo atualizado conforme o dado real
+        """
+        Gera uma nova medição para a ordem de venda associada
+        a todas as estacas selecionadas.
+        Valida se todas as estacas pertencem à mesma ordem de venda,
+        se todas têm o relatório com status 'conferido' e se o relatório está ativo,
+        e se a própria estaca está ativa, antes de criar uma medição,
+        associando-a às estacas que ainda não foram medidas.
 
-        # 1ª Verificação: Todas as estacas devem ter relatórios ativos (active = True)
-        if not all(estaca.status_relatorio.active for estaca in self.estacas_ids):
-            raise UserError("Todas as estacas selecionadas devem ter relatórios ativos.")
+        Returns:
+            dict: Ação para abrir a janela de visualização da medição criada.
+        """
+        if not self:
+            return {'type': 'ir.actions.act_window_close'}
 
-        # Verifica se todas as estacas têm o status do relatório como 'conferido'
-        if not all(estaca.status_relatorio == 'conferido' for estaca in self.estacas_ids):
-            raise UserError("Todas as estacas selecionadas devem ter relatórios com status 'Conferido'.")
+        # Filtra as estacas que têm o relatório com status 'conferido', o campo 'active' igual a True na estaca
+        # e o campo 'active_relatorio' igual a True no relatório
+        estacas_filtradas = self.filtered(
+            lambda
+                estaca: estaca.status_relatorio == 'conferido' and estaca.active_relatorio and estaca.active
+        )
+
+        # Verifica se todas as estacas selecionadas são da mesma sale_order
+        sale_orders = estacas_filtradas.mapped('service_id.sale_order_id')
+        if len(sale_orders) > 1:
+            raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
+
+        # Verifica se há estacas filtradas
+        if not estacas_filtradas:
+            raise UserError(
+                "Nenhuma estaca com relatório conferido, ativo e estaca ativa foi encontrada.")
+
+        # Verifica se todas as estacas têm relatórios conferidos e estão ativas
+        all_conferido = all(
+            estaca.status_relatorio == 'conferido' and estaca.active_relatorio and estaca.active for
+            estaca in estacas_filtradas)
+        if not all_conferido:
+            raise UserError(
+                "Todas as estacas selecionadas devem ter relatórios com status 'Conferido', ativos e estacas ativas.")
+
+        sale_order = sale_orders[0]
+        if not sale_order:
+            return {'type': 'ir.actions.act_window_close'}
 
         # Encontrar a última medição para essa sale_order e preparar o nome para a próxima medição
         last_medicao = self.env['foundation.medicao'].search(
-            [('sale_order_id', '=', self.obra_id.sale_order_id.id)], order='nome desc', limit=1
-        )
+            [('sale_order_id', '=', sale_order.id)], order='create_date desc', limit=1)
+        next_medicao_number = 1 if not last_medicao else int(last_medicao.nome) + 1
 
-        # Extrai o número da última medição ou define como 1 se não houver medições anteriores
-        if last_medicao and last_medicao.nome.isdigit():
-            next_medicao_number = int(last_medicao.nome) + 1
-        else:
-            next_medicao_number = 1
-
-        # Cria uma nova medição com o número correto
-        medicao = self.env['foundation.medicao'].create({
-            'nome': str(next_medicao_number),  # Nome da medição é o número sequencial
+        # Criar uma nova medição
+        new_medicao = self.env['foundation.medicao'].create({
+            'nome': str(next_medicao_number),  # Nome da medição é apenas o número
+            'sale_order_id': sale_order.id,
             'data': fields.Date.today(),
             'situacao': 'aguardando',
-            'sale_order_id': self.obra_id.sale_order_id.id,
         })
 
         # Associar cada estaca à nova medição, apenas se não foi previamente medida
-        for estaca in self.estacas_ids:
+        for estaca in estacas_filtradas:
             if not estaca.medicao_id:
-                estaca.medicao_id = medicao.id
+                estaca.medicao_id = new_medicao.id
             else:
                 raise UserError(
-                    f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente."
-                )
+                    f"Estaca '{estaca.nome_estaca}' já foi medida e não pode ser medida novamente.")
 
-        # Redireciona para a view da medição criada
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Medição',
+            'name': 'Medições',
             'view_mode': 'form',
             'res_model': 'foundation.medicao',
-            'res_id': medicao.id,
+            'res_id': new_medicao.id,
             'target': 'current'
         }
