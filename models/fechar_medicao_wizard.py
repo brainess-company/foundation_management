@@ -54,7 +54,7 @@ class FecharMedicaoWizard(models.TransientModel):
             ('status_relatorio', '=', 'conferido'),  # fe.status_relatorio = 'conferido'
             ('active_relatorio', '=', True),  # fr.active = True
             ('medicao_id', '=', False),  # fe.medicao_id = False (estaca ainda não medida)
-        ], order='relatorio_id, nome_estaca')  # Ordena por relatorio_id e nome_estaca
+        ])  # Ordena por relatorio_id e nome_estaca
 
         # Verifica se há estacas filtradas
         if not estacas_filtradas:
