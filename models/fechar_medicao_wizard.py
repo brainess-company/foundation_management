@@ -53,7 +53,6 @@ class FecharMedicaoWizard(models.TransientModel):
             ('active', '=', True),  # fe.active = True
             ('status_relatorio', '=', 'conferido'),  # fe.status_relatorio = 'conferido'
             ('relatorio_id.active', '=', True),  # fr.active = True
-            ('sale_order_id.nome_obra', '=', 'OBRA AUDACE'),  # so.nome_obra = 'OBRA AUDACE'
             ('medicao_id', '=', False),  # fe.medicao_id = False (estaca ainda não medida)
         ], order='relatorio_id, nome_estaca')  # Ordena por relatorio_id e nome_estaca
 
