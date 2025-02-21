@@ -52,7 +52,7 @@ class FecharMedicaoWizard(models.TransientModel):
         estacas_filtradas = self.env['foundation.estacas'].search([
             ('active', '=', True),  # fe.active = True
             ('status_relatorio', '=', 'conferido'),  # fe.status_relatorio = 'conferido'
-            ('relatorio_id.active', '=', True),  # fr.active = True
+            ('active_relatorio', '=', True),  # fr.active = True
             ('medicao_id', '=', False),  # fe.medicao_id = False (estaca ainda não medida)
         ], order='relatorio_id, nome_estaca')  # Ordena por relatorio_id e nome_estaca
 
