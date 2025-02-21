@@ -35,10 +35,12 @@ class FecharMedicaoWizard(models.TransientModel):
     def action_criar_medicao(self):
         """
         Gera uma nova medição para a ordem de venda associada
-        a todas as estacas selecionadas.
-        Valida se todas as estacas pertencem à mesma ordem de venda,
-        se todas têm o relatório com status 'conferido' e se o relatório está ativo,
-        se a própria estaca está ativa, e se ainda não foram medidas antes de criar uma nova medição.
+        a todas as estacas selecionadas que atendem aos critérios:
+        - Relatório ativo (fr.active = True)
+        - Nome da obra = 'OBRA AUDACE' (so.nome_obra = 'OBRA AUDACE')
+        - Estaca ativa (fe.active = True)
+        - Status do relatório = 'conferido' (fe.status_relatorio = 'conferido')
+        - Estaca ainda não medida (fe.medicao_id = False)
 
         Returns:
             dict: Ação para abrir a janela de visualização da medição criada.
@@ -47,22 +49,24 @@ class FecharMedicaoWizard(models.TransientModel):
             return {'type': 'ir.actions.act_window_close'}
 
         # Filtra as estacas que atendem a todos os critérios necessários
-        estacas_filtradas = self.filtered(
-            lambda estaca: estaca.active_relatorio
-                           and estaca.status_relatorio == 'conferido'
-                           and estaca.active
-                           and not estaca.medicao_id  # Garante que a estaca ainda não foi medida
-        )
+        estacas_filtradas = self.env['foundation.estacas'].search([
+            ('active', '=', True),  # fe.active = True
+            ('status_relatorio', '=', 'conferido'),  # fe.status_relatorio = 'conferido'
+            ('relatorio_id.active', '=', True),  # fr.active = True
+            ('sale_order_id.nome_obra', '=', 'OBRA AUDACE'),  # so.nome_obra = 'OBRA AUDACE'
+            ('medicao_id', '=', False),  # fe.medicao_id = False (estaca ainda não medida)
+        ], order='relatorio_id, nome_estaca')  # Ordena por relatorio_id e nome_estaca
 
         # Verifica se há estacas filtradas
         if not estacas_filtradas:
             raise UserError(
                 "Nenhuma estaca válida encontrada. Certifique-se de que todas as estacas "
-                "estão com relatório conferido, relatório ativo, estaca ativa e ainda não foram medidas."
+                "estão com relatório conferido, relatório ativo, estaca ativa, pertencem à obra 'OBRA AUDACE' "
+                "e ainda não foram medidas."
             )
 
         # Verifica se todas as estacas pertencem à mesma Ordem de Venda
-        sale_orders = estacas_filtradas.mapped('service_id.sale_order_id')
+        sale_orders = estacas_filtradas.mapped('sale_order_id')
         if len(sale_orders) > 1:
             raise UserError("Todas as estacas selecionadas devem pertencer à mesma Ordem de Venda.")
 
@@ -96,4 +100,3 @@ class FecharMedicaoWizard(models.TransientModel):
             'res_id': new_medicao.id,
             'target': 'current'
         }
-
