@@ -96,10 +96,18 @@ class FoundationMedicao(models.Model):
             invoice_lines.append((0, 0, line_vals))
 
         # Busca o diário de vendas padrão, caso exista
-        sale_journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
-        if not sale_journal:
-            raise ValidationError("Não há um diário de vendas configurado.")
+        # todo o certo seria o diário de venda da empresa da sale order
+        # TODO Implementado: Usar o diário de vendas da empresa da Ordem de Venda
+        company = self.sale_order_id.company_id
+        sale_journal = self.env['account.journal'].search([
+            ('type', '=', 'sale'),
+            ('company_id', '=', company.id)
+        ], limit=1)
 
+        if not sale_journal:
+            raise ValidationError(
+                f"Não há um diário de vendas configurado para a empresa {company.name}."
+            )
         invoice_vals = {
             'partner_id': self.sale_order_id.partner_id.id,
             'move_type': 'out_invoice',
@@ -108,6 +116,7 @@ class FoundationMedicao(models.Model):
             'currency_id': self.sale_order_id.currency_id.id,
             'invoice_line_ids': invoice_lines,
             'journal_id': sale_journal.id,  # Define o diário de vendas
+            'company_id': company.id,  # Define a empresa da fatura
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
