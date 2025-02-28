@@ -41,7 +41,7 @@ class ReportWizard(models.TransientModel):
         sheet = workbook.add_worksheet()
 
         # Adicionar cabeçalhos
-        headers = ['Funcionário', 'Obra', 'Empresa', 'Máquina', 'CNPJ Cliente', 'CEI', 'CNPJ Obra', 'Quantidade de Dias']
+        headers = ['Funcionário', 'Obra', 'Empresa', 'Máquina', 'CNPJ Cliente', 'CEI', 'CNPJ Obra', 'Quantidade de Dias', 'Datas Trabalhadas']
         for col_num, header in enumerate(headers):
             sheet.write(0, col_num, header)
 
@@ -52,6 +52,7 @@ class ReportWizard(models.TransientModel):
             obra = self.env['foundation.obra'].browse(obra_id)
             company = self.env['res.company'].browse(company_id)
             maquina = self.env['foundation.maquina'].browse(maquina_id)
+            formatted_dates = ", ".join(sorted([day.strftime('%d/%m/%Y') for day in days]))
             sheet.write(row, 0, funcionario.name)
             sheet.write(row, 1, obra.nome_obra)
             sheet.write(row, 2, company.name)
@@ -60,6 +61,7 @@ class ReportWizard(models.TransientModel):
             sheet.write(row, 5, cei)
             sheet.write(row, 6, cnpj_gfip)
             sheet.write(row, 7, len(days))
+            sheet.write(row, 8, formatted_dates)
             row += 1
 
         workbook.close()
