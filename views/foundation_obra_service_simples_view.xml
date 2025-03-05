@@ -32,7 +32,7 @@
                             <field name="is_engineering_service" invisible="1"/>
                             <!-- Mostra o campo apenas se is_engineering_service for True -->
                             <field name="foundation_maquina_ids" widget="many2many_tags"
-                                   string="Máquinas Associadas"/>
+                                   string="Máquinas Associadas" options="{'no_create': True}"/>
                         </group>
                     </sheet>
                     <!-- Inserir Chatter -->
