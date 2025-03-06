@@ -54,6 +54,8 @@ class FoundationObra(models.Model):
     # Campo active para controlar arquivamento
     active = fields.Boolean(string="Ativo", default=True)
 
+    company_id = fields.Many2one('res.company', string="Empresa", related="sale_order_id.company_id", store=True, index=True)
+
     @api.depends('sale_order_id.invoice_ids', 'sale_order_id.invoice_ids.state')
     def _compute_valor_faturado(self):
         """

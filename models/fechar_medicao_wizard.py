@@ -14,6 +14,13 @@ class FecharMedicaoWizard(models.TransientModel):
     )
     valor_total = fields.Float(string="Valor Total", compute="_compute_valor_total")
 
+    company_id = fields.Many2one(
+        'res.company',
+        string="Empresa",
+        default=lambda self: self.env.company,  # Define a empresa ativa no momento
+        readonly=True
+    )
+
     @api.depends('obra_id')
     def _compute_estacas_sem_medicao(self):
         for wizard in self:

@@ -88,7 +88,8 @@ class FoundationMaquinaObra(models.Model):
         store=True
     )
 
-
+    company_id = fields.Many2one('res.company', string="Empresa",
+                                 related="sale_order_id.company_id", store=True, index=True)
 
     @api.depends('has_today_chamada', 'requer_chamada_maquina')
     def _compute_display_has_today_chamada(self):

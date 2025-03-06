@@ -83,7 +83,8 @@ class FoundationObraService(models.Model):
 
     active = fields.Boolean("Active da Obra", related='obra_id.active', readonly=True)
 
-
+    company_id = fields.Many2one('res.company', string="Empresa",
+                                 related="sale_order_id.company_id", store=True, index=True)
 
     @api.model
     def create(self, vals):

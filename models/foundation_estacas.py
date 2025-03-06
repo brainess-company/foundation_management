@@ -104,6 +104,10 @@ class FoundationEstacas(models.Model):
     active_relatorio = fields.Boolean(related='relatorio_id.active', string="Relatório Ativo?",
                                       readonly=True)
 
+    company_id = fields.Many2one('res.company', string="Empresa",
+                                 related="sale_order_id.company_id", store=True, index=True)
+
+
     def toggle_active(self):
         for record in self:
             record.active = not record.active
@@ -162,6 +166,7 @@ class FoundationEstacas(models.Model):
                     record.sale_order_line_id.qty_delivered += vals.get(
                         'profundidade', record.profundidade)
         return res
+
 
     @api.depends('sale_order_line_id.price_unit', 'profundidade')
     def _compute_line_values(self):

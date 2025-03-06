@@ -88,6 +88,9 @@ class FoundationRelatorios(models.Model):
     activity_ids = fields.One2many('mail.activity', 'res_id', string="Atividades",
                                    domain=[('res_model', '=', 'foundation.relatorios')])
 
+    company_id = fields.Many2one('res.company', string="Empresa",
+                                 related="sale_order_id.company_id", store=True, index=True)
+
     @api.depends('chamada_existente')
     def _compute_display_chamada_existente(self):
         for record in self:

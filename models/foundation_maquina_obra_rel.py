@@ -21,6 +21,9 @@ class FoundationMaquinaObraRel(models.Model):
     data_registro = fields.Datetime(string="Data do Registro", required=True, default=fields.Datetime.now)
     observacao = fields.Text(string="Observação", help="Detalhes adicionais sobre o registro.")
 
+    company_id = fields.Many2one('res.company', string="Empresa",
+                                 related="sale_order_id.company_id", store=True, index=True)
+
     @api.model
     def create(self, vals):
         """
