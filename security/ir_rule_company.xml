@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Regra para foundation.estacas
+        <record id="foundation_estacas_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_estacas"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.maquina.obra
+        <record id="foundation_maquina_obra_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_maquina_obra"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.maquina.obra.rel
+        <record id="foundation_maquina_obra_rel_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_maquina_obra_rel"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.maquina.registro
+        <record id="foundation_maquina_registro_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_maquina_registro"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.medicao -->
+        <record id="foundation_medicao_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_medicao"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Regra para foundation.obra
+        <record id="foundation_obra_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_obra"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.obra.service
+        <record id="foundation_obra_service_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_obra_service"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+        <!-- Regra para foundation.relatorios
+        <record id="foundation_relatorios_rule_company" model="ir.rule">
+            <field name="name">Restrição por Empresa</field>
+            <field name="model_id" ref="foundation_management.model_foundation_relatorios"/>
+            <field name="domain_force">[('company_id', '=', company_id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record> -->
+
+    </data>
+</odoo>

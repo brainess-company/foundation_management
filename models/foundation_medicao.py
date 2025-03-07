@@ -66,9 +66,18 @@ class FoundationMedicao(models.Model):
         for record in self:
             record.valor_total = sum(estaca.total_price for estaca in record.estacas_ids)
 
+    # Adicione este decorador para esconder o método do menu de actions
+    @api.model
+    def _get_forbidden_access_methods(self):
+        return super(FoundationMedicao, self)._get_forbidden_access_methods() + [
+            'action_create_invoice']
+
     @api.depends('estacas_ids.total_price')
     def action_create_invoice(self):
         """sobrescreve create para criar fatura"""
+        if not self:
+            raise ValidationError("Nenhuma medição foi selecionada para gerar a fatura.")
+
         self.ensure_one()  # Garante que apenas um registro seja processado
 
         if not self.sale_order_id:
@@ -98,8 +107,6 @@ class FoundationMedicao(models.Model):
             invoice_lines.append((0, 0, line_vals))
 
         # Busca o diário de vendas padrão, caso exista
-        # todo o certo seria o diário de venda da empresa da sale order
-        # TODO Implementado: Usar o diário de vendas da empresa da Ordem de Venda
         company = self.sale_order_id.company_id
         sale_journal = self.env['account.journal'].search([
             ('type', '=', 'sale'),
