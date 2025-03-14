@@ -42,7 +42,7 @@
         'views/fechar_medicao_wizard.xml',
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
-        'security/ir_rule_company.xml',
+        #  'security/ir_rule_company.xml',
     ],
     'demo': [],
     'installable': True,
