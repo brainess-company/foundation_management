@@ -38,6 +38,7 @@
         'views/foundation_actions.xml',
         'views/sale_order_obra_extension.xml',
         'views/product_template.xml',
+        'views/report_medicao.xml',
         'data/foundation_cron.xml',
         'views/fechar_medicao_wizard.xml',
         'security/ir.model.access.csv',

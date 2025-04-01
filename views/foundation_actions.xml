@@ -17,13 +17,13 @@
         </record>
         <!-- FOUNDATION MEDICAO VIEW -->
         <!-- Criar uma fatura -->
-        <record id="action_create_invoice" model="ir.actions.server">
+        <record id="simple_action_create_invoice" model="ir.actions.server">
             <field name="name">Faturar</field>
             <field name="model_id" ref="model_foundation_medicao"/>
             <field name="binding_model_id" ref="model_foundation_medicao"/>
             <field name="state">code</field>
             <field name="code">
-                action = model.action_create_invoice()
+                action = model.simple_action_create_invoice()
             </field>
         </record>
 

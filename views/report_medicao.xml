@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+
+        <!-- Report Template -->
+        <report
+            id="action_report_medicao"
+            model="foundation.medicao"
+            string="Medição PDF"
+            report_type="qweb-pdf"
+            name="foundation_management.report_medicao_template"
+            file="foundation_management.report_medicao_template"
+        />
+
+        <template id="report_medicao_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Medição: <t t-esc="doc.nome"/></h2>
+                            <p><strong>Data:</strong> <t t-esc="doc.data"/></p>
+                            <p><strong>Valor Total:</strong> <t t-esc="doc.valor_total"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -67,6 +67,8 @@
             <field name="arch" type="xml">
                 <tree string="Foundation Medicao List" decoration-bf="situacao == 'aguardando'" decoration-success="situacao == 'emissao'" delete="false">
                     <header>
+                        <button name="action_generate_pdf" string="Gerar PDF" type="object" class="oe_highlight"/>
+
                         <button string="Kanban View" type="action" name="%(action_foundation_medicao)d" icon="fa-th-large"/>
                         <!-- button string="Faturar" type="object" name="action_create_invoice" icon="fa-money"/ -->
                     </header>
@@ -98,7 +100,8 @@
             <field name="arch" type="xml">
                 <form string="Foundation Medicao">
                     <header>
-                        <button name="action_create_invoice"
+                        <button name="action_generate_pdf" string="Gerar PDF" type="object" class="oe_highlight"/>
+                        <button name="simple_action_create_invoice"
                                 string="Faturar"
                                 type="object"
                                 class="oe_highlight"

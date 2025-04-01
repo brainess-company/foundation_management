@@ -70,11 +70,11 @@ class FoundationMedicao(models.Model):
     @api.model
     def _get_forbidden_access_methods(self):
         return super(FoundationMedicao, self)._get_forbidden_access_methods() + [
-            'action_create_invoice']
+            'simple_action_create_invoice']
 
     @api.depends('estacas_ids.total_price')
-    def action_create_invoice(self):
-        """sobrescreve create para criar fatura"""
+    def simple_action_create_invoice(self):
+        """sobrescreve create para criar fatura agrupando por variante de produto"""
         if not self:
             raise ValidationError("Nenhuma medição foi selecionada para gerar a fatura.")
 
@@ -83,7 +83,8 @@ class FoundationMedicao(models.Model):
         if not self.sale_order_id:
             raise ValidationError("Não existe uma Ordem de Venda relacionada a esta medição.")
 
-        invoice_lines = []
+        # Agrupar estacas por variante de produto
+        product_variants = {}
         for estaca in self.estacas_ids:
             if not estaca.sale_order_line_id:
                 raise ValidationError(
@@ -91,18 +92,31 @@ class FoundationMedicao(models.Model):
                     f"não possui uma linha de pedido de venda relacionada.")
 
             product = estaca.sale_order_line_id.product_id
-            quantity = estaca.profundidade
-            price_unit = estaca.sale_order_line_id.price_unit
+            product_key = product.id  # Usamos o ID do produto como chave para agrupamento
 
+            if product_key not in product_variants:
+                product_variants[product_key] = {
+                    'product': product,
+                    'quantity': 0,
+                    'price_unit': estaca.sale_order_line_id.price_unit,
+                    'sale_line_ids': set(),
+                }
+
+            product_variants[product_key]['quantity'] += estaca.profundidade
+            product_variants[product_key]['sale_line_ids'].add(estaca.sale_order_line_id.id)
+
+        invoice_lines = []
+        for variant_data in product_variants.values():
             line_vals = {
-                'product_id': product.id,
-                'quantity': quantity,
-                'price_unit': price_unit,
-                'name': f'Estaca {estaca.nome_estaca}: {product.display_name}',
+                'product_id': variant_data['product'].id,
+                'quantity': variant_data['quantity'],
+                'price_unit': variant_data['price_unit'],
+                'name': variant_data['product'].display_name,
+                # Nome do produto sem referência às estacas individuais
                 'account_id':
-                    product.categ_id.property_account_income_categ_id.id
-                    or product.categ_id.property_account_expense_categ_id.id,
-                'sale_line_ids': [(6, 0, [estaca.sale_order_line_id.id])]
+                    variant_data['product'].categ_id.property_account_income_categ_id.id
+                    or variant_data['product'].categ_id.property_account_expense_categ_id.id,
+                'sale_line_ids': [(6, 0, list(variant_data['sale_line_ids']))]
             }
             invoice_lines.append((0, 0, line_vals))
 
@@ -117,6 +131,7 @@ class FoundationMedicao(models.Model):
             raise ValidationError(
                 f"Não há um diário de vendas configurado para a empresa {company.name}."
             )
+
         invoice_vals = {
             'partner_id': self.sale_order_id.partner_id.id,
             'move_type': 'out_invoice',
@@ -124,12 +139,13 @@ class FoundationMedicao(models.Model):
             'invoice_payment_term_id': self.sale_order_id.payment_term_id.id,
             'currency_id': self.sale_order_id.currency_id.id,
             'invoice_line_ids': invoice_lines,
-            'journal_id': sale_journal.id,  # Define o diário de vendas
-            'company_id': company.id,  # Define a empresa da fatura
+            'journal_id': sale_journal.id,
+            'company_id': company.id,
+            'medicao_id': self.id,
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
-        self.invoice_id = invoice.id  # Associar a fatura criada com esta medição corretamente
+        self.invoice_id = invoice.id
 
         return {
             'type': 'ir.actions.act_window',
@@ -168,4 +184,7 @@ class FoundationMedicao(models.Model):
             if record.invoice_id:
                 record.invoice_id.unlink()  # Exclui a fatura antes de excluir a medição
         return super(FoundationMedicao, self).unlink()
+
+    def action_generate_pdf(self):
+        return self.env.ref('foundation_management.action_report_medicao').report_action(self)
 
