@@ -27,10 +27,10 @@
                     <sheet>
                         <group>
                             <field name="nome_obra"/>
-                            <field name="sale_order_id"/>
+                            <field name="sale_order_id" options="{'no_open': True}" />
                             <field name="cod_sale_order"/>
                             <field name="data"/>
-                            <field name="maquina_id" readonly="1"/>
+                            <field name="maquina_id" readonly="1" options="{'no_open': True}" />
                             <field name="data" invisible="1"/>
                             <field name="variante_id" invisible="1"/>
                             <field name="foundation_maquina_registro_id" widget="many2one" options="{'no_open': True}" invisible="1"/>

@@ -41,6 +41,7 @@
         'views/report_medicao.xml',
         'data/foundation_cron.xml',
         'views/fechar_medicao_wizard.xml',
+        # 'views/hidden_fields.xml',
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
         #  'security/ir_rule_company.xml',

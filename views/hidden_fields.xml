@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Modificar a view form da Sale Order para ocultar campos financeiros -->
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.foundation</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Ocultar campos financeiros no notebook/page com campos financeiros -->
+            <xpath expr="//notebook//field[@name='tax_totals_json']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            
+            <!-- Ocultar seção inteira dos totais -->
+            <xpath expr="//group[@name='note_group']" position="before">
+                <xpath expr="//group[@class='oe_subtotal_footer']" position="attributes">
+                    <attribute name="groups">!foundation_management.group_operadores</attribute>
+                </xpath>
+            </xpath>
+            
+            <!-- Ocultar campos financeiros nas linhas de pedido (visão tree) -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            
+            <!-- Ocultar campos financeiros no formulário da linha de pedido -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            
+            <!-- Ocultar campos financeiros do cabeçalho -->
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Modificar a view tree da Sale Order para ocultar colunas financeiras -->
+    <record id="view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.foundation</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.foundation2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="attributes">
+                <attribute name="groups">!foundation_management.group_operadores</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
