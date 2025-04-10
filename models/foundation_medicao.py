@@ -47,6 +47,21 @@ class FoundationMedicao(models.Model):
 
     company_id = fields.Many2one('res.company', string="Empresa",
                                  related="sale_order_id.company_id", store=True, index=True)
+    
+    # Add the new date fields
+    data_inicio = fields.Date(
+        string="Data Início",
+        compute='_compute_datas_medicao',
+        store=True,
+        help="Data da estaca mais antiga incluída nesta medição"
+    )
+    
+    data_fim = fields.Date(
+        string="Data Fim",
+        compute='_compute_datas_medicao',
+        store=True,
+        help="Data da estaca mais recente incluída nesta medição"
+    )
 
     @api.depends('nome')
     def _compute_display_medicao(self):
@@ -187,4 +202,18 @@ class FoundationMedicao(models.Model):
 
     def action_generate_pdf(self):
         return self.env.ref('foundation_management.action_report_medicao').report_action(self)
+    
+    
+    @api.depends('estacas_ids', 'estacas_ids.data')
+    def _compute_datas_medicao(self):
+        """Computa as datas de início e fim baseado nas datas das estacas"""
+        for record in self:
+            if record.estacas_ids:
+                # Ordena as estacas por data e pega a primeira e última
+                estacas_ordenadas = record.estacas_ids.sorted(key=lambda r: r.data)
+                record.data_inicio = estacas_ordenadas[0].data
+                record.data_fim = estacas_ordenadas[-1].data
+            else:
+                record.data_inicio = False
+                record.data_fim = False
 
