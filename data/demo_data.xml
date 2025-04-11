@@ -35,49 +35,42 @@
             <field name="standard_price">100.00</field>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
-            <!-- Relacionando o atributo diâmetro ao produto -->
-            <field name="attribute_line_ids" eval="[(0, 0, {
-                'attribute_id': ref('product_attribute_diametro'),
-                'value_ids': [(6, 0, [
-                    ref('product_attribute_value_50cm'),
-                    ref('product_attribute_value_60cm'),
-                    ref('product_attribute_value_70cm')
-                ])]
-            })]"/>
         </record>
 
-        <!-- Variantes do produto - note que agora o nome contém apenas o diâmetro -->
+        <!-- Relacionando o atributo diâmetro ao produto -->
+        <record id="product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="demo_product_template_1"/>
+            <field name="attribute_id" ref="product_attribute_diametro"/>
+            <field name="value_ids" eval="[(6, 0, [
+                ref('product_attribute_value_50cm'),
+                ref('product_attribute_value_60cm'),
+                ref('product_attribute_value_70cm')
+            ])]"/>
+        </record>
+
+        <!-- Variantes do produto -->
         <record id="demo_product_variant_50cm" model="product.product">
             <field name="product_tmpl_id" ref="demo_product_template_1"/>
-            <field name="default_code">EHC-50-001</field>
-            <field name="name">Ø50cm</field>
+            <field name="default_code">EHC-50</field>
+            <field name="name">Estaca Hélice Contínua Ø50cm</field>
             <field name="list_price">150.00</field>
             <field name="standard_price">100.00</field>
-            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
-                ref('product_attribute_value_50cm')
-            ])]"/>
         </record>
 
         <record id="demo_product_variant_60cm" model="product.product">
             <field name="product_tmpl_id" ref="demo_product_template_1"/>
-            <field name="default_code">EHC-60-001</field>
-            <field name="name">Ø60cm</field>
+            <field name="default_code">EHC-60</field>
+            <field name="name">Estaca Hélice Contínua Ø60cm</field>
             <field name="list_price">200.00</field>
             <field name="standard_price">150.00</field>
-            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
-                ref('product_attribute_value_60cm')
-            ])]"/>
         </record>
 
         <record id="demo_product_variant_70cm" model="product.product">
             <field name="product_tmpl_id" ref="demo_product_template_1"/>
-            <field name="default_code">EHC-70-001</field>
-            <field name="name">Ø70cm</field>
+            <field name="default_code">EHC-70</field>
+            <field name="name">Estaca Hélice Contínua Ø70cm</field>
             <field name="list_price">250.00</field>
             <field name="standard_price">200.00</field>
-            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
-                ref('product_attribute_value_70cm')
-            ])]"/>
         </record>
 
         <!-- Sample Partner -->
