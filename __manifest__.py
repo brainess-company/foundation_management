@@ -47,7 +47,7 @@
         #  'security/ir_rule_company.xml',
     ],
     'demo': [
-        'data/demo_data.xml',
+        # 'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,
