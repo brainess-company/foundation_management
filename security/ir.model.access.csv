@@ -70,6 +70,7 @@ access_hr_department_admin,Administração - Departamento de RH,model_hr_departm
 access_foundation_maquina_obra_admin,Administração - Máquinas em Obra,model_foundation_maquina_obra,group_administrador,1,1,1,1
 access_fechar_medicao_wizard_adm,adm_fechar_medicao_wizard,model_fechar_medicao_wizard,group_administrador,1,1,1,1
 
+
 access_foundation_maquina_obra_rel_adm,Administrar Locais de Máquinas,model_foundation_maquina_obra_rel,group_adm_localizacao,1,1,1,1
 
 

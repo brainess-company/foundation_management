@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Data for Foundation Management Module -->
+
+        <!-- Atributo para diâmetro -->
+        <record id="product_attribute_diametro" model="product.attribute">
+            <field name="name">Diâmetro</field>
+            <field name="create_variant">always</field>
+            <field name="display_type">select</field>
+        </record>
+
+        <!-- Valores do atributo diâmetro -->
+        <record id="product_attribute_value_50cm" model="product.attribute.value">
+            <field name="name">Ø50cm</field>
+            <field name="attribute_id" ref="product_attribute_diametro"/>
+        </record>
+
+        <record id="product_attribute_value_60cm" model="product.attribute.value">
+            <field name="name">Ø60cm</field>
+            <field name="attribute_id" ref="product_attribute_diametro"/>
+        </record>
+
+        <record id="product_attribute_value_70cm" model="product.attribute.value">
+            <field name="name">Ø70cm</field>
+            <field name="attribute_id" ref="product_attribute_diametro"/>
+        </record>
+
+        <!-- Template do produto principal -->
+        <record id="demo_product_template_1" model="product.template">
+            <field name="name">Estaca Hélice Contínua</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="list_price">150.00</field>
+            <field name="standard_price">100.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <!-- Relacionando o atributo diâmetro ao produto -->
+            <field name="attribute_line_ids" eval="[(0, 0, {
+                'attribute_id': ref('product_attribute_diametro'),
+                'value_ids': [(6, 0, [
+                    ref('product_attribute_value_50cm'),
+                    ref('product_attribute_value_60cm'),
+                    ref('product_attribute_value_70cm')
+                ])]
+            })]"/>
+        </record>
+
+        <!-- Variantes do produto - note que agora o nome contém apenas o diâmetro -->
+        <record id="demo_product_variant_50cm" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_template_1"/>
+            <field name="default_code">EHC-50</field>
+            <field name="name">Ø50cm</field>
+            <field name="list_price">150.00</field>
+            <field name="standard_price">100.00</field>
+            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
+                ref('product_attribute_value_50cm')
+            ])]"/>
+        </record>
+
+        <record id="demo_product_variant_60cm" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_template_1"/>
+            <field name="default_code">EHC-60</field>
+            <field name="name">Ø60cm</field>
+            <field name="list_price">200.00</field>
+            <field name="standard_price">150.00</field>
+            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
+                ref('product_attribute_value_60cm')
+            ])]"/>
+        </record>
+
+        <record id="demo_product_variant_70cm" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_template_1"/>
+            <field name="default_code">EHC-70</field>
+            <field name="name">Ø70cm</field>
+            <field name="list_price">250.00</field>
+            <field name="standard_price">200.00</field>
+            <field name="product_template_attribute_value_ids" eval="[(6, 0, [
+                ref('product_attribute_value_70cm')
+            ])]"/>
+        </record>
+
+        <!-- Sample Partner -->
+        <record id="demo_partner_1" model="res.partner">
+            <field name="name">Construtora ABC Ltda</field>
+            <field name="company_type">company</field>
+            <field name="company_registry">12.345.678/0001-90</field>
+        </record>
+
+        <!-- Sample Machines -->
+        <record id="demo_maquina_1" model="foundation.maquina">
+            <field name="nome_maquina">Perfuratriz Hidráulica P-100</field>
+            <field name="status_maquina">disponivel</field>
+        </record>
+
+        <record id="demo_maquina_2" model="foundation.maquina">
+            <field name="nome_maquina">Perfuratriz Hidráulica P-200</field>
+            <field name="status_maquina">em_mobilizacao</field>
+        </record>
+
+        <!-- Sample Sale Orders para as três variantes -->
+        <record id="demo_sale_order_1" model="sale.order">
+            <field name="partner_id" ref="demo_partner_1"/>
+            <field name="nome_obra">Edifício Comercial Centro</field>
+            <field name="cei">123456789012</field>
+            <field name="cnpj_gfip">12.345.678/0001-90</field>
+            <field name="date_order" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="demo_sale_order_2" model="sale.order">
+            <field name="partner_id" ref="demo_partner_1"/>
+            <field name="nome_obra">Condomínio Residencial Jardins</field>
+            <field name="cei">123456789012</field>
+            <field name="cnpj_gfip">12.345.678/0001-90</field>
+            <field name="date_order" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="demo_sale_order_3" model="sale.order">
+            <field name="partner_id" ref="demo_partner_1"/>
+            <field name="nome_obra">Shopping Center Norte</field>
+            <field name="cei">987654321098</field>
+            <field name="cnpj_gfip">12.345.678/0001-90</field>
+            <field name="date_order" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- Sale Order Lines -->
+        <!-- Pedido 1 com variante Ø50cm -->
+        <record id="demo_sale_order_line_1" model="sale.order.line">
+            <field name="order_id" ref="demo_sale_order_1"/>
+            <field name="product_id" ref="demo_product_variant_50cm"/>
+            <field name="product_uom_qty">10</field>
+            <field name="price_unit">150.00</field>
+            <field name="name">Estaca Hélice Contínua (Ø50cm)</field>
+        </record>
+
+        <!-- Pedido 2 com variante Ø60cm -->
+        <record id="demo_sale_order_line_2" model="sale.order.line">
+            <field name="order_id" ref="demo_sale_order_2"/>
+            <field name="product_id" ref="demo_product_variant_60cm"/>
+            <field name="product_uom_qty">15</field>
+            <field name="price_unit">200.00</field>
+            <field name="name">Estaca Hélice Contínua (Ø60cm)</field>
+        </record>
+
+        <!-- Pedido 3 com variante Ø70cm -->
+        <record id="demo_sale_order_line_3" model="sale.order.line">
+            <field name="order_id" ref="demo_sale_order_3"/>
+            <field name="product_id" ref="demo_product_variant_70cm"/>
+            <field name="product_uom_qty">8</field>
+            <field name="price_unit">250.00</field>
+            <field name="name">Estaca Hélice Contínua (Ø70cm)</field>
+        </record>
+
+        <!-- Pedido misto com duas variantes diferentes -->
+        <record id="demo_sale_order_line_4" model="sale.order.line">
+            <field name="order_id" ref="demo_sale_order_1"/>
+            <field name="product_id" ref="demo_product_variant_70cm"/>
+            <field name="product_uom_qty">5</field>
+            <field name="price_unit">250.00</field>
+            <field name="name">Estaca Hélice Contínua (Ø70cm)</field>
+        </record>
+
+        <!-- Sample Works -->
+        <record id="demo_obra_1" model="foundation.obra">
+            <field name="endereco">Av. Paulista, 1000 - São Paulo/SP</field>
+            <field name="sale_order_id" ref="demo_sale_order_1"/>
+        </record>
+
+        <record id="demo_obra_2" model="foundation.obra">
+            <field name="endereco">Rua Oscar Freire, 500 - São Paulo/SP</field>
+            <field name="sale_order_id" ref="demo_sale_order_2"/>
+        </record>
+
+        <record id="demo_obra_3" model="foundation.obra">
+            <field name="endereco">Av. Engenheiro Caetano Álvares, 7000 - São Paulo/SP</field>
+            <field name="sale_order_id" ref="demo_sale_order_3"/>
+        </record>
+
+        <!-- Sample Services -->
+        <record id="demo_service_1" model="foundation.obra.service">
+            <field name="variante_id" ref="demo_product_variant_50cm"/>
+            <field name="obra_id" ref="demo_obra_1"/>
+            <field name="foundation_maquina_ids" eval="[(4, ref('demo_maquina_1'))]"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+        </record>
+
+        <record id="demo_service_2" model="foundation.obra.service">
+            <field name="variante_id" ref="demo_product_variant_60cm"/>
+            <field name="obra_id" ref="demo_obra_2"/>
+            <field name="foundation_maquina_ids" eval="[(4, ref('demo_maquina_2'))]"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+        </record>
+
+        <record id="demo_service_3" model="foundation.obra.service">
+            <field name="variante_id" ref="demo_product_variant_70cm"/>
+            <field name="obra_id" ref="demo_obra_3"/>
+            <field name="foundation_maquina_ids" eval="[(4, ref('demo_maquina_1'))]"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+        </record>
+
+        <!-- Sample Employees -->
+        <record id="demo_employee_1" model="hr.employee">
+            <field name="name">João Silva</field>
+            <field name="job_title">Operador de Máquina</field>
+        </record>
+
+        <record id="demo_employee_2" model="hr.employee">
+            <field name="name">Maria Santos</field>
+            <field name="job_title">Operador de Máquina</field>
+        </record>
+
+        <!-- Sample Measurements -->
+        <record id="demo_medicao_1" model="foundation.medicao">
+            <field name="nome">Medição 01/2024</field>
+            <field name="data" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="situacao">aguardando</field>
+            <field name="sale_order_id" ref="demo_sale_order_1"/>
+        </record>
+
+        <!-- Sample Reports -->
+        <record id="demo_relatorio_1" model="foundation.relatorios">
+            <field name="display_relatorio_name">Relatório Diário 01/2024 - Ø50cm</field>
+            <field name="data" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">rascunho</field>
+            <field name="sale_order_id" ref="demo_sale_order_1"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+            <field name="service_id" ref="demo_service_1"/>
+            <field name="foundation_maquina_registro_id" ref="demo_maquina_1"/>
+        </record>
+
+        <record id="demo_relatorio_2" model="foundation.relatorios">
+            <field name="display_relatorio_name">Relatório Diário 01/2024 - Ø60cm</field>
+            <field name="data" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">rascunho</field>
+            <field name="sale_order_id" ref="demo_sale_order_2"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+            <field name="service_id" ref="demo_service_2"/>
+            <field name="foundation_maquina_registro_id" ref="demo_maquina_2"/>
+        </record>
+
+        <record id="demo_relatorio_3" model="foundation.relatorios">
+            <field name="display_relatorio_name">Relatório Diário 01/2024 - Ø70cm</field>
+            <field name="data" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="state">rascunho</field>
+            <field name="sale_order_id" ref="demo_sale_order_3"/>
+            <field name="service_template_id" ref="demo_product_template_1"/>
+            <field name="service_id" ref="demo_service_3"/>
+            <field name="foundation_maquina_registro_id" ref="demo_maquina_1"/>
+        </record>
+
+        <!-- Sample Calls -->
+        <record id="demo_chamada_1" model="foundation.chamada">
+            <field name="data" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="maquina_id" ref="demo_maquina_1"/>
+            <field name="operador_id" ref="demo_employee_1"/>
+            <field name="obra_id" ref="demo_obra_1"/>
+            <field name="sale_order_id" ref="demo_sale_order_1"/>
+        </record>
+
+        <!-- Sample Employee Assignments -->
+        <record id="demo_assignment_1" model="foundation.employee.assignment">
+            <field name="date" eval="(DateTime.today()).strftime('%Y-%m-%d')"/>
+            <field name="employee_id" ref="demo_employee_1"/>
+            <field name="machine_id" ref="demo_maquina_1"/>
+            <field name="machine_status">disponivel</field>
+            <field name="is_present">True</field>
+            <field name="sale_order_id" ref="demo_sale_order_1"/>
+        </record>
+
+    </data>
+</odoo>

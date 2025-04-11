@@ -115,10 +115,12 @@ class FoundationMedicao(models.Model):
                     'quantity': 0,
                     'price_unit': estaca.sale_order_line_id.price_unit,
                     'sale_line_ids': set(),
+                    'qtdd_itens': 0,  # Inicializa o contador de itens
                 }
 
             product_variants[product_key]['quantity'] += estaca.profundidade
             product_variants[product_key]['sale_line_ids'].add(estaca.sale_order_line_id.id)
+            product_variants[product_key]['qtdd_itens'] += 1  # Incrementa o contador para cada estaca
 
         invoice_lines = []
         for variant_data in product_variants.values():
@@ -127,13 +129,15 @@ class FoundationMedicao(models.Model):
                 'quantity': variant_data['quantity'],
                 'price_unit': variant_data['price_unit'],
                 'name': variant_data['product'].display_name,
-                # Nome do produto sem referência às estacas individuais
                 'account_id':
                     variant_data['product'].categ_id.property_account_income_categ_id.id
                     or variant_data['product'].categ_id.property_account_expense_categ_id.id,
-                'sale_line_ids': [(6, 0, list(variant_data['sale_line_ids']))]
+                'sale_line_ids': [(6, 0, list(variant_data['sale_line_ids']))],
+                'qtdd_itens': variant_data['qtdd_itens'],  # Adiciona a quantidade de itens agrupados
             }
             invoice_lines.append((0, 0, line_vals))
+
+        # ... resto do código continua igual ...
 
         # Busca o diário de vendas padrão, caso exista
         company = self.sale_order_id.company_id
@@ -203,16 +207,17 @@ class FoundationMedicao(models.Model):
     def action_generate_pdf(self):
         return self.env.ref('foundation_management.action_report_medicao').report_action(self)
     
-    
-    @api.depends('estacas_ids', 'estacas_ids.data')
+
+    @api.depends('estacas_ids.relatorio_id.data')
     def _compute_datas_medicao(self):
-        """Computa as datas de início e fim baseado nas datas das estacas"""
+        """Computa as datas de início e fim baseado nas datas dos relatórios das estacas"""
         for record in self:
-            if record.estacas_ids:
-                # Ordena as estacas por data e pega a primeira e última
-                estacas_ordenadas = record.estacas_ids.sorted(key=lambda r: r.data)
-                record.data_inicio = estacas_ordenadas[0].data
-                record.data_fim = estacas_ordenadas[-1].data
+            relatorios = record.estacas_ids.mapped('relatorio_id').filtered(lambda r: r.data)
+            
+            if relatorios:
+                relatorios_ordenados = relatorios.sorted(key=lambda r: r.data)
+                record.data_inicio = relatorios_ordenados[0].data
+                record.data_fim = relatorios_ordenados[-1].data
             else:
                 record.data_inicio = False
                 record.data_fim = False

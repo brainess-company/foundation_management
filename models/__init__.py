@@ -28,4 +28,5 @@ from . import foundation_lista_faltas
 from . import res_users
 from . import fechar_medicao_wizard
 from . import account_move
+from . import account_move_line
 
