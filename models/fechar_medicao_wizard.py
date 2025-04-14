@@ -67,7 +67,7 @@ class FecharMedicaoWizard(models.TransientModel):
         if not estacas_filtradas:
             raise UserError(
                 "Nenhuma estaca válida encontrada. Certifique-se de que todas as estacas "
-                "estão com relatório conferido, relatório ativo, estaca ativa, pertencem à obra 'OBRA AUDACE' "
+                "estão com relatório conferido, relatório ativo, estaca ativa "
                 "e ainda não foram medidas."
             )
 

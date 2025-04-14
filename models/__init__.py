@@ -1,5 +1,5 @@
 """
-Este módulo inicializa os modelos para o módulo 'tiago_fundacao'.
+Este módulo inicializa os modelos para o módulo 'foundation_management'.
 
 Ele importa todos os modelos necessários que serão utilizados pelo módulo 'tiago_fundacao',
 permitindo que eles sejam acessados mais facilmente em outros lugares dentro do pacote.

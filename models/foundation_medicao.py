@@ -63,6 +63,19 @@ class FoundationMedicao(models.Model):
         help="Data da estaca mais recente incluída nesta medição"
     )
 
+    prof_total = fields.Float(
+        string="Profundidade Total",
+        compute='_compute_prof_total',
+        store=True,
+        help="Soma total das profundidades das estacas nesta medição"
+    )
+
+    @api.depends('estacas_ids.profundidade')
+    def _compute_prof_total(self):
+        """Computa a soma total das profundidades das estacas"""
+        for record in self:
+            record.prof_total = sum(estaca.profundidade for estaca in record.estacas_ids)
+
     @api.depends('nome')
     def _compute_display_medicao(self):
         """computa o nome da medição sequecial"""

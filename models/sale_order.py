@@ -13,6 +13,7 @@ class SaleOrder(models.Model):
     nome_obra = fields.Char("Nome da Obra", required=False)
     cei = fields.Char("CEI", required=False)
     cnpj_gfip = fields.Char("CNPJ GFIP", required=False)
+    aos_cuidados = fields.Char("Aos Cuidados", required=False)
 
     def _create_foundation_obra_and_services(self):
         """

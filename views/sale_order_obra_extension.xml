@@ -16,6 +16,9 @@
                 <field name="cei" position="after">
                     <field name="cnpj_gfip"/>
                 </field>
+                <field name="cnpj_gfip" position="after">
+                    <field name="aos_cuidados"/>
+                </field>
             </field>
         </record>
 
