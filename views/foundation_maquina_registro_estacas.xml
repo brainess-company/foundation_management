@@ -47,10 +47,30 @@
                                             'default_service_id': service_id,
                                             'default_data': data
                                         }">
-                                    <form>
+                                    <tree editable="bottom">
+                                        <field name="data" readonly="1"/>
+                                        <field name="data" invisible="1"/>
+                                        <field name="service_id" readonly="1"/>
+                                        <field name="service_id" invisible="1"/>
+                                        <field name="variante_id" invisible="1"/>
+                                        <field name="sale_order_id" invisible="1"/>
+                                        <field name="foundation_maquina_registro_id" invisible="1"/>
+                                        <field name="service_template_id" invisible="1"/>
+                                        <field name="nome_estaca"/>
+                                        <field name="profundidade"/>
+                                        <field name="sale_order_line_id"
+                                               domain="[('order_id', '=', sale_order_id), ('product_id.product_tmpl_id', '=', service_template_id)]"
+                                               options="{'no_create': True, 'no_open': True}"/>
+                                        <!-- Campos invisíveis que serão preenchidos automaticamente -->
+                                        <field name="variante_id" invisible="1"/>
+                                        <field name="sale_order_id" invisible="1"/>
+                                        <field name="foundation_maquina_registro_id" invisible="1"/>
+                                        <field name="service_template_id" invisible="1"/>
+                                    </tree>
+                                    <!--form>
                                         <sheet>
                                             <group>
-                                                <!-- POPUP PARA ADICIONAR ESTACAS -->
+                                                <- POPUP PARA ADICIONAR ESTACAS
 
                                                 <field name="data" readonly="1"/>
                                                 <field name="data" invisible="1"/>
@@ -68,7 +88,7 @@
                                                        options="{'no_create': True, 'no_open': True}"/>
                                             </group>
                                         </sheet>
-                                    </form>
+                                    </form> -->
                                 </field>
                             </page>
                         </notebook>
