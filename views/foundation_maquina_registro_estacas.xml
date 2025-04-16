@@ -46,7 +46,7 @@
                                             'default_service_template_id': service_template_id,
                                             'default_service_id': service_id,
                                             'default_data': data
-                                        }" widget="one2many_list" mode="tree">
+                                        }">
                                     <form>
                                         <sheet>
                                             <group>
