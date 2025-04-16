@@ -16,6 +16,7 @@ access_hr_employee_eng,eng_hr_employee,model_hr_employee,group_engenharia,1,1,1,
 access_foundation_lista_faltas_eng,eng_foundation_lista_faltas,model_foundation_lista_faltas,group_engenharia,1,1,1,1
 access_fechar_medicao_wizard_eng,eng_fechar_medicao_wizard,model_fechar_medicao_wizard,group_engenharia,1,1,1,1
 access_account_move_eng,eng_account_move,model_account_move,group_engenharia,1,1,1,1
+access_hr_department_eng,eng_hr_department,model_hr_department,group_engenharia,1,1,1,1
 
 access_foundation_obra_diretoria,diretoria_foundation_obra,model_foundation_obra,group_diretoria,1,0,0,0
 access_foundation_maquina_diretoria,diretoria_foundation_maquina,model_foundation_maquina,group_diretoria,1,0,0,0
@@ -42,6 +43,7 @@ access_product_product_operadores,operadores_product_product,model_product_produ
 access_product_template_operadores,operadores_product_template,model_product_template,group_operadores,1,0,0,0
 access_hr_employee_operadores,operadores_hr_employee,model_hr_employee,group_operadores,1,0,0,0
 access_res_users_operadores,operadores_res_users,model_res_users,group_operadores,1,0,0,0
+access_hr_department_operadores,operadores_hr_department,model_hr_department,group_operadores,1,0,0,0
 
 access_foundation_maquina_controle,controle_foundation_maquina,model_foundation_maquina,group_controle,1,0,0,0
 access_foundation_obra_service_controle,controle_foundation_obra_service,model_foundation_obra_service,group_controle,1,0,0,0
@@ -72,5 +74,24 @@ access_fechar_medicao_wizard_adm,adm_fechar_medicao_wizard,model_fechar_medicao_
 
 
 access_foundation_maquina_obra_rel_adm,Administrar Locais de Máquinas,model_foundation_maquina_obra_rel,group_adm_localizacao,1,1,1,1
+
+access_foundation_obra_sysadmin,Admin Sistema - Fundações de Obras,model_foundation_obra,base.group_system,1,1,1,1
+access_foundation_estacas_sysadmin,Admin Sistema - Estacas,model_foundation_estacas,base.group_system,1,1,1,1
+access_foundation_maquina_sysadmin,Admin Sistema - Máquinas,model_foundation_maquina,base.group_system,1,1,1,1
+access_foundation_medicao_sysadmin,Admin Sistema - Medição,model_foundation_medicao,base.group_system,1,1,1,1
+access_foundation_obra_service_sysadmin,Admin Sistema - Serviços de Obras,model_foundation_obra_service,base.group_system,1,1,1,1
+access_foundation_chamada_sysadmin,Admin Sistema - Chamadas,model_foundation_chamada,base.group_system,1,1,1,1
+access_foundation_relatorios_sysadmin,Admin Sistema - Relatórios,model_foundation_relatorios,base.group_system,1,1,1,1
+access_foundation_lista_presenca_sysadmin,Admin Sistema - Lista de Presença,model_foundation_lista_presenca,base.group_system,1,1,1,1
+access_foundation_maquina_registro_sysadmin,Admin Sistema - Registro de Máquinas,model_foundation_maquina_registro,base.group_system,1,1,1,1
+access_hr_employee_sysadmin,Admin Sistema - Funcionários,model_hr_employee,base.group_system,1,1,1,1
+access_foundation_employee_assignment_sysadmin,Admin Sistema - Atribuição de Funcionários,model_foundation_employee_assignment,base.group_system,1,1,1,1
+access_hr_department_sysadmin,Admin Sistema - Departamento de RH,model_hr_department,base.group_system,1,1,1,1
+access_foundation_maquina_obra_sysadmin,Admin Sistema - Máquinas em Obra,model_foundation_maquina_obra,base.group_system,1,1,1,1
+access_report_wizard_sysadmin,Admin Sistema - Report Wizard,model_report_wizard,base.group_system,1,1,1,1
+access_foundation_lista_faltas_sysadmin,Admin Sistema - Lista de Faltas,model_foundation_lista_faltas,base.group_system,1,1,1,1
+access_fechar_medicao_wizard_sysadmin,Admin Sistema - Fechar Medição Wizard,model_fechar_medicao_wizard,base.group_system,1,1,1,1
+access_account_move_sysadmin,Admin Sistema - Movimentos Contábeis,model_account_move,base.group_system,1,1,1,1
+access_foundation_maquina_obra_rel_sysadmin,Admin Sistema - Locais de Máquinas,model_foundation_maquina_obra_rel,base.group_system,1,1,1,1
 
 
