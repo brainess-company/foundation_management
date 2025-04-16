@@ -107,6 +107,9 @@ class FoundationEstacas(models.Model):
     company_id = fields.Many2one('res.company', string="Empresa",
                                  related="sale_order_id.company_id", store=True, index=True)
 
+    maquina_id = fields.Many2one('foundation.maquina', related='relatorio_id.maquina_id',
+                                 string="Máquina Associada", store=True, readonly=True)
+
 
     def toggle_active(self):
         for record in self:

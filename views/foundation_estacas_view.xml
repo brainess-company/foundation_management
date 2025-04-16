@@ -12,24 +12,25 @@
                     <field name="data"/>
                     <field name="nome_estaca"/>
                     <field name="nome_obra"/>
+                    <field name="maquina_id" optional="show"/>
                     <field name="service_template_id"/>
-                    <field name="relatorio_id"/>
+                    <field name="relatorio_id" optional="show"/>
                     <field name="nome_obra" invisible="1"/>
-                    <field name="status_relatorio" invisible="1"/>
+                    <field name="status_relatorio" invisible="1" optional="show"/>
                     <field name="status_relatorio"
                            decoration-success="status_relatorio == 'conferencia'"
                            decoration-info="status_relatorio == 'conferido'"
                            decoration-danger="status_relatorio == 'cancelado'"
                            decoration-muted="status_relatorio == ' rascunho'"
                     widget="badge" optional="show"/>
-                    <field name="active_relatorio"/>
+                    <field name="active_relatorio" optional="show"/>
                     <field name="display_medicao"/>
                     <field name="profundidade"/>
                     <field name="unit_price" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <field name="total_price" readonly="1" groups="foundation_management.group_diretoria,foundation_management.group_engenharia"/>
                     <!--field name="observacao"/-->
-                    <field name="sale_order_id" readonly="1"/>
-                    <field name="sale_order_line_id"/>
+                    <field name="sale_order_id" readonly="1" optional="show"/>
+                    <field name="sale_order_line_id" optional="show"/>
                 </tree>
                 <!--filter name="without_medicao" string="Sem Medição" domain="[('medicao_id','=',False)]"/-->
             </field>
@@ -113,6 +114,7 @@
                     <field name="service_template_id"/>
                     <field name="relatorio_id"/>
                     <field name="nome_obra"/>
+                    <field name="maquina_id"/>
                     <field name="status_relatorio"/>
                     <field name="active_relatorio"/>
                     <field name="profundidade"/>

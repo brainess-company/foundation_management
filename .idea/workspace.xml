@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5854ea57-687d-4f21-9848-115865fd0294" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__manifest__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/foundation_estacas.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/foundation_estacas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/foundation_estacas_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/foundation_estacas_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/foundation_medicao_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/foundation_medicao_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/foundation_relatorios_without_signature.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/foundation_relatorios_without_signature.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
