@@ -48,7 +48,7 @@
                                             'default_data': data
                                         }">
                                     <tree editable="bottom">
-                                        <field name="data" readonly="1"/>
+                                        <!--field name="data" readonly="1"/-->
                                         <field name="data" invisible="1"/>
                                         <field name="service_id" readonly="1"/>
                                         <field name="service_id" invisible="1"/>
@@ -103,18 +103,31 @@
                     <field name="nome_obra"/>
                     <!-- field name="analytic_account_id" invisible="1"/-->
                     <field name="requer_chamada_maquina" invisible="1"/>
-                    <!--field name="display_has_today_chamada"
-                   decoration-success="display_has_today_chamada == 'Sim'"
-                   decoration-danger="display_has_today_chamada == 'Não'"
-                    widget="badge" optional="show"/-->
+                    <field name="display_has_today_chamada"
+                           decoration-success="display_has_today_chamada == 'Sim'"
+                           decoration-danger="display_has_today_chamada == 'Não'"
+                    widget="badge" optional="show"/>
                     <field name="has_today_chamada" invisible="1"/>
                     <field name="maquina_id"/>
                     <field name="service_id"/>
                     <field name="service_template_id" invisible="1"/>
                     <field name="endereco"/>
                     <field name="active" invisible="1"/>
+                    <!-- Button visible to everyone -->
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
+                            groups="foundation_management.group_diretoria,foundation_management.group_engenharia,foundation_management.group_controle,foundation_management.group_administrador"
+                            context="{
+                                    'default_foundation_maquina_registro_id': active_id,
+                                    'default_service_template_id': service_template_id,
+                                    'default_sale_order_id': sale_order_id
+                                }"/>
+
+                    <!-- Button visible only to operators when has_today_chamada is True -->
+                    <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
+                            string="Adicionar Relatório" icon="fa-plus-square"
+                            groups="foundation_management.group_operadores"
+                            attrs="{'invisible': [('has_today_chamada', '=', False)]}"
                             context="{
                                     'default_foundation_maquina_registro_id': active_id,
                                     'default_service_template_id': service_template_id,

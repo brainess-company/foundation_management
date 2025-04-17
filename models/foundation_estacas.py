@@ -39,8 +39,10 @@ class FoundationEstacas(models.Model):
                                 help="o numero deve estar entre 1 e 40",
                                 default=1.0)
     data = fields.Date(
-        "Data da Estaca",
-        default=fields.Date.context_today,
+        string="Data da Estaca",
+        related='relatorio_id.data',
+        store=True,
+        readonly=False,
         required=True
     )
     observacao = fields.Char("Observação")
