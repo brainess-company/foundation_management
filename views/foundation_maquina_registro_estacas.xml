@@ -124,10 +124,10 @@
                                 }"/>
 
                     <!-- Button visible only to operators when has_today_chamada is True -->
+                    <!-- attrs="{'invisible': [('has_today_chamada', '=', False)]}" -->
                     <button name="%(action_open_foundation_relatorio_maquina_form)d" type="action"
                             string="Adicionar Relatório" icon="fa-plus-square"
                             groups="foundation_management.group_operadores"
-                            attrs="{'invisible': [('has_today_chamada', '=', False)]}"
                             context="{
                                     'default_foundation_maquina_registro_id': active_id,
                                     'default_service_template_id': service_template_id,
